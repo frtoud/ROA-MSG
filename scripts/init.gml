@@ -157,34 +157,47 @@ msg_unsafe_effects =
 //===========================================================
     shudder:         //type: PARAMETER
     {
+        //Standard
+        master_flag: false, //controlled by master_effect_timer
         freq:0,      //chance per frame of activating, from 0 to 16
+        timer:0,     //time of effect duration
+        impulse:0,   //if not zero, timer * impulse * Params is used
         
+        //Params
         horz_max:8,  //strengths of effect
-        vert_max:8,
-        horz:0,
-        vert:0
+        vert_max:8
     },
 
 //===========================================================
     bad_vsync:       //type: REDRAW
     {
+        //Standard
+        master_flag: false, //true if controlled by master_effect_timer
         freq:0,      //chance per frame of activating, from 0 to 16
         timer:0,     //time of effect duration
+        impulse:0,   //if not zero, timer * impulse * Params is used
         
+        //Params
+        horz_max:8,  //strength of middle segment's displacement
+        
+        //Output
         cliptop:0, 
         clipbot:0, 
-        horz_max:8,  //strength of middle segment's displacement
         horz:0
     },
 //===========================================================
     bad_axis:        //type: REDRAW
     {
+        //Standard
+        master_flag: false, //controlled by master_effect_timer
         freq:0,      //chance per frame of activating, from 0 to 16
         timer:0      //time of effect duration
     },
 //===========================================================
     bad_crop:        //type: REDRAW
     {
+        //Standard0
+        master_flag: false, //controlled by master_effect_timer
         freq:0,      //chance per frame of activating, from 0 to 16
         timer:0      //time of effect duration
     }
