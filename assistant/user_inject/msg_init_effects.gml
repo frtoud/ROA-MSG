@@ -14,56 +14,47 @@ msg_anim_backup =
     spr_angle:0, draw_x:0, draw_y:0
 }
 
-msg_unsafe_effects = 
-{
+//Namespace for effect structures
+msg_unsafe_effects = {
     master_effect_timer: 0, //resets all frequencies to zero if zero
-
-//===========================================================
-    shudder:         //type: PARAMETER
-    {
-        //Standard
-        master_flag: false, //controlled by master_effect_timer
-        freq:0,      //chance per frame of activating, from 0 to 16
-        timer:0,     //time of effect duration
-        impulse:0,   //if not zero, timer * impulse * Params is used
-        
-        //Params
-        horz_max:8,  //strengths of effect
-        vert_max:8
-    },
-
-//===========================================================
-    bad_vsync:       //type: REDRAW
-    {
-        //Standard
-        master_flag: false, //true if controlled by master_effect_timer
-        freq:0,      //chance per frame of activating, from 0 to 16
-        timer:0,     //time of effect duration
-        impulse:0,   //if not zero, timer * impulse * Params is used
-        
-        //Params
-        horz_max:8,  //strength of middle segment's displacement
-        
-        //Output
-        cliptop:0, 
-        clipbot:0, 
-        horz:0
-    },
-//===========================================================
-    bad_axis:        //type: REDRAW
-    {
-        //Standard
-        master_flag: false, //controlled by master_effect_timer
-        freq:0,      //chance per frame of activating, from 0 to 16
-        timer:0      //time of effect duration
-    },
-//===========================================================
-    bad_crop:        //type: REDRAW
-    {
-        //Standard0
-        master_flag: false, //controlled by master_effect_timer
-        freq:0,      //chance per frame of activating, from 0 to 16
-        timer:0      //time of effect duration
-    }
-//===========================================================
+    effects_list:[] //shortcut to iterate through all effects
 }
+
+//===========================================================
+//effect type: DRAW PARAMETER
+msg_unsafe_effects.shudder = msg_make_effect();
+//Parameters
+msg_unsafe_effects.shudder.horz_max = 8; //maximum horizontal displacement
+msg_unsafe_effects.shudder.vert_max = 8; //maximum vertical displacement
+
+//===========================================================
+//effect type: REDRAW
+msg_unsafe_effects.bad_vsync = msg_make_effect();
+//Parameters
+msg_unsafe_effects.bad_vsync.horz_max = 8; //maximum horizontal displacement of middle segment
+//Outputs
+msg_unsafe_effects.bad_vsync.cliptop = 0; //top of middle segment
+msg_unsafe_effects.bad_vsync.clipbot = 0; //bottom of middle segment
+msg_unsafe_effects.bad_vsync.horz = 0; //displacement of middle segment
+
+//===========================================================
+//effect type: REDRAW
+msg_unsafe_effects.bad_axis = msg_make_effect();
+
+//===========================================================
+//effect type: REDRAW
+msg_unsafe_effects.bad_crop = msg_make_effect();
+
+
+#define msg_make_effect()
+//initializes a standard VFX structure
+var fx = { 
+            master_flag: false, //true if controlled by master_effect_timer (in game frames)
+            freq:0,      //chance per frame of activating, from 0 to 16
+            timer:0,     //time of effect duration (in draw frames)
+            impulse:0,   //if not zero, timer * impulse is used to scale parameters
+         };
+
+//append to list directly
+array_push(msg_unsafe_effects.effects_list, fx);
+return fx;
