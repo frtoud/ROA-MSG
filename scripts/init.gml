@@ -148,7 +148,7 @@ msg_unsafe_handler_id = self;
 //case 2: Missingno shaketrail while walking
 // - specific state that induces frequency of an effect
 //enemy randoms are temporary & decided by move interactions
-//case 1:postgrab debuff
+//case 1: postgrab debuff
 // - missingno starts effect timer & increases frequency of effect
 msg_init_effects(true);
 
@@ -159,6 +159,11 @@ msg_init_effects(true);
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_init_effects(is_missingno) // Version 0
     // initializes structures for all glitch VFX
+
+    //MissingNo's own init.gml has already initialized everything here.
+    //else, another MissingNo's other_init.gml might already have run through.
+    if ("msg_unsafe_handler_id" in self) return;
+    msg_is_missingno = is_missingno; //easier identification later
 
     //random value calculated by handler missingno.
     msg_unsafe_random = current_time;

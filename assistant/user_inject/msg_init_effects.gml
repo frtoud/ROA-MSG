@@ -2,6 +2,11 @@
 #define msg_init_effects(is_missingno)
 //initializes structures for all glitch VFX
 
+//MissingNo's own init.gml has already initialized everything here.
+//else, another MissingNo's other_init.gml might already have run through.
+if ("msg_unsafe_handler_id" in self) return;
+msg_is_missingno = is_missingno; //easier identification later
+
 //random value calculated by handler missingno.
 msg_unsafe_random = current_time;
 msg_unsafe_handler_id = (is_missingno ? self : other);
