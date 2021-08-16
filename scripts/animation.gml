@@ -17,18 +17,15 @@ if (msg_unsafe_paused_timer > 0)
 msg_unsafe_handler_id = self; //missingnos always handle themselves
 with (oPlayer) if (msg_unsafe_handler_id == other)
 {
-    if (msg_unsafe_effects.master_effect_timer <= 0)
+    var msg_master_timer_running = (msg_unsafe_effects.master_effect_timer > 0);
+    msg_unsafe_effects.master_effect_timer -= msg_master_timer_running;
+
+    for (var i = 0; i < array_length(msg_unsafe_effects.effects_list); i++)
     {
-        msg_unsafe_effects.master_effect_timer = 0;
-        //reset all frequencies
-        msg_unsafe_effects.shudder.freq = 0;
-        msg_unsafe_effects.bad_vsync.freq = 0;
-        msg_unsafe_effects.bad_axis.freq = 0;
-        msg_unsafe_effects.bad_crop.freq = 0;
-    }
-    else
-    {
-        msg_unsafe_effects.master_effect_timer--;
+        var fx = msg_unsafe_effects.effects_list[i];
+        //reset all effect's frequencies IF the master timer is done or the master flag is false
+        fx.master_flag = (fx.master_flag && msg_master_timer_running);
+        fx.freq *= fx.master_flag;
     }
 }
 //==================================================================
