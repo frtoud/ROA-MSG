@@ -1,21 +1,28 @@
 //other_init.gml
 
+//initialize VFX
 msg_init_effects(false);
 
 // vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_init_effects(is_missingno) // Version 0
+    // =========================================================
     // initializes structures for all glitch VFX
+    // NOTE: anything in here derives from inherently client-side data
+    //       instant desync if used anywhere near gameplay stuff
 
     //MissingNo's own init.gml has already initialized everything here.
     //else, another MissingNo's other_init.gml might already have run through.
     if ("msg_unsafe_handler_id" in self) return;
     msg_is_missingno = is_missingno; //easier identification later
 
-    //random value calculated by handler missingno.
+    //random value calculated by handler Missingno.
     msg_unsafe_random = current_time;
     msg_unsafe_handler_id = (is_missingno ? self : other);
+
+    //only relevant for Missingno
+    msg_unsafe_paused_timer = 0;
 
     //ability to restore draw parameters
     msg_anim_backup =

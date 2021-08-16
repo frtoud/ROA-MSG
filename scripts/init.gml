@@ -132,24 +132,7 @@ msg_walk_start_x = x;
 //glitch death
 gfx_glitch_death = false;
 
-//=========================================================
-// NOTE: anything in here derives from inherently client-side data
-//       instant desync if used anywhere near gameplay stuff 
-
-//keep in sync with other_init, I need this block on everyone *including* myself!
-msg_unsafe_paused_timer = 0;
-//random value calculated by handler missingno.
-msg_unsafe_random = current_time;
-msg_unsafe_handler_id = self;
-
-//missingno's Random is constant & dependent on individual frequency
-//case 1: Missingno being unstable at higher damage
-// - floor frequency/intensity of certain effects raised
-//case 2: Missingno shaketrail while walking
-// - specific state that induces frequency of an effect
-//enemy randoms are temporary & decided by move interactions
-//case 1: postgrab debuff
-// - missingno starts effect timer & increases frequency of effect
+//initialize VFX
 msg_init_effects(true);
 
 //=========================================================
@@ -158,16 +141,22 @@ msg_init_effects(true);
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_init_effects(is_missingno) // Version 0
+    // =========================================================
     // initializes structures for all glitch VFX
+    // NOTE: anything in here derives from inherently client-side data
+    //       instant desync if used anywhere near gameplay stuff
 
     //MissingNo's own init.gml has already initialized everything here.
     //else, another MissingNo's other_init.gml might already have run through.
     if ("msg_unsafe_handler_id" in self) return;
     msg_is_missingno = is_missingno; //easier identification later
 
-    //random value calculated by handler missingno.
+    //random value calculated by handler Missingno.
     msg_unsafe_random = current_time;
     msg_unsafe_handler_id = (is_missingno ? self : other);
+
+    //only relevant for Missingno
+    msg_unsafe_paused_timer = 0;
 
     //ability to restore draw parameters
     msg_anim_backup =
