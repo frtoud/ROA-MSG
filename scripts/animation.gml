@@ -15,7 +15,8 @@ if (msg_unsafe_paused_timer > 0)
 { msg_unsafe_paused_timer--; }
 
 msg_unsafe_handler_id = self; //missingnos always handle themselves
-with (oPlayer) if (msg_unsafe_handler_id == other)
+with (oPlayer) if ("msg_unsafe_handler_id" in self 
+               &&   msg_unsafe_handler_id == other)
 {
     var msg_master_timer_running = (msg_unsafe_effects.master_effect_timer > 0);
     msg_unsafe_effects.master_effect_timer -= msg_master_timer_running;
