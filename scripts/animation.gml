@@ -61,14 +61,41 @@ switch (state)
         }
     }
 //==================================================================
+    case PS_ATTACK_AIR:
+    case PS_ATTACK_GROUND:
+    switch (attack)
+    {
+//==================================================================
+        case AT_NTHROW:
+        {
+            if (window == 4)
+            {
+                msg_unsafe_effects.bad_vsync.freq = 999;
+                msg_unsafe_effects.bad_vsync.horz_max = 50;
+                msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 5);
+            }
+        } break;
+//==================================================================
+        default: break;
+        
+    }
+//==================================================================
     default: break;
 }
 
 //==================================================================
 // general
+
+//unstable hitstun
 if (state_cat == SC_HITSTUN)
 {
     msg_unsafe_effects.bad_vsync.freq = 999;
     if (hitpause)
     { msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 2); }
 }
+
+
+
+
+
+

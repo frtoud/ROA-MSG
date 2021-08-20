@@ -50,4 +50,44 @@ if (msg_fspecial_is_charging)
 }
 msg_fspecial_is_charging = (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
                             && ((attack == AT_FSPECIAL) && window < 3);
-  
+
+//==============================================================
+//stop tracking grab outcome selection if somehow no longer in grab
+if !(state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
+    || (attack != AT_NTHROW) || (window != 4)
+{
+    msg_grab_current = noone;
+}
+//==============================================================
+//other_update.gml
+with (oPlayer) if (msg_handler_id == other)
+{
+    //reset on death
+    if (state == PS_RESPAWN)
+    {
+        msg_grab_immune_timer = 0;
+        msg_grabbed_timer = 0;
+    }
+    
+    //stop tracking if there's nothing left to track
+    if (msg_grab_immune_timer == 0)
+    && (msg_grabbed_timer == 0)
+    {
+        msg_handler_id = noone;
+    }
+    
+    //stay in hitpause while grabbed
+    if (msg_grabbed_timer > 0)
+    {
+        msg_grabbed_timer--;
+        hitpause = true;
+        hitstop = max(hitstop, 3);
+        hitstop_full++;
+    }
+    //post-grab immunity
+    else if (msg_grab_immune_timer > 0)
+    {
+        msg_grab_immune_timer--;
+    }
+}
+

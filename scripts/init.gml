@@ -104,22 +104,36 @@ bubble_y = 8;
 msg_fspecial_bubble_lockout = 8;
 msg_fspecial_bubble_random_hsp_boost = 5;
 
+msg_grab_immune_timer_max = 240;
+//List of Grab outcomes
+msg_grab_effects[0] = { window:5, sound:sound_get("grab2")}; //Frozen + Burning
 
-msg_grab_effects[0] = {};
 
 //=========================================================
 // Attack variables
 at_prev_dir_buffer = 0;
 at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
 
+
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 30;
+
+msg_grab_selected = noone;
+msg_grab_rotation[0] = msg_grab_effects[0]; //Neutral
+//msg_grab_rotation[1]
+//msg_grab_rotation[2]
+//msg_grab_rotation[3]
 
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
 msg_fspecial_ghost_arrow_active = false;
 msg_fspecial_ghost_arrow_min_speed = 8;
 msg_fspecial_ghost_arrow_target_distance = 100;
+
+//Copy of other_init
+msg_handler_id = noone;
+msg_grabbed_timer = 0;
+msg_grab_immune_timer = 0;
 
 //=========================================================
 // Visual effects

@@ -139,8 +139,48 @@ switch (attack)
 //=============================================================
     case AT_NTHROW:
     {
-        
-    }
+        switch (window)
+        {
+            case 4: //grab-success
+            {
+                destroy_hitboxes();
+                if (window_timer > get_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH) - 1)
+                {
+                    //last frame of window. release grab
+                    window_timer = 0;
+                    window = msg_grab_rotation[msg_grab_selected].window;
+                    
+                    //release grabbed victims
+                    with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                    {
+                        msg_grabbed_timer = 0;
+                        msg_grab_immune_timer = other.msg_grab_immune_timer_max;
+                    }
+                    ///rotate grab outcome selection
+                    
+                    
+                    msg_grab_selected = noone;
+                }
+                else
+                {
+                    //refresh grab on victims
+                    with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                    {
+                        msg_grabbed_timer = 5;
+                    }
+                    
+                    //figure out which direction is being held
+                    var selected = 0;
+                    msg_grab_selected = selected;
+                }
+            } break;
+//=============================================================
+
+//=============================================================
+            default: break;
+        }
+    } break;
+//=============================================================
     default: break;
 }
 

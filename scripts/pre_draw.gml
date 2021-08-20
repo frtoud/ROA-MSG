@@ -1,5 +1,13 @@
 //pre_draw.gml
 
+
+//playing sounds (needs to happen here so it works when pausing)
+if (msg_grab_selected >= 0)
+{
+    sound_play(msg_grab_rotation[msg_grab_selected].sound);
+}
+
+
 //==================================================================
 // back up drawing-related parameters that can get fiddled with
 //todo: move to animation.gml?
@@ -168,7 +176,7 @@ manual_draw(true);
         fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * height_max/3;
         fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
     }
-    else if (fx.freq > GET_RNG(16, 0x3F))
+    if (fx.freq > GET_RNG(16, 0x3F))
     {
         fx.timer = 3;
     }
@@ -182,6 +190,7 @@ manual_draw(true);
            :((msg_unsafe_random >> offset) & mask);
 
 #define GET_INT // Version 0
+/// GET_INT(offset, mask, centered = false)
     // ===========================================================
     // returns an intensity for the effect, between 0 and 1.
     // if centered is true, this will be between -0.5 and +0.5 instead.

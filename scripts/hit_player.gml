@@ -15,7 +15,11 @@ if (my_hitboxID.attack == AT_FSPECIAL_2)
 //Grab logic
 if (my_hitboxID.attack == AT_NTHROW && my_hitboxID.hbox_num == 1)
 {
-    var fx = hit_player_obj.msg_unsafe_effects;
-    fx.master_effect_timer = 60;
-    hit_player_obj.msg_unsafe_handler_id = self;
+    if !(hit_player_obj.msg_grab_immune_timer > 0)
+    {
+        //grab success: send directly to window 4
+        window = 4; window_timer = 0;
+        hit_player_obj.msg_handler_id = self;
+        hit_player_obj.msg_grabbed_timer = 5;
+    }
 }

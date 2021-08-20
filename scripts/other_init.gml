@@ -1,5 +1,12 @@
 //other_init.gml
 
+msg_handler_id = noone;
+msg_grabbed_timer = 0;
+
+msg_grab_immune_timer = 0;
+
+
+
 //initialize VFX
 msg_init_effects(false);
 
