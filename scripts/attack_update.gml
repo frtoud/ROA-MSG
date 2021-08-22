@@ -141,79 +141,83 @@ switch (attack)
     {
         can_fast_fall = false;
         can_move = false;
+        if (window == 3)
+        {
+            //grab failure
+            //TODO: allow swapping of an index on whiff
+        }
+        else if (window == 4) 
+        {
+            //grab-success
+            destroy_hitboxes();
+            if (window_timer > get_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH) - 1)
+            {
+                //last frame of window. release grab
+                var current_outcome = msg_grab_rotation[msg_grab_selected_index];
+                
+                window_timer = 0;
+                window = current_outcome.window;
+                    
+                sound_stop(msg_grab_sfx);
+                msg_grab_sfx = noone;
+                
+                //release grabbed victims
+                with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                {
+                    msg_grab_immune_timer = other.msg_grab_immune_timer_max;
+                }
+                
+                ///rotate grab outcome selection
+                msg_grab_rotation[msg_grab_selected_index] = msg_grab_queue[msg_grab_queue_pointer];
+                msg_grab_queue[msg_grab_queue_pointer] = current_outcome;
+                msg_grab_queue_pointer = (msg_grab_queue_pointer + 1) % array_length(msg_grab_queue)
+                
+                msg_grab_selected = noone;
+            }
+            else
+            {
+                //refresh grab on victims
+                with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                {
+                    msg_grabbed_timer = 5;
+                }
+                
+                //figure out which direction is being held
+                var selected = floor((joy_dir + 45)/90.0) % 4;
+                //RIGHT: 0
+                //UP:    1
+                //LEFT:  2
+                //DOWN:  3
+                //TODO: adjust math to take into account spr_dir?
+                
+                if (msg_grab_selected_index != selected)
+                {
+                    sound_stop(msg_grab_sfx);
+                    msg_grab_sfx = sound_play(msg_grab_rotation[selected].sound, true, 0, 1, 1);
+                    msg_grab_selected_index = selected;
+                }
+            }
+        }
+
+//Grab outcomes
+//Note: window_timer 0 is accessible and occurs right after the detected end of window 4 above
         switch (window)
         {
-            case 3: //grab failure
-            {
-                //TODO: allow swapping of an index on whiff
-            } break;
-            case 4: //grab-success
-            {
-                destroy_hitboxes();
-                if (window_timer > get_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH) - 1)
-                {
-                    //last frame of window. release grab
-                    var current_outcome = msg_grab_rotation[msg_grab_selected_index];
-                    
-                    window_timer = 0;
-                    window = current_outcome.window;
-                    
-                    sound_stop(msg_grab_sfx);
-                    msg_grab_sfx = noone;
-                    
-                    //release grabbed victims
-                    with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
-                    {
-                        msg_grabbed_timer = 0;
-                        msg_grab_immune_timer = other.msg_grab_immune_timer_max;
-                        
-                        //a tad jank... need to refactor
-                        free = false;
-                        with (other)
-                        {
-                            var a = instance_create(other.x, other.y, "obj_article_platform");
-                            a.client_id = other;
-                            a.die_condition = 1; //Hitstun
-                        }
-                    }
-                    
-                    ///rotate grab outcome selection
-                    msg_grab_rotation[msg_grab_selected_index] = msg_grab_queue[msg_grab_queue_pointer];
-                    msg_grab_queue[msg_grab_queue_pointer] = current_outcome;
-                    msg_grab_queue_pointer = (msg_grab_queue_pointer + 1) % array_length(msg_grab_queue)
-                    
-                    msg_grab_selected = noone;
-                }
-                else
-                {
-                    //refresh grab on victims
-                    with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
-                    {
-                        msg_grabbed_timer = 5;
-                    }
-                    
-                    //figure out which direction is being held
-                    var selected = floor((joy_dir + 45)/90.0) % 4;
-                    //RIGHT: 0
-                    //UP:    1
-                    //LEFT:  2
-                    //DOWN:  3
-                    //TODO: adjust math to take into account spr_dir?
-                    
-                    if (msg_grab_selected_index != selected)
-                    {
-                        sound_stop(msg_grab_sfx);
-                        msg_grab_sfx = sound_play(msg_grab_rotation[selected].sound, true, 0, 1, 1);
-                        msg_grab_selected_index = selected;
-                    }
-                }
-            } break;
 //=============================================================
-            case 5:
+            case 5: //Freeze x Burn
             {
-               //Freeze x Burn
-               //var a = instance_create(hit_player_obj.x, hit_player_obj.y, "obj_article_platform");
-                //a.client_id = hit_player_obj;
+                if (window_timer == 0 && !hitpause)
+                with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                {
+                    //victims need to be considered grounded to be properly frozen
+                    free = false;
+                    with (other) //back to Missingno
+                    {
+                        var a = instance_create(other.x, other.y, "obj_article_platform");
+                        a.client_id = other;
+                        a.die_condition = 1; //Hitstun
+                    }
+                }
             } break;
 //=============================================================
             default: break;
