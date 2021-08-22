@@ -37,7 +37,7 @@ if (fx.timer > 0)
     fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * height_max/3;
     fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
 }
-else if (fx.freq > GET_RNG(16, 0x3F))
+if (fx.freq > GET_RNG(16, 0x3F))
 {
     fx.timer = 3;
 }
