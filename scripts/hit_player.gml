@@ -1,6 +1,5 @@
 if (my_hitboxID.orig_player_id != self) exit; //Only our own hitboxes
 
-
 //Bubbles internal lockout logic (kind of heavy)
 if (my_hitboxID.attack == AT_FSPECIAL_2)
 {
@@ -21,5 +20,13 @@ if (my_hitboxID.attack == AT_NTHROW && my_hitboxID.hbox_num == 1)
         window = 4; window_timer = 0;
         hit_player_obj.msg_handler_id = self;
         hit_player_obj.msg_grabbed_timer = 5;
+        hit_player_obj.hurt_img = 999;
     }
+}
+
+
+//Become parent for glitch effect control
+if (!hit_player_obj.msg_is_missingno)
+{
+    hit_player_obj.msg_unsafe_handler_id = self;
 }

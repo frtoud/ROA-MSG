@@ -12,7 +12,7 @@ msg_is_missingno = is_missingno; //easier identification later
 
 //random value calculated by handler Missingno.
 msg_unsafe_random = current_time;
-msg_unsafe_handler_id = (is_missingno ? self : other);
+msg_unsafe_handler_id = (is_missingno ? self : noone);
 
 //only relevant for Missingno
 msg_unsafe_paused_timer = 0;
