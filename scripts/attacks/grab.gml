@@ -67,7 +67,7 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 4);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_TECHABLE, 3);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 270);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 1); //Burn
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 1);
@@ -84,7 +84,7 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_TECHABLE, 3);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 270);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 5); //Freeze
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 1);
