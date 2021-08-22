@@ -166,6 +166,15 @@ switch (attack)
                     {
                         msg_grabbed_timer = 0;
                         msg_grab_immune_timer = other.msg_grab_immune_timer_max;
+                        
+                        //a tad jank... need to refactor
+                        free = false;
+                        with (other)
+                        {
+                            var a = instance_create(other.x, other.y, "obj_article_platform");
+                            a.client_id = other;
+                            a.die_condition = 1; //Hitstun
+                        }
                     }
                     
                     ///rotate grab outcome selection
@@ -203,7 +212,8 @@ switch (attack)
             case 5:
             {
                //Freeze x Burn
-               
+               //var a = instance_create(hit_player_obj.x, hit_player_obj.y, "obj_article_platform");
+                //a.client_id = hit_player_obj;
             } break;
 //=============================================================
             default: break;

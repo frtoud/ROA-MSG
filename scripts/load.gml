@@ -45,5 +45,6 @@ sprite_change_offset("taunt", 16, 31, true);
 sprite_change_offset("plat", 32, 47);
 
 sprite_change_offset("nspecial_proj", 32, 47);
+sprite_change_offset("microplatform", 8, 0);
 
 sprite_change_offset("glitch_bg", 17, 37);
