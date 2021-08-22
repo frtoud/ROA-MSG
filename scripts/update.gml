@@ -53,10 +53,16 @@ msg_fspecial_is_charging = (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
 
 //==============================================================
 //stop tracking grab outcome selection if somehow no longer in grab
-if !(state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
-    || (attack != AT_NTHROW) || (window != 4)
+if  (msg_grab_selected_index != noone) &&
+   (!(state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
+    || (attack != AT_NTHROW) || (window != 4))
 {
-    msg_grab_current = noone;
+    msg_grab_selected_index = noone;
+    if (msg_grab_sfx != noone)
+    {
+        sound_stop(msg_grab_sfx);
+    }
+    msg_grab_selected_index = noone;
 }
 //==============================================================
 //other_update.gml

@@ -2,9 +2,9 @@
 
 
 //playing sounds (needs to happen here so it works when pausing)
-if (msg_grab_selected >= 0)
+if (msg_grab_selected_index >= 0)
 {
-    sound_play(msg_grab_rotation[msg_grab_selected].sound);
+    suppress_stage_music(0, 1);
 }
 
 
@@ -196,7 +196,7 @@ manual_draw(true);
     // if centered is true, this will be between -0.5 and +0.5 instead.
     // uses "msg_unsafe_random" implicitly.
     var offset = argument[0], mask = argument[1];
-    var centered = argument_count > 2 ? argument[2] : false;
+var centered = argument_count > 2 ? argument[2] : false;
     return (mask <= 0) ? 0
            : ((msg_unsafe_random >> offset) & mask) * (1.0/mask) - (centered * 0.5);
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!

@@ -139,16 +139,27 @@ switch (attack)
 //=============================================================
     case AT_NTHROW:
     {
+        can_fast_fall = false;
+        can_move = false;
         switch (window)
         {
+            case 3: //grab failure
+            {
+                //TODO: allow swapping of an index on whiff
+            } break;
             case 4: //grab-success
             {
                 destroy_hitboxes();
                 if (window_timer > get_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH) - 1)
                 {
                     //last frame of window. release grab
+                    var current_outcome = msg_grab_rotation[msg_grab_selected_index];
+                    
                     window_timer = 0;
-                    window = msg_grab_rotation[msg_grab_selected].window;
+                    window = current_outcome.window;
+                    
+                    sound_stop(msg_grab_sfx);
+                    msg_grab_sfx = noone;
                     
                     //release grabbed victims
                     with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
@@ -156,8 +167,11 @@ switch (attack)
                         msg_grabbed_timer = 0;
                         msg_grab_immune_timer = other.msg_grab_immune_timer_max;
                     }
-                    ///rotate grab outcome selection
                     
+                    ///rotate grab outcome selection
+                    msg_grab_rotation[msg_grab_selected_index] = msg_grab_queue[msg_grab_queue_pointer];
+                    msg_grab_queue[msg_grab_queue_pointer] = current_outcome;
+                    msg_grab_queue_pointer = (msg_grab_queue_pointer + 1) % array_length(msg_grab_queue)
                     
                     msg_grab_selected = noone;
                 }
@@ -170,12 +184,27 @@ switch (attack)
                     }
                     
                     //figure out which direction is being held
-                    var selected = 0;
-                    msg_grab_selected = selected;
+                    var selected = floor((joy_dir + 45)/90.0) % 4;
+                    //RIGHT: 0
+                    //UP:    1
+                    //LEFT:  2
+                    //DOWN:  3
+                    //TODO: adjust math to take into account spr_dir?
+                    
+                    if (msg_grab_selected_index != selected)
+                    {
+                        sound_stop(msg_grab_sfx);
+                        msg_grab_sfx = sound_play(msg_grab_rotation[selected].sound, true, 0, 1, 1);
+                        msg_grab_selected_index = selected;
+                    }
                 }
             } break;
 //=============================================================
-
+            case 5:
+            {
+               //Freeze x Burn
+               
+            } break;
 //=============================================================
             default: break;
         }

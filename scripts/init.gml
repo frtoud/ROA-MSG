@@ -107,6 +107,10 @@ msg_fspecial_bubble_random_hsp_boost = 5;
 msg_grab_immune_timer_max = 240;
 //List of Grab outcomes
 msg_grab_effects[0] = { window:5, sound:sound_get("grab2")}; //Frozen + Burning
+msg_grab_effects[1] = { window:5, sound:sound_get("grab3")}; //Frozen + Burning
+msg_grab_effects[2] = { window:5, sound:sound_get("grab4")}; //Frozen + Burning
+msg_grab_effects[3] = { window:5, sound:sound_get("grab5")}; //Frozen + Burning
+msg_grab_effects[4] = { window:5, sound:sound_get("grab1")}; //Frozen + Burning
 
 
 //=========================================================
@@ -118,11 +122,16 @@ at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 30;
 
-msg_grab_selected = noone;
-msg_grab_rotation[0] = msg_grab_effects[0]; //Neutral
-//msg_grab_rotation[1]
-//msg_grab_rotation[2]
-//msg_grab_rotation[3]
+
+msg_grab_queue_pointer = 0; //index of next element on the queue to be swapped in
+// list of outcomes selectable by direction inputs (as indexes of msg_grab_effects)
+msg_grab_rotation = [msg_grab_effects[0], 
+                     msg_grab_effects[1], 
+                     msg_grab_effects[2],
+                     msg_grab_effects[3]]; 
+// list of outcomes on standby
+msg_grab_queue = [msg_grab_effects[4]];
+msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
 
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
@@ -139,6 +148,8 @@ msg_grab_immune_timer = 0;
 // Visual effects
 glitch_bg_spr = sprite_get("glitch_bg");
 no_sprite = asset_get("empty_sprite");
+
+msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
 
 //glitch-slide walk
 msg_walk_start_x = x;
