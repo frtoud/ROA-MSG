@@ -199,29 +199,25 @@ switch (attack)
             }
         }
 
-//Grab outcomes
-//Note: window_timer 0 is accessible and occurs right after the detected end of window 4 above
-        switch (window)
+        //Grab outcomes
+        //Note: window_timer 0 is accessible and occurs right after the detected end of window 4 above
+        //=============================================================
+        if (window == MSG_GRAB_FROSTBURN_WINDOW)
         {
-//=============================================================
-            case 5: //Freeze x Burn
+            if (window_timer == 0 && !hitpause)
+            with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
             {
-                if (window_timer == 0 && !hitpause)
-                with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                //victims need to be considered grounded to be properly frozen
+                free = false;
+                with (other) //back to Missingno
                 {
-                    //victims need to be considered grounded to be properly frozen
-                    free = false;
-                    with (other) //back to Missingno
-                    {
-                        var a = instance_create(other.x, other.y, "obj_article_platform");
-                        a.client_id = other;
-                        a.die_condition = 1; //Hitstun
-                    }
+                    var a = instance_create(other.x, other.y, "obj_article_platform");
+                    a.client_id = other;
+                    a.die_condition = 1; //Hitstun
                 }
-            } break;
-//=============================================================
-            default: break;
+            }
         }
+        //=============================================================
     } break;
 //=============================================================
     default: break;

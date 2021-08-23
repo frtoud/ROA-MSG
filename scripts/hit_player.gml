@@ -12,15 +12,25 @@ if (my_hitboxID.attack == AT_FSPECIAL_2)
 }
 
 //Grab logic
-if (my_hitboxID.attack == AT_NTHROW && my_hitboxID.hbox_num == 1)
+if (my_hitboxID.attack == AT_NTHROW)
 {
-    if !(hit_player_obj.msg_grab_immune_timer > 0)
+    if(my_hitboxID.hbox_num == 1)
     {
-        //grab success: send directly to window 4
-        window = 4; window_timer = 0;
-        hit_player_obj.msg_handler_id = self;
-        hit_player_obj.msg_grabbed_timer = 5;
-        hit_player_obj.hurt_img = 999;
+        if !(hit_player_obj.msg_grab_immune_timer > 0)
+        {
+            //grab success: send directly to window 4
+            window = 4; window_timer = 0;
+            hit_player_obj.msg_handler_id = self;
+            hit_player_obj.msg_grabbed_timer = 5;
+            hit_player_obj.hurt_img = 999;
+        }
+    }
+    else if (my_hitboxID.hbox_num == MSG_GRAB_LEECHSEED_HITBOX)
+    {
+        hit_player_obj.marked = true;
+        hit_player_obj.can_get_wrapped = true;
+        hit_player_obj.marked_player = self;
+        //hit_player_obj.poison = 4;
     }
 }
 

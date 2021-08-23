@@ -30,28 +30,30 @@ set_window_value(AT_NTHROW, 4, AG_WINDOW_VSPEED_TYPE, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAME_START, 2);
 
-var hbox_num = 0;
-
 //Grab
-hbox_num++;
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, 2);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, get_window_value(AT_NTHROW, 2, AG_WINDOW_LENGTH));
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 60);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 3);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 3);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 90);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 9);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 5);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 0);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 1);
+set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, 1, HG_WINDOW, 2);
+set_hitbox_value(AT_NTHROW, 1, HG_LIFETIME, get_window_value(AT_NTHROW, 2, AG_WINDOW_LENGTH));
+set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, 1, HG_WIDTH, 60);
+set_hitbox_value(AT_NTHROW, 1, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, 1, HG_PRIORITY, 3);
+set_hitbox_value(AT_NTHROW, 1, HG_DAMAGE, 3);
+set_hitbox_value(AT_NTHROW, 1, HG_ANGLE, 90);
+set_hitbox_value(AT_NTHROW, 1, HG_EFFECT, 9);
+set_hitbox_value(AT_NTHROW, 1, HG_BASE_KNOCKBACK, 5);
+set_hitbox_value(AT_NTHROW, 1, HG_BASE_HITPAUSE, 0);
+set_hitbox_value(AT_NTHROW, 1, HG_VISUAL_EFFECT, 1);
 
 //========================================================================
+// Grab outcomes
+var hbox_num = 1;
+var current_window = 4;
+//========================================================================
 //Grab Outcome: Frozen + Burning
-current_window = 5;
+current_window++;
+MSG_GRAB_FROSTBURN_WINDOW = current_window;
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 3);
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
@@ -93,28 +95,45 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 3);
 
 //========================================================================
 // Grab Outcome: Leech Seed Bug
-current_window = 6;
+current_window++;
+MSG_GRAB_LEECHSEED_WINDOW = current_window;
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 3);
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
 
 hbox_num++;
+MSG_GRAB_LEECHSEED_HITBOX = hbox_num;
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 5);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 85);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 6); //Mark (poison stacks handled separately)
-set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 1);
+//set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 10); //Mark doesnt work apparently
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 7);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.3);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 7);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 3);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
+set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 198);
 //========================================================================
 
-
-
 set_num_hitboxes(AT_NTHROW, hbox_num);
+//Filling in this array with the info above
+//List of Grab outcomes
+var grab_frostburn = { window:MSG_GRAB_FROSTBURN_WINDOW, sound:sound_get("grab2")}; //Frozen + Burning
+var grab_leechseed = { window:MSG_GRAB_LEECHSEED_WINDOW, sound:sound_get("grab3")}; //LeechSeed x Poisoned
+
+//Put 4 in starting rotation
+msg_grab_rotation = [grab_frostburn, 
+                     grab_leechseed, 
+                     grab_frostburn, 
+                     grab_leechseed];
+
+//Add the rest to the queue (minimum 1)
+msg_grab_queue = [grab_frostburn];
