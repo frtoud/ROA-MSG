@@ -114,7 +114,7 @@ at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
 
 
 msg_dair_earthquake_counter = 0;
-msg_dair_earthquake_max = 30;
+msg_dair_earthquake_max = 10;
 
 //See attacks -> grab.gml for the actual definition
 var dummy_outcome = { window:3, sound:asset_get("sfx_bubblepop")};

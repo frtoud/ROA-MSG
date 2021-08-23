@@ -14,10 +14,11 @@ switch (attack)
         {
             msg_dair_earthquake_counter = 0;
         }
-        else if (window == 3 && window_timer == 1)
+        else if (window == 3 && window_timer == 1 && !hitpause)
         {
-            sound_play(landing_lag_sound);
+            sound_play(asset_get("sfx_kragg_rock_shatter"));
             //spawn_dust_fx(x, y)
+            shake_camera(8, 5);
             
             //landed: try finding an edge
             var depth_check = 5;
@@ -38,9 +39,12 @@ switch (attack)
             && (left_test xor right_test)
             {
                 window = 2;
-                window_timer = 0;
+                window_timer = 3;
                 msg_dair_earthquake_counter++;
                 y -= 8;
+
+                msg_unsafe_effects.shudder.timer = 12;
+                msg_unsafe_effects.shudder.horz_max = 24;
             }
         }
     } break;
