@@ -1,5 +1,16 @@
 //other_post_draw.gml
 
+//===============================================================================
+if (marked && marked_player == other_player_id.player) with (other_player_id)
+{
+    //Draw on behalf of Maypuls everywhere
+    shader_start();
+    var width = 40;
+    draw_sprite(asset_get("fer_leaf_spr"), 0, other.x - width + 2 * (get_gameplay_time() % width), other.y - 20);
+    shader_end();
+}
+
+//===============================================================================
 if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 {
     //restore draw params
