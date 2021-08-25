@@ -5,6 +5,10 @@ msg_grabbed_timer = 0;
 
 msg_grab_immune_timer = 0;
 
+// Leech Seed
+msg_leechseed_timer = 0;
+msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
+
 
 
 //initialize VFX

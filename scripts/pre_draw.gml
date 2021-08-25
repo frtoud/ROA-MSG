@@ -1,6 +1,6 @@
 //pre_draw.gml
 
-
+//==================================================================
 //playing sounds (needs to happen here so it works when pausing)
 if (msg_grab_selected_index >= 0)
 {
@@ -8,6 +8,19 @@ if (msg_grab_selected_index >= 0)
 }
 
 
+//==================================================================
+//Leech seed healy bits
+for (var i = 0; i < msg_leechseed_particle_number; i++)
+{
+    var temp_part = msg_leechseed_particles[i];
+    if (temp_part.timer > 0)
+    {
+        draw_sprite(vfx_healing, i, temp_part.x, temp_part.y);
+    }
+}
+
+//==================================================================
+// GLITCH-FX BEYOND THIS POINT
 //==================================================================
 // back up drawing-related parameters that can get fiddled with
 //todo: move to animation.gml?
@@ -28,7 +41,6 @@ if (msg_unsafe_paused_timer <= 0)
     with (oPlayer) if (msg_unsafe_handler_id == other)
     { msg_unsafe_random = rng; }
 }
-
 
 //=============================================
 // Reroll Missingno effects

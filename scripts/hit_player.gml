@@ -28,9 +28,15 @@ if (my_hitboxID.attack == AT_NTHROW)
     else if (my_hitboxID.hbox_num == MSG_GRAB_LEECHSEED_HITBOX)
     {
         hit_player_obj.marked = true;
-        hit_player_obj.can_get_wrapped = true;
-        hit_player_obj.marked_player = self;
-        //hit_player_obj.poison = 4;
+        hit_player_obj.marked_player = self.player;
+        hit_player_obj.poison = 4;
+        hit_player_obj.msg_leechseed_timer = 0;
+        hit_player_obj.msg_leechseed_owner = self;
+
+        hit_player_obj.msg_unsafe_effects.bad_vsync.master_flag = true;
+        hit_player_obj.msg_unsafe_effects.bad_vsync.horz_max = 12;
+        hit_player_obj.msg_unsafe_effects.bad_vsync.freq = 5;
+        hit_player_obj.msg_unsafe_effects.master_effect_timer = 240;
     }
 }
 

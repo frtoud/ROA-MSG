@@ -106,12 +106,13 @@ msg_fspecial_bubble_random_hsp_boost = 5;
 
 msg_grab_immune_timer_max = 240;
 
+msg_grab_leechseed_delay = 30; //frames it takes to reach player
+msg_grab_leechseed_duration = 60; //how long each poison stack lasts before being decremented
 
 //=========================================================
 // Attack variables
 at_prev_dir_buffer = 0;
 at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
-
 
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
@@ -126,6 +127,16 @@ msg_grab_queue = [dummy_outcome];
 msg_grab_queue_pointer = 0; //index of next element on the queue to be swapped in
 msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
 
+//estimated maximum of particles at once (4/second, 2 at once, per victim)
+//if you somehow exceed that number, it will start overwriting previous ones and... well, let's say its an intentional bug.
+msg_leechseed_particle_number = 4 * (4 * msg_grab_leechseed_delay / msg_grab_leechseed_duration);
+//Initialize a list of healy crystal shards, used for both gameplay and rendering
+for (var i = msg_leechseed_particle_number-1; i >= 0; i--)
+{ 
+    msg_leechseed_particles[i] = { timer:0, x:0, y:0, source_x:0, source_y:0, mid_x:0, mid_y:0 } 
+};
+msg_leechseed_particle_pointer = 0;
+
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
 msg_fspecial_ghost_arrow_active = false;
@@ -137,12 +148,19 @@ msg_handler_id = noone;
 msg_grabbed_timer = 0;
 msg_grab_immune_timer = 0;
 
+// Leech Seed
+msg_leechseed_timer = 0;
+msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
+
 //=========================================================
 // Visual effects
 glitch_bg_spr = sprite_get("glitch_bg");
 no_sprite = asset_get("empty_sprite");
 
+//Grab
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
+
+vfx_healing = sprite_get("vfx_healing");
 
 //glitch-slide walk
 msg_walk_start_x = x;

@@ -114,7 +114,7 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 5);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 85);
-//set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 10); //Mark doesnt work apparently
+set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 10); //Mark doesnt work apparently
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 7);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.3);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 7);
