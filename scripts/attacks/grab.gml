@@ -122,16 +122,45 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 3);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
 set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 198);
 //========================================================================
+// Grab Outcome: SELF DESTRUCT
+current_window++;
+MSG_GRAB_EXPLOSION_WINDOW = current_window;
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 5);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+
+hbox_num++;
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 5);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -35);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 120);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 120);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 20);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 75);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE_FLIPPER, 3);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 12);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 1.0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITPAUSE_SCALING, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 8);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 4);
+//========================================================================
 
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
 //List of Grab outcomes
 var grab_frostburn = { window:MSG_GRAB_FROSTBURN_WINDOW, sound:sound_get("grab2")}; //Frozen + Burning
 var grab_leechseed = { window:MSG_GRAB_LEECHSEED_WINDOW, sound:sound_get("grab3")}; //LeechSeed x Poisoned
+var grab_explode =   { window:MSG_GRAB_EXPLOSION_WINDOW, sound:sound_get("grab4")}; //Selfdestruct
 
 //Put 4 in starting rotation
-msg_grab_rotation = [grab_frostburn, 
-                     grab_leechseed, 
+msg_grab_rotation = [grab_explode, 
+                     grab_explode, 
                      grab_frostburn, 
                      grab_leechseed];
 

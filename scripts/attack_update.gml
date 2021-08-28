@@ -221,6 +221,27 @@ switch (attack)
                 }
             }
         }
+        else if (window == MSG_GRAB_EXPLOSION_WINDOW)
+        {
+            visible = false;
+            if (window_timer == 0 && !hitpause)
+            {
+                spawn_hit_fx( x, y -35, 143 );
+                sound_play(sfx_sd);
+                sound_play(asset_get("sfx_death1"));
+            }
+            else if (window_timer == 3)
+            {
+                x = room_width / 2;
+                y = room_height / 2;
+                set_state(PS_RESPAWN);
+                state_timer = 30;
+
+                msg_exploded_damage += get_player_damage( player ) + msg_grab_explode_penalty;
+                set_player_damage( player, 0 );
+                msg_exploded_respawn = true;
+            }
+        }
         //=============================================================
     } break;
 //=============================================================

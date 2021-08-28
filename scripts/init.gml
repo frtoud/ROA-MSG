@@ -109,6 +109,8 @@ msg_grab_immune_timer_max = 240;
 msg_grab_leechseed_delay = 30; //frames it takes to reach player
 msg_grab_leechseed_duration = 60; //how long each poison stack lasts before being decremented
 
+msg_grab_explode_penalty = 30; //damage cost of using Explosion
+
 //=========================================================
 // Attack variables
 at_prev_dir_buffer = 0;
@@ -137,6 +139,10 @@ for (var i = msg_leechseed_particle_number-1; i >= 0; i--)
 };
 msg_leechseed_particle_pointer = 0;
 
+//Explosion
+msg_exploded_damage = 0; //to reapply once Missingno gets hit
+msg_exploded_respawn = false; //to check wether a respawned missingno gets invincibility
+
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
 msg_fspecial_ghost_arrow_active = false;
@@ -152,6 +158,7 @@ msg_grab_immune_timer = 0;
 msg_leechseed_timer = 0;
 msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
 
+
 //=========================================================
 // Visual effects
 glitch_bg_spr = sprite_get("glitch_bg");
@@ -161,6 +168,8 @@ no_sprite = asset_get("empty_sprite");
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
 
 vfx_healing = sprite_get("vfx_healing");
+
+sfx_sd = sound_get("selfdestruct_hit");
 
 //glitch-slide walk
 msg_walk_start_x = x;

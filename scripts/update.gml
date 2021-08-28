@@ -94,7 +94,22 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
         }
     }
 }
-
+//==============================================================
+if (msg_exploded_respawn)
+{
+    if (state == PS_RESPAWN)
+    {
+        //faster Respawn
+        state_timer++;
+    }
+    else
+    {
+        // Non-invincible after an explosion respawn
+        msg_exploded_respawn = false;
+        invincible = false;
+        invince_time = 0;
+    }
+}
 
 
 //==============================================================
