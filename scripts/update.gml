@@ -121,6 +121,8 @@ with (oPlayer) if (msg_handler_id == other)
     {
         msg_grab_immune_timer = 0;
         msg_grabbed_timer = 0;
+
+        msg_negative_dmg_timer = 0;
     }
     
     //stay in hitpause while grabbed
@@ -164,6 +166,18 @@ with (oPlayer) if (msg_handler_id == other)
             marked = false;
             msg_leechseed_timer = 0;
             msg_leechseed_owner = noone;
+        }
+    }
+
+    if (msg_negative_dmg_timer > 0)
+    {
+        debuff_still_active = true;
+        msg_negative_dmg_timer--;
+        if (msg_negative_dmg_timer <= 0 && get_player_damage( player ) < 0)
+        {
+            //restore to positive
+            var dmg = abs(floor(get_player_damage(player) / msg_handler_id.msg_grab_negative_multiplier));
+            set_player_damage(player, dmg);
         }
     }
 

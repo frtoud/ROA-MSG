@@ -150,6 +150,31 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_HITPAUSE_SCALING, 1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 8);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 4);
 //========================================================================
+// Grab Outcome: NEGATIVE_DAMAGE
+current_window++;
+MSG_GRAB_NEGATIVE_WINDOW = current_window;
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 3);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+
+hbox_num++;
+MSG_GRAB_NEGATIVE_HITBOX = hbox_num;
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 75);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 10);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 20);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_blow_heavy2"));
+//========================================================================
 
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
@@ -157,9 +182,10 @@ set_num_hitboxes(AT_NTHROW, hbox_num);
 var grab_frostburn = { window:MSG_GRAB_FROSTBURN_WINDOW, sound:sound_get("grab2")}; //Frozen + Burning
 var grab_leechseed = { window:MSG_GRAB_LEECHSEED_WINDOW, sound:sound_get("grab3")}; //LeechSeed x Poisoned
 var grab_explode =   { window:MSG_GRAB_EXPLOSION_WINDOW, sound:sound_get("grab4")}; //Selfdestruct
+var grab_negative =  { window:MSG_GRAB_NEGATIVE_WINDOW,  sound:sound_get("grab5")}; //Negative Damage
 
 //Put 4 in starting rotation
-msg_grab_rotation = [grab_explode, 
+msg_grab_rotation = [grab_negative, 
                      grab_explode, 
                      grab_frostburn, 
                      grab_leechseed];

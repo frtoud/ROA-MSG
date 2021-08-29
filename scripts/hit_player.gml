@@ -22,7 +22,6 @@ if (my_hitboxID.attack == AT_NTHROW)
             window = 4; window_timer = 0;
             hit_player_obj.msg_handler_id = self;
             hit_player_obj.msg_grabbed_timer = 5;
-            hit_player_obj.hurt_img = 999;
         }
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_LEECHSEED_HITBOX)
@@ -37,6 +36,13 @@ if (my_hitboxID.attack == AT_NTHROW)
         hit_player_obj.msg_unsafe_effects.bad_vsync.horz_max = 12;
         hit_player_obj.msg_unsafe_effects.bad_vsync.freq = 5;
         hit_player_obj.msg_unsafe_effects.master_effect_timer = 240;
+    }
+    else if (my_hitboxID.hbox_num == MSG_GRAB_NEGATIVE_HITBOX)
+    {
+        //turn damage into negatives (and amplify it)
+        var dmg = abs(floor(get_player_damage(hit_player_obj.player) * msg_grab_negative_multiplier));
+        set_player_damage(hit_player_obj.player, clamp(-dmg, -999, 999));
+        hit_player_obj.msg_negative_dmg_timer = msg_grab_negative_duration;
     }
 }
 

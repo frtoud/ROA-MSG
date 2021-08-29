@@ -108,8 +108,9 @@ msg_grab_immune_timer_max = 240;
 
 msg_grab_leechseed_delay = 30; //frames it takes to reach player
 msg_grab_leechseed_duration = 60; //how long each poison stack lasts before being decremented
-
 msg_grab_explode_penalty = 30; //damage cost of using Explosion
+msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negatives
+msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
 
 //=========================================================
 // Attack variables
@@ -118,6 +119,7 @@ at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
 
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
+
 
 //See attacks -> grab.gml for the actual definition
 var dummy_outcome = { window:3, sound:asset_get("sfx_bubblepop")};
@@ -143,11 +145,13 @@ msg_leechseed_particle_pointer = 0;
 msg_exploded_damage = 0; //to reapply once Missingno gets hit
 msg_exploded_respawn = false; //to check wether a respawned missingno gets invincibility
 
+
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
 msg_fspecial_ghost_arrow_active = false;
 msg_fspecial_ghost_arrow_min_speed = 8;
 msg_fspecial_ghost_arrow_target_distance = 100;
+
 
 //Copy of other_init
 msg_handler_id = noone;
@@ -157,7 +161,8 @@ msg_grab_immune_timer = 0;
 // Leech Seed
 msg_leechseed_timer = 0;
 msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
-
+// Negative DMG
+msg_negative_dmg_timer = 0;
 
 //=========================================================
 // Visual effects
@@ -168,8 +173,8 @@ no_sprite = asset_get("empty_sprite");
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
 
 vfx_healing = sprite_get("vfx_healing");
-
 sfx_sd = sound_get("selfdestruct_hit");
+sfx_error = sound_get("error");
 
 //glitch-slide walk
 msg_walk_start_x = x;

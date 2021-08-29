@@ -229,6 +229,10 @@ switch (attack)
                 spawn_hit_fx( x, y -35, 143 );
                 sound_play(sfx_sd);
                 sound_play(asset_get("sfx_death1"));
+
+                msg_exploded_damage += get_player_damage( player ) + msg_grab_explode_penalty;
+                set_player_damage( player, 0 );
+                msg_exploded_respawn = true;
             }
             else if (window_timer == 3)
             {
@@ -236,13 +240,22 @@ switch (attack)
                 y = room_height / 2;
                 set_state(PS_RESPAWN);
                 state_timer = 30;
-
-                msg_exploded_damage += get_player_damage( player ) + msg_grab_explode_penalty;
-                set_player_damage( player, 0 );
-                msg_exploded_respawn = true;
             }
         }
-        //=============================================================
+        else if (window == MSG_GRAB_NEGATIVE_WINDOW)
+        {
+            if (window_timer == 0 && !hitpause)
+            {
+                sound_play(sfx_error);
+                //turn damage into negatives (and amplify it)
+                var dmg = abs(floor(get_player_damage(player) * msg_grab_negative_multiplier));
+                set_player_damage(player, clamp(-dmg, -999, 999));
+                msg_negative_dmg_timer = msg_grab_negative_duration;
+
+                //Need to handle self as "debuffed"
+                msg_handler_id = self;
+            }
+        }
     } break;
 //=============================================================
     default: break;
