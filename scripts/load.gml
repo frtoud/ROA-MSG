@@ -47,6 +47,4 @@ sprite_change_offset("plat", 32, 47);
 sprite_change_offset("nspecial_proj", 32, 47);
 sprite_change_offset("microplatform", 8, 0);
 
-sprite_change_offset("vfx_healing", 7, 7);
-
 sprite_change_offset("glitch_bg", 17, 37);

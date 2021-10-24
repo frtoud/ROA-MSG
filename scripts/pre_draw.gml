@@ -15,7 +15,8 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
     var temp_part = msg_leechseed_particles[i];
     if (temp_part.timer > 0)
     {
-        draw_sprite(vfx_healing, i, temp_part.x, temp_part.y);
+        ////uses subimages [9, 14]
+        draw_sprite(vfx_healing, 9 + (i % 6), temp_part.x, temp_part.y);
     }
 }
 

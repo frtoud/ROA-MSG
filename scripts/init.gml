@@ -172,7 +172,8 @@ no_sprite = asset_get("empty_sprite");
 //Grab
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
 
-vfx_healing = sprite_get("vfx_healing");
+vfx_healing = asset_get("abyss_hp_idle_spr"); //uses 6 subimages, [9, 14]
+
 sfx_sd = sound_get("selfdestruct_hit");
 sfx_error = sound_get("error");
 
