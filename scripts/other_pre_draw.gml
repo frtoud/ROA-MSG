@@ -124,10 +124,11 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     // Normal draw (possibly needed by glitch BG)
     else if (!main_draw) || (small_sprites != msg_anim_backup.small_sprites)
     {
-        //if (main_draw) shader_start();
+        //note: not sure if worth keeping small_sprites clause.
+        if (main_draw) shader_start();
         draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y,
                         scale*spr_dir, scale, spr_angle, c_white, 1);
-        //if (main_draw) shader_end();
+        if (main_draw) shader_end();
 
         skips_draw = main_draw;
     }
