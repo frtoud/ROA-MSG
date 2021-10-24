@@ -56,7 +56,6 @@ msg_unsafe_effects.bad_axis = msg_make_effect();
 //effect type: REDRAW
 msg_unsafe_effects.bad_crop = msg_make_effect();
 
-
 #define msg_make_effect()
 //initializes a standard VFX structure
 var fx = { 

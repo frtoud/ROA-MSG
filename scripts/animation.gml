@@ -93,9 +93,3 @@ if (state_cat == SC_HITSTUN)
     if (hitpause)
     { msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 2); }
 }
-
-
-
-
-
-

@@ -187,7 +187,7 @@ msg_init_effects(true);
 
 //=========================================================
 
-// vvv LIBRARY DEFINES AND MACROS vvv
+// #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_init_effects(is_missingno) // Version 0
@@ -260,3 +260,4 @@ msg_init_effects(true);
     array_push(msg_unsafe_effects.effects_list, fx);
     return fx;
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion
