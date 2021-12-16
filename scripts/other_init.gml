@@ -10,12 +10,14 @@ msg_leechseed_timer = 0;
 msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
 // Negative DMG
 msg_negative_dmg_timer = 0;
+//ACTUAL BUG: getting hit by <0 hitboxes (or uncharged strongs) while in negative damage resets % to zero
+msg_last_known_damage = 0;
 
 
 //initialize VFX
 msg_init_effects(false);
 
-// vvv LIBRARY DEFINES AND MACROS vvv
+// #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_init_effects(is_missingno) // Version 0
@@ -88,3 +90,4 @@ msg_init_effects(false);
     array_push(msg_unsafe_effects.effects_list, fx);
     return fx;
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

@@ -111,6 +111,7 @@ msg_grab_leechseed_duration = 60; //how long each poison stack lasts before bein
 msg_grab_explode_penalty = 30; //damage cost of using Explosion
 msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negatives
 msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
+msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
 
 //=========================================================
 // Attack variables
@@ -163,6 +164,8 @@ msg_leechseed_timer = 0;
 msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
 // Negative DMG
 msg_negative_dmg_timer = 0;
+//ACTUAL BUG: getting hit by <0 hitboxes (or uncharged strongs) while in negative damage resets % to zero
+msg_last_known_damage = 0;
 
 //=========================================================
 // Visual effects

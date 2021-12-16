@@ -173,6 +173,16 @@ with (oPlayer) if (msg_handler_id == other)
     {
         debuff_still_active = true;
         msg_negative_dmg_timer--;
+        
+        var curr_damage = get_player_damage(player);
+        //Rivals Bug: certain attacks can snap the damage counter back to Zero
+        //Detect those cases and (try) adjusting them
+        if ( curr_damage == 0 && msg_last_known_damage < -10)
+        {
+            set_player_damage( player, msg_last_known_damage )
+        }
+        else msg_last_known_damage = curr_damage;
+        
         if (msg_negative_dmg_timer <= 0 && get_player_damage( player ) < 0)
         {
             //restore to positive
