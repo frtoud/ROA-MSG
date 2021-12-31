@@ -3,7 +3,7 @@
 //Restore drawing parameters
 msg_copy_params(msg_anim_backup, self, msg_anim_backup);
 
-// vvv LIBRARY DEFINES AND MACROS vvv
+// #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_copy_params(source, target, limiter) // Version 0
@@ -15,3 +15,4 @@ msg_copy_params(msg_anim_backup, self, msg_anim_backup);
                                 variable_instance_get(source, keys[k]));
     }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion
