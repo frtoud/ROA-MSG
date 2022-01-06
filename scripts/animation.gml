@@ -59,6 +59,19 @@ switch (state)
             msg_unsafe_effects.shudder.vert_max = 0;
             
         }
+    } break;
+//==================================================================
+    case PS_WALK_TURN:
+    {
+        sprite_index = sprite_get("idle");
+        msg_unsafe_effects.bad_vsync.freq = 12;
+        msg_unsafe_effects.bad_vsync.horz_max = 18;
+        msg_unsafe_effects.shudder.freq = 12;
+        msg_unsafe_effects.shudder.horz_max = 18;
+        msg_unsafe_effects.shudder.vert_max = 12;
+    } break;
+//==================================================================
+        }
     }
 //==================================================================
     case PS_ATTACK_AIR:
