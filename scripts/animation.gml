@@ -31,8 +31,26 @@ with (oPlayer) if ("msg_unsafe_handler_id" in self
 }
 //==================================================================
 
+//crawl transition timers
+if (state == PS_CROUCH && (right_down - left_down != 0) || state == PS_DASH_START) && down_down
+{
+    if (msg_crawlintro_timer < 6) msg_crawlintro_timer++;
+}
+else 
+{
+    if (msg_crawlintro_timer > 0) msg_crawlintro_timer--;
+}
+
 switch (state)
 {
+    case PS_IDLE:
+    {
+        if (msg_crawlintro_timer > 0)
+        {
+            sprite_index = msg_crawl_spr;
+            image_index = 4;
+        }
+    } break;
 //==================================================================
     case PS_WALK:
     {
@@ -71,8 +89,41 @@ switch (state)
         msg_unsafe_effects.shudder.vert_max = 12;
     } break;
 //==================================================================
+    case PS_CROUCH:
+    {
+        if (!joy_pad_idle) && (right_down - left_down != 0)
+        {
+            sprite_index = msg_crawl_spr;
+            msg_crawl_anim_index = 
+            (msg_crawl_anim_index + 4 + crouch_anim_speed * spr_dir * (right_down - left_down)) % 4;
+            image_index = msg_crawl_anim_index;
+
+            if (msg_crawlintro_timer < 5)
+            {
+                image_index = 4;
+            }
         }
-    }
+        else if (msg_crawlintro_timer > 0)
+        {
+            sprite_index = msg_crawl_spr;
+            image_index = 4;
+        }
+    } break;
+//==================================================================
+    case PS_DASH_START:
+    {
+        if (down_down)
+        {
+            sprite_index = msg_crawl_spr;
+            msg_crawl_anim_index = 
+            (msg_crawl_anim_index + 4 + crouch_anim_speed * 2 * spr_dir * (right_down - left_down)) % 4;
+            if (right_down - left_down) == 0 
+            {
+                msg_crawl_anim_index = (msg_crawl_anim_index + 4 + hsp/12) % 4;
+            }
+            image_index = msg_crawl_anim_index;
+        }
+    } break;
 //==================================================================
     case PS_ATTACK_AIR:
     case PS_ATTACK_GROUND:

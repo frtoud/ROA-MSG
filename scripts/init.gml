@@ -3,7 +3,7 @@
 char_height = 72;
 knockback_adj = 1.0; //the multiplier to KB dealt to you. 1 = default, >1 = lighter, <1 = heavier
 hurtbox_spr = asset_get("ex_guy_hurt_box");
-crouchbox_spr = asset_get("ex_guy_crouch_box");
+crouchbox_spr = asset_get("orca_crouchbox");
 air_hurtbox_spr = -1;
 hitstun_hurtbox_spr = -1;
 
@@ -18,7 +18,7 @@ dash_turn_time = 10;
 dash_turn_accel = 1.5;
 dash_stop_time = 4;
 dash_stop_percent = .35; //the value to multiply your hsp by when going into idle from dash or dashstop
-ground_friction = .5;
+ground_friction = .35;
 moonwalk_accel = 1.4;
 
 //Air movement
@@ -58,15 +58,15 @@ techroll_speed = 10;
 
 //Animation
 idle_anim_speed = .1;
-crouch_anim_speed = .1;
+crouch_anim_speed = .25;
 walk_anim_speed = .125;
 dash_anim_speed = .2;
 pratfall_anim_speed = .25;
 
 //crouch animation frames
-crouch_startup_frames = 1;
+crouch_startup_frames = 2;
 crouch_active_frames = 1;
-crouch_recovery_frames = 1;
+crouch_recovery_frames = 2;
 
 //parry animation frames
 dodge_startup_frames = 1;
@@ -121,6 +121,17 @@ msg_grab_explode_penalty = 30; //damage cost of using Explosion
 msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negatives
 msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
+
+//=========================================================
+//CRAWLING
+crawl_accel = 0.3;
+crawl_speed = 5;
+dashcrawl_accel = 0.8;
+dashcrawl_speed = 12;
+
+msg_crawl_spr = sprite_get("crawl");
+msg_crawlintro_timer = 0; //time in which to animate the transition into/from crawl
+msg_crawl_anim_index = 0; //crawling animation
 
 //=========================================================
 // Attack variables

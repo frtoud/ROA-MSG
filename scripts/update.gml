@@ -1,5 +1,26 @@
 //update.gml
 
+//crawling 
+if (state == PS_CROUCH)
+{
+    //walk-crawl
+    hsp = clamp(hsp + (right_down - left_down) * (ground_friction + crawl_accel), 
+               -crawl_speed, crawl_speed);
+}
+else if (state == PS_DASH_START) && down_down
+{
+    //dash-crawl
+    if (right_down - left_down != 0) || (abs(hsp) > ground_friction)
+    {
+       state_timer = min(12, state_timer);
+       hsp = clamp(hsp - (sign(hsp) * ground_friction) 
+                       + (right_down - left_down) * (ground_friction + dashcrawl_accel),
+                       -dashcrawl_speed, dashcrawl_speed);
+    }
+    hurtboxID.sprite_index = crouchbox_spr;
+}
+
+
 at_prev_dir_buffer = clamp(at_prev_dir_buffer + spr_dir, -6, 6);
 
 //==============================================================
