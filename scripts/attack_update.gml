@@ -6,6 +6,20 @@ if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || a
 
 switch (attack)
 {
+    
+//=============================================================
+    case AT_DSTRONG:
+    {
+        if (window == 2 && has_hit && !free && strong_charge > 0)
+        && (shield_pressed && (right_down - left_down) != 0)
+        {
+            //yoyo activated, rolling out
+            msg_dstrong_yoyo.active = true;
+            msg_dstrong_yoyo.x = x; msg_dstrong_yoyo.y = y;
+
+            set_state( (right_down - left_down)*spr_dir > 0 ? PS_ROLL_FORWARD : PS_ROLL_BACKWARD);
+        }
+    } break;
 //=============================================================
     case AT_DAIR:
     {

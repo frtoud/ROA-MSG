@@ -3,6 +3,12 @@
 //Restore drawing parameters
 msg_copy_params(msg_anim_backup, self, msg_anim_backup);
 
+
+if (msg_dstrong_yoyo.active)
+{
+    draw_sprite_ext(sprite_get("dstrong"), 1, msg_dstrong_yoyo.x, msg_dstrong_yoyo.y, 2, 2, 0, c_white, 0.9);
+}
+
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.

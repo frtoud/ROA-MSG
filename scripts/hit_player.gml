@@ -22,6 +22,11 @@ if (my_hitboxID.attack == AT_NTHROW)
             window = 4; window_timer = 0;
             hit_player_obj.msg_handler_id = self;
             hit_player_obj.msg_grabbed_timer = 5;
+            if ("msg_interpolated" in my_hitboxID)
+            {
+                hit_player_obj.x = x + spr_dir * get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_X);
+                hit_player_obj.y = y + get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_Y) + char_height/2;
+            }
         }
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_LEECHSEED_HITBOX)

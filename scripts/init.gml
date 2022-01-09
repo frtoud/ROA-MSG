@@ -138,6 +138,13 @@ msg_crawl_anim_index = 0; //crawling animation
 at_prev_dir_buffer = 0;
 at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
 
+msg_dstrong_yoyo = 
+{
+    x: 0,
+    y: 0,
+    active: false
+}
+
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
 

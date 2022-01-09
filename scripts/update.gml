@@ -1,5 +1,6 @@
 //update.gml
 
+//==============================================================
 //crawling 
 if (state == PS_CROUCH)
 {
@@ -116,6 +117,7 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
     }
 }
 //==============================================================
+// Explosion fakeout
 if (msg_exploded_respawn)
 {
     if (state == PS_RESPAWN)
@@ -132,6 +134,49 @@ if (msg_exploded_respawn)
     }
 }
 
+//==============================================================
+//Yoyo detection
+if (msg_dstrong_yoyo.active)
+{
+    var best_hitbox = noone;
+    with (pHitBox) if (type == 1 && orig_player_id == other)
+    {
+        if (best_hitbox == noone)
+        || (best_hitbox.hit_priority < hit_priority)
+        {
+            best_hitbox = self;
+        }
+    }
+
+    //interpolate
+    if (best_hitbox != noone)
+    {
+        var distance = point_distance(msg_dstrong_yoyo.x, msg_dstrong_yoyo.y, 
+                                      best_hitbox.x, best_hitbox.y);
+
+        var relative_x = (msg_dstrong_yoyo.x - x);
+        var relative_y = (msg_dstrong_yoyo.y - y);
+
+        var steps = distance / 25;
+
+        var is_group_minus = best_hitbox.hbox_group < 0;
+
+        for (var i = 0; i < steps; i++)
+        {
+            var interp_hb = create_hitbox(best_hitbox.attack, best_hitbox.hbox_num, x-30, y);
+            interp_hb.length = 1;
+            interp_hb.image_xscale = 0.15;
+            interp_hb.image_yscale = 0.15;
+            interp_hb.x_pos = lerp(relative_x, best_hitbox.x_pos, i/steps);
+            interp_hb.y_pos = lerp(relative_y, best_hitbox.y_pos, i/steps);
+            interp_hb.msg_interpolated = true;
+            if (is_group_minus) interp_hb.hbox_group = 0;
+        }
+        
+        msg_dstrong_yoyo.active = false;
+    }
+
+}
 
 //==============================================================
 //other_update.gml
