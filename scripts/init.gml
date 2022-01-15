@@ -219,6 +219,9 @@ gfx_glitch_death = false;
 //initialize VFX
 msg_init_effects(true);
 
+//flag to help prevent Rivals outright crashing if an error interrupts pre_draw code at the wrong time
+msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
+
 //=========================================================
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv

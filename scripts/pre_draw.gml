@@ -50,7 +50,10 @@ msg_apply_effects();
 //==================================================================
 // Plaid effect
 gpu_push_state();
+//Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
+msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true; 
 {
+
     ///Disable blend; write alpha only, don't alphatest
     gpu_set_blendenable(false);
     gpu_set_alphatestenable(false);
@@ -70,13 +73,13 @@ gpu_push_state();
     {
         with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, (1 + small_sprites)*spr_dir, 1 + small_sprites, 0, c_white, 1);
     }
-    
 
     ///Reenable blend, alphatest & colors
     gpu_set_blendenable(true);
     gpu_set_colorwriteenable(true, true, true, true);
     ///Blend using destination pixels alpha, set by the mask
     gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
+    
     
     ///draw the masked "background"
     //cannot shade -- kills performance... 
@@ -92,6 +95,7 @@ gpu_push_state();
     ///Draw an alpha-one background to reallow draw
     draw_sprite_tiled(glitch_bg_spr, 0, 0, 0);
 }
+msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
 gpu_pop_state();
 //==================================================================
 

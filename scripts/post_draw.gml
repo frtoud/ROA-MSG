@@ -3,6 +3,8 @@
 //Restore drawing parameters
 msg_copy_params(msg_anim_backup, self, msg_anim_backup);
 
+//Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
+if (msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw) gpu_pop_state();
 
 if (msg_dstrong_yoyo.active)
 {
