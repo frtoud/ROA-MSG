@@ -66,7 +66,7 @@ gpu_push_state();
     msg_manual_draw(false);
 
     //copies of this player
-    with (obj_article2) if (client_id == other)
+    with (obj_article2) if ("is_missingno_copy" in self) && (client_id == other)
     {
         with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, (1 + small_sprites)*spr_dir, 1 + small_sprites, 0, c_white, 1);
     }

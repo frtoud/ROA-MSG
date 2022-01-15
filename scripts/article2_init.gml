@@ -10,6 +10,7 @@ can_be_grounded = false;
 ignores_walls = true;
 
 
+is_missingno_copy = true; //identifiable
 //custom variables
 client_id = noone; //which player object do we need to follow
 client_offset_x = 0; //Relative distance to keep from player
