@@ -122,6 +122,7 @@ msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negative
 msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
 
+
 //=========================================================
 //CRAWLING
 crawl_accel = 0.3;
@@ -203,6 +204,8 @@ no_sprite = asset_get("empty_sprite");
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
 
 vfx_healing = asset_get("abyss_hp_idle_spr"); //uses 6 subimages, [9, 14]
+
+hfx_ball_open = hit_fx_create(sprite_get("vfx_ball_open"), 15);
 
 sfx_sd = sound_get("selfdestruct_hit");
 sfx_error = sound_get("error");

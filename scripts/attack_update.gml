@@ -272,6 +272,35 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_DSPECIAL:
+    {
+        can_fast_fall = (window == 2 && window_timer > 16);
+        if (window == 1) vsp *= 0.85;
+        hsp *= 0.85;
+
+        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) - 1)
+        {
+            var angle = joy_pad_idle ? 90 - (spr_dir * 90) //flip joy_dir to cancel out spr_dir
+                                     : (spr_dir > 0 ? joy_dir : 90 - (joy_dir - 90) );
+
+            angle = (angle + 360) % 360;
+
+            //deadzones
+                 if (angle <  270 && angle >=  230) angle = 230;
+            else if (angle <  310 && angle >=  270) angle = 310;
+            else if (angle <= 120 && angle >   90) angle = 120;
+            else if (angle <=  90 && angle >   60) angle = 60;
+
+            var lenx = lengthdir_x(16, angle);
+            var leny = lengthdir_y(4, angle);
+
+            set_hitbox_value(AT_DSPECIAL, 1, HG_HITBOX_X, lenx);
+            set_hitbox_value(AT_DSPECIAL, 1, HG_HITBOX_Y, leny - 30);
+            set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_HSPEED, lenx / 3);
+            set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_VSPEED, min(3, leny) - 4);
+        }
+    } break;
+//=============================================================
     default: break;
 }
 

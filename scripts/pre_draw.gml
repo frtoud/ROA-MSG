@@ -59,13 +59,21 @@ gpu_push_state();
     draw_set_alpha(0);
     draw_sprite_tiled(glitch_bg_spr, 0, 0, 0);
     draw_set_alpha(1);
-    
-    ///setup mask (exact position/sprite of player)
+    gpu_set_alphatestenable(true);
+
+    ///setup masks
+    // (exact position/sprite of player)
     msg_manual_draw(false);
+
+    //copies of this player
+    with (obj_article2) if (client_id == other)
+    {
+        with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, (1 + small_sprites)*spr_dir, 1 + small_sprites, 0, c_white, 1);
+    }
+    
 
     ///Reenable blend, alphatest & colors
     gpu_set_blendenable(true);
-    gpu_set_alphatestenable(true);
     gpu_set_colorwriteenable(true, true, true, true);
     ///Blend using destination pixels alpha, set by the mask
     gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
