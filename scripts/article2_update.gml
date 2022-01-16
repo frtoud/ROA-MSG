@@ -20,10 +20,10 @@ with (pHitBox) if (type == 1) && (orig_player_id == other.client_id)
 {
     if ("missingno_hitbox_is_copy_of" in self)
     {
-        if (missingno_hitbox_is_copy_for == other)
+        if (missingno_hitbox_is_copy_for == other && instance_exists(missingno_hitbox_is_copy_of))
         {
-            length = missingno_hitbox_is_copy_of.length;
-            hitbox_timer = missingno_hitbox_is_copy_of.hitbox_timer;
+            length = max(missingno_hitbox_is_copy_of.length, 1);
+            hitbox_timer = max(0, missingno_hitbox_is_copy_of.hitbox_timer - 1);
             x_pos = missingno_hitbox_is_copy_of.x_pos + other.client_offset_x;
             y_pos = missingno_hitbox_is_copy_of.y_pos + other.client_offset_y;
         }
@@ -40,8 +40,8 @@ with (pHitBox) if (type == 1) && (orig_player_id == other.client_id)
 
         variable_instance_set(self, identifier, true);
 
-        hb_copy.length = length;
-        hb_copy.hitbox_timer = hitbox_timer;
+        hb_copy.length = max(length, 1);
+        hb_copy.hitbox_timer = max(0, hitbox_timer - 1);
     }
 }
 
