@@ -280,7 +280,15 @@ switch (attack)
 
         if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) - 1)
         {
-            var angle = joy_pad_idle ? 90 - (spr_dir * 90) //flip joy_dir to cancel out spr_dir
+            /*if (joy_pad_idle)
+            {
+
+            }
+            else
+            {
+                (joy_dir > 90 && joy_dir < 270) 
+            }*/
+            var angle = joy_pad_idle ? 0 //flip joy_dir to cancel out spr_dir
                                      : (spr_dir > 0 ? joy_dir : 90 - (joy_dir - 90) );
 
             angle = (angle + 360) % 360;

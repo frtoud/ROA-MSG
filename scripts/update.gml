@@ -169,7 +169,8 @@ if (msg_dstrong_yoyo.active)
             interp_hb.image_yscale = 0.15;
             interp_hb.x_pos = lerp(relative_x, best_hitbox.x_pos, i/steps);
             interp_hb.y_pos = lerp(relative_y, best_hitbox.y_pos, i/steps);
-            interp_hb.msg_interpolated = true;
+            interp_hb.missingno_hitbox_is_copy_of = best_hitbox;
+            interp_hb.missingno_hitbox_is_copy_for = noone;
             if (is_group_minus) interp_hb.hbox_group = 0;
         }
         

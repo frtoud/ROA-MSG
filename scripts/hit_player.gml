@@ -22,10 +22,12 @@ if (my_hitboxID.attack == AT_NTHROW)
             window = 4; window_timer = 0;
             hit_player_obj.msg_handler_id = self;
             hit_player_obj.msg_grabbed_timer = 5;
-            if ("msg_interpolated" in my_hitboxID)
+            var expected_x = x + spr_dir * get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_X);
+            var expected_y = y + get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_Y) + char_height/2;
+            if (point_distance(expected_x, expected_y, hit_player_obj.x, hit_player_obj.y) > 20)
             {
-                hit_player_obj.x = x + spr_dir * get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_X);
-                hit_player_obj.y = y + get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_Y) + char_height/2;
+                hit_player_obj.x = expected_x;
+                hit_player_obj.y = expected_y;
             }
         }
     }
