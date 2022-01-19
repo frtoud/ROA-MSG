@@ -120,44 +120,6 @@ with (target_player) if (object_index == oPlayer)
     hitstop_full = max(1, hitstop_full);
 }
 
-
-#define sort_out_later_pls
-
-
-
-with (pHitBox) if (type == 1) && (orig_player_id == other.client_id)
-{
-    // note: variable reused for yoyo glitch (this is intentional, lerped hitboxes should not be copied)
-    if ("missingno_hitbox_is_copy_of" in self)
-    {
-        // maintenance on hitbox you copied
-        if (missingno_hitbox_is_copy_for == other && instance_exists(missingno_hitbox_is_copy_of))
-        {
-            length = max(missingno_hitbox_is_copy_of.length, 1);
-            hitbox_timer = max(0, missingno_hitbox_is_copy_of.hitbox_timer - 1);
-            x_pos = missingno_hitbox_is_copy_of.x_pos + other.client_offset_x;
-            y_pos = missingno_hitbox_is_copy_of.y_pos + other.client_offset_y;
-        }
-    }
-    // copy new hitboxes (as per above, does not consider copied hitboxes)
-    else if (other.missingno_unique_identifier not in self)
-    {
-        var hb_copy = noone;
-        with (orig_player_id) { hb_copy = create_hitbox(other.attack, other.hbox_num, x, y); }
-
-        hb_copy.x_pos = x_pos + other.client_offset_x;
-        hb_copy.y_pos = y_pos + other.client_offset_y;
-        hb_copy.missingno_hitbox_is_copy_of = self;
-        hb_copy.missingno_hitbox_is_copy_for = other;
-
-        variable_instance_set(self, other.missingno_unique_identifier, true);
-
-        hb_copy.length = max(length, 1);
-        hb_copy.hitbox_timer = max(0, hitbox_timer - 1);
-    }
-}
-
-
 //============================================================
 // return best detected hitbox that could hit you
 #define detect_hit()
