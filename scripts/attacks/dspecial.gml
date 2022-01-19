@@ -30,7 +30,7 @@ set_hitbox_value(AT_DSPECIAL, 1, HG_WIDTH, 20);
 set_hitbox_value(AT_DSPECIAL, 1, HG_HEIGHT, 20);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PRIORITY, 1);
 set_hitbox_value(AT_DSPECIAL, 1, HG_DAMAGE, 2);
-set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_KNOCKBACK, 10);
+set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_KNOCKBACK, 2);
 set_hitbox_value(AT_DSPECIAL, 1, HG_KNOCKBACK_SCALING, .1);
 set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_HITPAUSE, 3);
 set_hitbox_value(AT_DSPECIAL, 1, HG_VISUAL_EFFECT, 20);
@@ -48,3 +48,25 @@ set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_HSPEED, 5);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_VSPEED, -4);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_GRAVITY, 0.3);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_AIR_FRICTION, 0.025);
+
+//spawned manually when hitting someone else
+set_hitbox_value(AT_DSPECIAL, 2, HG_HITBOX_TYPE, 2);
+set_hitbox_value(AT_DSPECIAL, 2, HG_LIFETIME, 30);
+set_hitbox_value(AT_DSPECIAL, 2, HG_WIDTH, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_HEIGHT, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PRIORITY, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_DAMAGE, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_VISUAL_EFFECT, 20);
+set_hitbox_value(AT_DSPECIAL, 2, HG_HIT_SFX, asset_get("sfx_absa_singlezap1"));
+set_hitbox_value(AT_DSPECIAL, 2, HG_EFFECT, 9); //polite
+
+set_hitbox_value(AT_DSPECIAL, 2, HG_IGNORES_PROJECTILES, 1);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_SPRITE, sprite_get("proj_pokeball_broken"));
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_ANIM_SPEED, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_MASK, -1);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_PARRY_STUN, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_DESTROY_EFFECT, 1);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_HSPEED, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_VSPEED, 0);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_GRAVITY, 0.3);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_AIR_FRICTION, 0.025);

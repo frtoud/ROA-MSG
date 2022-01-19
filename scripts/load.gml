@@ -46,6 +46,7 @@ sprite_change_offset("taunt", 16, 31, true);
 sprite_change_offset("plat", 32, 47);
 
 sprite_change_offset("proj_pokeball", 12, 12);
+sprite_change_offset("proj_pokeball_broken", 12, 12);
 sprite_change_offset("vfx_ball_open", 48, 48);
 
 sprite_change_offset("glitch_bg", 17, 37);

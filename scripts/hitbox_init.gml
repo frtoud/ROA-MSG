@@ -13,3 +13,10 @@ if (attack == AT_FSPECIAL_2)
         break;
     }
 }
+
+//==========================================================
+if (attack == AT_DSPECIAL)
+{
+    if ("missingno_copied_player_id" not in self)
+        missingno_copied_player_id = player_id;
+}

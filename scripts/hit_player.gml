@@ -1,5 +1,6 @@
 if (my_hitboxID.orig_player_id != self) exit; //Only our own hitboxes
 
+//==========================================================
 //Bubbles internal lockout logic (kind of heavy)
 if (my_hitboxID.attack == AT_FSPECIAL_2)
 {
@@ -11,6 +12,7 @@ if (my_hitboxID.attack == AT_FSPECIAL_2)
     }
 }
 
+//==========================================================
 //Grab logic
 if (my_hitboxID.attack == AT_NTHROW)
 {
@@ -52,8 +54,17 @@ if (my_hitboxID.attack == AT_NTHROW)
         hit_player_obj.msg_negative_dmg_timer = msg_grab_negative_duration;
     }
 }
+//==========================================================
+//hit someone with the TMTRAINER
+if (my_hitboxID.attack == AT_DSPECIAL && my_hitboxID.hbox_num == 1)
+{
+    var hb = create_hitbox(my_hitboxID.attack, 2, my_hitboxID.x, my_hitboxID.y)
+    hb.hsp = -5;
+    hb.vsp = -5;
+    hb.missingno_copied_player_id = hit_player_obj;
+}
 
-
+//==========================================================
 //Become parent for glitch effect control
 if (!hit_player_obj.msg_is_missingno)
 {

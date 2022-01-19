@@ -1,6 +1,5 @@
 //hitbox_update
 
-
 //==========================================================
 if (attack == AT_FSPECIAL)
 {
@@ -30,14 +29,23 @@ if (attack == AT_DSPECIAL)
         destroyed = true;
         with (orig_player_id)
         {
-            spawn_hit_fx(other.x, other.y, hfx_ball_open);
+            var k = spawn_hit_fx(other.x, other.y, hfx_ball_open);
+            k.depth -= 20;
             sound_play(asset_get("sfx_blow_weak2"));
 
             //y offset because of size of pokeball when landed
             var copy = instance_create(other.x, other.y + 12, "obj_article2");
-            copy.client_id = self;
-            copy.client_offset_x = copy.x - x;
-            copy.client_offset_y = copy.y - y;
+            copy.client_id = other.missingno_copied_player_id;
+            copy.client_offset_x = copy.x - copy.client_id.x;
+            copy.client_offset_y = copy.y - copy.client_id.y;
+        }
+    }
+    else if (hbox_num == 1)
+    {
+        with (obj_article2) if ("is_missingno_copy" in self)
+                            && (position_meeting(x, y, other))
+        {
+            //first article to be hit gets destroyed, and 
         }
     }
 }
