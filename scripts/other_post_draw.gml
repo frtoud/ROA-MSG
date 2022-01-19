@@ -1,4 +1,5 @@
 //other_post_draw.gml
+if ("other_player_id" not in self) exit;
 
 //===============================================================================
 if (marked && marked_player == other_player_id.player) with (other_player_id)
