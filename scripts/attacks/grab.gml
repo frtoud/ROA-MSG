@@ -103,24 +103,33 @@ set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
 
 hbox_num++;
 MSG_GRAB_LEECHSEED_HITBOX = hbox_num;
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 5);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 85);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 10); //Mark doesnt work apparently
-set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 7);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.3);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 7);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 3);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
-set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 198);
+
+//needed 4 different hitboxes because Dan doesnt like me setting poison variable directly
+for (var i = 0; i < 4; i++)
+{
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_HITBOX_TYPE, 1);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_HITBOX_GROUP, -1);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_WINDOW, current_window);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_LIFETIME, 1);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_HITBOX_X, 25);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_HITBOX_Y, -25);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_WIDTH, 70);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_HEIGHT, 60);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_PRIORITY, 6);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_DAMAGE, 1);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_ANGLE, 85);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_EFFECT, 10); //Mark doesnt work apparently
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_BASE_KNOCKBACK, 7);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_KNOCKBACK_SCALING, 0.3);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_BASE_HITPAUSE, 7);
+    set_hitbox_value(AT_NTHROW, hbox_num + i, HG_EXTRA_HITPAUSE, 3);
+    if (i == 0) 
+    {
+        set_hitbox_value(AT_NTHROW, hbox_num + i, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
+        set_hitbox_value(AT_NTHROW, hbox_num + i, HG_VISUAL_EFFECT, 198);
+    }
+}
+hbox_num += 3;
 //========================================================================
 // Grab Outcome: SELF DESTRUCT
 current_window++;
@@ -192,3 +201,9 @@ msg_grab_rotation = [grab_negative,
 
 //Add the rest to the queue (minimum 1)
 msg_grab_queue = [grab_frostburn];
+
+msg_grab_rotation = [grab_leechseed, 
+                     grab_leechseed, 
+                     grab_leechseed, 
+                     grab_leechseed];
+msg_grab_queue = [grab_leechseed];

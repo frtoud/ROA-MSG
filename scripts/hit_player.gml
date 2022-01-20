@@ -37,7 +37,6 @@ if (my_hitboxID.attack == AT_NTHROW)
     {
         hit_player_obj.marked = true;
         hit_player_obj.marked_player = self.player;
-        hit_player_obj.poison = 4;
         hit_player_obj.msg_leechseed_timer = 0;
         hit_player_obj.msg_leechseed_owner = self;
 
