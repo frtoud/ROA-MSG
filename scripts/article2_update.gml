@@ -97,6 +97,8 @@ depth = min(depth, client_id.depth - 1); //because of missingno predraw render s
 
 state_timer++;
 
+force_hitpause_cooldown = max(0, force_hitpause_cooldown - 1);
+
 //============================================================
 #define set_state(new_state)
 {
@@ -107,7 +109,9 @@ state_timer++;
 
 //============================================================
 #define do_hitpause(target_player)
-with (target_player) if (object_index == oPlayer)
+if (force_hitpause_cooldown <= 0) //cannot force hitpause too often
+with (target_player) 
+if (object_index == oPlayer)
 {
     //Do not override previous old_hsp values if already in hitpause
     if (!hitpause)
@@ -119,6 +123,7 @@ with (target_player) if (object_index == oPlayer)
     hitstop = max(1, hitstop);
     hitstop_full = max(1, hitstop_full);
 }
+force_hitpause_cooldown = force_hitpause_cooldown_max;
 
 //============================================================
 // return best detected hitbox that could hit you

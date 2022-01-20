@@ -28,3 +28,6 @@ missingno_unique_identifier = "missingno_hitbox_was_copied_by" + string(self.id)
 client_id = noone; //which player object do we need to follow
 client_offset_x = 0; //Relative distance to keep from player
 client_offset_y = 0; //should stay constant
+
+force_hitpause_cooldown = 0; //cannot attempt to force hitpause so that a move connects for this long after triggering it
+force_hitpause_cooldown_max = 15;
