@@ -201,9 +201,3 @@ msg_grab_rotation = [grab_negative,
 
 //Add the rest to the queue (minimum 1)
 msg_grab_queue = [grab_frostburn];
-
-msg_grab_rotation = [grab_leechseed, 
-                     grab_leechseed, 
-                     grab_leechseed, 
-                     grab_leechseed];
-msg_grab_queue = [grab_leechseed];
