@@ -179,6 +179,8 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         {
             client_offset_x += other.client_offset_x;
             client_offset_y += other.client_offset_y;
+            x = client_id.x + client_offset_x;
+            y = client_id.y + client_offset_y;
         }
 
         //adjust hitbox positions
