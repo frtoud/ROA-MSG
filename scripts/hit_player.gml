@@ -58,9 +58,11 @@ if (my_hitboxID.attack == AT_NTHROW)
 if (my_hitboxID.attack == AT_DSPECIAL && my_hitboxID.hbox_num == 1)
 {
     var hb = create_hitbox(my_hitboxID.attack, 2, my_hitboxID.x, my_hitboxID.y)
-    hb.hsp = -5;
-    hb.vsp = -5;
+    hb.hsp = my_hitboxID.initial_hsp;
+    hb.vsp = my_hitboxID.initial_vsp;
     hb.missingno_copied_player_id = hit_player_obj;
+    //consume existing clones
+    destroy_copies(hit_player_obj);
 }
 
 //==========================================================
@@ -68,4 +70,15 @@ if (my_hitboxID.attack == AT_DSPECIAL && my_hitboxID.hbox_num == 1)
 if (!hit_player_obj.msg_is_missingno)
 {
     hit_player_obj.msg_unsafe_handler_id = self;
+}
+
+//==========================================================
+// destroy all current missingno-copies of a player
+#define destroy_copies(target_client_id)
+{
+    with (obj_article2) if ("is_missingno_copy" in self)
+                        && (client_id == target_client_id)
+    {
+        needs_to_die = true; //article consumed
+    }
 }

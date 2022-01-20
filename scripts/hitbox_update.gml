@@ -24,8 +24,9 @@ if (attack == AT_DSPECIAL)
     {
         vsp -= 6;
     }
-    else if (!free || hitbox_timer >= length - 1) 
+    else if (!free) || (hitbox_timer >= length - 1) 
     {
+        if (hbox_num == 1) destroy_copies(missingno_copied_player_id); //flushes old clones
         destroyed = true;
         with (orig_player_id)
         {
@@ -42,10 +43,34 @@ if (attack == AT_DSPECIAL)
     }
     else if (hbox_num == 1)
     {
-        with (obj_article2) if ("is_missingno_copy" in self)
-                            && (position_meeting(x, y, other))
+        var hbox = self;
+        var hbox_has_hit = false;
+        with (obj_article2) if (!hbox_has_hit) 
+                            && ("is_missingno_copy" in self) && (state != 2)
         {
-            //first article to be hit gets destroyed, and 
+            with (client_id.hurtboxID) 
+            { hbox_has_hit = place_meeting(x + other.client_offset_x, y + other.client_offset_y, hbox); }
+
+            if (hbox_has_hit) with (hbox.orig_player_id)
+            {
+                sound_play(hbox.sound_effect);
+                spawn_hit_fx(floor(hbox.x), floor(hbox.y), hbox.hit_effect);
+                hbox.destroyed = true;
+
+                var hbox_top = create_hitbox(hbox.attack, 2, hbox.x, hbox.y);
+                hbox_top.missingno_copied_player_id = other.client_id;
+                hbox_top.image_index = 1;
+                hbox_top.length -= 15;
+                hbox_top.hsp = max(abs(hbox.initial_hsp), 2);
+                hbox_top.vsp = min(hbox.vsp, -2);
+                var hbox_bot = create_hitbox(hbox.attack, 2, hbox.x, hbox.y);
+                hbox_bot.missingno_copied_player_id = other.client_id;
+                hbox_bot.image_index = 2;
+                hbox_bot.hsp = -max(abs(hbox.initial_hsp), 2);
+                hbox_bot.vsp = min(hbox.vsp, -2);
+
+                destroy_copies(other.client_id); //other copies consumed
+            }
         }
     }
 }
@@ -55,4 +80,15 @@ if (attack == AT_DSPECIAL_2)
 {
     //All copied projectiles fall under here
     if (grounds == 0) && (!free) { destroyed = true; }
+}
+
+//==========================================================
+// destroy all current missingno-copies of a player
+#define destroy_copies(target_client_id)
+{
+    with (obj_article2) if ("is_missingno_copy" in self)
+                        && (client_id == target_client_id)
+    {
+        needs_to_die = true; //article consumed
+    }
 }

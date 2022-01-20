@@ -19,4 +19,7 @@ if (attack == AT_DSPECIAL)
 {
     if ("missingno_copied_player_id" not in self)
         missingno_copied_player_id = player_id;
+
+    initial_hsp = hsp;
+    initial_vsp = vsp;
 }
