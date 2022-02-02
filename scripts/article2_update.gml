@@ -20,7 +20,6 @@ else
 //makes no sense to continue like this
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
 
-
 switch (state)
 {
     case AR_STATE_SPAWN:
@@ -36,26 +35,6 @@ switch (state)
 //============================================================
     case AR_STATE_ACTIVE:
     {
-        //test for swapping
-        var detected_hitbox = detect_hit();
-        if (detected_hitbox != noone)
-        {
-            swap_with_player();
-            //ensure hit connects
-            if (detected_hitbox.type == 1) //"Melee"
-            {
-                //fake hitpause
-                do_hitpause(client_id);
-                do_hitpause(detected_hitbox.player_id);
-            }
-            else //type 2 "Projectile"
-            {
-                //give a tad more length to allow connecting
-                do_hitpause(client_id);
-                detected_hitbox.length = max(2, detected_hitbox.length)
-                detected_hitbox.hitbox_timer = min(detected_hitbox.hitbox_timer, detected_hitbox.length - 1)
-            }
-        }
         //detect & copy new melee hitboxes over
         with (pHitBox) if (type == 1) && (orig_player_id == other.client_id)
         {
@@ -99,6 +78,19 @@ state_timer++;
 
 force_hitpause_cooldown = max(0, force_hitpause_cooldown - 1);
 
+if (!instance_exists(missingno_master_copy))
+{
+    // find elder
+    // depends on script execution order starting with youngest articles
+    // therefore last article found is eldest
+    with (obj_article2) if ("is_missingno_copy" in self)
+    {
+        other.missingno_master_copy = self;
+    }
+}
+//is elder article, therefore is updated last. time to handle swaps
+if (missingno_master_copy == self) handle_player_swapping();
+
 //============================================================
 #define set_state(new_state)
 {
@@ -131,16 +123,20 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 {
     var best_hitbox = noone;
     var best_priority = 0;
+    
     //Detect hitboxes. (only those that could have damaged you)
     var team_attack = get_match_setting(SET_TEAMATTACK);
 
     var obj_player = client_id;
     var obj_copy = self;
-    with (pHitBox)  if (hit_priority > best_priority) 
+    //newfound irrational hatred of nested withs
+    for (var i = 0; i < instance_number(pHitBox); i++) 
+    with (instance_find(pHitBox, i))  
+                    if (hit_priority > best_priority) 
                     && ( (player == obj_player.player && can_hit_self)
                         || ( (get_player_team(obj_player.player) != get_player_team(player) || team_attack)) )
                     && (obj_player.can_be_hit[player] == 0) && (can_hit[obj_player.player])
-                    //copy-ball interaction controlled by the projectile. see hitbox_update.gml
+                    ///copy-ball interaction controlled by the projectile. see hitbox_update.gml
                     && ("missingno_copied_player_id" not in self)
                     && (groundedness == 0 || (obj_player.free ? 2 : 1) == groundedness)
                     && place_meeting(x - obj_copy.client_offset_x, y - obj_copy.client_offset_y, obj_player.hurtboxID)
@@ -152,6 +148,68 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     return best_hitbox;
 }
 
+//============================================================
+//cannot delete self so carelessly; need to remove old hitboxes
+#define destroy_my_hitboxes()
+{
+    with (pHitBox) if ("missingno_hitbox_is_copy_of" in self)
+                   && (missingno_hitbox_is_copy_for == other)
+    {
+        instance_destroy(self);
+    }
+}
+
+//============================================================
+// think of this of late-article-update.gml
+#define handle_player_swapping()
+{
+    var best_swap = { hb:noone, copy:noone };
+    // this is with (oPlayer)
+    //except GML is drunk
+    for (var i = 0; i < instance_number(oPlayer); i++) 
+    with (instance_find(oPlayer, i))
+    {
+        best_swap.hb = noone;
+        best_swap.copy = noone;
+        with (obj_article2) if ("is_missingno_copy" in self)
+                            && (state == AR_STATE_ACTIVE)
+                            && (client_id == other)
+        {
+                print(self)
+            //test for swapping
+            var detected_hitbox = detect_hit();
+            if (detected_hitbox != noone)
+            && (best_swap.hb == noone || best_swap.hb.hit_priority < detected_hitbox.hit_priority)
+            {
+                best_swap.hb = detected_hitbox;
+                best_swap.copy = self;
+            }
+        }
+
+        //Swap - once per player only
+        if (best_swap.copy != noone) with (best_swap.copy) 
+        {
+            swap_with_player();
+            if (best_swap.hb != noone)
+            {
+                //ensure hit connects
+                if (best_swap.hb.type == 1) //"Melee"
+                {
+                    //fake hitpause
+                    do_hitpause(client_id);
+                    do_hitpause(best_swap.hb.player_id);
+                }
+                else //type 2 "Projectile"
+                {
+                    //give a tad more length to allow connecting
+                    do_hitpause(client_id);
+                    best_swap.hb.length = max(2, best_swap.hb.length)
+                    best_swap.hb.hitbox_timer = min(best_swap.hb.hitbox_timer, best_swap.hb.length - 1)
+                }
+            }
+        }
+    }
+}
 
 //============================================================
 // this detected a hit, exchange position with the real player
@@ -171,8 +229,9 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     client_offset_y *= -1;
 
     //update to all copies
-    with (obj_article2) if ("is_missingno_copy" in self)
-                        && (client_id == other.client_id)
+    for (var i = 0; i < instance_number(obj_article2); i++) 
+    with (instance_find(obj_article2, i)) if ("is_missingno_copy" in self)
+                                          && (client_id == other.client_id)
     {
         //adjust relative offset of all OTHER copies
         if (self != other)
@@ -194,18 +253,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                 y_pos = missingno_hitbox_is_copy_of.y_pos + other.client_offset_y;
             }
         }
-
+        
         //TODO: setup swap_cooldown (on clones? or on players? not sure theres a difference)
-    }
-}
-
-//============================================================
-//cannot delete self so carelessly; need to remove old hitboxes
-#define destroy_my_hitboxes()
-{
-    with (pHitBox) if ("missingno_hitbox_is_copy_of" in self)
-                   && (missingno_hitbox_is_copy_for == other)
-    {
-        instance_destroy(self);
     }
 }

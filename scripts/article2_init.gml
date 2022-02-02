@@ -27,7 +27,7 @@ missingno_unique_identifier = "missingno_hitbox_was_copied_by" + string(self.id)
 //TODO: make this happen
 //copies have to swap with player in a specific way to make it more consistent
 //logic would be better if this swapping mechanic is only handled by one copy on behalf of all others
-is_master_copy = false;
+missingno_master_copy = noone;
 
 //custom variables
 client_id = noone; //which player object do we need to follow
