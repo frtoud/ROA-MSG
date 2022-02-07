@@ -3,22 +3,27 @@
 #macro AR_STATE_ACTIVE  1
 #macro AR_STATE_DYING   2
 
-//reupdate position
-if (instance_exists(client_id))
-{
-    x = client_id.x + client_offset_x;
-    y = client_id.y + client_offset_y;
-
-    spr_dir = client_id.spr_dir;
-    mask_index = client_id.mask_index;
-    //small_sprites = client_id.small_sprites;
-    //true_sprite_index = client_id.sprite_index;
-    //true_image_index = client_id.image_index;
-    //hurtbox_index = client_id.hurtboxID.sprite_index;
-}
-else
+if (!instance_exists(client_id))
 //makes no sense to continue like this
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
+
+//collision checks
+//through_platforms = false; //(client_id.free && client_id.down_down) || client_id.down_hard_pressed;
+do_collision_checks();
+
+//vsp += 0.2
+//exit;
+
+//reupdate position
+x = client_id.x + client_offset_x;
+y = client_id.y + client_offset_y;
+
+hsp = client_id.hsp;
+vsp = client_id.vsp;
+
+spr_dir = client_id.spr_dir;
+mask_index = client_id.mask_index;
+
 
 switch (state)
 {
@@ -54,7 +59,7 @@ switch (state)
             else if (other.missingno_unique_identifier not in self)
             {
                 var hb_copy = noone;
-                with (orig_player_id) { hb_copy = create_hitbox(other.attack, other.hbox_num, x, y); }
+                with (orig_player_id) { hb_copy = create_hitbox(other.attack, other.hbox_num, other.x, other.y); }
 
                 hb_copy.x_pos = x_pos + other.client_offset_x;
                 hb_copy.y_pos = y_pos + other.client_offset_y;
@@ -163,20 +168,23 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 // think of this of late-article-update.gml
 #define handle_player_swapping()
 {
-    var best_swap = { hb:noone, copy:noone };
+    //in case of spawning articles, refer to this guy
+    var root_missingno_owner = player_id;
+
     // this is with (oPlayer)
-    //except GML is drunk
+    //except GML is drunk and screws up nested withs
     for (var i = 0; i < instance_number(oPlayer); i++) 
     with (instance_find(oPlayer, i))
     {
-        best_swap.hb = noone;
-        best_swap.copy = noone;
+        var best_swap = { hb:noone, copy:noone };
+        var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
+        
         with (obj_article2) if ("is_missingno_copy" in self)
                             && (state == AR_STATE_ACTIVE)
                             && (client_id == other)
         {
-                print(self)
-            //test for swapping
+            //============================================================
+            //test for hitswapping
             var detected_hitbox = detect_hit();
             if (detected_hitbox != noone)
             && (best_swap.hb == noone || best_swap.hb.hit_priority < detected_hitbox.hit_priority)
@@ -184,9 +192,47 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                 best_swap.hb = detected_hitbox;
                 best_swap.copy = self;
             }
+
+            //============================================================
+            //collision results
+            
+            //ceiling bump
+            if (other.vsp < 0)
+            {
+                if (best_adjustment.y_displacement < collision_checks.y_displacement)
+                {
+                    best_adjustment.y_displacement = collision_checks.y_displacement;
+                    best_adjustment.hit_ceiling = collision_checks.hit_ceiling;
+                }
+            }
+            //test for landing status
+            else
+            {
+                if (best_adjustment.y_displacement > collision_checks.y_displacement)
+                {
+                    best_adjustment.y_displacement = collision_checks.y_displacement;
+                    best_adjustment.on_solid = collision_checks.on_solid;
+                    best_adjustment.on_plat = collision_checks.on_plat;
+                }
+                else if (best_adjustment.y_displacement == collision_checks.y_displacement)
+                {
+                    best_adjustment.y_displacement = collision_checks.y_displacement;
+                    best_adjustment.on_solid |= collision_checks.on_solid;
+                    best_adjustment.on_plat |= collision_checks.on_plat;
+                }
+            }
+            
+            //horizontal bumping into walls
+            if (abs(best_adjustment.x_displacement) < abs(collision_checks.x_displacement))
+            {
+                best_adjustment.x_displacement = collision_checks.x_displacement;
+                best_adjustment.hit_wall = collision_checks.hit_wall;
+            }
+            //===========================================================
         }
 
-        //Swap - once per player only
+        //===========================================================
+        //Swap - once per player only (hopefully)
         if (best_swap.copy != noone) with (best_swap.copy) 
         {
             swap_with_player();
@@ -208,6 +254,39 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                 }
             }
         }
+
+        //===========================================================
+        //Collision results
+        if (best_adjustment.hit_ceiling)
+        {
+            y += best_adjustment.y_displacement; 
+            vsp = 0;
+        }
+        else
+        {
+            if ("msg_clone_microplatform" not in self) msg_clone_microplatform = noone;
+
+            if (best_adjustment.on_plat || best_adjustment.on_solid)
+            {
+                if (free && vsp > 0) y += best_adjustment.y_displacement;
+
+                if !instance_exists(msg_clone_microplatform)
+                {
+                    with (root_missingno_owner) other.msg_clone_microplatform = instance_create(0, 0, "obj_article_platform");
+                    msg_clone_microplatform.client_id = self;
+                    msg_clone_microplatform.x = x;
+                    msg_clone_microplatform.y = y;
+                    msg_clone_microplatform.die_condition = 2;
+                    msg_clone_microplatform.lifetime = 2;
+                }
+                msg_clone_microplatform.act_as_solid = best_adjustment.on_solid;
+            }
+            else if instance_exists(msg_clone_microplatform)
+            {
+                msg_clone_microplatform.external_should_die = true;
+            }
+        }
+        //===========================================================
     }
 }
 
@@ -256,4 +335,32 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         
         //TODO: setup swap_cooldown (on clones? or on players? not sure theres a difference)
     }
+}
+
+//============================================================
+// 
+#define do_collision_checks()
+{
+    var client_fallthrough = (client_id.free && client_id.down_down) || client_id.down_hard_pressed;
+
+    //where you are VS where you were expecting to be
+    collision_checks.x_displacement = x - client_id.x - client_offset_x;
+    collision_checks.y_displacement = y - client_id.y - client_offset_y;
+
+    // if landed on a platform (approx. check)
+    collision_checks.on_plat = !client_fallthrough
+       && (noone != collision_rectangle(x+11, y, x-11, y+2, asset_get("par_jumpthrough"), true, true))
+       && (noone == collision_rectangle(x+11, y-4, x-11, y-5, asset_get("par_jumpthrough"), true, true))
+    collision_checks.on_solid = place_meeting(x, y+1, asset_get("par_block"));
+
+    // if had touched a ceiling
+    collision_checks.hit_ceiling = false;
+    if (collision_checks.y_displacement > 0)
+        collision_checks.hit_ceiling = place_meeting(x, y-1, asset_get("par_block"));
+
+    // if had touched a wall
+    collision_checks.hit_wall = false;
+    if (abs(collision_checks.x_displacement) > 0)
+        collision_checks.hit_wall = place_meeting(x + sign(collision_checks.x_displacement), y, asset_get("par_block"));
+
 }

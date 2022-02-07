@@ -13,6 +13,8 @@ msg_negative_dmg_timer = 0;
 //ACTUAL BUG: getting hit by <0 hitboxes (or uncharged strongs) while in negative damage resets % to zero
 msg_last_known_damage = 0;
 
+//clone pseudoground
+msg_clone_microplatform = noone;
 
 //initialize VFX
 msg_init_effects(false);

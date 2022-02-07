@@ -5,9 +5,9 @@ visible = true;
 uses_shader = false;
 sprite_index = asset_get("empty_sprite");
 mask_index = asset_get("empty_sprite");
-through_platforms = true;
-can_be_grounded = false;
-ignores_walls = true;
+through_platforms = true; 
+can_be_grounded = true;
+ignores_walls = false;
 
 //standard logic
 state = 0; //spawning
@@ -24,9 +24,8 @@ is_missingno_copy = true; //identifiable variable for elsewhere
 //WARNING: UNCERTAIN ABOUT THIS WORKING ONLINE. CHECK FOR DESYNCS
 missingno_unique_identifier = "missingno_hitbox_was_copied_by" + string(self.id);
 
-//TODO: make this happen
 //copies have to swap with player in a specific way to make it more consistent
-//logic would be better if this swapping mechanic is only handled by one copy on behalf of all others
+//logic is better if this swapping mechanic is only handled by one copy on behalf of all others
 missingno_master_copy = noone;
 
 //custom variables
@@ -36,3 +35,18 @@ client_offset_y = 0; //should stay constant
 
 force_hitpause_cooldown = 0; //cannot attempt to force hitpause so that a move connects for this long after triggering it
 force_hitpause_cooldown_max = 15;
+
+//collision check data storage
+collision_checks = 
+{
+    //if bumping into walls, ceilings, or ground, note difference between expected and current position
+
+    x_displacement:0,
+    y_displacement:0,
+
+    on_plat:false,
+    on_solid:false,
+
+    hit_ceiling:false,
+    hit_wall:false
+}
