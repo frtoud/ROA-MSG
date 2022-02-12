@@ -7,22 +7,18 @@ if (!instance_exists(client_id))
 //makes no sense to continue like this
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
 
-//collision checks
-//through_platforms = false; //(client_id.free && client_id.down_down) || client_id.down_hard_pressed;
-do_collision_checks();
+//collision checks, including physics
+if (state == AR_STATE_ACTIVE) do_collision_checks();
+else
+{
+    //simple position update
+    x = client_id.x + client_offset_x;
+    y = client_id.y + client_offset_y;
 
-//vsp += 0.2
-//exit;
+    spr_dir = client_id.spr_dir;
+    mask_index = client_id.mask_index;
+}
 
-//reupdate position
-x = client_id.x + client_offset_x;
-y = client_id.y + client_offset_y;
-
-hsp = client_id.hsp;
-vsp = client_id.vsp;
-
-spr_dir = client_id.spr_dir;
-mask_index = client_id.mask_index;
 
 
 switch (state)
@@ -268,13 +264,17 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 
             if (best_adjustment.on_plat || best_adjustment.on_solid)
             {
-                if (free && vsp > 0) y += best_adjustment.y_displacement;
+                if (free && vsp > 0)
+                {
+                    y += best_adjustment.y_displacement;
+                }
 
                 if !instance_exists(msg_clone_microplatform)
                 {
                     with (root_missingno_owner) other.msg_clone_microplatform = instance_create(0, 0, "obj_article_platform");
                     msg_clone_microplatform.client_id = self;
                     msg_clone_microplatform.x = x;
+                    y = floor(y + vsp); //prevent oddities where fractional position stutters landing
                     msg_clone_microplatform.y = y;
                     msg_clone_microplatform.die_condition = 2;
                     msg_clone_microplatform.lifetime = 2;
@@ -285,6 +285,11 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             {
                 msg_clone_microplatform.external_should_die = true;
             }
+        }
+        if (best_adjustment.hit_wall)
+        {
+            x += best_adjustment.x_displacement; 
+            hsp = 0;
         }
         //===========================================================
     }
@@ -341,17 +346,93 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 // 
 #define do_collision_checks()
 {
-    var client_fallthrough = (client_id.free && client_id.down_down) || client_id.down_hard_pressed;
+    spr_dir = client_id.spr_dir;
+    mask_index = client_id.mask_index;
+    image_xscale = client_id.image_xscale;
+    image_yscale = client_id.image_yscale;
+
+    var target_x = floor(client_id.x + client_offset_x + client_id.hsp);
+    var target_y = floor(client_id.y + client_offset_y + client_id.vsp);
+
+    var displacement_x = 0; //target_x + displacement_x = expected_x (but got shifted by solids)
+    var displacement_y = 0;
+
+    var mov_dir = sign(target_x - x + 0.000001);
+
+    var client_fallthrough = ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
+    //============================================================================
+    // collision stepping
+    var par_block = asset_get("par_block");
+    var par_jumpthrough = asset_get("par_jumpthrough");
+
+    //going down without fallthrough: platforms become relevant (if there are any closeby)
+    var check_plats = (y < target_y) && (!client_fallthrough)
+     && (noone != collision_rectangle(x - mov_dir*20, y, target_x + mov_dir*20, target_y, par_jumpthrough, true, true));
+
+    if (check_plats || place_meeting(target_x, target_y, par_block)
+                    || place_meeting(floor(lerp(x, target_x, 0.5)), floor(lerp(y, target_y, 0.5)), par_block) )
+                    // If you're going so fast a half-step test can't keep up, please consider therapy
+    {
+        //DETECTED POTENTIAL COLLISION, activate step mode
+        var found_plat_every_step = false;
+        if (check_plats) 
+        {
+            //avoid plat false positives by reducing size of mask
+            image_yscale = min(image_yscale, 0.05);
+        }
+        var num_steps = max(abs(x - target_x), abs(y - target_y));
+
+        var last_valid_x = x;
+        var last_valid_y = y;
+
+        for (var step = 0; step < num_steps; step++)
+        {
+            var lerp_factor = (1.0 + step)/num_steps;
+            var test_x = floor(lerp(x, target_x, lerp_factor));
+            var test_y = floor(lerp(y, target_y, lerp_factor));
+            
+            var hit_plat = false;
+            if (check_plats) 
+            {
+                hit_plat = place_meeting(test_x, test_y, par_jumpthrough) 
+                       && !place_meeting(test_x, test_y - 1, par_jumpthrough)
+                       &&  place_meeting(last_valid_x, test_y, par_jumpthrough)
+            }
+
+            var hit_solid = place_meeting(test_x, test_y, par_block);
+
+            if (hit_plat || hit_solid) break;
+            else
+            {
+                last_valid_x = test_x;
+                last_valid_y = test_y;
+            }
+        }
+
+        displacement_x = last_valid_x - target_x;
+        displacement_y = last_valid_y - target_y;
+
+        target_x = last_valid_x;
+        target_y = last_valid_y;
+    }
+    //============================================================================
+
+    x = target_x;
+    y = target_y;
 
     //where you are VS where you were expecting to be
-    collision_checks.x_displacement = x - client_id.x - client_offset_x;
-    collision_checks.y_displacement = y - client_id.y - client_offset_y;
+    collision_checks.x_displacement = displacement_x;
+    collision_checks.y_displacement = displacement_y;
+
+    image_xscale = client_id.image_xscale;
+    image_yscale = client_id.image_yscale;
 
     // if landed on a platform (approx. check)
+    var colw = 20;
     collision_checks.on_plat = !client_fallthrough
-       && (noone != collision_rectangle(x+11, y, x-11, y+2, asset_get("par_jumpthrough"), true, true))
-       && (noone == collision_rectangle(x+11, y-4, x-11, y-5, asset_get("par_jumpthrough"), true, true))
-    collision_checks.on_solid = place_meeting(x, y+1, asset_get("par_block"));
+       && (noone != collision_rectangle(x+colw, y, x-colw, y+2, asset_get("par_jumpthrough"), true, true))
+       && (noone == collision_rectangle(x+colw, y-2, x-colw, y-3, asset_get("par_jumpthrough"), true, true))
+    collision_checks.on_solid = place_meeting(x, y+1, par_block);
 
     // if had touched a ceiling
     collision_checks.hit_ceiling = false;
@@ -361,6 +442,6 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     // if had touched a wall
     collision_checks.hit_wall = false;
     if (abs(collision_checks.x_displacement) > 0)
-        collision_checks.hit_wall = place_meeting(x + sign(collision_checks.x_displacement), y, asset_get("par_block"));
+        collision_checks.hit_wall = place_meeting(x - sign(collision_checks.x_displacement), y, asset_get("par_block"));
 
 }
