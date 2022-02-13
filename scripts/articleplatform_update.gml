@@ -1,5 +1,7 @@
 //microplatform update
 
+visible = get_match_setting(SET_HITBOX_VIS);
+
 var should_die = false;
 
 if (instance_exists(client_id))
@@ -36,7 +38,7 @@ if (should_die || external_should_die) && !(lifetime > 0)
 lifetime--;
 
 x = client_id.x;
-image_xscale = 1;//(client_id.state == PS_ATTACK_GROUND) ? sign(client_id.hsp) * (25 + abs(client_id.hsp)) : 1;
+image_xscale = 2;
 
 if (act_as_solid)
 {
