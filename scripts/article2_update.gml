@@ -3,15 +3,15 @@
 #macro AR_STATE_ACTIVE  1
 #macro AR_STATE_DYING   2
 
-if (!instance_exists(client_id))
+if (!instance_exists(client_id) || client_id.state == PS_RESPAWN)
 //makes no sense to continue like this
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
 
 //collision checks, including physics
-if (state == AR_STATE_ACTIVE) do_collision_checks();
+if (state != AR_STATE_DYING) do_collision_checks();
 else
 {
-    //simple position update
+    //simpler position update
     x = client_id.x + client_offset_x;
     y = client_id.y + client_offset_y;
 
@@ -89,8 +89,8 @@ if (!instance_exists(missingno_master_copy))
         other.missingno_master_copy = self;
     }
 }
-//is elder article, therefore is updated last. time to handle swaps
-if (missingno_master_copy == self) handle_player_swapping();
+//is elder article, therefore is updated last. time to handle swaps/collisions
+if (missingno_master_copy == self) late_update();
 
 //============================================================
 #define set_state(new_state)
@@ -161,8 +161,9 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 }
 
 //============================================================
-// think of this of late-article-update.gml
-#define handle_player_swapping()
+// sort of a late-article-update.gml
+// oldest/last article processes extra update steps to be consistent 
+#define late_update()
 {
     //in case of spawning articles, refer to this guy
     var root_missingno_owner = player_id;
@@ -174,9 +175,9 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     {
         var best_swap = { hb:noone, copy:noone };
         var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
-        
+
         with (obj_article2) if ("is_missingno_copy" in self)
-                            && (state == AR_STATE_ACTIVE)
+                            && (state != AR_STATE_DYING)
                             && (client_id == other)
         {
             //============================================================
@@ -354,8 +355,8 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     var target_x = floor(client_id.x + client_offset_x + client_id.hsp);
     var target_y = floor(client_id.y + client_offset_y + client_id.vsp);
 
-    var displacement_x = 0; //target_x + displacement_x = expected_x (but got shifted by solids)
-    var displacement_y = 0;
+    var displacement_x = 0; //target_x - displacement_x = expected_x (but got shifted by solids)
+    var displacement_y = 0; //Note that it is negative because it is meant to be applied on the PLAYER
 
     var mov_dir = sign(target_x - x + 0.000001);
 
@@ -430,18 +431,18 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     // if landed on a platform (approx. check)
     var colw = 20;
     collision_checks.on_plat = !client_fallthrough
-       && (noone != collision_rectangle(x+colw, y, x-colw, y+2, asset_get("par_jumpthrough"), true, true))
-       && (noone == collision_rectangle(x+colw, y-2, x-colw, y-3, asset_get("par_jumpthrough"), true, true))
+       && (noone != collision_rectangle(x+colw, y, x-colw, y+2, par_jumpthrough, true, true))
+       && (noone == collision_rectangle(x+colw, y-2, x-colw, y-3, par_jumpthrough, true, true))
     collision_checks.on_solid = place_meeting(x, y+1, par_block);
 
     // if had touched a ceiling
     collision_checks.hit_ceiling = false;
     if (collision_checks.y_displacement > 0)
-        collision_checks.hit_ceiling = place_meeting(x, y-1, asset_get("par_block"));
+        collision_checks.hit_ceiling = place_meeting(x, y-1, par_block);
 
     // if had touched a wall
     collision_checks.hit_wall = false;
     if (abs(collision_checks.x_displacement) > 0)
-        collision_checks.hit_wall = place_meeting(x - sign(collision_checks.x_displacement), y, asset_get("par_block"));
+        collision_checks.hit_wall = place_meeting(x - sign(collision_checks.x_displacement), y, par_block);
 
 }
