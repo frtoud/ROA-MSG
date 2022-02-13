@@ -5,8 +5,7 @@ visible = true;
 uses_shader = false;
 sprite_index = asset_get("empty_sprite");
 mask_index = asset_get("empty_sprite");
-through_platforms = true; 
-can_be_grounded = true;
+can_be_grounded = false;
 ignores_walls = false;
 
 //standard logic
