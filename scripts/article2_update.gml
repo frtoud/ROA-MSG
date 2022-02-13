@@ -360,7 +360,8 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 
     var mov_dir = sign(target_x - x + 0.000001);
 
-    var client_fallthrough = ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
+    var client_fallthrough = (client_id.state != PS_ATTACK_AIR && client_id.state != PS_ATTACK_GROUND) &&
+                             ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
     //============================================================================
     // collision stepping
     var par_block = asset_get("par_block");
