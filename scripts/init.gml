@@ -2,7 +2,7 @@
 //Physical size
 char_height = 72;
 knockback_adj = 1.0; //the multiplier to KB dealt to you. 1 = default, >1 = lighter, <1 = heavier
-hurtbox_spr = asset_get("ex_guy_hurt_box");
+hurtbox_spr = sprite_get("idle_hurt");
 crouchbox_spr = asset_get("orca_crouchbox");
 air_hurtbox_spr = -1;
 hitstun_hurtbox_spr = -1;
