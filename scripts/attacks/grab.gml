@@ -1,26 +1,26 @@
 set_attack_value(AT_NTHROW, AG_CATEGORY, 2);
-set_attack_value(AT_NTHROW, AG_SPRITE, sprite_get("nspecial"));
+set_attack_value(AT_NTHROW, AG_SPRITE, sprite_get("grab"));
 set_attack_value(AT_NTHROW, AG_NUM_WINDOWS, 3);
 set_attack_value(AT_NTHROW, AG_OFF_LEDGE, 1);
-set_attack_value(AT_NTHROW, AG_AIR_SPRITE, sprite_get("nspecial"));
-set_attack_value(AT_NTHROW, AG_HURTBOX_SPRITE, sprite_get("nspecial_hurt"));
+set_attack_value(AT_NTHROW, AG_AIR_SPRITE, sprite_get("grab"));
+set_attack_value(AT_NTHROW, AG_HURTBOX_SPRITE, sprite_get("grab_hurt"));
 
 //startup
 set_window_value(AT_NTHROW, 1, AG_WINDOW_LENGTH, 6);
 set_window_value(AT_NTHROW, 1, AG_WINDOW_ANIM_FRAMES, 2);
-//set_window_value(AT_NTHROW, 1, AG_WINDOW_HAS_SFX, 1);
-//set_window_value(AT_NTHROW, 1, AG_WINDOW_SFX, asset_get("sfx_bubblepop"));
-//set_window_value(AT_NTHROW, 1, AG_WINDOW_SFX_FRAME, 4);
+set_window_value(AT_NTHROW, 1, AG_WINDOW_HAS_SFX, 1);
+set_window_value(AT_NTHROW, 1, AG_WINDOW_SFX, asset_get("sfx_swipe_heavy2"));
+set_window_value(AT_NTHROW, 1, AG_WINDOW_SFX_FRAME, 5);
 
 //active
-set_window_value(AT_NTHROW, 2, AG_WINDOW_LENGTH, 3);
-set_window_value(AT_NTHROW, 2, AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(AT_NTHROW, 2, AG_WINDOW_LENGTH, 6);
+set_window_value(AT_NTHROW, 2, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_NTHROW, 2, AG_WINDOW_ANIM_FRAME_START, 2);
 
 //Endlag
-set_window_value(AT_NTHROW, 3, AG_WINDOW_LENGTH, 12);
-set_window_value(AT_NTHROW, 3, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_NTHROW, 3, AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(AT_NTHROW, 3, AG_WINDOW_LENGTH, 24);
+set_window_value(AT_NTHROW, 3, AG_WINDOW_ANIM_FRAMES, 6);
+set_window_value(AT_NTHROW, 3, AG_WINDOW_ANIM_FRAME_START, 4);
 
 //Grab Success
 set_window_value(AT_NTHROW, 4, AG_WINDOW_LENGTH, 40);
@@ -28,20 +28,19 @@ set_window_value(AT_NTHROW, 4, AG_WINDOW_INVINCIBILITY, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_HSPEED_TYPE, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_VSPEED_TYPE, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAME_START, 2);
+set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAME_START, 3);
 
 //Grab
 set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_TYPE, 1);
 set_hitbox_value(AT_NTHROW, 1, HG_WINDOW, 2);
 set_hitbox_value(AT_NTHROW, 1, HG_LIFETIME, get_window_value(AT_NTHROW, 2, AG_WINDOW_LENGTH));
 set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_X, 25);
-set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_Y, -25);
-set_hitbox_value(AT_NTHROW, 1, HG_WIDTH, 60);
-set_hitbox_value(AT_NTHROW, 1, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_Y, -32);
+set_hitbox_value(AT_NTHROW, 1, HG_WIDTH, 80);
+set_hitbox_value(AT_NTHROW, 1, HG_HEIGHT, 50);
 set_hitbox_value(AT_NTHROW, 1, HG_PRIORITY, 3);
 set_hitbox_value(AT_NTHROW, 1, HG_DAMAGE, 3);
 set_hitbox_value(AT_NTHROW, 1, HG_ANGLE, 90);
-set_hitbox_value(AT_NTHROW, 1, HG_EFFECT, 9);
 set_hitbox_value(AT_NTHROW, 1, HG_BASE_KNOCKBACK, 5);
 set_hitbox_value(AT_NTHROW, 1, HG_BASE_HITPAUSE, 0);
 set_hitbox_value(AT_NTHROW, 1, HG_VISUAL_EFFECT, 1);
@@ -54,9 +53,7 @@ var current_window = 4;
 //Grab Outcome: Frozen + Burning
 current_window++;
 MSG_GRAB_FROSTBURN_WINDOW = current_window;
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 3);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
+set_anim(current_window, 3);
 
 hbox_num++;
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
@@ -97,9 +94,7 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 3);
 // Grab Outcome: Leech Seed Bug
 current_window++;
 MSG_GRAB_LEECHSEED_WINDOW = current_window;
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 3);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
+set_anim(current_window, 3);
 
 hbox_num++;
 MSG_GRAB_LEECHSEED_HITBOX = hbox_num;
@@ -134,9 +129,7 @@ hbox_num += 3;
 // Grab Outcome: SELF DESTRUCT
 current_window++;
 MSG_GRAB_EXPLOSION_WINDOW = current_window;
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 5);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
+set_anim(current_window, 5);
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
 
 hbox_num++;
@@ -162,9 +155,7 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 4);
 // Grab Outcome: NEGATIVE_DAMAGE
 current_window++;
 MSG_GRAB_NEGATIVE_WINDOW = current_window;
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 3);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 3);
+set_anim(current_window, 3);
 set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
 
 hbox_num++;
@@ -201,3 +192,13 @@ msg_grab_rotation = [grab_negative,
 
 //Add the rest to the queue (minimum 1)
 msg_grab_queue = [grab_frostburn];
+
+//============================================
+// Sets basic outcome window animation variables
+#define set_anim(window, length)
+{
+    #macro GRAB_HOLD_FRAME 5
+    set_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH, length);
+    set_window_value(AT_NTHROW, window, AG_WINDOW_ANIM_FRAMES, 1);
+    set_window_value(AT_NTHROW, window, AG_WINDOW_ANIM_FRAME_START, GRAB_HOLD_FRAME);
+}
