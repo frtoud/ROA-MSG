@@ -44,7 +44,7 @@ walljump_hsp = 7;
 walljump_vsp = 11;
 max_jump_hsp = 7; //the maximum hsp you can have when jumping from the ground
 jump_change = 3; //maximum hsp when double jumping. If already going faster, it will not slow you down
-land_time = 4; //normal landing frames
+land_time = 6; //normal landing frames
 prat_land_time = 3;
 
 //Shielding
