@@ -1,4 +1,32 @@
 //other_update.gml
+
+//oddity management -- any missingno detecting such parameters fixes it
+with (oPlayer)
+{
+    //negative hitstun/hitpause
+    if (hitstun < 0 || hitstun_full < 0)
+    {
+        hitstun = max(3, abs(hitstun));
+        hitstun_full = max(3, abs(hitstun_full));
+        if (state != PS_HITSTUN) set_state(PS_HITSTUN);
+    }
+
+    if (hitstop < 0 || hitstop_full < 0)
+    {
+        hitstop = clamp(abs(hitstop), 3, 20);
+        hitstop_full = clamp(abs(hitstop_full), 3, 20);
+        
+        if (!hitpause)
+        {
+            hitpause = true;
+            old_vsp = vsp;
+            old_hsp = hsp;
+        }
+    }
+
+}
+
+//debuffs management -- only the "handler" missingno needs to manage it
 with (oPlayer) if (msg_handler_id == other)
 {
     //reset on death
