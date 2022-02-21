@@ -28,17 +28,30 @@ if (attack == AT_DSPECIAL)
     {
         if (hbox_num == 1) destroy_copies(missingno_copied_player_id); //flushes old clones
         destroyed = true;
+
+
         with (orig_player_id)
         {
+            print(self.msg_fspecial_bubble_lockout)
+            print (self);
             var k = spawn_hit_fx(other.x, other.y, hfx_ball_open);
             k.depth -= 20;
             sound_play(asset_get("sfx_blow_weak2"));
+
+            //ownership of projectile determines article's scripts when created in hitbox_update.gml
+            //this un-parries the projectile for article creation
+            //DAN PLS
+            other.orig_player_id = self;
+            other.orig_player= player;
+            other.player_id = self;
+            other.player = player;
 
             //y offset because of size of pokeball when landed
             var copy = instance_create(other.x, other.y + 12, "obj_article2");
             copy.client_id = other.missingno_copied_player_id;
             copy.client_offset_x = 8 * floor((copy.x - copy.client_id.x) / 8);
             copy.client_offset_y = 8 * floor((copy.y - copy.client_id.y) / 8);
+
         }
     }
     else if (hbox_num == 1)

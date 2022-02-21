@@ -48,6 +48,7 @@ set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_HSPEED, 5);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_VSPEED, -4);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_GRAVITY, 0.3);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_AIR_FRICTION, 0.025);
+set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_WALL_BEHAVIOR, 2);
 
 //spawned manually when hitting someone else
 set_hitbox_value(AT_DSPECIAL, 2, HG_HITBOX_TYPE, 2);
@@ -70,3 +71,4 @@ set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_HSPEED, 0);
 set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_VSPEED, 0);
 set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_GRAVITY, 0.3);
 set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_AIR_FRICTION, 0.025);
+set_hitbox_value(AT_DSPECIAL, 2, HG_PROJECTILE_WALL_BEHAVIOR, 2);
