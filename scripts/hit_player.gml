@@ -13,6 +13,34 @@ if (my_hitboxID.attack == AT_FSPECIAL_2)
 }
 
 //==========================================================
+// FAIR variable damage
+if (my_hitboxID.attack == AT_FAIR)
+{
+    var victim_dmg = get_player_damage(hit_player_obj.player);
+
+    var bonus_dmg = floor(max(0, 20 - victim_dmg * (0.19)));
+    take_damage(hit_player_obj.player, player, bonus_dmg);
+
+    var min_knockback = 7;
+    if (hit_player_obj.old_vsp > 0) 
+    {
+        hit_player_obj.orig_knock = min_knockback;
+        hit_player_obj.old_vsp *= -1;
+        hit_player_obj.old_hsp *= -1;
+    }
+    else if (hit_player_obj.orig_knock < min_knockback) hit_player_obj.orig_knock = min_knockback;
+}
+
+print(hit_player_obj.hitstun);
+print(hit_player_obj.hitstun_full);
+if (hit_player_obj.hitstun < 0)
+{
+    hit_player_obj.hitstun = abs(hit_player_obj.hitstun);
+    hit_player_obj.hitstun_full = abs(hit_player_obj.hitstun_full);
+    with (hit_player_obj) set_state(PS_HITSTUN);
+}
+
+//==========================================================
 //Grab logic
 if (my_hitboxID.attack == AT_NTHROW)
 {
