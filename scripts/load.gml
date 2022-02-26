@@ -46,6 +46,7 @@ sprite_change_offset("grab", 27, 45, true);
  sprite_change_offset("taunt", 16, 31, true);
 
  sprite_change_offset("plat", 32, 47);
+ sprite_change_offset("microplatform", 1, 0);
 
 sprite_change_offset("proj_pokeball", 12, 12);
 sprite_change_offset("proj_pokeball_broken", 12, 12);
