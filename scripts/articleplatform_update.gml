@@ -51,7 +51,7 @@ if (act_as_solid)
             ground_type = 1;
 
             //needed?
-            do_a_fast_fall = false;;
+            do_a_fast_fall = false;
             check_fast_fall = false;
             fast_falling = false;
             falls_through = false;
@@ -60,7 +60,9 @@ if (act_as_solid)
     else if (client_id.y > y)
     {
         //attempted fallthrough
-        client_id.y = y;
+        //swap might cause issue there in the future.
+        //currently fixed by swap itself, but... how would one detect false positives here?
+        if (free) client_id.y = y;
 
 
         with (client_id) 

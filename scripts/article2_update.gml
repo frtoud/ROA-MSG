@@ -174,7 +174,18 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     with (instance_find(oPlayer, i))
     {
         var best_swap = { hb:noone, copy:noone };
+        var death_swap = { about_to_die:false, copy:noone, distance:9999999 };
+        //var wall_swap = {  };
+
         var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
+
+        // 1-866-THX-SUPR
+        var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
+        var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
+        var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
+        var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
+        death_swap.about_to_die = ( y + vsp >= blastzone_b ) || ( y + vsp <= blastzone_t )
+                               || ( x + hsp >= blastzone_r ) || ( x + hsp <= blastzone_l );
 
         with (obj_article2) if ("is_missingno_copy" in self)
                             && (state != AR_STATE_DYING)
@@ -190,6 +201,16 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                 best_swap.copy = self;
             }
 
+            if (death_swap.about_to_die)
+            {
+                //collect best copy to swap to based on distance
+                var curr_distance = point_distance(other.x, other.y, x, y);
+                if (death_swap.distance > curr_distance)
+                {
+                    death_swap.copy = self;
+                    death_swap.distance = curr_distance;
+                }
+            }
             //============================================================
             //collision results
             
@@ -232,6 +253,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         //Swap - once per player only (hopefully)
         if (best_swap.copy != noone) with (best_swap.copy) 
         {
+            //priority swap: getting hit
             swap_with_player();
             if (best_swap.hb != noone)
             {
@@ -250,6 +272,13 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                     best_swap.hb.hitbox_timer = min(best_swap.hb.hitbox_timer, best_swap.hb.length - 1)
                 }
             }
+        }
+        else if (death_swap.copy != noone) with (death_swap.copy)
+        {
+            //next priority swap: prevent a death
+            swap_with_player();
+            //consumes clone (prevents swapping back-and-forth)
+            set_state(AR_STATE_DYING);
         }
 
         //===========================================================
@@ -340,6 +369,13 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         }
         
         //TODO: setup swap_cooldown (on clones? or on players? not sure theres a difference)
+    }
+
+    //Microplatform (if it exists) needs to follow the client player to its destination
+    if ("msg_clone_microplatform" in client_id) && instance_exists(client_id.msg_clone_microplatform)
+    {
+        client_id.msg_clone_microplatform.x = client_id.x;
+        client_id.msg_clone_microplatform.y = client_id.y;
     }
 }
 
