@@ -3,9 +3,23 @@
 #macro AR_STATE_ACTIVE  1
 #macro AR_STATE_DYING   2
 
+// 1-866-THX-SUPR
+var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
+var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
+var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
+var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
+
 if (!instance_exists(client_id) || client_id.state == PS_RESPAWN)
 //makes no sense to continue like this
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
+
+if ( y >= blastzone_b ) || ( y <= blastzone_t )
+|| ( x >= blastzone_r ) || ( x <= blastzone_l )
+{
+    //death of clone
+    with (client_id) sound_play(asset_get("sfx_death1"), false, noone, 0.5, 1.5);
+    destroy_my_hitboxes(); instance_destroy(self); exit;
+}
 
 //collision checks, including physics
 if (state != AR_STATE_DYING) do_collision_checks();
