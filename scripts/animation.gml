@@ -165,3 +165,10 @@ if (state_cat == SC_HITSTUN)
     if (hitpause)
     { msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 2); }
 }
+
+//deployed wings
+if (sprite_index == jump_sprite) && (prev_state == PS_DOUBLE_JUMP || attack == AT_UAIR)
+{
+    sprite_index = djump_sprite;
+    image_index = 4;
+}

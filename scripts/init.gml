@@ -36,14 +36,14 @@ hitstun_grav = .5;
 jump_start_time = 5;
 jump_speed = 13;
 short_hop_speed = 8;
-double_jump_time = 32; //the number of frames to play the djump animation. Can't be less than 31.
-djump_speed = 12;
-max_djumps = 1;
+double_jump_time = 25; //the number of frames to play the djump animation. Can't be less than 31.
+djump_speed = 11;
+max_djumps = 2;
 walljump_time = 32;
 walljump_hsp = 7;
 walljump_vsp = 11;
 max_jump_hsp = 7; //the maximum hsp you can have when jumping from the ground
-jump_change = 3; //maximum hsp when double jumping. If already going faster, it will not slow you down
+jump_change = -3; //maximum hsp when double jumping. If already going faster, it will not slow you down
 land_time = 6; //normal landing frames
 prat_land_time = 3;
 
@@ -202,6 +202,9 @@ msg_clone_microplatform = noone;
 // Visual effects
 glitch_bg_spr = sprite_get("glitch_bg");
 no_sprite = asset_get("empty_sprite");
+
+jump_sprite = sprite_get("jump");
+djump_sprite = sprite_get("doublejump");
 
 //Grab
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
