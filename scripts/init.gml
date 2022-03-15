@@ -110,6 +110,9 @@ bubble_y = 8;
 //=========================================================
 // Balance variables
 
+msg_ntilt_accel = 1.05;
+msg_ntilt_maxspeed = dash_speed * 2.2;
+
 msg_fspecial_bubble_lockout = 8;
 msg_fspecial_bubble_random_hsp_boost = 5;
 
@@ -143,12 +146,14 @@ msg_dstrong_yoyo =
 {
     x: 0,
     y: 0,
-    active: false
+    active: false,
+    visible: false
 }
 
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
 
+msg_ntilt_origin = { x:0, y:0 };
 
 //See attacks -> grab.gml for the actual definition
 var dummy_outcome = { window:3, sound:asset_get("sfx_bubblepop")};

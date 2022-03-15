@@ -25,9 +25,8 @@ sprite_change_offset("land", 33, 35);
  sprite_change_offset("waveland", 16, 31);
  sprite_change_offset("tech", 16, 31);
 
- sprite_change_offset("jab", 32, 47, true);
  sprite_change_offset("dattack", 32, 47, true);
- sprite_change_offset("ftilt", 16, 31, true);
+sprite_change_offset("ntilt", 13, 42, true);
  sprite_change_offset("dtilt", 32, 47, true);
 sprite_change_offset("utilt", 14, 79, true);
  sprite_change_offset("nair", 32, 47, true);

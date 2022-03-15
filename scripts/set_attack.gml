@@ -11,6 +11,7 @@ if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
 else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
 //todo: remap correctly
 
+if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 
 if (attack == AT_DSPECIAL_2)
 {

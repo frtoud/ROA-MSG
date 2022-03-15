@@ -175,6 +175,7 @@ if (msg_dstrong_yoyo.active)
         }
         
         msg_dstrong_yoyo.active = false;
+        msg_dstrong_yoyo.visible = false;
     }
 
 }

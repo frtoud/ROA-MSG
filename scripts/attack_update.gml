@@ -6,7 +6,95 @@ if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || a
 
 switch (attack)
 {
-    
+//=============================================================
+    case AT_FTILT:
+    {
+        off_edge = true;
+        var held_dir = (right_down - left_down);
+
+        //walking logic
+        if (window == 1)
+        || (window == 2 && window_timer < get_window_value(AT_FTILT, 2, AG_WINDOW_CANCEL_FRAME))
+        || (window == 5 && abs(hsp) > 0.25)
+        {
+            var actual_frict = free ? air_friction : ground_friction;
+            var actual_accel = actual_frict + (free ? air_accel : walk_accel);
+            var actual_max = max(abs(hsp), free ? air_max_speed : walk_speed);
+
+            //friction can kick in (if direction not held)
+            if (left_down == right_down) 
+            { 
+                hsp -= sign(hsp) * min(abs(hsp), actual_frict);
+            }
+
+            else if (held_dir == spr_dir)
+            {
+                //walking forward
+                hsp = clamp(hsp + spr_dir*actual_accel, -actual_max, actual_max);
+            }
+        }
+
+        switch (window)
+        {
+            case 1: //STARTUP
+            {
+                if (attack_down)
+                && (window_timer == get_window_value(AT_FTILT, 1, AG_WINDOW_LENGTH))
+                {
+                    window = 2;
+                    window_timer = 0;
+
+                    msg_ntilt_origin.x = x;
+                    msg_ntilt_origin.y = y;
+                }
+            } break;
+            case 2: // DRAG
+            {
+                if (window_timer < get_window_value(AT_FTILT, 2, AG_WINDOW_CANCEL_FRAME))
+                {
+                    if (!attack_down) { window = 4; window_timer = 0; }
+                }
+                else
+                {
+                    if (!attack_down) { window = 3; window_timer = 0; }
+                    else
+                    {
+                        if (held_dir != spr_dir) //not holding forward
+                        && (abs(hsp) < walk_speed) //point of no return
+                        {
+                            hsp *= 0.90;
+                        }
+                        else if (abs(hsp) > 1.2 * walk_speed) || (held_dir == spr_dir)
+                        {
+                            //accelerate
+                            hsp = clamp(hsp * msg_ntilt_accel, -msg_ntilt_maxspeed, msg_ntilt_maxspeed);
+                        }
+                    }
+                }
+            } break;
+            case 3: // DRAG END
+            {
+                if (window_timer == 2)
+                {
+                    //setup interpolation & teleport
+                    if (point_distance(x, y, msg_ntilt_origin.x, msg_ntilt_origin.y) > 20)
+                    {
+                        msg_dstrong_yoyo.active = true;
+                        msg_dstrong_yoyo.visible = false;
+                        msg_dstrong_yoyo.y = y - 40; msg_dstrong_yoyo.x = x;
+
+                        x = msg_ntilt_origin.x;
+                        y = msg_ntilt_origin.y;
+                    }
+                }
+            } break;
+            case 4: // HIT
+            {
+                hsp = held_dir * walk_speed;
+
+            }
+        }
+    } break;
 //=============================================================
     case AT_DSTRONG:
     {
@@ -15,6 +103,7 @@ switch (attack)
         {
             //yoyo activated, rolling out
             msg_dstrong_yoyo.active = true;
+            msg_dstrong_yoyo.visible = true;
             msg_dstrong_yoyo.x = x; msg_dstrong_yoyo.y = y;
 
             set_state( (right_down - left_down)*spr_dir > 0 ? PS_ROLL_FORWARD : PS_ROLL_BACKWARD);

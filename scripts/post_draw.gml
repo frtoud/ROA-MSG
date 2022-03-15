@@ -6,7 +6,7 @@ msg_copy_params(msg_anim_backup, self, msg_anim_backup);
 //Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
 if (msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw) gpu_pop_state();
 
-if (msg_dstrong_yoyo.active)
+if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
 {
     draw_sprite_ext(sprite_get("dstrong"), 1, msg_dstrong_yoyo.x, msg_dstrong_yoyo.y, 2, 2, 0, c_white, 0.9);
 }
