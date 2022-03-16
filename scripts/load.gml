@@ -29,7 +29,7 @@ sprite_change_offset("land", 33, 35);
 sprite_change_offset("ntilt", 13, 42, true);
  sprite_change_offset("dtilt", 32, 47, true);
 sprite_change_offset("utilt", 14, 79, true);
- sprite_change_offset("nair", 32, 47, true);
+sprite_change_offset("nair", 34, 46, true);
  sprite_change_offset("fair", 30, 42, true);
  sprite_change_offset("bair", 32, 47, true);
  sprite_change_offset("uair", 32, 47, true);
