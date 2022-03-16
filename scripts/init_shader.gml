@@ -11,7 +11,7 @@ set_character_color_slot( 7, 0, 0, 0, 0);
 set_article_color_slot( 7, 0, 0, 0, 0);
 //============================================
 
-
+exit;
 if (object_index == asset_get("draw_result_screen"))
 {
     //if !("sound_id" in self) { sound_id = true; print_debug("initshadered " + test_string) }
