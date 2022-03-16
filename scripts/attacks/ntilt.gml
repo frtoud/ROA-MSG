@@ -2,6 +2,7 @@ set_attack_value(AT_FTILT, AG_SPRITE, sprite_get("ntilt"));
 set_attack_value(AT_FTILT, AG_NUM_WINDOWS, 5);
 set_attack_value(AT_FTILT, AG_HURTBOX_SPRITE, sprite_get("ntilt_hurt"));
 set_attack_value(AT_FTILT, AG_CATEGORY, 2);
+set_attack_value(AT_FTILT, AG_NO_PARRY_STUN, 1);
 
 //startup
 set_window_value(AT_FTILT, 1, AG_WINDOW_TYPE, 1);

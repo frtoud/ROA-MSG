@@ -38,6 +38,7 @@ switch (attack)
         {
             case 1: //STARTUP
             {
+                set_attack_value(AT_FTILT, AG_NO_PARRY_STUN, 1);
                 if (attack_down)
                 && (window_timer == get_window_value(AT_FTILT, 1, AG_WINDOW_LENGTH))
                 {
@@ -74,6 +75,7 @@ switch (attack)
             } break;
             case 3: // DRAG END
             {
+                set_attack_value(AT_FTILT, AG_NO_PARRY_STUN, 0);
                 if (window_timer == 2)
                 {
                     //setup interpolation & teleport
