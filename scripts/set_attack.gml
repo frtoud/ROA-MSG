@@ -25,6 +25,8 @@ if (attack == AT_DSPECIAL_2)
     {
         steal_move_data(at_bspecial_last_move.target, at_bspecial_last_move.move);
     }
+
+    move_cooldown[attack] = 0; //cannot prevent use of BSPEC, whatever it is at the moment
 }
 else
 {
