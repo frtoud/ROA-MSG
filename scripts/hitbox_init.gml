@@ -13,6 +13,12 @@ if (attack == AT_FSPECIAL_2)
         break;
     }
 }
+//==========================================================
+if (attack == AT_FSPECIAL_AIR) //Hydro Pump
+{
+    uses_sprite_collision = false; //to show hitbox
+}
+
 
 //==========================================================
 if (attack == AT_DSPECIAL)

@@ -185,7 +185,7 @@ switch (attack)
                 }
                 else
                 {
-                    set_attack(AT_FSPECIAL_2); //AT_FSPECIAL_AIR
+                    set_attack(AT_FSPECIAL_AIR);
                 }
                 msg_fspecial_charge = 0;
                 state_timer = 0;
@@ -243,7 +243,11 @@ switch (attack)
 //=============================================================
     case AT_FSPECIAL_AIR: // Hydro Pump
     {
-        
+        if (window == 2)
+        {
+            hsp *= 0.8;
+            vsp *= 0.5;
+        }
     } break;
 //=============================================================
     case AT_NTHROW:
