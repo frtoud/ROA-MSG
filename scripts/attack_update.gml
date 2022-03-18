@@ -167,12 +167,12 @@ switch (attack)
                 msg_fspecial_ghost_arrow_active = false;
             }
             else if (window_timer == get_window_value(AT_FSPECIAL, 2, AG_WINDOW_LENGTH) - 1)
-            && (msg_fspecial_charge < 2)
+            && (msg_fspecial_charge < 2) && special_down
             {
                 msg_fspecial_charge++;
                 sound_play(asset_get("sfx_may_arc_cointoss"));
             }
-            else if (is_special_pressed(DIR_ANY))
+            else if (!special_down)
             {
                 if (msg_fspecial_charge == 0)
                 {
