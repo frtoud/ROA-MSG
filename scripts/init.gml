@@ -252,6 +252,7 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     //random value calculated by handler Missingno.
     msg_unsafe_random = current_time;
     msg_unsafe_handler_id = (is_missingno ? self : noone);
+    msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2); //updated once in a while
 
     //only relevant for Missingno
     msg_unsafe_paused_timer = 0;
@@ -286,6 +287,7 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     msg_unsafe_effects.bad_vsync.cliptop = 0; //top of middle segment
     msg_unsafe_effects.bad_vsync.clipbot = 0; //bottom of middle segment
     msg_unsafe_effects.bad_vsync.horz = 0; //displacement of middle segment
+    msg_unsafe_effects.bad_vsync.garbage = false; //middle segment taken from wrong sprite if false
 
     //===========================================================
     //effect type: REDRAW
@@ -294,6 +296,18 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     //===========================================================
     //effect type: REDRAW
     msg_unsafe_effects.bad_crop = msg_make_effect();
+
+#define msg_make_garbage(spr, scale) // Version 0
+    // create a garbage entry out of any sprite.
+    {
+        return { spr: spr,
+                 scale: scale,
+                 width: sprite_get_width(spr),
+                 height: sprite_get_height(spr),
+                 x_offset: sprite_get_xoffset(spr),
+                 y_offset: sprite_get_yoffset(spr)
+               }
+    }
 
 #define msg_make_effect // Version 0
     // initializes a standard VFX structure

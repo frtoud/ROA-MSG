@@ -9,7 +9,7 @@ if ("msg_unsafe_random" not in self) return;
 // BITWISE RANDOM UINT32 MAP = 0x00000000 00000000 00000000 00000000
 // Effects:    Frequency uses: 
 //  - Shudder                                        FFFFFF VVVVHHHH
-//  - VSync                                 FFFFFF BBBBBBBB TTTTHHHH
+//  - VSync                               GGFFFFFF BBBBBBBB TTTTHHHH
 //  - wrong image_index
 //'M- wrong sprite_index
 //  - trail
@@ -31,15 +31,15 @@ var fx = msg_unsafe_effects.bad_vsync;
 if (fx.timer > 0)
 {
     fx.timer -= 1;
-    var height_max = sprite_get_height(sprite_index);
-
-    fx.clipbot = floor(GET_INT(8, 0xFF) * height_max);
-    fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * height_max/3;
-    fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
 }
 if (fx.freq > GET_RNG(16, 0x3F))
 {
-    fx.timer = 3;
+    fx.timer = 5;
+
+    fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height);
+    fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/3;
+    fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
+    fx.garbage = (2 > GET_RNG(22, 0x07));
 }
 //===========================================================
 

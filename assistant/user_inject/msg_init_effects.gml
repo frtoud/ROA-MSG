@@ -1,3 +1,25 @@
+#define msg_make_garbage(spr, scale)
+//create a garbage entry out of any sprite.
+{
+    return { spr: spr,
+             scale: scale,
+             width: sprite_get_width(spr),
+             height: sprite_get_height(spr),
+             x_offset: sprite_get_xoffset(spr),
+             y_offset: sprite_get_yoffset(spr)
+           }
+}
+#define msg_get_garbage()
+//create a garbage entry out of a sprite currently in use.
+{
+    return { spr: sprite_index,
+             scale: small_sprites + 1,
+             width: abs(sprite_width),
+             height: sprite_height,
+             x_offset: sprite_xoffset,
+             y_offset: sprite_yoffset
+           }
+}
 
 #define msg_init_effects(is_missingno)
 //=========================================================
@@ -13,6 +35,7 @@ msg_is_missingno = is_missingno; //easier identification later
 //random value calculated by handler Missingno.
 msg_unsafe_random = current_time;
 msg_unsafe_handler_id = (is_missingno ? self : noone);
+msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2); //updated once in a while
 
 //only relevant for Missingno
 msg_unsafe_paused_timer = 0;
@@ -47,6 +70,7 @@ msg_unsafe_effects.bad_vsync.horz_max = 8; //maximum horizontal displacement of 
 msg_unsafe_effects.bad_vsync.cliptop = 0; //top of middle segment
 msg_unsafe_effects.bad_vsync.clipbot = 0; //bottom of middle segment
 msg_unsafe_effects.bad_vsync.horz = 0; //displacement of middle segment
+msg_unsafe_effects.bad_vsync.garbage = false; //middle segment taken from wrong sprite if false
 
 //===========================================================
 //effect type: REDRAW

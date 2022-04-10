@@ -40,21 +40,37 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //effect type: REDRAW
     if (msg_unsafe_effects.bad_vsync.timer > 0)
     {
-        var spr_w = sprite_get_width(sprite_index);
-        var spr_h = sprite_get_height(sprite_index);
-        var spr_cliptop = spr_h - msg_unsafe_effects.bad_vsync.cliptop;
-        var spr_clipbot = spr_h - msg_unsafe_effects.bad_vsync.clipbot;
-        var vsync_offset = msg_unsafe_effects.bad_vsync.horz;
-
+        var spr_w = abs(sprite_width); //WHY!?
+        var spr_cliptop = sprite_height - msg_unsafe_effects.bad_vsync.cliptop;
+        var spr_clipbot = sprite_height - msg_unsafe_effects.bad_vsync.clipbot;
         var pos_x = x - scale*sprite_xoffset + draw_x;
         var pos_y = y - scale*sprite_yoffset + draw_y;
 
+        var mid_cliptop = spr_cliptop;
+        var mid_sprite = sprite_index;
+        var mid_scale = scale;
+        var mid_width = spr_w;
+        var mid_posx = msg_unsafe_effects.bad_vsync.horz + pos_x;
+        var mid_clipheight = spr_clipbot - spr_cliptop;
+
+        if (msg_unsafe_effects.bad_vsync.garbage)
+        {
+            //middle bit borrowed from random unrelated sprite
+            mid_sprite = msg_unsafe_garbage.spr;
+            mid_scale = msg_unsafe_garbage.scale;
+            mid_width = msg_unsafe_garbage.width;
+            mid_posx -= (spr_dir*mid_scale*msg_unsafe_garbage.x_offset - scale*sprite_xoffset);
+            mid_clipheight *= (scale/mid_scale);
+            mid_cliptop += (msg_unsafe_garbage.y_offset - sprite_yoffset)
+        }
+
         if (main_draw) shader_start();
+        //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
         draw_sprite_part_ext(sprite_index, image_index, 0, 0, spr_w, spr_cliptop,
                             pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
-        draw_sprite_part_ext(sprite_index, image_index, 0, spr_cliptop, spr_w, spr_clipbot - spr_cliptop,
-                            pos_x + vsync_offset, pos_y + spr_cliptop*scale, spr_dir * scale, scale, c_white, 1.0);
-        draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(spr_h - spr_clipbot, 0),
+        draw_sprite_part_ext(mid_sprite, image_index, 0, mid_cliptop, mid_width, mid_clipheight,
+                             mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, 1.0);
+        draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(sprite_height - spr_clipbot, 0),
                             pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, 1.0);
         if (main_draw) shader_end();
 
@@ -96,7 +112,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     // BITWISE RANDOM UINT32 MAP = 0x00000000 00000000 00000000 00000000
     // Effects:    Frequency uses:
     //  - Shudder                                        FFFFFF VVVVHHHH
-    //  - VSync                                 FFFFFF BBBBBBBB TTTTHHHH
+    //  - VSync                               GGFFFFFF BBBBBBBB TTTTHHHH
     //  - wrong image_index
     //'M- wrong sprite_index
     //  - trail
@@ -118,15 +134,15 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     if (fx.timer > 0)
     {
         fx.timer -= 1;
-        var height_max = sprite_get_height(sprite_index);
-
-        fx.clipbot = floor(GET_INT(8, 0xFF) * height_max);
-        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * height_max/3;
-        fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
     }
     if (fx.freq > GET_RNG(16, 0x3F))
     {
-        fx.timer = 3;
+        fx.timer = 5;
+
+        fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height);
+        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/3;
+        fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
+        fx.garbage = (2 > GET_RNG(22, 0x07));
     }
 
 #define GET_RNG(offset, mask) // Version 0
