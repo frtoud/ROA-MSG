@@ -134,7 +134,7 @@ msg_manual_draw(true);
 
         if (msg_unsafe_effects.bad_vsync.garbage)
         {
-            //middle bit borrowed from random unrelated sprite
+            //middle bit borrowed from unrelated sprite
             mid_sprite = msg_unsafe_garbage.spr;
             mid_scale = msg_unsafe_garbage.scale;
             mid_width = msg_unsafe_garbage.width;
@@ -187,13 +187,14 @@ msg_manual_draw(true);
     //essential for rendering-random checks.
     if ("msg_unsafe_random" not in self) return;
 
+    //special msg_is_missingno-only effects are denoted 'M
     //===================================================================
     // BITWISE RANDOM UINT32 MAP = 0x00000000 00000000 00000000 00000000
     // Effects:    Frequency uses:
     //  - Shudder                                        FFFFFF VVVVHHHH
     //  - VSync                               GGFFFFFF BBBBBBBB TTTTHHHH
     //  - wrong image_index
-    //'M- wrong sprite_index
+    //'M- garbage collector          P4P3P2P1                    EEEEFF
     //  - trail
     //===================================================================
 
@@ -218,8 +219,8 @@ msg_manual_draw(true);
     {
         fx.timer = 5;
 
-        fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height);
-        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/3;
+        fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
+        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
         fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
         fx.garbage = (2 > GET_RNG(22, 0x07));
     }

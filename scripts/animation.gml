@@ -14,6 +14,7 @@ else { small_sprites = 1; }
 if (msg_unsafe_paused_timer > 0)
 { msg_unsafe_paused_timer--; }
 
+msg_collect_garbage();
 msg_unsafe_handler_id = self; //missingnos always handle themselves
 with (oPlayer) if ("msg_unsafe_handler_id" in self 
                &&   msg_unsafe_handler_id == other)
@@ -172,3 +173,53 @@ if (sprite_index == jump_sprite) && (prev_state == PS_DOUBLE_JUMP || attack == A
     sprite_index = djump_sprite;
     image_index = 4;
 }
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define msg_collect_garbage // Version 0
+    // Done in animation.gml, contrary to pre_draw
+    if (get_gameplay_time() % 15 == 0) && (0 == GET_RNG(1, 0x03))
+    {
+        //random chance per player to swap with an entry as its garbage sprite
+        var base_entry_rng = GET_RNG(3, 0x0F)
+        with (oPlayer) with (other)
+        {
+            var entry_rng = (other.player + base_entry_rng) % 16;
+            var player_rng = GET_RNG((other.player % 4)*2 + 24, 0x03)
+            if (player_rng == 0)
+            {
+                //simple swap
+                var temp = other.msg_unsafe_garbage;
+                other.msg_unsafe_garbage = msg_garbage_collection[entry_rng];
+                msg_garbage_collection[entry_rng] = temp;
+            }
+            else if (player_rng == 1)
+            {
+                //replace with sprite currently in use
+                other.msg_unsafe_garbage = msg_garbage_collection[entry_rng];
+                msg_garbage_collection[entry_rng] = msg_get_garbage();
+            }
+        }
+    }
+
+#define msg_get_garbage // Version 0
+    // create a garbage entry out of a sprite currently in use.
+    {
+        return { spr: sprite_index,
+                 scale: small_sprites + 1,
+                 width: abs(sprite_width),
+                 height: sprite_height,
+                 x_offset: abs(sprite_xoffset),
+                 y_offset: sprite_yoffset
+               }
+    }
+
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

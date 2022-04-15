@@ -26,7 +26,7 @@ if (msg_unsafe_effects.bad_vsync.timer > 0)
 
     if (msg_unsafe_effects.bad_vsync.garbage)
     {
-        //middle bit borrowed from random unrelated sprite
+        //middle bit borrowed from unrelated sprite
         mid_sprite = msg_unsafe_garbage.spr;
         mid_scale = msg_unsafe_garbage.scale;
         mid_width = msg_unsafe_garbage.width;

@@ -250,12 +250,33 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     msg_is_missingno = is_missingno; //easier identification later
 
     //random value calculated by handler Missingno.
-    msg_unsafe_random = current_time;
+    msg_unsafe_random = current_time + player;
     msg_unsafe_handler_id = (is_missingno ? self : noone);
     msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2); //updated once in a while
 
     //only relevant for Missingno
     msg_unsafe_paused_timer = 0;
+    if (is_missingno)
+    {
+        msg_garbage_collection[15] = msg_make_garbage(asset_get("zet_taunt"), 2);
+        msg_garbage_collection[14] = msg_make_garbage(asset_get("brad_walljump"), 2);
+        msg_garbage_collection[13] = msg_make_garbage(asset_get("burrito_rock_walkturn"), 2);
+        msg_garbage_collection[12] = msg_make_garbage(asset_get("orca_fair"), 2);
+        msg_garbage_collection[11] = msg_make_garbage(asset_get("poet_dspecial"), 2);
+        msg_garbage_collection[10] = msg_make_garbage(asset_get("goat_spinhurt"), 2);
+        msg_garbage_collection[9]  = msg_make_garbage(asset_get("rag_plant_attack"), 1);
+        msg_garbage_collection[8]  = msg_make_garbage(asset_get("panda_idle"), 2);
+        msg_garbage_collection[7]  = msg_make_garbage(asset_get("sword_uair_spr"), 2);
+        msg_garbage_collection[6]  = msg_make_garbage(asset_get("mech_dashstop"), 2);
+        msg_garbage_collection[5]  = msg_make_garbage(asset_get("wolf_genesis_taunt"), 2);
+        msg_garbage_collection[4]  = msg_make_garbage(asset_get("tux_utilt_spr"), 2);
+        msg_garbage_collection[3]  = msg_make_garbage(asset_get("cat_usmash"), 2);
+        msg_garbage_collection[2]  = msg_make_garbage(asset_get("gus_jump_flex"), 2);
+        msg_garbage_collection[1]  = msg_make_garbage(asset_get("ex_idle"), 1);
+        msg_garbage_collection[0]  = msg_make_garbage(sprite_get("idle"), 2);
+
+        msg_unsafe_garbage = msg_garbage_collection[5]
+    }
 
     //ability to restore draw parameters
     msg_anim_backup =
