@@ -2,10 +2,14 @@
 
 //============================================
 //remove all shading
-set_character_color_shading(0, 0.0);
-set_character_color_shading(1, 0.0);
-set_character_color_shading(2, 0.0);
-set_character_color_shading(3, 0.0);
+if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlayer"))
+//|| (get_player_color())
+{
+    set_character_color_shading(0, 0.0);
+    set_character_color_shading(1, 0.0);
+    set_character_color_shading(2, 0.0);
+    set_character_color_shading(3, 0.0);
+}
 //set 0-alpha to pixelblock zones
 set_character_color_slot( 7, 0, 0, 0, 0);
 set_article_color_slot( 7, 0, 0, 0, 0);

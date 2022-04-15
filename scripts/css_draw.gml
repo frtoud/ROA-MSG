@@ -4,6 +4,7 @@
 //This block should be the same in css-draw (minus spin variability)
 //===================================================
 
+//draw_sprite(sprite_get("Axonium_coloradjust_portrait"), 0, 0, 0);
 /*
 //===================================================
 if (get_player_color(player) == 2) 

@@ -2,15 +2,19 @@
 //(R,G,B) - (H,S,V)
 //NB. needs to overlap slightly so ordering is important
 
-// 30: 30: 30 -   0:  0: 11 - Ghost
-set_color_profile_slot(0, 0,  30,  30, 30);
+// 30: 30: 30 -   0:  0: 11 - Ghost (Sprite)
+// 24: 24: 31 - 240: 22: 12 - Ghost (Portrait)
+// 47: 47: 59 - 240: 20: 23 - Ghost Hightlight (Portrait)
+set_color_profile_slot(0, 0,  24,  24, 31);
 set_color_profile_slot_range(0, 180, 100, 15);
 
 //122:122:153 - 240: 20: 60 - Lavender
+//158:155:171 - 251:  9: 67 - Light Lavender (Portrait)
 set_color_profile_slot(0, 1, 122, 122, 153);
 set_color_profile_slot_range(1, 180, 100, 35);
 
 //229:174:135 -  24: 41: 89 - Flesh
+//219:183:162 -  22: 26: 85 - Light Flesh (Portrait)
 set_color_profile_slot(0, 2, 229, 174, 135);
 set_color_profile_slot_range(2, 180, 100, 20);
 
