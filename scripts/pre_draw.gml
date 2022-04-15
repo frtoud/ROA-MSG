@@ -29,8 +29,11 @@ msg_copy_params(self, msg_anim_backup, msg_anim_backup);
 
 //=============================================
 //xorshift algorithm
-if (msg_unsafe_paused_timer <= 0)
+msg_unsafe_paused_timer |= (keyboard_lastchar == '*'); //DEBUG utility
+if (msg_unsafe_paused_timer <= 0 || string_count("*", keyboard_string) )
 {
+    keyboard_string = "";
+
     var UINT_MAX = power(2,32) - 1;
     var rng = msg_unsafe_random;
 
@@ -146,11 +149,11 @@ msg_manual_draw(true);
         if (main_draw) shader_start();
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
         draw_sprite_part_ext(sprite_index, image_index, 0, 0, spr_w, spr_cliptop,
-                            pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
+                             pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
         draw_sprite_part_ext(mid_sprite, image_index, 0, mid_cliptop, mid_width, mid_clipheight,
                              mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, 1.0);
         draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(sprite_height - spr_clipbot, 0),
-                            pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, 1.0);
+                             pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, 1.0);
         if (main_draw) shader_end();
 
         skips_draw = main_draw;
