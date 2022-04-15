@@ -2,26 +2,25 @@
 //(R,G,B) - (H,S,V)
 //NB. needs to overlap slightly so ordering is important
 
-// 30: 30: 30 -   0:  0: 11
-set_color_profile_slot(0, 0,  30,  30, 30); // Black
+// 30: 30: 30 -   0:  0: 11 - Ghost
+set_color_profile_slot(0, 0,  30,  30, 30);
 set_color_profile_slot_range(0, 180, 100, 15);
 
-//122:122:153 - 240: 20: 60
-set_color_profile_slot(0, 1, 122, 122, 153); // Lavender
+//122:122:153 - 240: 20: 60 - Lavender
+set_color_profile_slot(0, 1, 122, 122, 153);
 set_color_profile_slot_range(1, 180, 100, 35);
 
-//229:174:135 -  24: 41: 89
-set_color_profile_slot(0, 2, 229, 174, 135); // Peach
+//229:174:135 -  24: 41: 89 - Flesh
+set_color_profile_slot(0, 2, 229, 174, 135);
 set_color_profile_slot_range(2, 180, 100, 20);
 
-//255:255:230 -  60:  9:100
-set_color_profile_slot(0, 3, 255, 255, 230); // White
+//255:255:230 -  60:  9:100 - Bone
+set_color_profile_slot(0, 3, 255, 255, 230);
 set_color_profile_slot_range(3, 180, 100, 10);
 
-//Technical
-//  0:255:  0 -  120:100:100
-set_color_profile_slot(0, 7,  0,  255,  0); // Patterned
-set_color_profile_slot_range(7, 1, 1, 10);
+//  0:255:  0 -  120:100:100 - Undefined
+set_color_profile_slot(0, 7,   0, 255,   0);
+set_color_profile_slot_range(7,   1,   1, 10);
 
 set_num_palettes(16);
 
