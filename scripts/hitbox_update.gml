@@ -8,16 +8,6 @@ if (attack == AT_FSPECIAL)
 }
 
 //==========================================================
-if (attack == AT_FSPECIAL_2)
-{
-    for (var p = 0; p < array_length(can_hit); p++)
-    {
-        if (can_hit[p] < 1) can_hit[p]++;
-    }
-}
-
-
-//==========================================================
 if (attack == AT_DSPECIAL)
 {
     if (!free && hitbox_timer < 12)

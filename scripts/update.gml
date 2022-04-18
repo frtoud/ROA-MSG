@@ -73,6 +73,24 @@ if (msg_fspecial_is_charging)
 msg_fspecial_is_charging = (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
                             && ((attack == AT_FSPECIAL) && window < 3);
 
+//bubble collective lockout update
+for (var p = 0; p < array_length(msg_collective_bubble_lockout); p++)
+{
+    if (msg_collective_bubble_lockout[p] > 0)
+    {
+        msg_collective_bubble_lockout[p]--;
+        if (msg_collective_bubble_lockout[p] == 0)
+        {
+            //reenable bubbles for target
+            with (pHitBox) if (orig_player_id == other)
+                           && (attack == AT_FSPECIAL_2)
+            {
+                can_hit[p] = true;
+            }
+        }
+    }
+}
+
 //==============================================================
 //stop tracking grab outcome selection if somehow no longer in grab
 if  (msg_grab_selected_index != noone) &&

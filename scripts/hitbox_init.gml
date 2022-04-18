@@ -3,14 +3,11 @@
 //==========================================================
 if (attack == AT_FSPECIAL_2)
 {
-    with (pHitBox) if (self != other && attack == AT_FSPECIAL_2 
-    && "url" in orig_player_id && orig_player_id.url == other.orig_player_id.url)
+    var bubble_can_hit = orig_player_id.msg_collective_bubble_lockout;
+
+    for (var p = 0; p < array_length(bubble_can_hit); p++)
     {
-        for (var p = 0; p < array_length(can_hit); p++)
-        {
-            other.can_hit[p] = can_hit[p];
-        }
-        break;
+        can_hit[p] = bubble_can_hit[p] == 0;
     }
 }
 //==========================================================

@@ -115,6 +115,8 @@ msg_ntilt_maxspeed = dash_speed * 2.2;
 
 msg_fspecial_bubble_lockout = 8;
 msg_fspecial_bubble_random_hsp_boost = 5;
+msg_fspecial_ghost_arrow_min_speed = 8;
+msg_fspecial_ghost_arrow_target_distance = 100;
 
 msg_grab_immune_timer_max = 240;
 
@@ -182,9 +184,8 @@ msg_exploded_respawn = false; //to check wether a respawned missingno gets invin
 
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
+msg_collective_bubble_lockout = array_create(20, 0);
 msg_fspecial_ghost_arrow_active = false;
-msg_fspecial_ghost_arrow_min_speed = 8;
-msg_fspecial_ghost_arrow_target_distance = 100;
 
 
 //Copy of other_init
