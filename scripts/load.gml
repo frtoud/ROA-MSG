@@ -35,7 +35,7 @@ sprite_change_offset("nair", 34, 46, true);
  sprite_change_offset("uair", 32, 47, true);
 sprite_change_offset("dair", 20, 47, true);
  sprite_change_offset("fstrong", 32, 47, true);
- sprite_change_offset("ustrong", 32, 79, true);
+ sprite_change_offset("ustrong", 25, 39, true);
 sprite_change_offset("dstrong", 45, 45, true);
  sprite_change_offset("nspecial", 32, 47, true);
  sprite_change_offset("fspecial", 32, 47, true);
@@ -50,6 +50,11 @@ sprite_change_offset("grab", 27, 45, true);
 sprite_change_offset("proj_pokeball", 12, 12);
 sprite_change_offset("proj_pokeball_broken", 12, 12);
 sprite_change_offset("vfx_ball_open", 48, 48);
+
+sprite_change_offset("proj_payday", 16, 16);
+sprite_change_offset("proj_payday_broken", 16, 16);
+sprite_change_collision_mask("proj_payday", false, 2, 12, 12, 20, 20, 2);
+sprite_change_collision_mask("proj_payday_broken", false, 2, 12, 12, 20, 20, 1);
 
 sprite_change_offset("orca_fsmash_puddle", 20, 20);
 sprite_change_offset("orca_fsmash_puddle_hurt", 20, 20);

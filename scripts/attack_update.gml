@@ -112,6 +112,21 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_USTRONG:
+    {
+        if (window == 2 && window_timer == 1 && !hitpause)
+        {
+            var hsp_base = 3*(right_down - left_down);
+            var vsp_base = 2*(right_down or left_down);
+            for (var n = 0; n < 8; n++)
+            {
+                var hb = create_hitbox(AT_USTRONG, 3, x, y-20);
+                hb.hsp += hsp_base + random_func_2(2*n, 4, false) - 2;
+                hb.vsp += vsp_base + random_func_2(2*n + 1, 4, false) - 2;
+            }
+        }
+    } break;
+//=============================================================
     case AT_DAIR:
     {
         can_move = window == 1;
