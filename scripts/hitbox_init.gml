@@ -1,6 +1,12 @@
 //hitbox_init
 
 //==========================================================
+if (attack == AT_USTRONG)
+{
+    coin_fading = false;
+}
+
+//==========================================================
 if (attack == AT_FSPECIAL_2)
 {
     var bubble_can_hit = orig_player_id.msg_collective_bubble_lockout;

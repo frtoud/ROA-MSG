@@ -1,6 +1,24 @@
 //hitbox_update
 
 //==========================================================
+if (attack == AT_USTRONG)
+{
+    if (coin_fading) 
+    { 
+        visible = (hitbox_timer % 2) == 0 || hitbox_timer < 10;
+    }
+    else if (!free) 
+    { 
+        coin_fading = true; 
+        image_yscale = 0;
+        hitbox_timer = 0;
+        img_spd = 0;
+        image_index = floor(image_index);
+        length = 20;
+    }
+}
+
+//==========================================================
 if (attack == AT_FSPECIAL)
 {
     image_index = clamp(2 + (vsp/2), 0, 6)
