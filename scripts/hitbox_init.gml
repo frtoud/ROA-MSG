@@ -7,7 +7,7 @@ if (attack == AT_USTRONG)
 }
 
 //==========================================================
-if (attack == AT_FSPECIAL_2)
+else if (attack == AT_FSPECIAL_2)
 {
     var bubble_can_hit = orig_player_id.msg_collective_bubble_lockout;
 
@@ -17,14 +17,12 @@ if (attack == AT_FSPECIAL_2)
     }
 }
 //==========================================================
-if (attack == AT_FSPECIAL_AIR) //Hydro Pump
+else if (attack == AT_FSPECIAL_AIR) //Hydro Pump
 {
     uses_sprite_collision = false; //to show hitbox
 }
-
-
 //==========================================================
-if (attack == AT_DSPECIAL)
+else if (attack == AT_DSPECIAL)
 {
     if ("missingno_copied_player_id" not in self)
         missingno_copied_player_id = player_id;
