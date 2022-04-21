@@ -65,7 +65,7 @@ set_hitbox_value(AT_USTRONG, 3, HG_KNOCKBACK_SCALING, 0.0);
 set_hitbox_value(AT_USTRONG, 3, HG_BASE_HITPAUSE, 1);
 set_hitbox_value(AT_USTRONG, 3, HG_HIT_SFX, asset_get("sfx_ell_steam_hit"));
 set_hitbox_value(AT_USTRONG, 3, HG_IGNORES_PROJECTILES, 1);
-set_hitbox_value(AT_USTRONG, 3, HG_PROJECTILE_VSPEED, -9);
+set_hitbox_value(AT_USTRONG, 3, HG_PROJECTILE_VSPEED, -10);
 set_hitbox_value(AT_USTRONG, 3, HG_PROJECTILE_GRAVITY, 0.35);
 set_hitbox_value(AT_USTRONG, 3, HG_PROJECTILE_WALL_BEHAVIOR, 2);
 set_hitbox_value(AT_USTRONG, 3, HG_PROJECTILE_GROUND_BEHAVIOR, 0);

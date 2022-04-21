@@ -121,10 +121,10 @@ switch (attack)
         }
         else if (window == 3 && window_timer == 1 && !hitpause)
         {
-            var hsp_base = (2 + (strong_charge/60.0)) * (right_down - left_down);
-            var vsp_base = 1 * (right_down or left_down) - 2 * (strong_charge/60.0);
+            var hsp_base = hsp/3 + (2 + (strong_charge/60.0)) * (right_down - left_down);
+            var vsp_base = vsp/3 + 1 * (right_down or left_down) - 2 * (strong_charge/60.0);
 
-            var num_coins = 8 + (strong_charge/15);
+            var num_coins = 8 + (strong_charge/10);
 
             for (var i = 0; i < num_coins; i++)
             {
@@ -133,9 +133,10 @@ switch (attack)
                 hb.vsp += vsp_base;
                 if (i != 0)
                 {
+                    var spread = (i < 6 ? 1 : 1.5);
                     hb.x += (random_func_2(2*i, 10, false) - 5);
-                    hb.hsp += (random_func_2(2*i, 2, false) - 1);
-                    hb.vsp += (random_func_2(2*i + 1, 2, false) - 1);
+                    hb.hsp += (random_func_2(2*i, spread*2, false) - spread);
+                    hb.vsp += (random_func_2(2*i + 1, spread*2, false) - spread);
                 }
             }
         }
