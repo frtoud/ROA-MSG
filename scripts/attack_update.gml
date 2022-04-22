@@ -149,6 +149,10 @@ switch (attack)
         {
             msg_dair_earthquake_counter = 0;
         }
+        else if (window == 2 && !was_parried && shield_pressed)
+        {
+            set_state(PS_PRATFALL)
+        }
         else if (window == 3 && window_timer == 1 && !hitpause)
         {
             sound_play(asset_get("sfx_kragg_rock_shatter"));
