@@ -13,6 +13,8 @@ else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
 
 if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 
+if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
+
 if (attack == AT_DSPECIAL_2)
 {
     if (at_bspecial_last_move.target == self)
