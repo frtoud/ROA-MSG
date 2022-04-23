@@ -108,6 +108,10 @@ switch (attack)
             window_timer = 0;
             sound_play(get_window_value(attack, 1, AG_WINDOW_SFX));
         }
+        else if (window == 5 && has_hit && !was_parried)
+        {
+            can_jump = true;
+        }
     } break;
 //=============================================================
     case AT_DSTRONG:
@@ -161,9 +165,11 @@ switch (attack)
         {
             msg_dair_earthquake_counter = 0;
         }
-        else if (window == 2 && !was_parried && shield_pressed)
+        else if (window == 2 && !was_parried && !hitpause)
         {
-            set_state(PS_PRATFALL)
+            
+            if (shield_pressed) set_state(PS_PRATFALL)
+            else if (has_hit) can_jump = true;
         }
         else if (window == 3 && window_timer == 1 && !hitpause)
         {
