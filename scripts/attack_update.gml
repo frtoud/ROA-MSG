@@ -98,6 +98,18 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_DTILT:
+    {
+        var dmg = abs(get_player_damage(player)) % 10;
+        if (attack_down && window == 3 && window_timer == 6)
+        && (dmg == 7 || dmg == 1)
+        {
+            window = 2;
+            window_timer = 0;
+            sound_play(get_window_value(attack, 1, AG_WINDOW_SFX));
+        }
+    } break;
+//=============================================================
     case AT_DSTRONG:
     {
         if (window == 2 && has_hit && !free && strong_charge > 0)
