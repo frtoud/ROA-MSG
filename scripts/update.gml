@@ -3,20 +3,24 @@
 //==============================================================
 //crawling 
 if (state == PS_CROUCH)
+|| (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND && attack == AT_DTILT)
 {
     //walk-crawl
+    var speed_limit = max(abs(hsp), crawl_speed);
     hsp = clamp(hsp + (right_down - left_down) * (ground_friction + crawl_accel), 
-               -crawl_speed, crawl_speed);
+               -speed_limit, speed_limit);
 }
 else if (state == PS_DASH_START) && down_down
 {
     //dash-crawl
     if (right_down - left_down != 0) || (abs(hsp) > ground_friction)
     {
-       state_timer = min(12, state_timer);
+       state_timer = min(12, state_timer); //prevent transition to full PS_DASH
+
+       var speed_limit = max(abs(hsp), dashcrawl_speed);
        hsp = clamp(hsp - (sign(hsp) * ground_friction) 
                        + (right_down - left_down) * (ground_friction + dashcrawl_accel),
-                       -dashcrawl_speed, dashcrawl_speed);
+                       -speed_limit, speed_limit);
     }
     hurtboxID.sprite_index = crouchbox_spr;
 }
