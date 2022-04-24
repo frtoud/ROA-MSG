@@ -147,9 +147,10 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     //newfound irrational hatred of nested withs
     for (var i = 0; i < instance_number(pHitBox); i++) 
     with (instance_find(pHitBox, i))  
-                    if (hit_priority > best_priority) 
+                    if (hit_priority > best_priority)
                     && ( (player == obj_player.player && can_hit_self)
-                        || ( (get_player_team(obj_player.player) != get_player_team(player) || team_attack)) )
+                    ||   (get_player_team(obj_player.player) != get_player_team(player) 
+                                   || (team_attack && player != obj_player.player) ) )
                     && (obj_player.can_be_hit[player] == 0) && (can_hit[obj_player.player])
                     ///copy-ball interaction controlled by the projectile. see hitbox_update.gml
                     && ("missingno_copied_player_id" not in self)
