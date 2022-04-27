@@ -47,7 +47,6 @@ if (act_as_solid)
         with (client_id) 
         {
             clear_button_buffer(PC_DOWN_HARD_PRESSED);
-            freemd = 1;
             ground_type = 1;
 
             //needed?
@@ -69,7 +68,6 @@ if (act_as_solid)
         {
             clear_button_buffer(PC_DOWN_HARD_PRESSED);
             free = false;
-            freemd = 1;
             ground_type = 1;
 
             //needed?
