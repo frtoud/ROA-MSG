@@ -3,16 +3,16 @@
 #macro AR_STATE_ACTIVE  1
 #macro AR_STATE_DYING   2
 
+//====================================================================
+if (!instance_exists(client_id) || client_id.state == PS_RESPAWN)
+//makes no sense to continue like this
+{ destroy_my_hitboxes(); instance_destroy(self); exit; }
+//====================================================================
 // 1-866-THX-SUPR
 var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
 var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
 var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
 var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
-
-if (!instance_exists(client_id) || client_id.state == PS_RESPAWN)
-//makes no sense to continue like this
-{ destroy_my_hitboxes(); instance_destroy(self); exit; }
-
 if ( y >= blastzone_b ) || ( y <= blastzone_t )
 || ( x >= blastzone_r ) || ( x <= blastzone_l )
 {
@@ -20,7 +20,7 @@ if ( y >= blastzone_b ) || ( y <= blastzone_t )
     with (client_id) sound_play(asset_get("sfx_death1"), false, noone, 0.5, 1.5);
     destroy_my_hitboxes(); instance_destroy(self); exit;
 }
-
+//====================================================================
 //collision checks, including physics
 if (state != AR_STATE_DYING) do_collision_checks();
 else
@@ -32,22 +32,26 @@ else
     spr_dir = client_id.spr_dir;
     mask_index = client_id.mask_index;
 }
+//====================================================================
 
 
 
 switch (state)
 {
+//====================================================================
     case AR_STATE_SPAWN:
     {
+        //Spawning animation (see above: proxy-collides, but doesnt copy hitboxes)
         if (state_timer > spawn_time) 
             set_state(AR_STATE_ACTIVE);
     } break;
     case AR_STATE_DYING:
     {
+        //Dying animation (no longer physical)
         if (state_timer > death_time)
         { instance_destroy(self); exit; }
     } break;
-//============================================================
+//====================================================================
     case AR_STATE_ACTIVE:
     {
         //detect & copy new melee hitboxes over
@@ -86,13 +90,17 @@ switch (state)
 //============================================================
 }
 
+//flagged for mortality
 if (needs_to_die && state != AR_STATE_DYING) set_state(AR_STATE_DYING);
-depth = min(depth, client_id.depth - 1); //because of missingno predraw render shenans
 
+//render order (because of missingno predraw render shenans)
+depth = min(depth, client_id.depth - 1); 
+
+//timers
 state_timer++;
-
 force_hitpause_cooldown = max(0, force_hitpause_cooldown - 1);
 
+//===============================================================
 if (!instance_exists(missingno_master_copy))
 {
     // find elder
@@ -105,6 +113,7 @@ if (!instance_exists(missingno_master_copy))
 }
 //is elder article, therefore is updated last. time to handle swaps/collisions
 if (missingno_master_copy == self) late_update();
+//===============================================================
 
 //============================================================
 #define set_state(new_state)
@@ -117,8 +126,7 @@ if (missingno_master_copy == self) late_update();
 //============================================================
 #define do_hitpause(target_player)
 if (force_hitpause_cooldown <= 0) //cannot force hitpause too often
-with (target_player) 
-if (object_index == oPlayer)
+with (target_player) if (object_index == oPlayer)
 {
     //Do not override previous old_hsp values if already in hitpause
     if (!hitpause)
@@ -398,21 +406,26 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 // 
 #define do_collision_checks()
 {
+    //parameter updates
     spr_dir = client_id.spr_dir;
     mask_index = client_id.mask_index;
     image_xscale = client_id.image_xscale;
     image_yscale = client_id.image_yscale;
 
+    //Position to reach this frame to sync with player
     var target_x = floor(client_id.x + client_offset_x + client_id.hsp);
     var target_y = floor(client_id.y + client_offset_y + client_id.vsp);
 
     var displacement_x = 0; //target_x - displacement_x = expected_x (but got shifted by solids)
-    var displacement_y = 0; //Note that it is negative because it is meant to be applied on the PLAYER
+    var displacement_y = 0; //Note that it is negative because it is meant to be applied on the PLAYER (see late_update)
 
-    var mov_dir = sign(target_x - x + 0.000001);
+    var mov_dir = sign(target_x - x + 0.000001); //bias to avoid zero
 
+    //Does client ignore platforms? Clones should too
     var client_fallthrough = (client_id.state != PS_ATTACK_AIR && client_id.state != PS_ATTACK_GROUND) &&
                              ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
+
+
     //============================================================================
     // collision stepping
     var par_block = asset_get("par_block");
