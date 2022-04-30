@@ -40,8 +40,6 @@ if (attack == AT_DSPECIAL)
 
         with (orig_player_id)
         {
-            print(self.msg_fspecial_bubble_lockout)
-            print (self);
             var k = spawn_hit_fx(other.x, other.y, hfx_ball_open);
             k.depth -= 20;
             sound_play(asset_get("sfx_blow_weak2"));
