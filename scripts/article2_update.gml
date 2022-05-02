@@ -294,8 +294,11 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                     best_adjustment.on_plat = collision_checks.on_plat;
                 }
                 else if (best_adjustment.y_displacement == collision_checks.y_displacement)
+                     || (other.state == PS_AIR_DODGE) //exception to allow waveland-snapping
                 {
-                    best_adjustment.y_displacement = collision_checks.y_displacement;
+                    if (collision_checks.on_solid || collision_checks.on_plat)
+                        best_adjustment.y_displacement = collision_checks.y_displacement;
+
                     best_adjustment.on_solid |= collision_checks.on_solid;
                     best_adjustment.on_plat |= collision_checks.on_plat;
                 }
@@ -400,7 +403,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 
             if (best_adjustment.on_plat || best_adjustment.on_solid)
             {
-                if (free && vsp > 0)
+                if (free && (vsp > 0 || state == PS_AIR_DODGE))
                 {
                     y += best_adjustment.y_displacement;
                 }
@@ -529,9 +532,22 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     var mov_dir = sign(target_x - x + 0.000001); //bias to avoid zero
 
     //Does client ignore platforms? Clones should too
-    var client_fallthrough = (client_id.state != PS_ATTACK_AIR && client_id.state != PS_ATTACK_GROUND) &&
-                             ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
+    var client_fallthrough = (client_id.state != PS_ATTACK_AIR 
+                           && client_id.state != PS_ATTACK_GROUND
+                           && client_id.state != PS_AIR_DODGE)
+                           && ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
 
+    //is client airdodging? extra attempts to snap to ground
+    var client_airdodge_leniency = (client_id.state == PS_AIR_DODGE
+                                    && client_id.vsp >= 0 && client_id.hsp != 0)
+
+    var pretested_y = target_y;
+    var airdodge_snap_max = 12;
+    if (client_airdodge_leniency)
+    {
+        y -= airdodge_snap_max;
+        pretested_y += airdodge_snap_max;
+    }
 
     //============================================================================
     // collision stepping
@@ -540,10 +556,10 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 
     //going down without fallthrough: platforms become relevant (if there are any closeby)
     var check_plats = (y < target_y) && (!client_fallthrough)
-     && (noone != collision_rectangle(x - mov_dir*20, y, target_x + mov_dir*20, target_y, par_jumpthrough, true, true));
+     && (noone != collision_rectangle(x - mov_dir*20, y, target_x + mov_dir*20, pretested_y, par_jumpthrough, true, true));
 
-    if (check_plats || place_meeting(target_x, target_y, par_block)
-                    || place_meeting(floor(lerp(x, target_x, 0.5)), floor(lerp(y, target_y, 0.5)), par_block) )
+    if (check_plats || place_meeting(target_x, pretested_y, par_block)
+                    || place_meeting(floor(lerp(x, target_x, 0.5)), floor(lerp(y, pretested_y, 0.5)), par_block) )
                     // If you're going so fast a half-step test can't keep up, please consider therapy
     {
         //DETECTED POTENTIAL COLLISION, activate step mode
@@ -579,6 +595,19 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             {
                 last_valid_x = test_x;
                 last_valid_y = test_y;
+            }
+        }
+
+        if client_airdodge_leniency && !(hit_plat || hit_solid)
+        {
+            //try to find something right below just in case
+            for (var extra_step = 0; extra_step < airdodge_snap_max; extra_step++)
+            {
+                if place_meeting(last_valid_x, last_valid_y + extra_step + 1, par_block)
+                || place_meeting(last_valid_x, last_valid_y + extra_step + 1, par_jumpthrough)
+                {
+                    last_valid_y += extra_step; break;
+                }
             }
         }
 
