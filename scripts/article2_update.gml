@@ -202,6 +202,30 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 
         var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
 
+        var requires_off_ledge = false;
+        var requires_roll_swap = false; //when this becomes false, undo temp swaps
+        var ledge_test_direction = 0; //0: noone, -1/1: only left or right
+        var ledge_checks = { left:noone, right:noone }
+        var col_width = 24;
+
+        if (state == PS_ATTACK_GROUND && get_attack_value(attack, AG_OFF_LEDGE) != 1 && !off_edge)
+        {
+            requires_off_ledge = true;
+            if (ground_check(x - col_width, y+1)) ledge_checks.left = self;
+            if (ground_check(x + col_width, y+1)) ledge_checks.right = self;
+        }
+        else if (state == PS_ROLL_BACKWARD || state == PS_ROLL_FORWARD)
+             || (state == PS_TECH_BACKWARD || state == PS_TECH_FORWARD)
+        {
+            requires_roll_swap = true;
+            ledge_test_direction = -spr_dir;
+            if (state == PS_TECH_BACKWARD || state == PS_TECH_FORWARD) ledge_test_direction *= sign(techroll_speed);
+            else ledge_test_direction *= sign(state == PS_ROLL_FORWARD ? roll_forward_max : roll_backward_max);
+
+            if (ground_check(x - col_width, y+1)) ledge_checks.left = self;
+            if (ground_check(x + col_width, y+1)) ledge_checks.right = self;
+        }
+
         // 1-866-THX-SUPR
         var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
         var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
@@ -261,6 +285,16 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                     best_adjustment.on_solid |= collision_checks.on_solid;
                     best_adjustment.on_plat |= collision_checks.on_plat;
                 }
+
+                if (requires_off_ledge || requires_roll_swap) 
+                && (collision_checks.on_plat || collision_checks.on_solid)
+                {
+                    //test for ground left/right of current position to determine off_ledge availability
+                    if (requires_off_ledge || ledge_test_direction < 0)
+                    && (ledge_checks.left == noone && ground_check(x - col_width, y+1)) ledge_checks.left = self;
+                    if (requires_off_ledge || ledge_test_direction > 0)
+                    && (ledge_checks.right == noone && ground_check(x + col_width, y+1)) ledge_checks.right = self;
+                }
             }
             
             //horizontal bumping into walls
@@ -302,6 +336,23 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             swap_with_player();
             //consumes clone (prevents swapping back-and-forth)
             set_state(AR_STATE_DYING);
+        }
+        else if (requires_roll_swap)
+        {
+            //todo: possibly need to reorder those checks
+            //I feel like this could be optimized?
+            var roll_temp_swap = (ledge_test_direction > 0 ? ledge_checks.right : ledge_checks.left);
+            if (roll_temp_swap != self)
+            {
+                with (roll_temp_swap) temp_swap_with_player();
+            }
+
+        }
+        else if (msg_clone_tempswaptarget != noone)
+        {
+            //undo temp_swapping
+            if (!free) best_adjustment.on_plat = true; //needed to not stutter for a frame; we were just grounded
+            with (msg_clone_tempswaptarget) swap_with_player();
         }
 
         //===========================================================
@@ -365,6 +416,10 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     client_offset_x *= -1;
     client_offset_y *= -1;
 
+    //swapping cancels temp-swaps
+    //(see below: even though temp_swap uses this swap function, it is equipped to restore this)
+    client_id.msg_clone_tempswaptarget = noone;
+
     //update to all copies
     for (var i = 0; i < instance_number(obj_article2); i++) 
     with (instance_find(obj_article2, i)) if ("is_missingno_copy" in self)
@@ -392,6 +447,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         }
         
         //TODO: setup swap_cooldown (on clones? or on players? not sure theres a difference)
+        //note: must not prevent tempswapping
     }
 
     //Microplatform (if it exists) needs to follow the client player to its destination
@@ -399,6 +455,25 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     {
         client_id.msg_clone_microplatform.x = client_id.x;
         client_id.msg_clone_microplatform.y = client_id.y;
+    }
+}
+//============================================================
+// exchange position with player 
+#define temp_swap_with_player()
+{
+    prev_tempswap = client_id.msg_clone_tempswaptarget;
+
+    swap_with_player();
+    
+    if (prev_tempswap == noone)
+    {
+        //mark self as the original position to restore to later
+        client_id.msg_clone_tempswaptarget = self;
+    }
+    else if (prev_tempswap == self)
+    {
+        //temp-swap has restored to the original position, can stop keeping track
+        client_id.msg_clone_tempswaptarget = noone;
     }
 }
 
@@ -509,5 +584,11 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     collision_checks.hit_wall = false;
     if (abs(collision_checks.x_displacement) > 0)
         collision_checks.hit_wall = place_meeting(x - sign(collision_checks.x_displacement), y, par_block);
+}
 
+//============================================================================
+#define ground_check(pos_x, pos_y)
+{
+    return place_meeting(pos_x, pos_y, asset_get("par_block"))
+        || place_meeting(pos_x, pos_y, asset_get("par_jumpthrough"));
 }
