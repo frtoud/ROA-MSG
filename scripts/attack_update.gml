@@ -372,7 +372,7 @@ switch (attack)
             if (window_timer == 0 && !hitpause)
             with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
             {
-                //victims need to be considered grounded to be properly frozen
+                //victims need to be considered grounded to get properly frozen
                 free = false;
                 with (other) //back to Missingno
                 {

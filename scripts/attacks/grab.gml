@@ -73,6 +73,7 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 3);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 3);
 hbox_num++;
+MSG_GRAB_FREEZE_HITBOX = hbox_num;
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);

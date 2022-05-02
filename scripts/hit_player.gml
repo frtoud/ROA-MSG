@@ -72,6 +72,11 @@ if (my_hitboxID.attack == AT_NTHROW)
         set_player_damage(hit_player_obj.player, clamp(-dmg, -999, 999));
         hit_player_obj.msg_negative_dmg_timer = msg_grab_negative_duration;
     }
+    else if (my_hitboxID.hbox_num == MSG_GRAB_FREEZE_HITBOX)
+    {
+        //turn damage into negatives (and amplify it)
+        hit_player_obj.state_timer += 45;
+    }
 }
 //==========================================================
 //hit someone with the TMTRAINER
