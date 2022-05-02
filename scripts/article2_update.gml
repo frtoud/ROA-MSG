@@ -463,18 +463,18 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 {
     prev_tempswap = client_id.msg_clone_tempswaptarget;
 
-    swap_with_player();
+    swap_with_player(); //internally resets msg_clone_tempswaptarget
     
     if (prev_tempswap == noone)
     {
         //mark self as the original position to restore to later
         client_id.msg_clone_tempswaptarget = self;
     }
-    else if (prev_tempswap == self)
+    else if (prev_tempswap != self)
     {
-        //temp-swap has restored to the original position, can stop keeping track
-        client_id.msg_clone_tempswaptarget = noone;
+        client_id.msg_clone_tempswaptarget = prev_tempswap;
     }
+    //else: temp-swap has restored to the original position, can stop keeping track
 }
 
 //============================================================
