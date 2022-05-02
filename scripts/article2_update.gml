@@ -376,7 +376,8 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             {
                 with (wall_swap_target) temp_swap_with_player();
                 //I'm sorry dan
-                if ("url" in self && url == CH_SYLVANOS) msg_clone_tempswaptarget = noone;
+                if ("url" in self && url == CH_SYLVANOS 
+                && state == PS_ATTACK_AIR && attack == AT_USPECIAL) msg_clone_tempswaptarget = noone;
             }
         }
         else if (msg_clone_tempswaptarget != noone)
