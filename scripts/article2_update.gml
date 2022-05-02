@@ -206,7 +206,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         var requires_roll_swap = false; //when this becomes false, undo temp swaps
         var ledge_test_direction = 0; //0: noone, -1/1: only left or right
         var ledge_checks = { left:noone, right:noone }
-        var col_width = 24;
+        var col_width = 20;
 
         if (state == PS_ATTACK_GROUND && get_attack_value(attack, AG_OFF_LEDGE) != 1 && !off_edge)
         {
@@ -571,8 +571,8 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     // if landed on a platform (approx. check)
     var colw = 20;
     collision_checks.on_plat = !client_fallthrough
-       && (noone != collision_rectangle(x+colw, y, x-colw, y+2, par_jumpthrough, true, true))
-       && (noone == collision_rectangle(x+colw, y-2, x-colw, y-3, par_jumpthrough, true, true))
+       && (noone != collision_rectangle(x+colw, y, x-colw, y+1, par_jumpthrough, true, true))
+       && (noone == collision_rectangle(x+colw, y-1, x-colw, y-2, par_jumpthrough, true, true))
     collision_checks.on_solid = place_meeting(x, y+1, par_block);
 
     // if had touched a ceiling
@@ -589,6 +589,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 //============================================================================
 #define ground_check(pos_x, pos_y)
 {
-    return place_meeting(pos_x, pos_y, asset_get("par_block"))
-        || place_meeting(pos_x, pos_y, asset_get("par_jumpthrough"));
+
+    return position_meeting(pos_x, pos_y, asset_get("par_block"))
+        || position_meeting(pos_x, pos_y, asset_get("par_jumpthrough"));
 }

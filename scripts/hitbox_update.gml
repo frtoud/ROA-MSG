@@ -55,8 +55,9 @@ if (attack == AT_DSPECIAL)
             //y offset because of size of pokeball when landed
             var copy = instance_create(other.x, other.y + 12, "obj_article2");
             copy.client_id = other.missingno_copied_player_id;
-            copy.client_offset_x = 8 * floor((copy.x - copy.client_id.x) / 8);
-            copy.client_offset_y = 8 * floor((copy.y - copy.client_id.y) / 8);
+            var GRIDSNAP = 16;
+            copy.client_offset_x = GRIDSNAP * floor((copy.x - copy.client_id.x) / GRIDSNAP);
+            copy.client_offset_y = GRIDSNAP * floor((copy.y - copy.client_id.y) / GRIDSNAP);
 
         }
     }
