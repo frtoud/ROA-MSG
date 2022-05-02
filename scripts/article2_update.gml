@@ -198,21 +198,35 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     {
         var best_swap = { hb:noone, copy:noone };
         var death_swap = { about_to_die:false, copy:noone, distance:9999999 };
-        //var wall_swap = {  };
 
+        //general status
         var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
 
-        var requires_off_ledge = false;
-        var requires_roll_swap = false; //when this becomes false, undo temp swaps
+        //proxy-ground movement status
+        var requires_off_ledge = false; //if this is true, requires off_ledge index on current attack
+        var requires_roll_swap = false; //if this is true, temp swap is needed for duration of roll
         var ledge_test_direction = 0; //0: noone, -1/1: only left or right
         var ledge_checks = { left:noone, right:noone }
         var col_width = 20;
+
+        //proxy-wall interaction status
+        var requires_wall_check = (state == PS_ATTACK_GROUND || free); //if this is true, start checking with below
+        var requires_wall_swap = false; //if this is true, temp swap is needed since character is currently close to a wall
+        var wall_swap_target = noone;
 
         if (state == PS_ATTACK_GROUND && get_attack_value(attack, AG_OFF_LEDGE) != 1 && !off_edge)
         {
             requires_off_ledge = true;
             if (ground_check(x - col_width, y+1)) ledge_checks.left = self;
             if (ground_check(x + col_width, y+1)) ledge_checks.right = self;
+        }
+
+        if (requires_wall_check)
+        && (place_meeting(x+2, y, asset_get("par_block")) || place_meeting(x-2, y, asset_get("par_block")))
+        {
+            //potentially inside of a wall swap right now
+            requires_wall_swap = true;
+            wall_swap_target = self;
         }
         else if (state == PS_ROLL_BACKWARD || state == PS_ROLL_FORWARD)
              || (state == PS_TECH_BACKWARD || state == PS_TECH_FORWARD)
@@ -301,7 +315,15 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             if (abs(best_adjustment.x_displacement) < abs(collision_checks.x_displacement))
             {
                 best_adjustment.x_displacement = collision_checks.x_displacement;
-                best_adjustment.hit_wall = collision_checks.hit_wall;
+                if (requires_wall_check)
+                {
+                    requires_wall_swap = collision_checks.hit_wall;
+                    if (wall_swap_target != other) wall_swap_target = self;
+                }
+                else
+                {
+                    best_adjustment.hit_wall = collision_checks.hit_wall;
+                }
             }
             //===========================================================
         }
@@ -347,6 +369,15 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                 with (roll_temp_swap) temp_swap_with_player();
             }
 
+        }
+        else if (requires_wall_swap)
+        {
+            if (wall_swap_target != self)
+            {
+                with (wall_swap_target) temp_swap_with_player();
+                //I'm sorry dan
+                if ("url" in self && url == CH_SYLVANOS) msg_clone_tempswaptarget = noone;
+            }
         }
         else if (msg_clone_tempswaptarget != noone)
         {
