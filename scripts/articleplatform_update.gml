@@ -38,7 +38,7 @@ if (should_die || external_should_die) && !(lifetime > 0)
 lifetime--;
 
 x = client_id.x;
-image_xscale = 3;
+image_xscale = 5;
 
 if (act_as_solid)
 {
