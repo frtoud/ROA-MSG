@@ -558,6 +558,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     var client_fallthrough = (client_id.state != PS_ATTACK_AIR 
                            && client_id.state != PS_ATTACK_GROUND
                            && client_id.state != PS_AIR_DODGE)
+                           && client_id.fall_through //possibly optimizes all of the above!? 
                            && ((client_id.free && client_id.down_down) || client_id.down_hard_pressed);
 
     //is client airdodging? extra attempts to snap to ground
