@@ -415,9 +415,9 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                     msg_clone_microplatform.x = x;
                     y = floor(y + vsp); //prevent oddities where fractional position stutters landing
                     msg_clone_microplatform.y = y;
-                    msg_clone_microplatform.die_condition = 2;
-                    msg_clone_microplatform.lifetime = 2;
                 }
+                msg_clone_microplatform.die_condition = 0;
+                msg_clone_microplatform.lifetime = 1;
                 msg_clone_microplatform.act_as_solid = best_adjustment.on_solid;
             }
             else if instance_exists(msg_clone_microplatform)
