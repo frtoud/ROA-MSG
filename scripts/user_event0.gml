@@ -24,6 +24,13 @@ with (oPlayer)
         }
     }
 
+    if (msg_clone_last_attack_that_needed_offedge != noone) 
+    && (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
+    {
+        //restore this index to its original value
+        reset_attack_value(msg_clone_last_attack_that_needed_offedge, AG_OFF_LEDGE);
+        msg_clone_last_attack_that_needed_offedge = noone;
+    }
 }
 
 //debuffs management -- only the "handler" missingno needs to manage it

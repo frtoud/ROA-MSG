@@ -203,7 +203,7 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
 
         //proxy-ground movement status
-        var requires_off_ledge = false; //if this is true, requires off_ledge index on current attack
+        var requires_off_ledge = false; //if this is true, requires off_ledge manipulation on current attack
         var requires_roll_swap = false; //if this is true, temp swap is needed for duration of roll
         var ledge_test_direction = 0; //0: noone, -1/1: only left or right
         var ledge_checks = { left:noone, right:noone }
@@ -214,7 +214,8 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         var requires_wall_swap = false; //if this is true, temp swap is needed since character is currently close to a wall
         var wall_swap_target = noone;
 
-        if (state == PS_ATTACK_GROUND && get_attack_value(attack, AG_OFF_LEDGE) != 1 && !off_edge)
+        if (state == PS_ATTACK_GROUND || (state == PS_ATTACK_AIR && !free)) && 
+        (!off_edge || msg_clone_last_attack_that_needed_offedge == attack)
         {
             requires_off_ledge = true;
             if (ground_check(x - col_width, y+1)) ledge_checks.left = self;
@@ -371,7 +372,6 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             {
                 with (roll_temp_swap) temp_swap_with_player();
             }
-
         }
         else if (requires_wall_swap)
         {
@@ -388,6 +388,29 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             //undo temp_swapping
             if (!free) best_adjustment.on_plat = true; //needed to not stutter for a frame; we were just grounded
             with (msg_clone_tempswaptarget) swap_with_player();
+        }
+
+        //Attack needs off-edge tampering
+        if (requires_off_ledge)
+        && ( ((hsp < -spr_dir) && (ledge_checks.left != self) && (ledge_checks.left != noone))
+          || ((hsp > -spr_dir) && (ledge_checks.right != self) && (ledge_checks.right != noone)) )
+        {
+            set_attack_value(attack, AG_OFF_LEDGE, 1);
+            if (attack != msg_clone_last_attack_that_needed_offedge)
+            {
+                //canceled from other attack
+                if (msg_clone_last_attack_that_needed_offedge != noone)
+                {
+                    reset_attack_value(msg_clone_last_attack_that_needed_offedge, AG_OFF_LEDGE);
+                }
+                msg_clone_last_attack_that_needed_offedge = attack;
+            }
+        }
+        else if (msg_clone_last_attack_that_needed_offedge != noone)
+        {
+            //restore this index to its original value
+            reset_attack_value(msg_clone_last_attack_that_needed_offedge, AG_OFF_LEDGE);
+            msg_clone_last_attack_that_needed_offedge = noone;
         }
 
         //===========================================================

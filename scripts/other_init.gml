@@ -15,8 +15,7 @@ msg_last_known_damage = 0;
 
 msg_clone_microplatform = noone; //clone pseudoground
 msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
-msg_clone_last_attack_without_offedge = -1;
-msg_clone_last_attack_needed_offedge = false;
+msg_clone_last_attack_that_needed_offedge = noone;
 
 //initialize VFX
 msg_init_effects(false);
