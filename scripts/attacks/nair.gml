@@ -72,7 +72,7 @@ set_hitbox_value(AT_NAIR, 3, HG_ANGLE, 70);
 set_hitbox_value(AT_NAIR, 3, HG_ANGLE_FLIPPER, 3);
 set_hitbox_value(AT_NAIR, 3, HG_BASE_KNOCKBACK, 7);
 set_hitbox_value(AT_NAIR, 3, HG_KNOCKBACK_SCALING, 0.3);
-set_hitbox_value(AT_NAIR, 3, HG_BASE_HITPAUSE, 2);
+set_hitbox_value(AT_NAIR, 3, HG_BASE_HITPAUSE, 4);
 set_hitbox_value(AT_NAIR, 3, HG_VISUAL_EFFECT, 302);
 set_hitbox_value(AT_NAIR, 3, HG_HIT_SFX, sound_get("poison_step"));
 set_hitbox_value(AT_NAIR, 3, HG_HITBOX_GROUP, 3);
