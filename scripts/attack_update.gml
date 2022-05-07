@@ -158,6 +158,18 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_NAIR:
+    {
+        if (window == 1 && window_timer == 1 && !hitpause)
+        {
+            set_num_hitboxes(AT_NAIR, 1);
+        }
+        else if (has_hit)
+        {
+            set_num_hitboxes(AT_NAIR, 3);
+        }
+    } break;
+//=============================================================
     case AT_DAIR:
     {
         can_move = window == 1;
