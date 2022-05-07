@@ -206,6 +206,29 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_BAIR:
+    {
+        if (window == 1 && window_timer == 2 && !hitpause)
+        {
+            //find target for BAIR's copying
+            //closest thing to "next player" you can find
+            var best_target = self;
+            var best_player = player + 30; // simplifies subsequent checks
+            with (oPlayer)
+            {
+                //want "next" player, but if there is none, wrap around from zero
+                //this makes it so player 1 appears "after" player 4 in the ordering
+                var corrected_player = (player > other.player ? player : player + 30);
+                if (corrected_player < best_player)
+                {
+                    best_target = self;
+                    best_player = corrected_player;
+                }
+            }
+            msg_construct_bair(best_target);
+        }
+    } break;
+//=============================================================
     case AT_FSPECIAL: // Charge & Water Gun
     {
         if (window == 2)
@@ -519,3 +542,19 @@ if (attack == AT_DSPECIAL && window_timer == 12 && window == 2 && false) {
     
 }
 */
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define msg_construct_bair(target) // Version 0
+    // steals physical statistics to dynamically determine BAIR's stats
+
+
+    set_hitbox_value(AT_BAIR, 1, HG_DAMAGE, target.walljump_hsp);
+    set_hitbox_value(AT_BAIR, 1, HG_ANGLE, target.char_height);
+    set_hitbox_value(AT_BAIR, 1, HG_BASE_KNOCKBACK, target.initial_dash_speed);
+    set_hitbox_value(AT_BAIR, 1, HG_KNOCKBACK_SCALING, target.gravity_speed);
+    set_hitbox_value(AT_BAIR, 1, HG_BASE_HITPAUSE, target.max_jump_hsp);
+    set_hitbox_value(AT_BAIR, 1, HG_HITPAUSE_SCALING, target.dash_stop_percent);
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

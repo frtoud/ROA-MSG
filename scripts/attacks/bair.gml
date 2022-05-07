@@ -22,11 +22,10 @@ set_window_value(AT_BAIR, 3, AG_WINDOW_TYPE, 1);
 set_window_value(AT_BAIR, 3, AG_WINDOW_LENGTH, 7);
 set_window_value(AT_BAIR, 3, AG_WINDOW_ANIM_FRAMES, 3);
 set_window_value(AT_BAIR, 3, AG_WINDOW_ANIM_FRAME_START, 4);
-set_window_value(AT_BAIR, 3, AG_WINDOW_HAS_WHIFFLAG, 4);
+set_window_value(AT_BAIR, 3, AG_WINDOW_HAS_WHIFFLAG, 1);
 
 set_num_hitboxes(AT_BAIR, 1);
 
-set_hitbox_value(AT_BAIR, 1, HG_PARENT_HITBOX, 1);
 set_hitbox_value(AT_BAIR, 1, HG_HITBOX_TYPE, 1);
 set_hitbox_value(AT_BAIR, 1, HG_WINDOW, 2);
 set_hitbox_value(AT_BAIR, 1, HG_LIFETIME, 10);
@@ -34,14 +33,26 @@ set_hitbox_value(AT_BAIR, 1, HG_HITBOX_X, -20);
 set_hitbox_value(AT_BAIR, 1, HG_HITBOX_Y, -35);
 set_hitbox_value(AT_BAIR, 1, HG_WIDTH, 55);
 set_hitbox_value(AT_BAIR, 1, HG_HEIGHT, 85);
-set_hitbox_value(AT_BAIR, 1, HG_PRIORITY, 2);
-set_hitbox_value(AT_BAIR, 1, HG_DAMAGE, 5);
-set_hitbox_value(AT_BAIR, 1, HG_ANGLE, 45);
-set_hitbox_value(AT_BAIR, 1, HG_BASE_KNOCKBACK, 5);
-set_hitbox_value(AT_BAIR, 1, HG_KNOCKBACK_SCALING, .4);
-set_hitbox_value(AT_BAIR, 1, HG_BASE_HITPAUSE, 6);
-set_hitbox_value(AT_BAIR, 1, HG_HITPAUSE_SCALING, .25);
+set_hitbox_value(AT_BAIR, 1, HG_HIT_SFX, asset_get("sfx_blow_medium1"));
+set_hitbox_value(AT_BAIR, 1, HG_ANGLE_FLIPPER, 5); //reversed
 set_hitbox_value(AT_BAIR, 1, HG_VISUAL_EFFECT_X_OFFSET, -32);
 set_hitbox_value(AT_BAIR, 1, HG_VISUAL_EFFECT_Y_OFFSET, -10);
-set_hitbox_value(AT_BAIR, 1, HG_HIT_SFX, asset_get("sfx_blow_medium1"));
-set_hitbox_value(AT_BAIR, 1, HG_ANGLE_FLIPPER, 6);
+set_hitbox_value(AT_BAIR, 1, HG_PRIORITY, 5);
+//Note: only used as baseline/backup. influenced by opponents
+msg_construct_bair(self);
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define msg_construct_bair(target) // Version 0
+    // steals physical statistics to dynamically determine BAIR's stats
+
+
+    set_hitbox_value(AT_BAIR, 1, HG_DAMAGE, target.walljump_hsp);
+    set_hitbox_value(AT_BAIR, 1, HG_ANGLE, target.char_height);
+    set_hitbox_value(AT_BAIR, 1, HG_BASE_KNOCKBACK, target.initial_dash_speed);
+    set_hitbox_value(AT_BAIR, 1, HG_KNOCKBACK_SCALING, target.gravity_speed);
+    set_hitbox_value(AT_BAIR, 1, HG_BASE_HITPAUSE, target.max_jump_hsp);
+    set_hitbox_value(AT_BAIR, 1, HG_HITPAUSE_SCALING, target.dash_stop_percent);
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion
