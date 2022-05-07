@@ -188,8 +188,8 @@ var grab_negative =  { window:MSG_GRAB_NEGATIVE_WINDOW,  sound:sound_get("grab5"
 //Put 4 in starting rotation
 msg_grab_rotation = [grab_negative, 
                      grab_explode, 
-                     grab_frostburn, 
-                     grab_leechseed];
+                     grab_leechseed, 
+                     grab_frostburn];
 
 //Add the rest to the queue (minimum 1)
 msg_grab_queue = [grab_frostburn];

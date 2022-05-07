@@ -368,11 +368,11 @@ switch (attack)
                 }
                 
                 ///rotate grab outcome selection
-                msg_grab_rotation[msg_grab_selected_index] = msg_grab_queue[msg_grab_queue_pointer];
-                msg_grab_queue[msg_grab_queue_pointer] = current_outcome;
-                msg_grab_queue_pointer = (msg_grab_queue_pointer + 1) % array_length(msg_grab_queue)
+                //msg_grab_rotation[msg_grab_selected_index] = msg_grab_queue[msg_grab_queue_pointer];
+                //msg_grab_queue[msg_grab_queue_pointer] = current_outcome;
+                //msg_grab_queue_pointer = (msg_grab_queue_pointer + 1) % array_length(msg_grab_queue)
                 
-                msg_grab_selected = noone;
+                //msg_grab_selected = noone;
             }
             else
             {
