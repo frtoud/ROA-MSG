@@ -14,7 +14,8 @@ state_timer = 0;
 needs_to_die = false; //kills the article
 
 spawn_time = 15; //time it takes for copy to begin acting like player
-death_time = 15; //time it takes for copy to fade out
+max_lifetime = 8*60; //maximum time before a copy despawns
+death_time = 30; //time it takes for copy to fade out
 
 
 is_missingno_copy = true; //identifiable variable for elsewhere

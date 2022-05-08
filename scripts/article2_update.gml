@@ -22,16 +22,7 @@ if ( y >= blastzone_b ) || ( y <= blastzone_t )
 }
 //====================================================================
 //collision checks, including physics
-if (state != AR_STATE_DYING) do_collision_checks();
-else
-{
-    //simpler position update
-    x = client_id.x + client_offset_x;
-    y = client_id.y + client_offset_y;
-
-    spr_dir = client_id.spr_dir;
-    mask_index = client_id.mask_index;
-}
+do_collision_checks();
 //====================================================================
 
 
@@ -49,11 +40,12 @@ switch (state)
     {
         //Dying animation (no longer physical)
         if (state_timer > death_time)
-        { instance_destroy(self); exit; }
+        { destroy_my_hitboxes(); instance_destroy(self); exit; }
     } break;
 //====================================================================
     case AR_STATE_ACTIVE:
     {
+        var has_copied_a_hitbox = false;
         //detect & copy new melee hitboxes over
         with (pHitBox) if (type == 1) && (orig_player_id == other.client_id)
         {
@@ -63,6 +55,7 @@ switch (state)
                 // maintenance on hitbox you copied
                 if (missingno_hitbox_is_copy_for == other && instance_exists(missingno_hitbox_is_copy_of))
                 {
+                    has_copied_a_hitbox = true;
                     length = max(missingno_hitbox_is_copy_of.length, 1);
                     hitbox_timer = max(0, missingno_hitbox_is_copy_of.hitbox_timer - 1);
                     x_pos = missingno_hitbox_is_copy_of.x_pos + other.client_offset_x;
@@ -72,6 +65,7 @@ switch (state)
             // copy new hitboxes (as per above, does not consider copied hitboxes)
             else if (other.missingno_unique_identifier not in self)
             {
+                has_copied_a_hitbox = true;
                 var hb_copy = noone;
                 with (orig_player_id) { hb_copy = create_hitbox(other.attack, other.hbox_num, other.x, other.y); }
 
@@ -86,6 +80,16 @@ switch (state)
                 hb_copy.hitbox_timer = max(0, hitbox_timer - 1);
             }
         }
+
+        if (state_timer > max_lifetime) 
+        && (!has_copied_a_hitbox)
+        && (client_id.msg_clone_tempswaptarget != self)
+        && (client_id.state_cat != SC_HITSTUN)
+        {
+            //allowed to die when not actively being used
+            set_state(AR_STATE_DYING);
+        }
+
     } break;
 //============================================================
 }
@@ -250,27 +254,29 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
                                || ( x + hsp >= blastzone_r ) || ( x + hsp <= blastzone_l );
 
         with (obj_article2) if ("is_missingno_copy" in self)
-                            && (state != AR_STATE_DYING)
                             && (client_id == other)
         {
             //============================================================
             //test for hitswapping
-            var detected_hitbox = detect_hit();
-            if (detected_hitbox != noone)
-            && (best_swap.hb == noone || best_swap.hb.hit_priority < detected_hitbox.hit_priority)
+            if (state == AR_STATE_ACTIVE)
             {
-                best_swap.hb = detected_hitbox;
-                best_swap.copy = self;
-            }
-
-            if (death_swap.about_to_die)
-            {
-                //collect best copy to swap to based on distance
-                var curr_distance = point_distance(other.x, other.y, x, y);
-                if (death_swap.distance > curr_distance)
+                var detected_hitbox = detect_hit();
+                if (detected_hitbox != noone)
+                && (best_swap.hb == noone || best_swap.hb.hit_priority < detected_hitbox.hit_priority)
                 {
-                    death_swap.copy = self;
-                    death_swap.distance = curr_distance;
+                    best_swap.hb = detected_hitbox;
+                    best_swap.copy = self;
+                }
+
+                if (death_swap.about_to_die)
+                {
+                    //collect best copy to swap to based on distance
+                    var curr_distance = point_distance(other.x, other.y, x, y);
+                    if (death_swap.distance > curr_distance)
+                    {
+                        death_swap.copy = self;
+                        death_swap.distance = curr_distance;
+                    }
                 }
             }
             //============================================================
