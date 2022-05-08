@@ -75,7 +75,10 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
     //copies of this player
     with (obj_article2) if ("is_missingno_copy" in self) && (client_id == other)
     {
-        with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, (1 + small_sprites)*spr_dir, 1 + small_sprites, 0, c_white, 1);
+        var bg_scale = (1 + other.small_sprites);
+        if (state == 0) bg_scale *= floor(state_timer/5) * 0.25;
+        var bg_alpha = (state == 2 ? 0.5 : 1);
+        with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, bg_scale*spr_dir, bg_scale, 0, c_white, bg_alpha);
     }
 
     ///Reenable blend, alphatest & colors

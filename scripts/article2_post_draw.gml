@@ -5,8 +5,13 @@ with (client_id)
 {
     shader_start();
     var scale = small_sprites + 1;
+    if (other.state == 0)
+    {
+        //spawning: stepped-grow effect
+        scale *= floor(other.state_timer/5) * 0.25;
+    }
 
-    var alpha = (other.state == 1 ? 1 : 0.5);
+    var alpha = (other.state == 2 ? 0.5 : 1);
 
     draw_sprite_ext(sprite_index, image_index, other.x, other.y, scale*spr_dir, scale, 0, c_white, alpha);
     shader_end();
