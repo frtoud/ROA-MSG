@@ -28,15 +28,16 @@ if (attack == AT_FSPECIAL)
 //==========================================================
 if (attack == AT_DSPECIAL)
 {
+    //early land: bounce
     if (!free && hitbox_timer < 12)
     {
         vsp -= 6;
     }
+    //clone creation after enough time
     else if (!free) || (hitbox_timer >= length - 1) 
     {
         if (hbox_num == 1) destroy_copies(missingno_copied_player_id); //flushes old clones
         destroyed = true;
-
 
         with (orig_player_id)
         {
@@ -45,10 +46,9 @@ if (attack == AT_DSPECIAL)
             sound_play(asset_get("sfx_blow_weak2"));
 
             //ownership of projectile determines article's scripts when created in hitbox_update.gml
-            //this un-parries the projectile for article creation
-            //DAN PLS
+            //this un-parries the projectile for article creation (just in case) (dan pls)
             other.orig_player_id = self;
-            other.orig_player= player;
+            other.orig_player = player;
             other.player_id = self;
             other.player = player;
 
@@ -58,13 +58,14 @@ if (attack == AT_DSPECIAL)
             var GRIDSNAP = 16;
             copy.client_offset_x = GRIDSNAP * floor((copy.x - copy.client_id.x) / GRIDSNAP);
             copy.client_offset_y = GRIDSNAP * floor((copy.y - copy.client_id.y) / GRIDSNAP);
-
         }
     }
+    //special collision checks
     else if (hbox_num == 1)
     {
         var hbox = self;
         var hbox_has_hit = false;
+        //clone duplication
         with (obj_article2) if (!hbox_has_hit) 
                             && ("is_missingno_copy" in self) && (state != 2)
         {
@@ -90,6 +91,29 @@ if (attack == AT_DSPECIAL)
                 hbox_bot.vsp = min(hbox.vsp, -2);
 
                 destroy_copies(other.client_id); //other copies consumed
+            }
+        }
+        // Teammate interaction
+        var my_team = get_player_team(hbox.orig_player_id.player);
+        with (oPlayer) if (!hbox_has_hit)
+                       && (self != other.orig_player_id)
+                       && (get_player_team(player) == my_team)
+        {
+            with (hurtboxID) 
+            { hbox_has_hit = place_meeting(x, y, hbox); }
+
+            if (hbox_has_hit) with (hbox.orig_player_id)
+            {
+                sound_play(hbox.sound_effect);
+                spawn_hit_fx(floor(hbox.x), floor(hbox.y), hbox.hit_effect);
+                hbox.destroyed = true;
+
+                var hb = create_hitbox(hbox.attack, 2, hbox.x, hbox.y)
+                hb.hsp = hbox.initial_hsp;
+                hb.vsp = hbox.initial_vsp;
+                hb.missingno_copied_player_id = other;
+                //consume existing clones
+                destroy_copies(other);
             }
         }
     }

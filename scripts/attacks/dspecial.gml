@@ -29,14 +29,14 @@ set_hitbox_value(AT_DSPECIAL, 1, HG_HITBOX_Y, -30);
 set_hitbox_value(AT_DSPECIAL, 1, HG_WIDTH, 20);
 set_hitbox_value(AT_DSPECIAL, 1, HG_HEIGHT, 20);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PRIORITY, 1);
-set_hitbox_value(AT_DSPECIAL, 1, HG_DAMAGE, 2);
-set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_KNOCKBACK, 2);
+set_hitbox_value(AT_DSPECIAL, 1, HG_DAMAGE, 6);
+set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_KNOCKBACK, 5);
 set_hitbox_value(AT_DSPECIAL, 1, HG_KNOCKBACK_SCALING, .1);
-set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_HITPAUSE, 3);
+set_hitbox_value(AT_DSPECIAL, 1, HG_BASE_HITPAUSE, 5);
 set_hitbox_value(AT_DSPECIAL, 1, HG_VISUAL_EFFECT, 20);
 set_hitbox_value(AT_DSPECIAL, 1, HG_HIT_SFX, asset_get("sfx_absa_singlezap1"));
-set_hitbox_value(AT_DSPECIAL, 1, HG_ANGLE_FLIPPER, 6);
-set_hitbox_value(AT_DSPECIAL, 1, HG_EFFECT, 9); //polite
+set_hitbox_value(AT_DSPECIAL, 1, HG_ANGLE, 90);
+//set_hitbox_value(AT_DSPECIAL, 1, HG_EFFECT, 9); //polite
 
 set_hitbox_value(AT_DSPECIAL, 1, HG_IGNORES_PROJECTILES, 1);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_SPRITE, sprite_get("proj_pokeball"));
