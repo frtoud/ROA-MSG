@@ -4,3 +4,9 @@ if (msg_exploded_damage != 0)
     take_damage( player, -1, msg_exploded_damage );
     msg_exploded_damage = 0;
 }
+
+if (attack == AT_FSTRONG && strong_charge > 0 && strong_charge < 60)
+{
+    //interrupted: start charging passively >:]
+    msg_fstrong_interrupted_timer = strong_charge;
+}

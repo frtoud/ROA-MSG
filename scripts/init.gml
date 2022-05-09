@@ -155,6 +155,8 @@ msg_dstrong_yoyo =
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
 
+msg_fstrong_interrupted_timer = 0;
+
 msg_ntilt_origin = { x:0, y:0 };
 
 //See attacks -> grab.gml for the actual definition

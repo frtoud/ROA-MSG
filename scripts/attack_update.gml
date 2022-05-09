@@ -555,6 +555,28 @@ if (attack == AT_DSPECIAL && window_timer == 12 && window == 2 && false) {
 }
 */
 
+
+//==============================================================
+//passive charge glitch
+if (msg_fstrong_interrupted_timer > 0)
+{
+    strong_charge = msg_fstrong_interrupted_timer;
+    msg_fstrong_interrupted_timer = 0;
+
+    //"diminishing returns" above 60 for two extra seconds worth of charge
+    if (strong_charge > 60)
+        strong_charge = 60 + min((strong_charge - 60)/2, 60);
+}
+
+if (strong_charge > 60) && window == get_attack_value(attack, AG_STRONG_CHARGE_WINDOW)
+                        && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) -1
+{
+    //skip strong charge frame to avoid resetting it
+    var next_window = get_window_value(attack, window, AG_WINDOW_GOTO);
+    window = (next_window == 0) ? window + 1 : next_window;
+    window_timer = 0;
+}
+
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.

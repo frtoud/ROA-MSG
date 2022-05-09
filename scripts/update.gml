@@ -96,6 +96,13 @@ for (var p = 0; p < array_length(msg_collective_bubble_lockout); p++)
 }
 
 //==============================================================
+//passive charge glitch
+if (msg_fstrong_interrupted_timer > 0)
+{
+    msg_fstrong_interrupted_timer++;
+    strong_flashing = (msg_fstrong_interrupted_timer % 10 > 5);
+}
+//==============================================================
 //stop tracking grab outcome selection if somehow no longer in grab
 if  (msg_grab_selected_index != noone) &&
    (!(state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
