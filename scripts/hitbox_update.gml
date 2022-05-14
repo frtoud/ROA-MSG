@@ -5,12 +5,13 @@ if (attack == AT_USTRONG)
 {
     if (coin_fading) 
     { 
+        //flickering
         visible = (hitbox_timer % 2) == 0 || hitbox_timer < 10;
     }
     else if (!free) 
     { 
         coin_fading = true; 
-        image_yscale = 0;
+        image_yscale = 0; //essentially turns off collider
         hitbox_timer = 0;
         img_spd = 0;
         image_index = floor(image_index);
@@ -21,6 +22,7 @@ if (attack == AT_USTRONG)
 //==========================================================
 if (attack == AT_FSPECIAL)
 {
+    //animated droplet
     image_index = clamp(2 + (vsp/2), 0, 6)
     if (!free) { destroyed = true; }
 }
@@ -84,6 +86,7 @@ if (attack == AT_DSPECIAL)
                 hbox_top.length -= 15;
                 hbox_top.hsp = max(abs(hbox.initial_hsp), 2);
                 hbox_top.vsp = min(hbox.vsp, -2);
+                
                 var hbox_bot = create_hitbox(hbox.attack, 2, hbox.x, hbox.y);
                 hbox_bot.missingno_copied_player_id = other.client_id;
                 hbox_bot.image_index = 2;
