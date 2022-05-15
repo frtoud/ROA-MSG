@@ -69,7 +69,8 @@ local function apply_pattern(sprite, options)
     end
 
     for i,cel in ipairs(sprite.cels) do
-        if not cel.image:isEmpty() then --pointless otherwise
+        if not (cel == glitch_bg_cel )
+        and not cel.image:isEmpty() then --pointless otherwise
             
             for it in cel.image:pixels() do
                 if it() == G_pix then
