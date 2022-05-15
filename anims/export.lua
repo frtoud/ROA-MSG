@@ -31,6 +31,8 @@ options.layer_ignore_color  = Color(0xfe,0x5b,0x59) --color of layers to ignore
 options.marker_x =  80
 options.marker_y = 127
 
+options.output_folder = "outputs/" --relative path, the "/" is important
+
 ----------------------------------------------------------------------
 --DEFINITIONS
 ----------------------------------------------------------------------
@@ -78,12 +80,18 @@ local function export(sprite, tag, offset_file, options, do_hurtbox)
     do_hurtbox = do_hurtbox or false
     
     local anim_name = string.lower(tag.name)
+    local anim_suffix = "_strip" .. tag.frames .. ".png"
 
-    --definition of "export"
 
     --remove all frames not inside this animation tag
-
     app.transaction(function() --"filter-shrinkwrap" transaction 
+
+        if not do_hurtbox then
+            --remove hurtbox visibility pre-cropping for optimization on non-hurtboxed sprites
+            for i,layer in ipairs(sprite.layers) do
+                layer.isVisible = not (layer.name == options.layername_hurtbox)
+            end
+        end
 
         local _irrelevantFrames = {}
 
@@ -109,23 +117,47 @@ local function export(sprite, tag, offset_file, options, do_hurtbox)
     end)
     
 
-        --remove hurtbox layer
-           --save sprite sheet
-        --undo
-
+    app.transaction(function() --"rest-of-exporting" transaction 
+        --remove hurtbox visibility
+        for i,layer in ipairs(sprite.layers) do
+            layer.isVisible = not (layer.name == options.layername_hurtbox)
+        end
+        
         app.command.ExportSpriteSheet {
             ui=false,
             askOverwrite=false,
             type=SpriteSheetType.HORIZONTAL,
-            textureFilename=anim_name .. ".png",
+            textureFilename=options.output_folder .. anim_name .. anim_suffix,
         }
         
-        --remove all but hurtbox layer
-           --save sprite
-        --undo
+        if (do_hurtbox) then
+            --switch to hurtbox visibility
+            for i,layer in ipairs(sprite.layers) do
+                layer.isVisible = (layer.name == options.layername_hurtbox)
+            end
 
+            app.command.SpriteSize {
+                scaleX=2,
+                scaleY=2,
+            }
+
+            app.command.ExportSpriteSheet {
+                ui=false,
+                askOverwrite=false,
+                type=SpriteSheetType.HORIZONTAL,
+                textureFilename=options.output_folder .. anim_name .. "_hurt" .. anim_suffix,
+            }
+        end
+    end)
     
+    
+    app.undo() --undo "rest-of-exporting" transaction
     app.undo() --undo "filter-shrinkwrap" transaction
+
+    --reset layer visibility
+    for i,layer in ipairs(sprite.layers) do
+        layer.isVisible = true
+    end
 
 end
 

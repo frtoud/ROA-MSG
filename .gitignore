@@ -3,3 +3,4 @@ assistant/backups/*
 assistant/.assistant
 assistant/assistant_config.yaml
 anims/export.sh
+anims/outputs/*
