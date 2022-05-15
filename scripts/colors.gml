@@ -22,9 +22,18 @@ set_color_profile_slot_range(2, 180, 100, 20);
 set_color_profile_slot(0, 3, 255, 255, 230);
 set_color_profile_slot_range(3, 180, 100, 10);
 
-//  0:255:  0 -  120:100:100 - Undefined
+// 64:255: 64 -  120: 75:100 - undefined
+//128:255:  0 -   90:100:100 - UndEFinEd
+//  0:255:128 -  150:100:100 - UNDEfiNED
+//  0:255:  0 -  120:100:100 - UNdEfiNEd
+set_color_profile_slot(0, 4,  64, 255,  64);
+set_color_profile_slot(0, 5, 128, 255,   0);
+set_color_profile_slot(0, 6,   0, 255, 128);
 set_color_profile_slot(0, 7,   0, 255,   0);
-set_color_profile_slot_range(7,   1,   1, 10);
+set_color_profile_slot_range(4,   1,   1, 1);
+set_color_profile_slot_range(5,   1,   1, 1);
+set_color_profile_slot_range(6,   1,   1, 1);
+set_color_profile_slot_range(7,   1,   1, 1);
 
 set_num_palettes(16);
 
