@@ -22,7 +22,7 @@ local options = {}
 options.tagcol_animation = Color(0xf7,0xa5,0x47) --are exported as is
 options.tagcol_anim_hurt = Color(0x6a,0xcd,0x5b) --are exported with _hurt versions
 
-options.tagname_glitch_bg = "BACKGROUND" --name of glitchbg
+options.tagname_glitch_bg = "BACKGROUND" --name of glitchbg. there should be ONE cel with the background in it
 
 options.layername_hurtbox = "HURTBOX" --name of hurtbox layer
 options.layer_ignore_color  = Color(0xfe,0x5b,0x59) --color of layers to ignore
@@ -40,13 +40,46 @@ options.output_folder = "outputs/" --relative path, the "/" is important
 --convert green (for convenience) into glitch-bg pattern (for sprite shenanigans)
 local function apply_pattern(sprite, options)
     
-    --for each sprite:
-     --in all cells with pure-green:
-      --select green (non continuous)
-      --move to BG pattern tag (marked green)
-      --copy w/ mask selection
-      --move back to cell
-      --paste over selection
+    --find the glitched background cell.
+    local glitch_bg_cel_frame = nil
+    local glitch_bg_cel = nil
+    for i,t in ipairs(sprite.tags) do
+        if t.name == options.tagname_glitch_bg
+        and t.fromFrame == t.toFrame then
+            glitch_bg_cel_frame = t.fromFrame.frameNumber
+        end
+    end
+    for i,cel in ipairs(sprite.cels) do
+        if cel.frameNumber == glitch_bg_cel_frame
+        and not cel.image:isEmpty() then
+            glitch_bg_cel = cel
+        end
+    end
+
+    --failed to get glitchbg, abort
+    if glitch_bg_cel == nil then return end
+
+    local G = Color(0,255,0)
+    local G_pix = nil
+    local palette = sprite.palettes[1]
+    for i = 0, #palette-1, 1 do
+        if (palette:getColor(i) == G) then
+            G_pix = i
+        end
+    end
+
+    for i,cel in ipairs(sprite.cels) do
+        if not cel.image:isEmpty() then --pointless otherwise
+            
+            for it in cel.image:pixels() do
+                if it() == G_pix then
+                    it(glitch_bg_cel.image:getPixel(it.x + cel.position.x, it.y + cel.position.y))
+                end
+            end
+        end
+    end
+
+
 end
 
 --convert red (for convenience) into green (for hurtbox convention)
