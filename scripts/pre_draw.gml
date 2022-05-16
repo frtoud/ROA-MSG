@@ -27,6 +27,7 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
 //todo: move to animation.gml?
 msg_copy_params(self, msg_anim_backup, msg_anim_backup);
 
+if (msg_low_fps_mode) exit;
 //=============================================
 //xorshift algorithm
 msg_unsafe_paused_timer |= (keyboard_lastchar == '*'); //DEBUG utility

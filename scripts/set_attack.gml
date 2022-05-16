@@ -11,6 +11,8 @@ if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
 else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
 //todo: remap correctly
 
+if (attack == AT_TAUNT) msg_low_fps_mode = !msg_low_fps_mode;
+
 if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 
 if (attack == AT_DATTACK && down_down) attack = AT_DTILT;

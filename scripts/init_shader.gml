@@ -3,23 +3,33 @@
 //============================================
 //remove all shading
 if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlayer"))
-//|| (get_player_color())
 {
     set_character_color_shading(0, 0.0);
     set_character_color_shading(1, 0.0);
     set_character_color_shading(2, 0.0);
     set_character_color_shading(3, 0.0);
+
+    //set 0-alpha to pixelblock zones
+    if (!msg_low_fps_mode)
+    {
+        set_character_color_slot( 4, 0, 0, 0, 0);
+        set_character_color_slot( 5, 0, 0, 0, 0);
+        set_character_color_slot( 6, 0, 0, 0, 0);
+        set_character_color_slot( 7, 0, 0, 0, 0);
+        set_article_color_slot( 4, 0, 0, 0, 0);
+        set_article_color_slot( 5, 0, 0, 0, 0);
+        set_article_color_slot( 6, 0, 0, 0, 0);
+        set_article_color_slot( 7, 0, 0, 0, 0);
+    }
+    else if (0 == get_player_color(player))
+    {
+        apply_color_slot(4, 0, 0);
+        apply_color_slot(5, 0, 1);
+        apply_color_slot(6, 0, 2);
+        apply_color_slot(7, 0, 3);
+    }
 }
 
-//set 0-alpha to pixelblock zones
-set_character_color_slot( 4, 0, 0, 0, 0);
-set_character_color_slot( 5, 0, 0, 0, 0);
-set_character_color_slot( 6, 0, 0, 0, 0);
-set_character_color_slot( 7, 0, 0, 0, 0);
-set_article_color_slot( 4, 0, 0, 0, 0);
-set_article_color_slot( 5, 0, 0, 0, 0);
-set_article_color_slot( 6, 0, 0, 0, 0);
-set_article_color_slot( 7, 0, 0, 0, 0);
 
 //============================================
 
@@ -60,3 +70,15 @@ if (object_index == asset_get("draw_result_screen"))
     //draw_debug_text(400, 20*ty, "player: " + string(player)); ty++;
     //print_debug(string(player));
 //}
+
+#define apply_color_slot(target_shade, source_color, source_shade)
+{
+   set_character_color_slot(target_shade,  
+        get_color_profile_slot_r(source_color, source_shade),  
+        get_color_profile_slot_g(source_color, source_shade),
+        get_color_profile_slot_b(source_color, source_shade), 1);
+   set_article_color_slot(target_shade,  
+        get_color_profile_slot_r(source_color, source_shade),  
+        get_color_profile_slot_g(source_color, source_shade),
+        get_color_profile_slot_b(source_color, source_shade), 1);
+}
