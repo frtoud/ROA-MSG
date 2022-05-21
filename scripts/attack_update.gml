@@ -114,6 +114,14 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_FSTRONG:
+    {
+        if (window == 2 && strong_charge > 0)
+        {
+            //fstrong's bug potentially active, check for collisions with projectiles?
+        }
+    } break;
+//=============================================================
     case AT_DSTRONG:
     {
         if (window == 2 && has_hit && !free && strong_charge > 0)
