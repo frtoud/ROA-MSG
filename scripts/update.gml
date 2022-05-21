@@ -1,5 +1,19 @@
 //update.gml
 
+
+//==============================================================
+//First-jump physics
+if (state == PS_JUMPSQUAT)
+{
+    msg_firstjump_timer = 0;
+}
+else if (free && djumps == 0)
+     && (msg_firstjump_timer < msg_firstjump_timer_max)
+{
+    if (vsp < 0) y += vsp * abs(vsp/3);
+    msg_firstjump_timer++;
+}
+
 //==============================================================
 //crawling 
 if (state == PS_CROUCH)

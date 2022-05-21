@@ -1,49 +1,49 @@
 
 //Physical size
 char_height = 72;
-knockback_adj = 1.0; //the multiplier to KB dealt to you. 1 = default, >1 = lighter, <1 = heavier
+knockback_adj = 1.1; //the multiplier to KB dealt to you. 1 = default, >1 = lighter, <1 = heavier
 hurtbox_spr = sprite_get("idle_hurt");
 crouchbox_spr = asset_get("orca_crouchbox");
 air_hurtbox_spr = -1;
 hitstun_hurtbox_spr = -1;
 
 //Ground movement
-walk_speed = 3.25;
-walk_accel = 0.2;
-walk_turn_time = 1;
+walk_speed = 3.15;
+walk_accel = 0.1;
+walk_turn_time = 4;
 initial_dash_time = 14;
-initial_dash_speed = 8;
-dash_speed = 7.5;
-dash_turn_time = 10;
-dash_turn_accel = 1.5;
+initial_dash_speed = 8.2;
+dash_speed = 7;
+dash_turn_time = 8;
+dash_turn_accel = 4.5;
 dash_stop_time = 4;
-dash_stop_percent = .35; //the value to multiply your hsp by when going into idle from dash or dashstop
-ground_friction = .35;
-moonwalk_accel = 1.4;
+dash_stop_percent = .05; //the value to multiply your hsp by when going into idle from dash or dashstop
+ground_friction = .45;
+moonwalk_accel = 1.8;
 
 //Air movement
-leave_ground_max = 7; //the maximum hsp you can have when you go from grounded to aerial without jumping
-air_max_speed = 7; //the maximum hsp you can accelerate to when in a normal aerial state
-air_accel = .3;
-prat_fall_accel = .85; //multiplier of air_accel while in pratfall
-air_friction = .02;
-max_fall = 13; //maximum fall speed without fastfalling
+leave_ground_max = 12; //the maximum hsp you can have when you go from grounded to aerial without jumping
+air_max_speed = 5; //the maximum hsp you can accelerate to when in a normal aerial state
+air_accel = .25;
+prat_fall_accel = 1.15; //multiplier of air_accel while in pratfall
+air_friction = .07;
+max_fall = 12; //maximum fall speed without fastfalling
 fast_fall = 16; //fast fall speed
 gravity_speed = .65;
 hitstun_grav = .5;
 
 //Jumping
 jump_start_time = 5;
-jump_speed = 13;
-short_hop_speed = 8;
-double_jump_time = 25; //the number of frames to play the djump animation. Can't be less than 31.
+jump_speed = 8; //boosted by msg_firstjump_timer
+short_hop_speed = 6;
+double_jump_time = 25; //the number of frames to play the djump animation. ...Shouldn't be less than 31? why?
 djump_speed = 11;
 max_djumps = 2;
 walljump_time = 32;
 walljump_hsp = 7;
 walljump_vsp = 11;
-max_jump_hsp = 7; //the maximum hsp you can have when jumping from the ground
-jump_change = 3; //maximum hsp when double jumping. If already going faster, it will not slow you down
+max_jump_hsp = 12; //the maximum hsp you can have when jumping from the ground
+jump_change = 6; //maximum hsp when double jumping. If already going faster, it will not slow you down
 land_time = 6; //normal landing frames
 prat_land_time = 3;
 
@@ -133,11 +133,15 @@ msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to
 crawl_accel = 0.3;
 crawl_speed = 5;
 dashcrawl_accel = 0.8;
-dashcrawl_speed = 12;
+dashcrawl_speed = initial_dash_speed + 4; //restrained by initial_dash_speed when going forwards
 
 msg_crawl_spr = sprite_get("crawl");
 msg_crawlintro_timer = 0; //time in which to animate the transition into/from crawl
 msg_crawl_anim_index = 0; //crawling animation
+
+//extra physics on first jump
+msg_firstjump_timer_max = 8; //number of frames to apply extreme boost
+msg_firstjump_timer = 0; //if between zero and _max, gets vsp boost
 
 //=========================================================
 // Attack variables
