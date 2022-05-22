@@ -30,7 +30,23 @@ if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlay
     }
 }
 
+exit;
+//anticheapie experiments: to put in persistent article
+if (object_index == asset_get("draw_result_screen"))
+{
+    results_theme_enabled = false;
+    winner_name = ""
 
+    with asset_get("result_screen_box")
+    {
+        y = 65535; //using x softlocks the game
+    }
+
+    //these prevent results screen animation from even starting; grey screen softlock
+    //results_timer = 0;
+    //results_timer_real = 0;
+    //result_box_timer = 0;
+}
 //============================================
 
 exit;
