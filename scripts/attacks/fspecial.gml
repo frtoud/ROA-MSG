@@ -11,7 +11,7 @@ set_window_value(AT_FSPECIAL, 1, AG_WINDOW_LENGTH, 6);
 set_window_value(AT_FSPECIAL, 1, AG_WINDOW_ANIM_FRAMES, 1);
 
 //charge
-set_window_value(AT_FSPECIAL, 2, AG_WINDOW_TYPE, 9);
+//set_window_value(AT_FSPECIAL, 2, AG_WINDOW_TYPE, 9); //BROKEN BY OMNICHARGE MECHANIC: cannot coexist with the hidden strong charge window... urgh
 set_window_value(AT_FSPECIAL, 2, AG_WINDOW_LENGTH, 32);
 set_window_value(AT_FSPECIAL, 2, AG_WINDOW_ANIM_FRAMES, 1);
 

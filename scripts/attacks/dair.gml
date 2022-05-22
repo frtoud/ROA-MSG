@@ -14,7 +14,7 @@ set_window_value(AT_DAIR, 1, AG_WINDOW_HAS_SFX, 1);
 set_window_value(AT_DAIR, 1, AG_WINDOW_SFX, asset_get("sfx_kragg_roll_start"));
 set_window_value(AT_DAIR, 1, AG_WINDOW_SFX_FRAME, 1);
 
-set_window_value(AT_DAIR, 2, AG_WINDOW_TYPE, 10);
+//set_window_value(AT_DAIR, 2, AG_WINDOW_TYPE, 10); //BROKEN BY OMNICHARGE MECHANIC: cannot coexist with the hidden strong charge window... urgh
 set_window_value(AT_DAIR, 2, AG_WINDOW_LENGTH, 6);
 set_window_value(AT_DAIR, 2, AG_WINDOW_VSPEED, 16);
 set_window_value(AT_DAIR, 2, AG_WINDOW_VSPEED_TYPE, 1);

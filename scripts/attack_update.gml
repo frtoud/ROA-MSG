@@ -185,11 +185,19 @@ switch (attack)
         {
             msg_dair_earthquake_counter = 0;
         }
-        else if (window == 2 && !was_parried && !hitpause)
+        else if (window == 2)
         {
-            
-            if (shield_pressed) set_state(PS_PRATFALL)
-            else if (has_hit) can_jump = true;
+            window_timer = 1;
+            if (!free) //manual looping due to strong_charge window incompatibility
+            {
+                window = 3; 
+                window_timer = 0;
+            }
+            else if (!was_parried && !hitpause)
+            {
+                if (shield_pressed) set_state(PS_PRATFALL)
+                else if (has_hit) can_jump = true;
+            }
         }
         else if (window == 3 && window_timer == 1 && !hitpause)
         {
@@ -266,6 +274,7 @@ switch (attack)
             {
                 msg_fspecial_charge++;
                 sound_play(asset_get("sfx_may_arc_cointoss"));
+                window_timer = 0;  //manual looping due to strong_charge window incompatibility
             }
             else if (!special_down)
             {
