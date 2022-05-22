@@ -10,8 +10,15 @@ if (state == PS_JUMPSQUAT)
 else if (free && djumps == 0)
      && (msg_firstjump_timer < msg_firstjump_timer_max)
 {
-    if (vsp < 0) y += vsp * abs(vsp/3);
-    msg_firstjump_timer++;
+    if (vsp < 0)
+    {
+        y += vsp * abs(vsp/3); msg_firstjump_timer++;
+    }
+    else //Reached peak or got hitstunned
+    {
+        msg_firstjump_timer = msg_firstjump_timer_max;
+    }
+    
 }
 
 //==============================================================

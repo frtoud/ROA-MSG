@@ -29,15 +29,15 @@ prat_fall_accel = 1.15; //multiplier of air_accel while in pratfall
 air_friction = .07;
 max_fall = 12; //maximum fall speed without fastfalling
 fast_fall = 16; //fast fall speed
-gravity_speed = .65;
+gravity_speed = .5;
 hitstun_grav = .5;
 
 //Jumping
 jump_start_time = 5;
-jump_speed = 8; //boosted by msg_firstjump_timer
-short_hop_speed = 6;
+jump_speed = 7.5; //boosted by msg_firstjump_timer
+short_hop_speed = 5.5;
 double_jump_time = 25; //the number of frames to play the djump animation. ...Shouldn't be less than 31? why?
-djump_speed = 11;
+djump_speed = 9;
 max_djumps = 2;
 walljump_time = 32;
 walljump_hsp = 7;
