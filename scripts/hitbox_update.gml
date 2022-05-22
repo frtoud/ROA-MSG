@@ -45,7 +45,7 @@ if (attack == AT_DSPECIAL)
         {
             var k = spawn_hit_fx(other.x, other.y, hfx_ball_open);
             k.depth -= 20;
-            sound_play(asset_get("sfx_blow_weak2"));
+            sound_play(sound_get("ball_explode"));
 
             //ownership of projectile determines article's scripts when created in hitbox_update.gml
             //this un-parries the projectile for article creation (just in case) (dan pls)
