@@ -97,10 +97,9 @@ if (attack == AT_DSPECIAL)
             }
         }
         // Teammate interaction
-        var my_team = get_player_team(hbox.orig_player_id.player);
         with (oPlayer) if (!hbox_has_hit)
                        && (self != other.orig_player_id)
-                       && (get_player_team(player) == my_team)
+                       && (get_player_team(player) == hbox.my_team)
         {
             with (hurtboxID) 
             { hbox_has_hit = place_meeting(x, y, hbox); }

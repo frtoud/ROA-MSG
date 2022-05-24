@@ -30,10 +30,10 @@ else if (attack == AT_DSPECIAL)
     initial_hsp = hsp;
     initial_vsp = vsp;
 
-    //bypass team attack
-    var my_team = get_player_team(orig_player_id.player);
+    //bypass team attack 
+    my_team = get_player_team(orig_player_id.player);
     for (var p = 1; p < array_length(can_hit); p++)
     {
-        can_hit[p] = (get_player_team(p) != my_team);
+        if (is_player_on(p)) can_hit[p] = (get_player_team(p) != my_team);
     }
 }
