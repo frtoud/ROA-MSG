@@ -17,6 +17,8 @@ spawn_time = 15; //time it takes for copy to begin acting like player
 max_lifetime = 8*60; //maximum time before a copy despawns
 death_time = 30; //time it takes for copy to fade out
 
+was_parried = false; //if a clone's hitbox was parried; this detects & triggers a swap
+prev_was_parried = false; //to make sure was_parried triggers only once
 
 is_missingno_copy = true; //identifiable variable for elsewhere
 //unique variable on a hitbox to check if it has been copied already

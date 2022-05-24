@@ -55,7 +55,9 @@ switch (state)
                 // maintenance on hitbox you copied
                 if (missingno_hitbox_is_copy_for == other && instance_exists(missingno_hitbox_is_copy_of))
                 {
+                    other.was_parried |= was_parried; //parries the clone, so swapping is required
                     has_copied_a_hitbox = true;
+                    
                     length = max(missingno_hitbox_is_copy_of.length, 1);
                     hitbox_timer = max(0, missingno_hitbox_is_copy_of.hitbox_timer - 1);
                     x_pos = missingno_hitbox_is_copy_of.x_pos + other.client_offset_x;
@@ -67,7 +69,8 @@ switch (state)
             {
                 has_copied_a_hitbox = true;
                 var hb_copy = noone;
-                with (orig_player_id) { hb_copy = create_hitbox(other.attack, other.hbox_num, other.x, other.y); }
+                with (orig_player_id) 
+                { hb_copy = create_hitbox(other.attack, other.hbox_num, floor(other.x), floor(other.y)); }
 
                 hb_copy.x_pos = x_pos + other.client_offset_x;
                 hb_copy.y_pos = y_pos + other.client_offset_y;
@@ -200,8 +203,10 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
     for (var i = 0; i < instance_number(oPlayer); i++) 
     with (instance_find(oPlayer, i))
     {
+        //note: lots of logic here assumes a player has a clone when its possibly not the case... to optimize
         var best_swap = { hb:noone, copy:noone };
         var death_swap = { about_to_die:false, copy:noone, distance:9999999 };
+        var parry_swap = noone;
 
         //general status
         var best_adjustment = { on_plat:false, on_solid:false, hit_wall:false, hit_ceiling:false, x_displacement:0, y_displacement:0 }
@@ -245,6 +250,15 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             if (ground_check(x + col_width, y+1)) ledge_checks.right = self;
         }
 
+        if (perfect_dodging)
+        {
+            add_parry_flags(self);
+        }
+        else if (was_parried)
+        {
+            destroy_copies(self);
+        }
+
         // 1-866-THX-SUPR
         var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
         var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
@@ -258,6 +272,11 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
         {
             //============================================================
             //test for hitswapping
+            if (was_parried && !prev_was_parried)
+            {
+                parry_swap = self;
+                prev_was_parried = true; //so it doesnt swap multiple times
+            }
             if (state == AR_STATE_ACTIVE)
             {
                 var detected_hitbox = detect_hit();
@@ -368,6 +387,11 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             swap_with_player();
             //consumes clone (prevents swapping back-and-forth)
             set_state(AR_STATE_DYING);
+        }
+        else if (parry_swap != noone)
+        {
+            // if a clone got parried, it collapses the clone location
+            with (parry_swap) swap_with_player();
         }
         else if (requires_roll_swap)
         {
@@ -683,4 +707,30 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
 
     return position_meeting(pos_x, pos_y, asset_get("par_block"))
         || position_meeting(pos_x, pos_y, asset_get("par_jumpthrough"));
+}
+
+//==========================================================
+// destroy all current missingno-copies of a player
+#define destroy_copies(target_client_id)
+{
+    for (var i = 0; i < instance_number(obj_article2); i++) 
+    with (instance_find(obj_article2, i)) 
+        if ("is_missingno_copy" in self)
+        && (client_id == target_client_id)
+        {
+            needs_to_die = true; //article consumed
+        }
+}
+
+//==========================================================
+// add the was_parried flag to all touched hitboxes
+#define add_parry_flags(parrier)
+{
+    for (var i = 0; i < instance_number(pHitBox); i++) 
+    with (instance_find(pHitBox, i)) 
+        if (type == 1 && orig_player_id != parrier)
+        && place_meeting(x, y, parrier.hurtboxID)
+    {
+        was_parried = true;
+    }
 }
