@@ -24,7 +24,7 @@ else if (free && djumps == 0)
 //==============================================================
 //crawling 
 if (state == PS_CROUCH)
-|| (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND && attack == AT_DTILT)
+|| ((state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && attack == AT_DTILT)
 {
     //walk-crawl
     var speed_limit = max(abs(hsp), crawl_speed);
