@@ -36,7 +36,7 @@ sprite_change_offset("dair", 20, 47, true);
  sprite_change_offset("dstrong", 45, 45, true);
  sprite_change_offset("nspecial", 32, 47, true);
  sprite_change_offset("fspecial", 32, 47, true);
- sprite_change_offset("uspecial", 32, 47, true);
+ sprite_change_offset("uspecial", 45, 58, true);
 sprite_change_offset("dspecial", 17, 45, true);
 sprite_change_offset("grab", 27, 45, true);
  sprite_change_offset("taunt", 16, 31, true);

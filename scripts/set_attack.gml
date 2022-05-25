@@ -43,6 +43,9 @@ else
     at_bspecial_last_move.small_sprites = small_sprites;
 }*/
 
+
+if (attack == AT_USPECIAL) msg_firstjump_timer = msg_firstjump_timer_max; //fixes jump bug
+
 #define steal_move_data(target_id, target_move)
 {
     with (target_id) {
