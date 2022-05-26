@@ -48,10 +48,11 @@ var fx = msg_unsafe_effects.shudder;
 if (fx.timer > 0 || fx.freq > GET_RNG(8, 0x3F))
 {
     fx.timer -= (fx.timer > 0);
-
-    draw_x += fx.horz_max * GET_INT(0, 0x0F, true);
-    draw_y += fx.vert_max * GET_INT(4, 0x0F, true);
+    
+    draw_x += (fx.impulse ? fx.timer : 1) * fx.horz_max * GET_INT(0, 0x0F, true);
+    draw_y += (fx.impulse ? fx.timer : 1) * fx.vert_max * GET_INT(4, 0x0F, true);
 }
+else fx.impulse = false;
 //===========================================================
 //effect type: REDRAW
 var fx = msg_unsafe_effects.bad_vsync;
