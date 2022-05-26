@@ -25,7 +25,7 @@ moonwalk_accel = 1.8;
 leave_ground_max = 12; //the maximum hsp you can have when you go from grounded to aerial without jumping
 air_max_speed = 5; //the maximum hsp you can accelerate to when in a normal aerial state
 air_accel = .25;
-prat_fall_accel = 1.15; //multiplier of air_accel while in pratfall
+prat_fall_accel = 0.65; //multiplier of air_accel while in pratfall
 air_friction = .07;
 max_fall = 12; //maximum fall speed without fastfalling
 fast_fall = 16; //fast fall speed
@@ -45,7 +45,7 @@ walljump_vsp = 11;
 max_jump_hsp = 12; //the maximum hsp you can have when jumping from the ground
 jump_change = 6; //maximum hsp when double jumping. If already going faster, it will not slow you down
 land_time = 6; //normal landing frames
-prat_land_time = 3;
+prat_land_time = 31;
 
 //Shielding
 wave_land_time = 8;
@@ -192,6 +192,9 @@ msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
 msg_collective_bubble_lockout = array_create(20, 0);
 msg_fspecial_ghost_arrow_active = false;
+
+
+msg_uspecial_wraparound = false; //while this is true, you get one free vertical wraparound + solid intangibility
 
 
 //Copy of other_init

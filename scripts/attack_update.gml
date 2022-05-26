@@ -516,12 +516,28 @@ switch (attack)
         {
             can_wall_jump = true;
             var new_dir = (right_down - left_down);
-            if (new_dir != 0) spr_dir = new_dir;
+            var mojify_check = false;
+            if (new_dir != 0) 
+            {
+                mojify_check = spr_dir != new_dir;
+                spr_dir = new_dir;
+            }
 
             if (shield_down)
             {
                 window = 5;
                 window_timer = 0;
+                if (mojify_check) 
+                {
+                    msg_uspecial_wraparound = true;
+                    window_timer = 90;
+
+                    msg_unsafe_effects.shudder.impulse = true;
+                    msg_unsafe_effects.shudder.timer = 16;
+                    msg_unsafe_effects.shudder.horz_max = 8;
+                    msg_unsafe_effects.shudder.vert_max = 8;
+                }
+                sound_play(mojify_check ? sound_get("079"): asset_get("sfx_mobile_gear_jump"))
             }
         }
         else if (window == 4)
@@ -535,8 +551,8 @@ switch (attack)
             }
             else if (shield_pressed) && window_timer > 12
             {
-                hsp *= 0.4;
-                vsp *= 0.4;
+                //hsp *= 0.4;
+                //vsp *= 0.4;
                 window = 5;
                 window_timer = 0;
             }
@@ -544,6 +560,11 @@ switch (attack)
             {
                 window_timer = 1;
             }*/
+        }
+        else if (window == 5 && window_timer < 1)
+        {
+            hsp *= 0.4; 
+            vsp *= 0.4; vsp -= 3;
         }
     } break;
 //=============================================================

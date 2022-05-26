@@ -231,5 +231,29 @@ if (msg_dstrong_yoyo.active)
 
 }
 
+//========================================================
+// wraparound glitch
+if (msg_uspecial_wraparound)
+{
+    if (state == PS_RESPAWN || state == PS_DEAD)
+    || (state_cat == PS_HITSTUN)
+        msg_uspecial_wraparound = false;
+
+    image_yscale = 0; //intangibility
+
+    // 1-866-THX-SUPR
+    var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
+    var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
+    if (y + vsp > blastzone_b - 12)
+    {
+        y = blastzone_t; 
+        vsp = 0;
+        set_state(PS_PRATFALL);
+        sound_play(asset_get("sfx_genesis_tv_static"));
+        msg_uspecial_wraparound = false;
+    }
+}
+else if (image_yscale == 0) image_yscale = 1;
+
 //other_update
 user_event(0);
