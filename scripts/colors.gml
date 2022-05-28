@@ -23,9 +23,9 @@ set_color_profile_slot(0, 3, 255, 255, 230);
 set_color_profile_slot_range(3, 180, 100, 10);
 
 // 64:255: 64 -  120: 75:100 - undefined
-//  0:255:128 -  150:100:100 - UNDEfiNED
-//128:255:  0 -   90:100:100 - UndEFinEd
-//  0:255:  0 -  120:100:100 - UNdEfiNEd
+//  0:255:128 -  150:100:100 - uNDEfiNED
+//128:255:  0 -   90:100:100 - undEFinEd
+//  0:255:  0 -  120:100:100 - uNdEfiNEd
 set_color_profile_slot(0, 4,  64, 255,  64);
 set_color_profile_slot(0, 5,   0, 255, 128);
 set_color_profile_slot(0, 6, 128, 255,   0);
@@ -92,10 +92,10 @@ for (var k = 0; k < 8; k++)
 //for low-fps mode undefined (doesnt affect slot zero)
 for (var i = 1; i < num_colors; i++)
 {
-   steal_color_profile_slot(i, 4, k, 3);
-   steal_color_profile_slot(i, 5, k, 2);
-   steal_color_profile_slot(i, 6, k, 1);
-   steal_color_profile_slot(i, 7, k, 0);
+   steal_color_profile_slot(i, 4, i, 0);
+   steal_color_profile_slot(i, 5, i, 1);
+   steal_color_profile_slot(i, 6, i, 2);
+   steal_color_profile_slot(i, 7, i, 3);
 }
 
 #define steal_color_profile_slot(target_color, target_shade, source_color, source_shade)
