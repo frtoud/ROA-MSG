@@ -1,60 +1,68 @@
 
 //Physical size
 char_height = 72;
-knockback_adj = 1.1; //the multiplier to KB dealt to you. 1 = default, >1 = lighter, <1 = heavier
+knockback_adj = 1.1; //the multiplier to KB dealt to you. 
+
+//Hurtboxes
 hurtbox_spr = sprite_get("idle_hurt");
 crouchbox_spr = asset_get("orca_crouchbox");
 air_hurtbox_spr = -1;
 hitstun_hurtbox_spr = -1;
 
 //Ground movement
-walk_speed = 3.15;
-walk_accel = 0.1;
-walk_turn_time = 4;
-initial_dash_time = 14;
-initial_dash_speed = 8.2;
-dash_speed = 7;
-dash_turn_time = 8;
-dash_turn_accel = 4.5;
-dash_stop_time = 4;
-dash_stop_percent = .05; //the value to multiply your hsp by when going into idle from dash or dashstop
-ground_friction = .45;
-moonwalk_accel = 1.8;
+walk_speed          = 3.15;
+walk_accel          = 0.1;
+walk_turn_time      = 4;
+
+initial_dash_time   = 14;
+initial_dash_speed  = 6;
+dash_speed          = 6.25;
+dash_turn_time      = 8;
+dash_turn_accel     = 4.5;
+dash_stop_time      = 4;
+dash_stop_percent   = .05; //the value to multiply your hsp by when going into idle from dash or dashstop
+
+ground_friction     = 0.45;
+moonwalk_accel      = 1.8;
 
 //Air movement
-leave_ground_max = 12; //the maximum hsp you can have when you go from grounded to aerial without jumping
-air_max_speed = 5; //the maximum hsp you can accelerate to when in a normal aerial state
-air_accel = .25;
-prat_fall_accel = 0.65; //multiplier of air_accel while in pratfall
-air_friction = .07;
-max_fall = 12; //maximum fall speed without fastfalling
-fast_fall = 16; //fast fall speed
-gravity_speed = .5;
-hitstun_grav = .5;
+leave_ground_max    = 12; // maximum hsp you keep when you go from grounded to aerial without jumping
+max_jump_hsp        = 12; // maximum hsp you can have when jumping from the ground
+air_max_speed       = 5; // maximum hsp you can accelerate to when in a normal aerial state
+jump_change         = 6; // maximum hsp when double jumping. If already going faster, it will not slow you down
+
+air_friction        = .07;
+air_accel           = .25;
+prat_fall_accel     = .65; //multiplier of air_accel while in pratfall
+
+max_fall            = 12; //maximum fall speed without fastfalling
+fast_fall           = 16; //fast fall speed
+gravity_speed       = .5;
+hitstun_grav        = .5;
 
 //Jumping
-jump_start_time = 5;
-jump_speed = 7.5; //boosted by msg_firstjump_timer
-short_hop_speed = 5.5;
-double_jump_time = 25; //the number of frames to play the djump animation. ...Shouldn't be less than 31? why?
-djump_speed = 9;
-max_djumps = 2;
-walljump_time = 32;
-walljump_hsp = 7;
-walljump_vsp = 11;
-max_jump_hsp = 12; //the maximum hsp you can have when jumping from the ground
-jump_change = 6; //maximum hsp when double jumping. If already going faster, it will not slow you down
-land_time = 6; //normal landing frames
-prat_land_time = 31;
+jump_start_time     = 5;
+jump_speed          = 7.5; //boosted by msg_firstjump_timer
+short_hop_speed     = 4.5;
+double_jump_time    = 25; //the number of frames to play the djump animation. 
+djump_speed         = 9;
+max_djumps          = 2;
+
+walljump_time       = 32;
+walljump_hsp        = 7;
+walljump_vsp        = 11;
+
+land_time           = 6; //normal landing frames
+prat_land_time      = 31;
 
 //Shielding
-wave_land_time = 8;
-wave_land_adj = 1.35; //the multiplier to your initial hsp when wavelanding. Usually greater than 1
-wave_friction = .04; //grounded deceleration when wavelanding
-roll_forward_max = 9; //roll speed
-roll_backward_max = 9;
-air_dodge_speed = 7.5;
-techroll_speed = 10;
+roll_forward_max    = 9; //roll speed
+roll_backward_max   = 9;
+wave_friction       = .04; //grounded deceleration when wavelanding
+wave_land_time      = 8;
+wave_land_adj       = 1.35; //the multiplier to your initial hsp when wavelanding. Usually greater than 1
+air_dodge_speed     = 7.5;
+techroll_speed      = 10;
 
 //Animation
 idle_anim_speed = .1;
@@ -108,8 +116,23 @@ bubble_x = 0;
 bubble_y = 8;
 
 //=========================================================
-// Balance variables
+//CRAWLING
+crawl_accel = 0.3;
+crawl_speed = 5;
+dashcrawl_accel = 0.8;
+dashcrawl_speed = initial_dash_speed + 5; //restrained by initial_dash_speed when going forwards
 
+msg_crawl_spr = sprite_get("crawl");
+msg_crawlintro_timer = 0; //time in which to animate the transition into/from crawl
+msg_crawl_anim_index = 0; //crawling animation
+
+//=========================================================
+//extra physics on first jump
+msg_firstjump_timer_max = 8; //number of frames to apply extreme boost
+msg_firstjump_timer = 0; //if between zero and _max, gets vsp boost
+
+//=========================================================
+// Balance variables
 msg_ntilt_accel = 1.05;
 msg_ntilt_maxspeed = dash_speed * 2.2;
 
@@ -127,21 +150,6 @@ msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negative
 msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
 
-
-//=========================================================
-//CRAWLING
-crawl_accel = 0.3;
-crawl_speed = 5;
-dashcrawl_accel = 0.8;
-dashcrawl_speed = initial_dash_speed + 4; //restrained by initial_dash_speed when going forwards
-
-msg_crawl_spr = sprite_get("crawl");
-msg_crawlintro_timer = 0; //time in which to animate the transition into/from crawl
-msg_crawl_anim_index = 0; //crawling animation
-
-//extra physics on first jump
-msg_firstjump_timer_max = 8; //number of frames to apply extreme boost
-msg_firstjump_timer = 0; //if between zero and _max, gets vsp boost
 
 //=========================================================
 // Attack variables
@@ -241,8 +249,8 @@ gfx_glitch_death = false;
 //initialize VFX
 msg_init_effects(true);
 
-
-msg_low_fps_mode = false;
+//removes special rendering shenanigans
+msg_low_fps_mode = false; //pointless?
 //flag to help prevent Rivals outright crashing if an error interrupts pre_draw code at the wrong time
 msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
 

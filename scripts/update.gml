@@ -12,7 +12,9 @@ else if (free && djumps == 0)
 {
     if (vsp < 0)
     {
-        y += vsp * abs(vsp/3); msg_firstjump_timer++;
+        var capped_vsp = max(vsp, -jump_speed);
+        y += capped_vsp * abs(capped_vsp/3.0); 
+        msg_firstjump_timer++;
     }
     else //Reached peak or got hitstunned
     {
