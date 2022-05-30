@@ -35,7 +35,7 @@ if (msg_unsafe_paused_timer <= 0 || string_count("*", keyboard_string) )
 {
     keyboard_string = "";
 
-    var UINT_MAX = power(2,32) - 1;
+    var UINT_MAX = 0xFFFFFFFF;
     var rng = msg_unsafe_random;
 
     rng = (rng ^(rng << 13)) % UINT_MAX;
