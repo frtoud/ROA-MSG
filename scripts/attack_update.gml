@@ -549,7 +549,7 @@ switch (attack)
                 window_timer = 0;
                 destroy_hitboxes();
             }
-            else if (shield_pressed) && window_timer > 12
+            else if (shield_down) && window_timer > 12
             {
                 //hsp *= 0.4;
                 //vsp *= 0.4;
@@ -561,10 +561,10 @@ switch (attack)
                 window_timer = 1;
             }*/
         }
-        else if (window == 5 && window_timer < 1)
+        else if (window == 5 && window_timer < 5)
         {
             hsp *= 0.4; 
-            vsp *= 0.4; vsp -= 3;
+            vsp *= 0.4; vsp -= 1;
         }
     } break;
 //=============================================================
