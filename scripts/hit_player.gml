@@ -14,6 +14,13 @@ if (my_hitboxID.attack == AT_FSPECIAL_2)
 }
 
 //==========================================================
+// NAIR sfx
+if (my_hitboxID.attack == AT_NAIR && my_hitboxID.hbox_num == 1)
+{
+    sound_stop(get_window_value(AT_NAIR, 1, AG_WINDOW_SFX));
+}
+
+//==========================================================
 // FAIR variable damage
 if (my_hitboxID.attack == AT_FAIR)
 {
