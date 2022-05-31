@@ -5,7 +5,7 @@
 // note: regular draw event needs this to happen before pre_draw, apparently.
 if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && (attack == AT_DSPECIAL_2)
 {
-    small_sprites = at_bspecial_last_move.small_sprites;
+    small_sprites = msg_bspecial_last_move.small_sprites;
 }
 else { small_sprites = 1; }
 

@@ -154,7 +154,9 @@ msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to
 //=========================================================
 // Attack variables
 at_prev_dir_buffer = 0;
-at_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
+at_prev_special_down = false;
+msg_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
+msg_bspecial_category_flag = false;
 
 msg_dstrong_yoyo = 
 {

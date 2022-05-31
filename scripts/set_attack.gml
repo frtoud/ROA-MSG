@@ -1,46 +1,61 @@
 
-if (attack == AT_FSPECIAL && (spr_dir*at_prev_dir_buffer < 0)) 
+if (attack == AT_FSPECIAL && (spr_dir*at_prev_dir_buffer < 0)) && false
 {
     attack = AT_DSPECIAL_2;
     spr_dir = sign(at_prev_dir_buffer); //dont flip
     clear_button_buffer(PC_SPECIAL_PRESSED);
 }
 
-//temp. remap of inputs, attack kept separate
-if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
-else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
-//todo: remap correctly
+if (msg_bspecial_category_flag)
+{
+    //Allowed at any time because of special input
+    set_attack_value(attack, AG_CATEGORY, 2);
+    msg_bspecial_category_flag = false;
+}
+else
+{
+    reset_attack_value(attack, AG_CATEGORY);
+
+    //temp. remap of inputs, attack kept separate
+    if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
+    else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
+    //todo: remap correctly
+
+
+    if (attack == AT_JAB) attack = AT_FTILT; //NTILT
+    if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
+}
+
 
 if (attack == AT_TAUNT) msg_low_fps_mode = !msg_low_fps_mode;
 
-if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 
-if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
 
+
+
+/*
 if (attack == AT_DSPECIAL_2)
 {
-    if (at_bspecial_last_move.target == self)
+    if (msg_bspecial_last_move.target == self)
     {
-        attack = at_bspecial_last_move.move;
-        //Allowed at any time because of this input
-        set_attack_value(attack, AG_CATEGORY, 2);
+        attack = msg_bspecial_last_move.move;
     }
     else
     {
-        steal_move_data(at_bspecial_last_move.target, at_bspecial_last_move.move);
+        steal_move_data(msg_bspecial_last_move.target, msg_bspecial_last_move.move);
     }
 
     move_cooldown[attack] = 0; //cannot prevent use of BSPEC, whatever it is at the moment
 }
 else
 {
-    reset_attack_value(attack, AG_CATEGORY);
-}
+}*/
+
 /*else
 {
-    at_bspecial_last_move.target = self;
-    at_bspecial_last_move.move = attack;
-    at_bspecial_last_move.small_sprites = small_sprites;
+    msg_bspecial_last_move.target = self;
+    msg_bspecial_last_move.move = attack;
+    msg_bspecial_last_move.small_sprites = small_sprites;
 }*/
 
 
@@ -48,7 +63,8 @@ if (attack == AT_USPECIAL) msg_firstjump_timer = msg_firstjump_timer_max; //fixe
 
 #define steal_move_data(target_id, target_move)
 {
-    with (target_id) {
+    with (target_id)
+    {
         var num_windows = get_attack_value(target_move, AG_NUM_WINDOWS);
         var num_hitboxes = get_num_hitboxes(target_move);
     }

@@ -52,37 +52,46 @@ else if (state == PS_DASH_START) && down_down
 at_prev_dir_buffer = clamp(at_prev_dir_buffer + spr_dir, -6, 6);
 
 //==============================================================
-// BSPECIAL "Last move used" detection
+// BSPECIAL "Last move used" holding (previously detection)
 var target_is_missingno = false;
 var target_is_clone = false;
-var target = noone;
-with (oPlayer)
+
+if (special_down && !at_prev_special_down)
 {
-    if (state_timer == 1)
-    && (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
+    var counts_as_hitpause = (hitpause) 
+                          || ( (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
+                               && (attack == AT_NTHROW && window == 4) )
+    var target = (counts_as_hitpause && hit_player_obj != noone) ? hit_player_obj : self;
+
+    if (target.msg_is_missingno) target = self; //shortcut: copy self if copying a missingno
+
+    msg_bspecial_last_move.target = (target_is_missingno ? self : target);
+    msg_bspecial_last_move.move = target.attack;
+    msg_bspecial_last_move.small_sprites = target.small_sprites;
+
+    if (counts_as_hitpause) sound_play(sound_get("eden3"));
+}
+else if (!special_down && at_prev_special_down) 
+     && (state_cat == SC_AIR_NEUTRAL || state_cat == SC_GROUND_NEUTRAL )
+{
+    if (msg_bspecial_last_move.target == self)
     {
-        var is_clone = (clone || custom_clone);
-        var is_missingno = (url == other.url);
-        if ( target == noone )
-        || ( target_is_clone && !is_clone )
-        || ( target_is_clone == is_clone  && !target_is_missingno && is_missingno)
-        || ((target_is_clone == is_clone) && (target_is_missingno == is_missingno) 
-            && (target.player > player))
-        { 
-            target = self;
-            target_is_clone = is_clone;
-            target_is_missingno = is_missingno;
-        }
+        msg_bspecial_category_flag = (attack != AT_DSPECIAL_2);
+        move_cooldown[msg_bspecial_last_move.move] = 0; //cannot prevent use, whatever move it is at the moment
+        set_attack(msg_bspecial_last_move.move);
+
+        if (attack == AT_DSPECIAL_2) sound_play(sound_get("eden2"));
+    }
+    else
+    {
+        steal_move_data(msg_bspecial_last_move.target, msg_bspecial_last_move.move, AT_DSPECIAL_2);
+        set_attack(AT_DSPECIAL_2);
+
+        sound_play(sound_get("eden2"));
     }
 }
+at_prev_special_down = special_down;
 
-if (target != noone) && !(target_is_missingno && target.attack == AT_DSPECIAL_2)
-{
-    //shortcut: if target is another missingno; consider yourself the target
-    at_bspecial_last_move.target = (target_is_missingno ? self : target);
-    at_bspecial_last_move.move = target.attack;
-    at_bspecial_last_move.small_sprites = target.small_sprites;
-}
 //==============================================================
 // If this was true (from previous frame) and you were sent to hitstun, lose charge
 if (msg_fspecial_is_charging)
@@ -259,3 +268,54 @@ else if (image_yscale == 0) image_yscale = 1;
 
 //other_update
 user_event(0);
+
+
+//========================================================
+#define steal_move_data(target_id, target_move, destination_index)
+{
+    with (target_id)
+    {
+        var num_windows = get_attack_value(target_move, AG_NUM_WINDOWS);
+        var num_hitboxes = get_num_hitboxes(target_move);
+    }
+    
+    var k = 0; //windows and hitboxes
+    var i = 0; //for indexes
+    var temp = 0;
+    
+    //Move Indexes
+    for (i = 0; i < 100; i++) 
+    {
+        with (target_id) { temp = get_attack_value(target_move, i); }
+        set_attack_value(destination_index, i, temp);
+    }
+    //Window Indexes
+    for (k = 1; k <= num_windows; k++)
+    {
+        for (i = 0; i < 100; i++) 
+        {
+            with (target_id) { temp = get_window_value(target_move, k, i); }
+            //softlock prevention: no looping windows
+            if (i == AG_WINDOW_TYPE) 
+            { temp = temp == 9 ? 0 : (temp == 10 ? 8 : temp) }
+            else if (i == AG_WINDOW_LENGTH) 
+            { temp = clamp(temp, 0, 60) }
+            set_window_value(destination_index, k, i, temp);
+        }
+    }
+    set_num_hitboxes(destination_index, num_hitboxes);
+    //Hitbox Indexes
+    for (k = 1; k <= num_hitboxes; k++)
+    {
+        for (i = 0; i < 100; i++) 
+        {
+            with (target_id) { temp = get_hitbox_value(target_move, k, i); }
+            if (i == HG_HITBOX_Y || i == HG_HITBOX_X) 
+            { temp = clamp(temp, -500, 500) }
+            set_hitbox_value(destination_index, k, i, temp);
+        }
+    }
+    
+    //allow all moves no matter the situation
+    set_attack_value(destination_index, AG_CATEGORY, 2);
+}
