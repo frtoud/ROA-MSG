@@ -205,7 +205,7 @@ msg_fspecial_ghost_arrow_active = false;
 
 
 msg_uspecial_wraparound = false; //while this is true, you get one free vertical wraparound + solid intangibility
-
+msg_uspecial_wraparound_require_pratfall = false; //once wraparound happens, apply pratfall first chance you get
 
 //Copy of other_init
 msg_handler_id = noone;

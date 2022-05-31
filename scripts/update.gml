@@ -259,12 +259,20 @@ if (msg_uspecial_wraparound)
     {
         y = blastzone_t; 
         vsp = 0;
-        set_state(PS_PRATFALL);
+        msg_uspecial_wraparound_require_pratfall = true;
+        attack_end();
         sound_play(asset_get("sfx_genesis_tv_static"));
         msg_uspecial_wraparound = false;
     }
 }
 else if (image_yscale == 0) image_yscale = 1;
+
+if (msg_uspecial_wraparound_require_pratfall)
+&& !(state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
+{
+    set_state(free ? PS_PRATFALL : PS_PRATLAND);
+    msg_uspecial_wraparound_require_pratfall = false;
+}
 
 //other_update
 user_event(0);
