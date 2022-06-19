@@ -11,25 +11,11 @@ else { small_sprites = 1; }
 
 //==================================================================
 // Glitch unsafe effects timers
-if (msg_unsafe_paused_timer > 0)
-{ msg_unsafe_paused_timer--; }
 
-msg_collect_garbage();
 msg_unsafe_handler_id = self; //missingnos always handle themselves
-with (oPlayer) if ("msg_unsafe_handler_id" in self 
-               &&   msg_unsafe_handler_id == other)
-{
-    var msg_master_timer_running = (msg_unsafe_effects.master_effect_timer > 0);
-    msg_unsafe_effects.master_effect_timer -= msg_master_timer_running;
+msg_collect_garbage(); //?
+msg_refresh_effects();
 
-    for (var i = 0; i < array_length(msg_unsafe_effects.effects_list); i++)
-    {
-        var fx = msg_unsafe_effects.effects_list[i];
-        //reset all effect's frequencies IF the master timer is done or the master flag is false
-        fx.master_flag = (fx.master_flag && msg_master_timer_running);
-        fx.freq *= fx.master_flag;
-    }
-}
 //==================================================================
 
 //crawl transition timers
@@ -221,5 +207,24 @@ if (sprite_index == jump_sprite) && (prev_state == PS_DOUBLE_JUMP || attack == A
     // uses "msg_unsafe_random" implicitly.
     return (mask <= 0) ? 0
            :((msg_unsafe_random >> offset) & mask);
+
+#define msg_refresh_effects // Version 0
+    // really needs a better name; urgh
+    // placed in animation (runs on game frames)
+    with (oPlayer) if ("msg_unsafe_handler_id" in self
+                   &&   msg_unsafe_handler_id == other)
+    {
+        if (msg_unsafe_paused_timer > 0)
+        { msg_unsafe_paused_timer--; }
+
+        //reset all effect's frequencies IF the game-timer is done counting
+        for (var i = 0; i < array_length(msg_unsafe_effects.effects_list); i++)
+        {
+            var fx = msg_unsafe_effects.effects_list[i];
+            var is_running = (fx.gameplay_timer > 0);
+            fx.gameplay_timer -= is_running;
+            fx.freq *= is_running;
+        }
+    }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion

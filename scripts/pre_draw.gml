@@ -28,25 +28,6 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
 msg_copy_params(self, msg_anim_backup, msg_anim_backup);
 
 if (msg_low_fps_mode) exit;
-//=============================================
-//xorshift algorithm
-msg_unsafe_paused_timer |= (keyboard_lastchar == '*'); //DEBUG utility
-if (msg_unsafe_paused_timer <= 0 || string_count("*", keyboard_string) )
-{
-    keyboard_string = "";
-
-    var UINT_MAX = 0xFFFFFFFF;
-    var rng = msg_unsafe_random;
-
-    rng = (rng ^(rng << 13)) % UINT_MAX;
-    rng = (rng ^(rng >> 17)) % UINT_MAX;
-    rng = (rng ^(rng << 5 )) % UINT_MAX;
-
-    msg_unsafe_random = rng;
-    with (oPlayer) if ("msg_unsafe_handler_id" in self)
-                   && (msg_unsafe_handler_id == other)
-    { msg_unsafe_random = rng; }
-}
 
 //=============================================
 // Reroll Missingno effects
@@ -190,9 +171,12 @@ msg_manual_draw(true);
 
 #define msg_apply_effects // Version 0
     // aka. unsafe_animation.gml
+    // placed in pre_draw (runs on draw frames)
 
     //essential for rendering-random checks.
     if ("msg_unsafe_random" not in self) return;
+
+    msg_reroll_random();
 
     //special msg_is_missingno-only effects are denoted 'M
     //===================================================================
@@ -231,6 +215,27 @@ msg_manual_draw(true);
         fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
         fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
         fx.garbage = (2 > GET_RNG(22, 0x07));
+    }
+
+#define msg_reroll_random // Version 0
+    // reroll msg_unsafe_random
+
+    //DEBUG utility
+    var debug_pass = false;
+    if (string_count("*", keyboard_string)) { keyboard_string = ""; debug_pass = true; }
+    msg_unsafe_paused_timer |= (keyboard_lastchar == '*');
+
+    //xorshift algorithm
+    if (msg_unsafe_paused_timer <= 0 || debug_pass)
+    {
+        var UINT_MAX = 0xFFFFFFFF;
+        var rng = msg_unsafe_random;
+
+        rng = (rng ^(rng << 13)) % UINT_MAX;
+        rng = (rng ^(rng >> 17)) % UINT_MAX;
+        rng = (rng ^(rng << 5 )) % UINT_MAX;
+
+        msg_unsafe_random = rng;
     }
 
 #define GET_RNG(offset, mask) // Version 0

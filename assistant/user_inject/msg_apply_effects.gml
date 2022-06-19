@@ -23,13 +23,57 @@ if (get_gameplay_time() % 15 == 0) && (0 == GET_RNG(1, 0x03))
         }
     }
 }
+//===================================================================
+#define msg_refresh_effects()
+//really needs a better name; urgh
+// placed in animation (runs on game frames)
+with (oPlayer) if ("msg_unsafe_handler_id" in self 
+               &&   msg_unsafe_handler_id == other)
+{
+    if (msg_unsafe_paused_timer > 0)
+    { msg_unsafe_paused_timer--; }
+
+    //reset all effect's frequencies IF the game-timer is done counting
+    for (var i = 0; i < array_length(msg_unsafe_effects.effects_list); i++)
+    {
+        var fx = msg_unsafe_effects.effects_list[i];
+        var is_running = (fx.gameplay_timer > 0);
+        fx.gameplay_timer -= is_running;
+        fx.freq *= is_running;
+    }
+}
+
+//===================================================================
+#define msg_reroll_random()
+//reroll msg_unsafe_random
+
+//DEBUG utility
+var debug_pass = false;
+if (string_count("*", keyboard_string)) { keyboard_string = ""; debug_pass = true; }
+msg_unsafe_paused_timer |= (keyboard_lastchar == '*');
+
+//xorshift algorithm
+if (msg_unsafe_paused_timer <= 0 || debug_pass)
+{
+    var UINT_MAX = 0xFFFFFFFF;
+    var rng = msg_unsafe_random;
+
+    rng = (rng ^(rng << 13)) % UINT_MAX;
+    rng = (rng ^(rng >> 17)) % UINT_MAX;
+    rng = (rng ^(rng << 5 )) % UINT_MAX;
+
+    msg_unsafe_random = rng;
+}
 
 //===================================================================
 #define msg_apply_effects()
 //aka. unsafe_animation.gml
+// placed in pre_draw (runs on draw frames)
 
 //essential for rendering-random checks.
 if ("msg_unsafe_random" not in self) return;
+
+msg_reroll_random();
 
 //special msg_is_missingno-only effects are denoted 'M
 //===================================================================

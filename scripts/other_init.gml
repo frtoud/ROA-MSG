@@ -42,6 +42,8 @@ msg_init_effects(false);
         //initialize everything here
         msg_is_missingno = false;
         msg_unsafe_random = current_time + player;
+        msg_unsafe_paused_timer = 0; //for pausing the RNG
+
         msg_unsafe_handler_id = noone;
         msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2); //updated once in a while
 
@@ -54,7 +56,6 @@ msg_init_effects(false);
 
         //Namespace for effect structures
         msg_unsafe_effects = {
-            master_effect_timer: 0, //resets all frequencies to zero if zero
             effects_list:[] //shortcut to iterate through all effects
         }
 
@@ -91,8 +92,6 @@ msg_init_effects(false);
         msg_is_missingno = true;
         msg_unsafe_handler_id = self;
 
-        msg_unsafe_paused_timer = 0; //for pausing the RNG
-
         msg_garbage_collection[15] = msg_make_garbage(asset_get("zet_taunt"), 2);
         msg_garbage_collection[14] = msg_make_garbage(asset_get("brad_walljump"), 2);
         msg_garbage_collection[13] = msg_make_garbage(asset_get("burrito_rock_walkturn"), 2);
@@ -128,7 +127,7 @@ msg_init_effects(false);
 #define msg_make_effect // Version 0
     // initializes a standard VFX structure
     var fx = {
-                master_flag: false, //true if controlled by master_effect_timer (in game frames)
+                gameplay_timer: 0, //if zero; resets freq. counts down in game frames
                 freq:0,      //chance per frame of activating, from 0 to 16
                 timer:0,     //time of effect duration (in draw frames)
                 impulse:0,   //if not zero, timer * impulse is used to scale parameters
