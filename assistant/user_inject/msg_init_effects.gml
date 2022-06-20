@@ -63,6 +63,7 @@ if ("msg_unsafe_handler_id" not in self)
     //Parameters
     msg_unsafe_effects.shudder.horz_max = 8; //maximum horizontal displacement
     msg_unsafe_effects.shudder.vert_max = 8; //maximum vertical displacement
+    msg_unsafe_effects.shudder.impulse = 0;  //does the intensity scale with fx timer?
 
     //===========================================================
     //effect type: REDRAW
@@ -77,7 +78,7 @@ if ("msg_unsafe_handler_id" not in self)
 
     //===========================================================
     //effect type: REDRAW
-    msg_unsafe_effects.bad_axis = msg_make_effect();
+    msg_unsafe_effects.quadrant = msg_make_effect();
 
     //===========================================================
     //effect type: REDRAW
@@ -121,7 +122,6 @@ var fx = {
             gameplay_timer: 0, //if zero; resets freq. counts down in game frames
             freq:0,      //chance per frame of activating, from 0 to 16
             timer:0,     //time of effect duration (in draw frames)
-            impulse:0,   //if not zero, timer * impulse is used to scale parameters
          };
 
 //append to list directly

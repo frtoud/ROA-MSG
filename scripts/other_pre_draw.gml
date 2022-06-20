@@ -35,9 +35,9 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 
     var scale = 1 + small_sprites;
 
-
     //===========================================================
-    //effect type: REDRAW
+    // REDRAW EFFECT: VSYNC
+    // sprite trisected vertically, middle displaced
     if (msg_unsafe_effects.bad_vsync.timer > 0)
     {
         var spr_w = abs(sprite_width); //WHY!?
@@ -72,6 +72,52 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
                              mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, 1.0);
         draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(sprite_height - spr_clipbot, 0),
                              pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, 1.0);
+        if (main_draw) shader_end();
+
+        skips_draw = main_draw;
+    }
+    //===========================================================
+    // REDRAW EFFECT: QUADRANT
+    // sprite split in four corners, then rearranged
+    else if (msg_unsafe_effects.quadrant.timer > 0)
+    {
+        var spr_w = abs(sprite_width);
+        var spr_h = abs(sprite_height);
+        var spr_ox = abs(sprite_xoffset);
+        var spr_oy = abs(sprite_yoffset);
+
+        // 1 2
+        // 3 4
+        var half_h = min(spr_oy/2 * scale, char_height/2 ); //realspace
+
+        var q1={spr:sprite_index, ind:image_index, x:0, y:0, w:spr_ox, h:spr_oy - (half_h/scale) };
+        var q2={spr:sprite_index, ind:image_index, x:q1.w, y:0, w:spr_w - q1.w, h:q1.h };
+        var q3={spr:sprite_index, ind:image_index, x:0, y:q1.h, w:q1.w, h:spr_h - q1.h };
+        var q4={spr:sprite_index, ind:image_index, x:q1.w, y:q1.h, w:spr_w - q1.w, h:spr_h - q1.h };
+
+
+        q1 = q2; //example corruption
+
+        if (main_draw) shader_start();
+        //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
+        //1
+        draw_sprite_part_ext(q1.spr, q1.ind, q1.x, q1.y, q1.w, q1.h,
+                             x - q1.w*scale*spr_dir, y - half_h - q1.h*scale,
+                             spr_dir * scale, scale, c_white, 1.0);
+
+        //2
+        draw_sprite_part_ext(q2.spr, q2.ind, q2.x, q2.y, q2.w, q2.h,
+                             x, y - half_h - q2.h*scale,
+                             spr_dir * scale, scale, c_white, 1.0);
+        //3
+        draw_sprite_part_ext(q3.spr, q3.ind, q3.x, q3.y, q3.w, q3.h,
+                             x - q3.w*scale*spr_dir, y - half_h,
+                             spr_dir * scale, scale, c_white, 1.0);
+
+        //4
+        draw_sprite_part_ext(q4.spr, q4.ind, q4.x, q4.y, q4.w, q4.h,
+                             x, y - half_h,
+                             spr_dir * scale, scale, c_white, 1.0);
         if (main_draw) shader_end();
 
         skips_draw = main_draw;
@@ -149,6 +195,10 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
         fx.garbage = (2 > GET_RNG(22, 0x07));
     }
+    //===========================================================
+    //effect type: REDRAW
+    var fx = msg_unsafe_effects.quadrant;
+        fx.timer = 5;
 
 #define msg_reroll_random // Version 0
     // reroll msg_unsafe_random

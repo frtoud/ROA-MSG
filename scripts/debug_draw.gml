@@ -1,10 +1,12 @@
 //TODO: remove if it's still empty
-//MEANWHILE: this is unsafe_update.gml
 
 var line = 0;
 var offset = 15;
 
 exit;
+draw_debug_text(x-20, y+(offset*line++), "hsp " + string(hsp));
+draw_debug_text(x-20, y+(offset*line++), "vsp " + string(vsp));
+
 
 //var obj = instance_place( x, y+1, all);
 draw_debug_text(x-20, y+(offset*line++), "hsp " + string(hsp));
