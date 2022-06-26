@@ -1,3 +1,4 @@
+#macro AT_BSPECIAL AT_DSPECIAL_2
 
 if (attack == AT_FSPECIAL && (spr_dir*at_prev_dir_buffer < 0)) && false
 {
@@ -30,6 +31,15 @@ else
 if (attack == AT_TAUNT) msg_low_fps_mode = !msg_low_fps_mode;
 
 
+//"morph" effect attacks
+if (attack == AT_BSPECIAL)
+|| (attack == AT_DSPECIAL)
+{
+    msg_unsafe_effects.quadrant.gameplay_timer = 1;
+    msg_unsafe_effects.quadrant.freq = 1;
+    msg_unsafe_effects.quadrant.impulse = 4;
+    msg_unsafe_effects.shudder.impulse = 4;
+}
 
 
 

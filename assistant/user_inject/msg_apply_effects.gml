@@ -79,44 +79,85 @@ msg_reroll_random();
 //===================================================================
 // BITWISE RANDOM UINT32 MAP = 0x00000000 00000000 00000000 00000000
 // Effects:    Frequency uses: 
-//  - Shudder                                        FFFFFF VVVVHHHH
-//  - VSync                               GGFFFFFF BBBBBBBB TTTTHHHH
+//  - Shudder                                      ttffffff VVVVHHHH
+//  - VSync                            tt GGffffff BBBBBBBB TTTTHHHH
+//  - Quadrant                               tttff ffffGGSS 22GGSS11
 //  - wrong image_index
 //'M- garbage collector          P4P3P2P1                    EEEEFF 
 //  - trail
 //===================================================================
 
-//===========================================================
-//effect type: DRAW PARAMETER
-var fx = msg_unsafe_effects.shudder;
-if (fx.timer > 0 || fx.freq > GET_RNG(8, 0x3F))
-{
-    fx.timer -= (fx.timer > 0);
-    
-    draw_x += (fx.impulse ? fx.timer : 1) * fx.horz_max * GET_INT(0, 0x0F, true);
-    draw_y += (fx.impulse ? fx.timer : 1) * fx.vert_max * GET_INT(4, 0x0F, true);
-}
-else fx.impulse = false;
-//===========================================================
-//effect type: REDRAW
-var fx = msg_unsafe_effects.bad_vsync;
-if (fx.timer > 0)
-{
-    fx.timer -= 1;
-}
-if (fx.freq > GET_RNG(16, 0x3F))
-{
-    fx.timer = 5;
 
-    fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
-    fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
-    fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
-    fx.garbage = (2 > GET_RNG(22, 0x07));
+//===========================================================
+//effect: SHUDDER, type: DRAW PARAMETER
+var fx = msg_unsafe_effects.shudder 
+{
+    if (fx.impulse > 0) || (fx.freq > GET_RNG(8, 0x3F))
+    {
+        fx.impulse -= (fx.impulse > 0);
+        //reroll parameters
+        fx.timer = 2 * GET_INT(14, 0x03);
+    }
+    if (fx.timer > 0)
+    {
+        fx.timer--;
+        //apply
+        draw_x += max(fx.impulse , 1) * fx.horz_max * GET_INT(0, 0x0F, true);
+        draw_y += max(fx.impulse , 1) * fx.vert_max * GET_INT(4, 0x0F, true);
+    }
 }
 //===========================================================
-//effect type: REDRAW
-var fx = msg_unsafe_effects.quadrant;
-    fx.timer = 5;
+//effect: VSYNC, type: REDRAW
+var fx = msg_unsafe_effects.bad_vsync 
+{
+    if (fx.impulse > 0) || (fx.freq > GET_RNG(16, 0x3F))
+    {
+        fx.impulse -= (fx.impulse > 0);
+        //reroll parameters
+        fx.timer = 4 + GET_RNG(22, 0x03);
+
+        fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
+        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
+        fx.horz = fx.horz_max * max(fx.impulse / 2 , 2) * GET_INT(0, 0x0F, true);
+        fx.garbage = (2 > GET_RNG(22, 0x07));
+    }
+    if (fx.timer > 0)
+    {
+        fx.timer -= (fx.freq == 0);
+        //apply
+    }
+}
+//===========================================================
+//effect: QUADRANT, type: REDRAW
+var fx = msg_unsafe_effects.quadrant 
+{
+    if (fx.impulse > 0) || (fx.freq > GET_RNG(12, 0x3F))
+    {
+        fx.impulse -= (fx.impulse > 0);
+        //reroll parameters
+        fx.timer = 4 + GET_RNG(18, 0x07);
+
+
+        //roll twice for sector corruption
+        var sector = GET_RNG(0, 0x03);
+        fx.source[sector] = GET_RNG(2, 0x03);
+        fx.garbage[sector] = (0 == GET_RNG(4, 0x03));
+
+        sector = GET_RNG(6, 0x03);
+        fx.source[sector] = GET_RNG(8, 0x03);
+        fx.garbage[sector] = (0 == GET_RNG(10, 0x03));
+    }
+    if (fx.timer > 0)
+    {
+        fx.timer -= (fx.freq == 0);
+        //apply
+    }
+    else
+    {
+        fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
+        fx.garbage[0] = 0; fx.garbage[1] = 1; fx.garbage[2] = 2; fx.garbage[3] = 3;
+    }
+}
 //===========================================================
 
 

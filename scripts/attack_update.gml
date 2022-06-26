@@ -532,10 +532,9 @@ switch (attack)
                     msg_uspecial_wraparound = true;
                     window_timer = 90;
 
-                    msg_unsafe_effects.shudder.impulse = true;
-                    msg_unsafe_effects.shudder.timer = 16;
-                    msg_unsafe_effects.shudder.horz_max = 8;
-                    msg_unsafe_effects.shudder.vert_max = 8;
+                    msg_unsafe_effects.shudder.impulse = 20;
+                    msg_unsafe_effects.shudder.horz_max = 6;
+                    msg_unsafe_effects.shudder.vert_max = 6;
                 }
                 sound_play(mojify_check ? sound_get("079"): asset_get("sfx_mobile_gear_jump"))
             }

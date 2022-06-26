@@ -65,7 +65,6 @@ msg_init_effects(false);
         //Parameters
         msg_unsafe_effects.shudder.horz_max = 8; //maximum horizontal displacement
         msg_unsafe_effects.shudder.vert_max = 8; //maximum vertical displacement
-        msg_unsafe_effects.shudder.impulse = 0;  //does the intensity scale with fx timer?
 
         //===========================================================
         //effect type: REDRAW
@@ -76,11 +75,13 @@ msg_init_effects(false);
         msg_unsafe_effects.bad_vsync.cliptop = 0; //top of middle segment
         msg_unsafe_effects.bad_vsync.clipbot = 0; //bottom of middle segment
         msg_unsafe_effects.bad_vsync.horz = 0; //displacement of middle segment
-        msg_unsafe_effects.bad_vsync.garbage = false; //middle segment taken from wrong sprite if false
+        msg_unsafe_effects.bad_vsync.garbage = false; //middle segment taken from wrong sprite if true
 
         //===========================================================
         //effect type: REDRAW
         msg_unsafe_effects.quadrant = msg_make_effect();
+        msg_unsafe_effects.quadrant.source = [0, 1, 2, 3]; //which corner to draw
+        msg_unsafe_effects.quadrant.garbage = [false, false, false, false]; //does this draw from wrong sprite?
 
         //===========================================================
         //effect type: REDRAW
@@ -128,10 +129,20 @@ msg_init_effects(false);
 #define msg_make_effect // Version 0
     // initializes a standard VFX structure
     var fx = {
-                gameplay_timer: 0, //if zero; resets freq. counts down in game frames
-                freq:0,      //chance per frame of activating, from 0 to 16
-                timer:0,     //time of effect duration (in draw frames)
+                gameplay_timer: 0, //if zero; resets frequency. may count as effect duration. (in game frames)
+                freq:0,        //chance per frame of activating; exact ratio varies
+                timer:0,       //time of effect duration (in draw frames)
+                impulse:0      //effect duration, also scales intensity (in draw frames)
              };
+    // standard behavior as follows:
+    //
+    // gameplay_timer counts down (gameframe)
+    //     if zero, freq resets
+    //
+    // if !frozen
+    //    if freq rolls success OR impulse, roll parameters & timer
+    //    if timer, count down (drawframes) and apply parameters
+
 
     //append to list directly
     array_push(msg_unsafe_effects.effects_list, fx);

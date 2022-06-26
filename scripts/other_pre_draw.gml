@@ -86,37 +86,37 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         var spr_ox = abs(sprite_xoffset);
         var spr_oy = abs(sprite_yoffset);
 
-        // 1 2
-        // 3 4
+        // 0 1
+        // 2 3
         var half_h = min(spr_oy/2 * scale, char_height/2 ); //realspace
 
-        var q1={spr:sprite_index, ind:image_index, x:0, y:0, w:spr_ox, h:spr_oy - (half_h/scale) };
-        var q2={spr:sprite_index, ind:image_index, x:q1.w, y:0, w:spr_w - q1.w, h:q1.h };
-        var q3={spr:sprite_index, ind:image_index, x:0, y:q1.h, w:q1.w, h:spr_h - q1.h };
-        var q4={spr:sprite_index, ind:image_index, x:q1.w, y:q1.h, w:spr_w - q1.w, h:spr_h - q1.h };
-
-
-        q1 = q2; //example corruption
+        var q = [noone, noone, noone, noone];
+        q[0]={spr:sprite_index, ind:image_index, x:0, y:0, w:spr_ox, h:spr_oy - (half_h/scale) };
+        q[1]={spr:sprite_index, ind:image_index, x:q[0].w, y:0, w:spr_w - q[0].w, h:q[0].h };
+        q[2]={spr:sprite_index, ind:image_index, x:0, y:q[0].h, w:q[0].w, h:spr_h - q[0].h };
+        q[3]={spr:sprite_index, ind:image_index, x:q[0].w, y:q[0].h, w:spr_w - q[0].w, h:spr_h - q[0].h };
 
         if (main_draw) shader_start();
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
-        //1
-        draw_sprite_part_ext(q1.spr, q1.ind, q1.x, q1.y, q1.w, q1.h,
-                             x - q1.w*scale*spr_dir, y - half_h - q1.h*scale,
+
+        var s = msg_unsafe_effects.quadrant.source[0];
+        draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
+                             x +draw_x - q[s].w*scale*spr_dir, y +draw_y - half_h - q[s].h*scale,
                              spr_dir * scale, scale, c_white, 1.0);
 
-        //2
-        draw_sprite_part_ext(q2.spr, q2.ind, q2.x, q2.y, q2.w, q2.h,
-                             x, y - half_h - q2.h*scale,
-                             spr_dir * scale, scale, c_white, 1.0);
-        //3
-        draw_sprite_part_ext(q3.spr, q3.ind, q3.x, q3.y, q3.w, q3.h,
-                             x - q3.w*scale*spr_dir, y - half_h,
+        s = msg_unsafe_effects.quadrant.source[1];
+        draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
+                             x +draw_x, y +draw_y - half_h - q[s].h*scale,
                              spr_dir * scale, scale, c_white, 1.0);
 
-        //4
-        draw_sprite_part_ext(q4.spr, q4.ind, q4.x, q4.y, q4.w, q4.h,
-                             x, y - half_h,
+        s = msg_unsafe_effects.quadrant.source[2];
+        draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
+                             x +draw_x - q[s].w*scale*spr_dir, y +draw_y - half_h,
+                             spr_dir * scale, scale, c_white, 1.0);
+
+        s = msg_unsafe_effects.quadrant.source[3];
+        draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
+                             x +draw_x, y +draw_y - half_h,
                              spr_dir * scale, scale, c_white, 1.0);
         if (main_draw) shader_end();
 
@@ -161,44 +161,85 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //===================================================================
     // BITWISE RANDOM UINT32 MAP = 0x00000000 00000000 00000000 00000000
     // Effects:    Frequency uses:
-    //  - Shudder                                        FFFFFF VVVVHHHH
-    //  - VSync                               GGFFFFFF BBBBBBBB TTTTHHHH
+    //  - Shudder                                      ttffffff VVVVHHHH
+    //  - VSync                            tt GGffffff BBBBBBBB TTTTHHHH
+    //  - Quadrant                               tttff ffffGGSS 22GGSS11
     //  - wrong image_index
     //'M- garbage collector          P4P3P2P1                    EEEEFF
     //  - trail
     //===================================================================
 
-    //===========================================================
-    //effect type: DRAW PARAMETER
-    var fx = msg_unsafe_effects.shudder;
-    if (fx.timer > 0 || fx.freq > GET_RNG(8, 0x3F))
-    {
-        fx.timer -= (fx.timer > 0);
 
-        draw_x += (fx.impulse ? fx.timer : 1) * fx.horz_max * GET_INT(0, 0x0F, true);
-        draw_y += (fx.impulse ? fx.timer : 1) * fx.vert_max * GET_INT(4, 0x0F, true);
-    }
-    else fx.impulse = false;
     //===========================================================
-    //effect type: REDRAW
-    var fx = msg_unsafe_effects.bad_vsync;
-    if (fx.timer > 0)
+    //effect: SHUDDER, type: DRAW PARAMETER
+    var fx = msg_unsafe_effects.shudder
     {
-        fx.timer -= 1;
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(8, 0x3F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+            fx.timer = 2 * GET_INT(14, 0x03);
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer--;
+            //apply
+            draw_x += max(fx.impulse , 1) * fx.horz_max * GET_INT(0, 0x0F, true);
+            draw_y += max(fx.impulse , 1) * fx.vert_max * GET_INT(4, 0x0F, true);
+        }
     }
-    if (fx.freq > GET_RNG(16, 0x3F))
+    //===========================================================
+    //effect: VSYNC, type: REDRAW
+    var fx = msg_unsafe_effects.bad_vsync
     {
-        fx.timer = 5;
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(16, 0x3F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+            fx.timer = 4 + GET_RNG(22, 0x03);
 
-        fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
-        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
-        fx.horz = fx.horz_max * 2 * GET_INT(0, 0x0F, true);
-        fx.garbage = (2 > GET_RNG(22, 0x07));
+            fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
+            fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
+            fx.horz = fx.horz_max * max(fx.impulse / 2 , 2) * GET_INT(0, 0x0F, true);
+            fx.garbage = (2 > GET_RNG(22, 0x07));
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer -= (fx.freq == 0);
+            //apply
+        }
     }
     //===========================================================
-    //effect type: REDRAW
-    var fx = msg_unsafe_effects.quadrant;
-        fx.timer = 5;
+    //effect: QUADRANT, type: REDRAW
+    var fx = msg_unsafe_effects.quadrant
+    {
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(12, 0x3F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+            fx.timer = 4 + GET_RNG(18, 0x07);
+
+
+            //roll twice for sector corruption
+            var sector = GET_RNG(0, 0x03);
+            fx.source[sector] = GET_RNG(2, 0x03);
+            fx.garbage[sector] = (0 == GET_RNG(4, 0x03));
+
+            sector = GET_RNG(6, 0x03);
+            fx.source[sector] = GET_RNG(8, 0x03);
+            fx.garbage[sector] = (0 == GET_RNG(10, 0x03));
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer -= (fx.freq == 0);
+            //apply
+        }
+        else
+        {
+            fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
+            fx.garbage[0] = 0; fx.garbage[1] = 1; fx.garbage[2] = 2; fx.garbage[3] = 3;
+        }
+    }
 
 #define msg_reroll_random // Version 0
     // reroll msg_unsafe_random

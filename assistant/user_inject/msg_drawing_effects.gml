@@ -57,37 +57,37 @@ else if (msg_unsafe_effects.quadrant.timer > 0)
     var spr_ox = abs(sprite_xoffset);
     var spr_oy = abs(sprite_yoffset);
 
-    // 1 2
-    // 3 4
+    // 0 1
+    // 2 3
     var half_h = min(spr_oy/2 * scale, char_height/2 ); //realspace
     
-    var q1={spr:sprite_index, ind:image_index, x:0, y:0, w:spr_ox, h:spr_oy - (half_h/scale) };
-    var q2={spr:sprite_index, ind:image_index, x:q1.w, y:0, w:spr_w - q1.w, h:q1.h };
-    var q3={spr:sprite_index, ind:image_index, x:0, y:q1.h, w:q1.w, h:spr_h - q1.h };
-    var q4={spr:sprite_index, ind:image_index, x:q1.w, y:q1.h, w:spr_w - q1.w, h:spr_h - q1.h };
-
-    
-    q1 = q2; //example corruption
+    var q = [noone, noone, noone, noone];
+    q[0]={spr:sprite_index, ind:image_index, x:0, y:0, w:spr_ox, h:spr_oy - (half_h/scale) };
+    q[1]={spr:sprite_index, ind:image_index, x:q[0].w, y:0, w:spr_w - q[0].w, h:q[0].h };
+    q[2]={spr:sprite_index, ind:image_index, x:0, y:q[0].h, w:q[0].w, h:spr_h - q[0].h };
+    q[3]={spr:sprite_index, ind:image_index, x:q[0].w, y:q[0].h, w:spr_w - q[0].w, h:spr_h - q[0].h };
 
     if (main_draw) shader_start();
     //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
-    //1
-    draw_sprite_part_ext(q1.spr, q1.ind, q1.x, q1.y, q1.w, q1.h, 
-                         x - q1.w*scale*spr_dir, y - half_h - q1.h*scale, 
+    
+    var s = msg_unsafe_effects.quadrant.source[0];
+    draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h, 
+                         x +draw_x - q[s].w*scale*spr_dir, y +draw_y - half_h - q[s].h*scale, 
                          spr_dir * scale, scale, c_white, 1.0);
     
-    //2
-    draw_sprite_part_ext(q2.spr, q2.ind, q2.x, q2.y, q2.w, q2.h, 
-                         x, y - half_h - q2.h*scale, 
-                         spr_dir * scale, scale, c_white, 1.0);
-    //3
-    draw_sprite_part_ext(q3.spr, q3.ind, q3.x, q3.y, q3.w, q3.h, 
-                         x - q3.w*scale*spr_dir, y - half_h, 
+    s = msg_unsafe_effects.quadrant.source[1];
+    draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h, 
+                         x +draw_x, y +draw_y - half_h - q[s].h*scale, 
                          spr_dir * scale, scale, c_white, 1.0);
     
-    //4
-    draw_sprite_part_ext(q4.spr, q4.ind, q4.x, q4.y, q4.w, q4.h, 
-                         x, y - half_h, 
+    s = msg_unsafe_effects.quadrant.source[2];
+    draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h, 
+                         x +draw_x - q[s].w*scale*spr_dir, y +draw_y - half_h, 
+                         spr_dir * scale, scale, c_white, 1.0);
+    
+    s = msg_unsafe_effects.quadrant.source[3];
+    draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h, 
+                         x +draw_x, y +draw_y - half_h, 
                          spr_dir * scale, scale, c_white, 1.0);
     if (main_draw) shader_end();
 
