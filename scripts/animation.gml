@@ -125,6 +125,15 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_NAIR:
+        {
+            if (window == 2 && window_timer = 0)
+            {
+                msg_unsafe_effects.shudder.impulse = 8;
+                msg_unsafe_effects.shudder.horz_max = 5;
+            }
+        } break;
+//==================================================================
         case AT_NTHROW:
         {
             if (window == 4)
