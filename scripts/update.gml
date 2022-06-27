@@ -225,7 +225,7 @@ if (msg_dstrong_yoyo.active)
         for (var i = 0; i < steps; i++)
         {
             var factor = i/steps;
-            var interp_hb = create_hitbox(best_hitbox.attack, best_hitbox.hbox_num, x-30, y);
+            var interp_hb = create_hitbox(best_hitbox.attack, best_hitbox.hbox_num, floor(x-30), floor(y));
             interp_hb.length = 1;
             interp_hb.image_xscale = lerp(0.15, best_hitbox.image_xscale, factor);;
             interp_hb.image_yscale = lerp(0.15, best_hitbox.image_yscale, factor);;
@@ -238,6 +238,13 @@ if (msg_dstrong_yoyo.active)
         
         msg_dstrong_yoyo.active = false;
         msg_dstrong_yoyo.visible = false;
+
+        vfx_yoyo_snap.timer = 8;
+        vfx_yoyo_snap.x = best_hitbox.x;
+        vfx_yoyo_snap.y = best_hitbox.y;
+        vfx_yoyo_snap.length = distance;
+        vfx_yoyo_snap.angle = point_direction(best_hitbox.x, best_hitbox.y, 
+                                             msg_dstrong_yoyo.x, msg_dstrong_yoyo.y);
     }
 
 }

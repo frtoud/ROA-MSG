@@ -51,6 +51,14 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
     gpu_set_alphatestenable(true);
 
     ///setup masks
+
+    //yoyo stretch fx
+    if (vfx_yoyo_snap.timer > 0)
+    {
+        draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2, 
+        vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
+    }
+
     // (exact position/sprite of player)
     msg_manual_draw(false);
 
@@ -87,6 +95,16 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
 msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
 gpu_pop_state();
 //==================================================================
+
+if (vfx_yoyo_snap.timer > 0)
+{
+    shader_start();
+    draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2, 
+    vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
+
+    vfx_yoyo_snap.timer --;
+    shader_end();
+}
 
 //might need to override normal draw code
 msg_manual_draw(true);

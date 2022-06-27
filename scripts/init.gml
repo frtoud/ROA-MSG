@@ -166,6 +166,16 @@ msg_dstrong_yoyo =
     visible: false
 }
 
+vfx_yoyo_snap = 
+{
+    x: 0,
+    y: 0,
+    spr: sprite_get("vfx_yoyo_snap"),
+    timer: 0,
+    angle: 0,
+    length: 0,
+}
+
 msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
 

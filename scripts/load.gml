@@ -47,6 +47,7 @@ sprite_change_offset("grab", 27, 45, true);
 sprite_change_offset("proj_pokeball", 12, 12);
 sprite_change_offset("proj_pokeball_broken", 12, 12);
 sprite_change_offset("vfx_ball_open", 48, 48);
+sprite_change_offset("vfx_yoyo_snap", 4, 11); //length: 128
 
 sprite_change_offset("proj_payday", 16, 16);
 sprite_change_offset("proj_payday_broken", 16, 16);
