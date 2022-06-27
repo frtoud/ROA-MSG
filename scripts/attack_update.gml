@@ -22,7 +22,7 @@ switch (attack)
             var actual_max = max(abs(hsp), free ? air_max_speed : walk_speed);
 
             //friction can kick in (if direction not held)
-            if (left_down == right_down) 
+            if (left_down == right_down)
             { 
                 hsp -= sign(hsp) * min(abs(hsp), actual_frict);
             }
@@ -39,6 +39,7 @@ switch (attack)
             case 1: //STARTUP
             {
                 set_attack_value(AT_FTILT, AG_NO_PARRY_STUN, 1);
+                set_window_value(AT_FTILT, 4, AG_WINDOW_ANIM_FRAME_START, 2);
                 if (attack_down)
                 && (window_timer == get_window_value(AT_FTILT, 1, AG_WINDOW_LENGTH))
                 {
@@ -81,9 +82,10 @@ switch (attack)
                     //setup interpolation & teleport
                     if (point_distance(x, y, msg_ntilt_origin.x, msg_ntilt_origin.y) > 20)
                     {
+                        set_window_value(AT_FTILT, 4, AG_WINDOW_ANIM_FRAME_START, 1);
                         msg_dstrong_yoyo.active = true;
                         msg_dstrong_yoyo.visible = false;
-                        msg_dstrong_yoyo.y = y - 40; msg_dstrong_yoyo.x = x;
+                        msg_dstrong_yoyo.y = y - 48; msg_dstrong_yoyo.x = x + spr_dir * 40;
 
                         x = msg_ntilt_origin.x;
                         y = msg_ntilt_origin.y;
@@ -92,8 +94,7 @@ switch (attack)
             } break;
             case 4: // HIT
             {
-                hsp = held_dir * walk_speed;
-
+                if (!hitpause) hsp = held_dir * walk_speed;
             }
         }
     } break;
