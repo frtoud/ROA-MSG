@@ -12,12 +12,12 @@ hitstun_hurtbox_spr = -1;
 //Ground movement
 walk_speed          = 3.15;
 walk_accel          = 0.1;
-walk_turn_time      = 4;
+walk_turn_time      = 6;    //note: influences window of grounded bspec input
 
 initial_dash_time   = 14;
 initial_dash_speed  = 6;
 dash_speed          = 6.25;
-dash_turn_time      = 8;
+dash_turn_time      = 6;    //note: influences window of grounded bspec input
 dash_turn_accel     = 4.5;
 dash_stop_time      = 4;
 dash_stop_percent   = .05; //the value to multiply your hsp by when going into idle from dash or dashstop
@@ -153,10 +153,10 @@ msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to
 
 //=========================================================
 // Attack variables
-at_prev_dir_buffer = 0;
-at_prev_special_down = false;
-msg_bspecial_last_move = { target:self, move:AT_TAUNT, small_sprites:0 };
-msg_bspecial_category_flag = false;
+at_prev_spr_dir = 0;
+at_prev_special_down = false; //edge detection. set to true by either update or set_attack
+msg_bspecial_last_move = { target:self, move:AT_FSPECIAL_2, small_sprites:0 };
+msg_is_bspecial = false; //this move was input through BSPECIAL; extra considerations apply.
 
 msg_dstrong_yoyo = 
 {

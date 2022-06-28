@@ -49,48 +49,41 @@ else if (state == PS_DASH_START) && down_down
 }
 
 
-at_prev_dir_buffer = clamp(at_prev_dir_buffer + spr_dir, -6, 6);
-
 //==============================================================
-// BSPECIAL "Last move used" holding (previously detection)
-var target_is_missingno = false;
-var target_is_clone = false;
+// BSPECIAL "Last move used" detection
+// if starting an attack: gets caught by set_attack (requires prev_attack)
 
-if (special_down && !at_prev_special_down)
+var counts_as_hitpause = (hitpause) || ( (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
+                                         && (attack == AT_NTHROW && window == 4) );
+if (special_down)
 {
-    var counts_as_hitpause = (hitpause) 
-                          || ( (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
-                               && (attack == AT_NTHROW && window == 4) )
-    var target = (counts_as_hitpause && hit_player_obj != noone) ? hit_player_obj : self;
-
-    if (target.msg_is_missingno) target = self; //shortcut: copy self if copying a missingno
-
-    msg_bspecial_last_move.target = (target_is_missingno ? self : target);
-    msg_bspecial_last_move.move = target.attack;
-    msg_bspecial_last_move.small_sprites = target.small_sprites;
-
-    if (counts_as_hitpause) sound_play(sound_get("eden3"));
-}
-else if (!special_down && at_prev_special_down) 
-     && (state_cat == SC_AIR_NEUTRAL || state_cat == SC_GROUND_NEUTRAL )
-{
-    if (msg_bspecial_last_move.target == self)
+    var target = noone;
+    var saved_move = -1;
+    //last frame of hitpause: steal target's last move
+    if (!counts_as_hitpause && at_was_in_hitpause)
     {
-        msg_bspecial_category_flag = (attack != AT_DSPECIAL_2);
-        move_cooldown[msg_bspecial_last_move.move] = 0; //cannot prevent use, whatever move it is at the moment
-        set_attack(msg_bspecial_last_move.move);
-
-        if (attack == AT_DSPECIAL_2) sound_play(sound_get("eden2"));
+        target = instance_exists(hit_player_obj) ? hit_player_obj : self;
+        saved_move = target.attack;
     }
-    else
-    {
-        steal_move_data(msg_bspecial_last_move.target, msg_bspecial_last_move.move, AT_DSPECIAL_2);
-        set_attack(AT_DSPECIAL_2);
 
-        sound_play(sound_get("eden2"));
+    //save move info
+    if instance_exists(target) && ( (msg_bspecial_last_move.target != target) 
+                                 || (msg_bspecial_last_move.move != saved_move) )
+    {
+        if (target != self) sound_play(sound_get("eden3"));
+        msg_bspecial_last_move.target = target;
+        msg_bspecial_last_move.move = saved_move;
+        msg_bspecial_last_move.small_sprites = target.small_sprites;
     }
 }
 at_prev_special_down = special_down;
+at_was_in_hitpause = counts_as_hitpause;
+if (attack != AT_DSPECIAL_2) at_prev_attack = attack;
+//for bspecial input:
+//requires spr_dir to have been "backwards" previously
+//special case for WALKTURN and DASHTURN: they get the new spr_dir at the start of the turn
+at_prev_spr_dir = (state == PS_WALK_TURN || state == PS_DASH_TURN) ? -spr_dir : spr_dir;
+
 
 //==============================================================
 // If this was true (from previous frame) and you were sent to hitstun, lose charge
