@@ -80,9 +80,12 @@ switch (attack)
                 if (window_timer == 2)
                 {
                     //setup interpolation & teleport
-                    if (point_distance(x, y, msg_ntilt_origin.x, msg_ntilt_origin.y) > 20)
+                    var distance = point_distance(x, y, msg_ntilt_origin.x, msg_ntilt_origin.y);
+                    if (distance > 20)
                     {
-                        set_window_value(AT_FTILT, 4, AG_WINDOW_ANIM_FRAME_START, 1);
+                        if (distance > 60)
+                            set_window_value(AT_FTILT, 4, AG_WINDOW_ANIM_FRAME_START, 1);
+
                         msg_dstrong_yoyo.active = true;
                         msg_dstrong_yoyo.visible = false;
                         msg_dstrong_yoyo.y = y - 48; msg_dstrong_yoyo.x = x + spr_dir * 40;
