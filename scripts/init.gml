@@ -154,8 +154,11 @@ msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to
 //=========================================================
 // Attack variables
 at_prev_spr_dir = 0;
+at_prev_attack = AT_TAUNT;
 at_prev_special_down = false; //edge detection. set to true by either update or set_attack
-msg_bspecial_last_move = { target:self, move:AT_FSPECIAL_2, small_sprites:0 };
+
+msg_bspecial_last_move = 
+{ target:noone, move:AT_TAUNT, small_sprites:0 }; //if target is noone, actually uses at_prev_attack
 msg_is_bspecial = false; //this move was input through BSPECIAL; extra considerations apply.
 
 msg_dstrong_yoyo = 

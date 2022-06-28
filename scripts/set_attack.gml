@@ -1,13 +1,12 @@
 #macro AT_BSPECIAL AT_DSPECIAL_2
 
+//temp. remap of inputs, attack kept separate
+if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
+else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
+//todo: remap correctly
 
-    //temp. remap of inputs, attack kept separate
-    if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
-    else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
-    //todo: remap correctly
-
-    else if (attack == AT_JAB) attack = AT_FTILT; //NTILT
-    else if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
+else if (attack == AT_JAB) attack = AT_FTILT; //NTILT
+else if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
 
 //==========================================================
 // BSPECIAL input
@@ -16,44 +15,36 @@ if (attack == AT_FSPECIAL && (spr_dir * at_prev_spr_dir < 0))
     attack = AT_BSPECIAL; //conversion
     spr_dir = sign(at_prev_spr_dir); //dont flip
     clear_button_buffer(PC_SPECIAL_PRESSED);
-    at_prev_special_down = true; //do not let move copying happen
 }
 
 if (attack == AT_BSPECIAL)
 {
-    msg_is_bspecial = true;
-    if (msg_bspecial_last_move.target.msg_is_missingno)
+    if (msg_bspecial_last_move.target == noone)
+    {
+        attack = at_prev_attack;
+    }
+    else if (msg_bspecial_last_move.target.msg_is_missingno)
     {
         attack = msg_bspecial_last_move.move;
-        //...apply runes?
+        //...if not self; apply runes?
     }
     else
     {
         sound_play(sound_get("eden2"));
         steal_move_data(msg_bspecial_last_move.target, msg_bspecial_last_move.move);
     }
+
     move_cooldown[attack] = 0; //cannot prevent use of BSPEC, whatever it is at the moment
-}
-else
-{
-    msg_is_bspecial = false;
-}
-
-
-
-if (msg_is_bspecial)
-{
-    //Allowed at any time because of special input
-    set_attack_value(attack, AG_CATEGORY, 2);
+    set_attack_value(attack, AG_CATEGORY, 2); //Allowed at any time because of special input
+    msg_is_bspecial = true;
 }
 else
 {
     reset_attack_value(attack, AG_CATEGORY);
+    msg_is_bspecial = false;
 }
 
-
 //if (attack == AT_TAUNT) msg_low_fps_mode = !msg_low_fps_mode;
-
 
 //"morph" effect attacks
 if (attack == AT_BSPECIAL)
@@ -64,8 +55,6 @@ if (attack == AT_BSPECIAL)
     msg_unsafe_effects.quadrant.impulse = 4;
     msg_unsafe_effects.shudder.impulse = 4;
 }
-
-
 
 if (attack == AT_USPECIAL) msg_firstjump_timer = msg_firstjump_timer_max; //fixes jump bug
 

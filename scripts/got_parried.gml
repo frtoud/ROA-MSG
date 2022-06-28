@@ -10,6 +10,8 @@ if (my_hitboxID.orig_player_id == self) && (my_hitboxID.attack == AT_DSPECIAL)
     destroy_copies(hit_player_obj);
 }
 
+//clears saved attack index
+msg_bspecial_last_move.target = noone;
 
 //==========================================================
 // destroy all current missingno-copies of a player

@@ -5,6 +5,9 @@ if (msg_exploded_damage != 0)
     msg_exploded_damage = 0;
 }
 
+//clears saved attack index
+msg_bspecial_last_move.target = noone;
+
 if (attack == AT_FSTRONG && strong_charge > 0 && strong_charge < 60)
 {
     //interrupted: start charging passively >:]
