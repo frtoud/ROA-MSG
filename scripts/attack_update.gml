@@ -20,7 +20,6 @@ if (msg_is_bspecial) switch (attack)
     break;
 }
 
-
 switch (attack)
 {
 //=============================================================
@@ -537,18 +536,16 @@ switch (attack)
         {
             can_wall_jump = true;
             var new_dir = (right_down - left_down);
-            var mojify_check = false;
             if (new_dir != 0) 
             {
-                mojify_check = spr_dir != new_dir;
                 spr_dir = new_dir;
             }
 
-            if (shield_down)
+            if (shield_down || msg_is_bspecial)
             {
                 window = 5;
                 window_timer = 0;
-                if (mojify_check) 
+                if (msg_is_bspecial) 
                 {
                     msg_uspecial_wraparound = true;
                     window_timer = 90;
@@ -557,7 +554,7 @@ switch (attack)
                     msg_unsafe_effects.shudder.horz_max = 6;
                     msg_unsafe_effects.shudder.vert_max = 6;
                 }
-                sound_play(mojify_check ? sound_get("079"): asset_get("sfx_mobile_gear_jump"))
+                sound_play(msg_is_bspecial ? sound_get("079"): asset_get("sfx_mobile_gear_jump"))
             }
         }
         else if (window == 4)
@@ -588,6 +585,11 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_TAUNT:
+    {
+        //clears saved attack index
+        msg_bspecial_last_move.target = noone;
+    } break;
     default: break;
 }
 
