@@ -4,6 +4,23 @@ if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || a
     trigger_b_reverse();
 }
 
+//=============================================================
+// BSPECIAL: propagate inputs to relevant variable
+// only affects this frame because these input flags will get reset anyways
+if (msg_is_bspecial) switch (attack)
+{
+    case AT_FTILT: case AT_DTILT: case AT_UTILT:
+    case AT_NAIR: case AT_FAIR: case AT_DAIR: case AT_BAIR: case AT_UAIR:
+        attack_down = special_down;
+        attack_pressed = special_pressed;
+    break;
+    case AT_FSTRONG: case AT_USTRONG: case AT_DSTRONG:
+        strong_down = special_down;
+        strong_pressed = special_pressed;
+    break;
+}
+
+
 switch (attack)
 {
 //=============================================================
