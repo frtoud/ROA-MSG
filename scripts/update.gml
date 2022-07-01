@@ -84,6 +84,12 @@ if (attack != AT_DSPECIAL_2) at_prev_attack = attack;
 //special case for WALKTURN and DASHTURN: they get the new spr_dir at the start of the turn
 at_prev_spr_dir = (state == PS_WALK_TURN || state == PS_DASH_TURN) ? -spr_dir : spr_dir;
 
+//walkturn prevents special input...
+if (state == PS_WALK_TURN)
+&& (is_special_pressed(DIR_LEFT) || is_special_pressed(DIR_RIGHT))
+{
+    set_attack(AT_FSPECIAL);
+}
 
 //==============================================================
 // If this was true (from previous frame) and you were sent to hitstun, lose charge

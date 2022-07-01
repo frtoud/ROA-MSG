@@ -12,12 +12,12 @@ hitstun_hurtbox_spr = -1;
 //Ground movement
 walk_speed          = 3.15;
 walk_accel          = 0.1;
-walk_turn_time      = 6;    //note: influences window of grounded bspec input
+walk_turn_time      = 8;    //note: influences window of grounded bspec input
 
 initial_dash_time   = 14;
 initial_dash_speed  = 6;
 dash_speed          = 6.25;
-dash_turn_time      = 6;    //note: influences window of grounded bspec input
+dash_turn_time      = 8;    //note: influences window of grounded bspec input
 dash_turn_accel     = 4.5;
 dash_stop_time      = 4;
 dash_stop_percent   = .05; //the value to multiply your hsp by when going into idle from dash or dashstop
