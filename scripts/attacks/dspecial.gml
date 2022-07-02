@@ -43,7 +43,7 @@ set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_SPRITE, sprite_get("proj_pokeball
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_ANIM_SPEED, 0.2);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_MASK, -1);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_PARRY_STUN, 1);
-set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_DESTROY_EFFECT, 1);
+set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_DESTROY_EFFECT, 20);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_HSPEED, 5);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_VSPEED, -4);
 set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_GRAVITY, 0.3);

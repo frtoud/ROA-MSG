@@ -118,6 +118,34 @@ if (attack == AT_DSPECIAL)
                 destroy_copies(other);
             }
         }
+        // Hit by melee hitbox
+        with (pHitBox) if (!hbox_has_hit)
+                       && (type == 1) && (hit_priority > 0)
+                       && (orig_player_id != other.orig_player_id)
+                       && (get_player_team(player) != hbox.my_team)
+                       && place_meeting(x, y, hbox)
+        {
+            hbox_has_hit = true;
+            var enemy_hitbox = self;
+
+            with (hbox.orig_player_id)
+            {
+                sound_play(other.sound_effect);
+                spawn_hit_fx(floor(hbox.x), floor(hbox.y), hbox.hit_effect);
+                hbox.destroyed = true;
+
+                var hb = create_hitbox(hbox.attack, 2, hbox.x, hbox.y)
+                
+                var angle = 90;
+                with (hbox) angle = get_hitbox_angle(enemy_hitbox);
+
+                hb.hsp = lengthdir_x(enemy_hitbox.kb_value, angle);
+                hb.vsp = lengthdir_y(enemy_hitbox.kb_value, angle);
+                hb.missingno_copied_player_id = enemy_hitbox.orig_player_id;
+                //consume existing clones
+                destroy_copies(other);
+            }
+        }
     }
 }
 
