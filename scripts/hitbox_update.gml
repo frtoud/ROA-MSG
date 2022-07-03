@@ -17,6 +17,35 @@ if (attack == AT_USTRONG)
         image_index = floor(image_index);
         length = 20;
     }
+    else
+    {
+        //Shyguy DI glitch: check for victims already in hitstun
+        var target_in_hitstun = false;
+        var proj_team = get_player_team(player);
+        var coin = self;
+
+        with (oPlayer) if (state_cat == SC_HITSTUN) && (!hitpause)
+        && (self != other.orig_player_id || can_hit_self)
+        && (can_be_hit[other.player] == 0) && (other.can_hit[player])
+        //teamattack check
+        && ( (player == other.player && other.can_hit_self)
+        ||   (proj_team != get_player_team(player) 
+             || (temp_team_attack && other.player != player) ) )
+        //minimum speed of hitstun
+        && (point_distance(0, 0, hsp, vsp) > 6)
+        {
+            with (hurtboxID) //collision test
+            {
+                target_in_hitstun = place_meeting(x, y, coin);
+            }
+            if (target_in_hitstun) break;
+        }
+
+        //zero KB means that hit_player.gml can restore the previous speeds
+        //..."Thanks" Dan?
+        kb_value = target_in_hitstun ? 0 : original_kb_value;
+        kb_scale = target_in_hitstun ? 0 : original_kb_scale;
+    }
 }
 
 //==========================================================

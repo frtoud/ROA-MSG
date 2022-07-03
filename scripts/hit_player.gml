@@ -19,6 +19,26 @@ if (my_hitboxID.attack == AT_NAIR && my_hitboxID.hbox_num == 1)
 {
     sound_stop(get_window_value(AT_NAIR, 1, AG_WINDOW_SFX));
 }
+//==========================================================
+// USTRONG non-interruption of kb
+if (my_hitboxID.attack == AT_USTRONG && my_hitboxID.hbox_num != 1)
+{
+    var coin = my_hitboxID;
+    //signal for kb preservation
+    if (coin.kb_value == 0) with (hit_player_obj)
+    {
+        if (!hitpause)
+        {
+            old_vsp = vsp;
+            old_hsp = hsp;
+            hitpause = true;
+        }
+        hitstop = max(coin.hitpause, hitstop);
+        hitstop_full = max(coin.hitpause, hitstop_full);
+        can_be_hit[coin.player] = coin.no_other_hit;
+        sound_play(coin.sound_effect);
+    }
+}
 
 //==========================================================
 // FAIR variable damage

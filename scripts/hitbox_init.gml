@@ -4,6 +4,10 @@
 if (attack == AT_USTRONG)
 {
     coin_fading = false;
+
+    original_kb_value = kb_value;
+    original_kb_scale = kb_scale;
+    temp_team_attack = get_match_setting(SET_TEAMATTACK);
 }
 
 //==========================================================
