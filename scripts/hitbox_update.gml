@@ -25,7 +25,7 @@ if (attack == AT_USTRONG)
         var coin = self;
 
         with (oPlayer) if (state_cat == SC_HITSTUN) && (!hitpause)
-        && (self != other.orig_player_id || can_hit_self)
+        && (self != other.orig_player_id || other.can_hit_self)
         && (can_be_hit[other.player] == 0) && (other.can_hit[player])
         //teamattack check
         && ( (player == other.player && other.can_hit_self)
