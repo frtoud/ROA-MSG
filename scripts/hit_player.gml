@@ -35,7 +35,7 @@ if (my_hitboxID.attack == AT_USTRONG && my_hitboxID.hbox_num != 1)
         }
         hitstop = max(coin.hitpause, hitstop);
         hitstop_full = max(coin.hitpause, hitstop_full);
-        can_be_hit[coin.player] = coin.no_other_hit;
+        can_be_hit[coin.player] = coin.no_other_hit + hitstop;
         sound_play(coin.sound_effect);
     }
 }
