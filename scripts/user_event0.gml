@@ -11,7 +11,9 @@ with (oPlayer)
         if (state != PS_HITSTUN) set_state(PS_HITSTUN);
     }
 
-    if (hitstop < 0 || hitstop_full < 0)
+    //should catch *fresh* negativestun caused by the debuff
+    //see: Dan letting hitstop-- reach minus 0.68 on occasion
+    if (hitstop_full < 0) 
     {
         hitstop = clamp(abs(hitstop), 3, 20);
         hitstop_full = clamp(abs(hitstop_full), 3, 20);
