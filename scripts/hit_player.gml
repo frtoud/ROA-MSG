@@ -33,6 +33,8 @@ if (my_hitboxID.attack == AT_USTRONG && my_hitboxID.hbox_num != 1)
             old_hsp = hsp;
             hitpause = true;
         }
+        orig_knock = point_distance(0, 0, old_hsp, old_vsp);
+
         hitstop = max(coin.hitpause, hitstop);
         hitstop_full = max(coin.hitpause, hitstop_full);
         can_be_hit[coin.player] = coin.no_other_hit + hitstop;
