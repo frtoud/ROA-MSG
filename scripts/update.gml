@@ -1,6 +1,5 @@
 //update.gml
 
-
 //==============================================================
 //First-jump physics
 if (state == PS_JUMPSQUAT)
@@ -126,6 +125,25 @@ for (var p = 0; p < array_length(msg_collective_bubble_lockout); p++)
     }
 }
 
+//==============================================================
+//airtech glitch
+if (msg_air_tech_active && !hitpause)
+{
+    var do_offset = (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR);
+
+    if (shield_down)// && down_down?
+    {
+        if (do_offset) y -= 80;
+        vsp = 0; hsp = 0;
+
+        var plat = instance_create(x, y, "obj_article_platform");
+        plat.client_id = self;
+        plat.die_condition = 2; //Groundedness
+        set_state(PS_TECH_GROUND);
+    }
+    
+    msg_air_tech_active = false;
+}
 //==============================================================
 //passive charge glitch
 if (msg_fstrong_interrupted_timer > 0)

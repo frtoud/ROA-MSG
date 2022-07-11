@@ -161,6 +161,8 @@ msg_bspecial_last_move =
 { target:noone, move:AT_TAUNT, small_sprites:0 }; //if target is noone, actually uses at_prev_attack
 msg_is_bspecial = false; //this move was input through BSPECIAL; extra considerations apply.
 
+msg_air_tech_active = false; //if true, allows teching in midair. see update
+
 msg_dstrong_yoyo = 
 {
     x: 0,

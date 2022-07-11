@@ -20,6 +20,12 @@ if (my_hitboxID.attack == AT_NAIR && my_hitboxID.hbox_num == 1)
     sound_stop(get_window_value(AT_NAIR, 1, AG_WINDOW_SFX));
 }
 //==========================================================
+// UTILT: airtech
+if (my_hitboxID.attack == AT_UTILT && my_hitboxID.hbox_num == 2)
+{
+    msg_air_tech_active = true;
+}
+//==========================================================
 // USTRONG non-interruption of kb
 if (my_hitboxID.attack == AT_USTRONG && my_hitboxID.hbox_num != 1)
 {
