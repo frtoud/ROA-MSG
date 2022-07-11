@@ -136,7 +136,7 @@ switch (attack)
 //=============================================================
     case AT_FSTRONG:
     {
-        if (window == 2 && strong_charge > 0)
+        if (window == 1 && strong_charge > 0)
         {
             //fstrong's bug potentially active, check for collisions with projectiles?
         }

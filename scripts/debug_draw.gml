@@ -4,6 +4,11 @@ var line = 0;
 var offset = 15;
 
 exit;
+draw_debug_text(x-20, y+(offset*line++), "bbt " + string(bbox_right));
+draw_debug_text(x-20, y+(offset*line++), "get_bbr " + string(sprite_get_bbox_right(sprite_index)));
+draw_debug_text(x-20, y+(offset*line++), "bbl " + string(bbox_left));
+draw_debug_text(x-20, y+(offset*line++), "get_bbl " + string(sprite_get_bbox_left(sprite_index)));
+
 draw_debug_text(x-20, y+(offset*line++), "hsp " + string(hsp));
 draw_debug_text(x-20, y+(offset*line++), "vsp " + string(vsp));
 
