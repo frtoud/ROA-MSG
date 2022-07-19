@@ -1,4 +1,6 @@
 //animation.gml
+draw_x = 0;
+draw_y = 0; //does not always reset!?
 
 //==================================================================
 // BSPECIAL must consider the small_sprites parameter of the stolen sprites!
@@ -17,7 +19,6 @@ msg_collect_garbage(); //?
 msg_refresh_effects();
 
 //==================================================================
-
 //crawl transition timers
 if (state == PS_CROUCH && (right_down - left_down != 0) || state == PS_DASH_START) && down_down
 {
@@ -30,6 +31,7 @@ else
 
 switch (state)
 {
+//==================================================================
     case PS_IDLE:
     {
         if (msg_crawlintro_timer > 0)
@@ -97,6 +99,30 @@ switch (state)
         }
     } break;
 //==================================================================
+    case PS_ROLL_FORWARD:
+    case PS_ROLL_BACKWARD:
+    case PS_TECH_FORWARD:
+    case PS_TECH_BACKWARD:
+    case PS_AIR_DODGE:
+    {
+        if (state_timer == 0)
+        { 
+            msg_gaslight_dodge.active = (GET_RNG(6, 0x0F) == 0);
+            if (msg_gaslight_dodge.active)
+            {
+                msg_gaslight_dodge.x = 0;
+                msg_gaslight_dodge.y = 0;
+            }
+        }
+
+        if (msg_gaslight_dodge.active) && window < 2
+        {
+            msg_gaslight_dodge.x -= 2 * hsp;
+            msg_gaslight_dodge.y -= 2 * vsp;
+        }
+
+    } break;
+//==================================================================
     case PS_DASH_START:
     {
         if (down_down)
@@ -145,10 +171,22 @@ switch (state)
         } break;
 //==================================================================
         default: break;
-        
     }
 //==================================================================
     default: break;
+}
+
+//==================================================================
+// Revert gaslighting
+if (hitpause)
+{
+    msg_gaslight_dodge.x = 0; 
+    msg_gaslight_dodge.y = 0;
+}
+else
+{
+    draw_x += msg_gaslight_dodge.x; 
+    draw_y += msg_gaslight_dodge.y;
 }
 
 //==================================================================

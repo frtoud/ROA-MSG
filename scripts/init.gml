@@ -56,12 +56,12 @@ land_time           = 6; //normal landing frames
 prat_land_time      = 31;
 
 //Shielding
-roll_forward_max    = 9; //roll speed
-roll_backward_max   = 9;
+roll_forward_max    = 5; //roll speed
+roll_backward_max   = 5;
 wave_friction       = .04; //grounded deceleration when wavelanding
 wave_land_time      = 8;
 wave_land_adj       = 1.35; //the multiplier to your initial hsp when wavelanding. Usually greater than 1
-air_dodge_speed     = 7.5;
+air_dodge_speed     = 5.5;
 techroll_speed      = 10;
 
 //Animation
@@ -86,9 +86,9 @@ tech_active_frames = 3;
 tech_recovery_frames = 1;
 
 //tech roll animation frames
-techroll_startup_frames = 2
-techroll_active_frames = 2;
-techroll_recovery_frames = 2;
+techroll_startup_frames = 1;
+techroll_active_frames = 1;
+techroll_recovery_frames = 1;
 
 //airdodge animation frames
 air_dodge_startup_frames = 1;
@@ -96,12 +96,12 @@ air_dodge_active_frames = 2;
 air_dodge_recovery_frames = 3;
 
 //roll animation frames
-roll_forward_startup_frames = 2;
-roll_forward_active_frames = 4;
-roll_forward_recovery_frames = 2;
-roll_back_startup_frames = 2;
-roll_back_active_frames = 4;
-roll_back_recovery_frames = 2;
+roll_forward_startup_frames = 1;
+roll_forward_active_frames = 1;
+roll_forward_recovery_frames = 1;
+roll_back_startup_frames = 1;
+roll_back_active_frames = 1;
+roll_back_recovery_frames = 1;
 
 //standard SFX
 land_sound = asset_get("sfx_land_med");
@@ -262,6 +262,10 @@ msg_walk_start_x = x;
 
 //glitch death
 gfx_glitch_death = false;
+
+//gaslight rolls
+msg_gaslight_dodge = { x:0, y:0, active:true };
+
 
 //initialize VFX
 msg_init_effects(true);

@@ -167,6 +167,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //  - wrong image_index
     //'M- garbage collector          P4P3P2P1                    EEEEFF
     //  - trail
+    //'M- gaslit dodge (See animation)                       FF FF
     //===================================================================
 
 

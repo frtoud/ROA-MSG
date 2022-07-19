@@ -252,6 +252,7 @@ msg_manual_draw(true);
     //  - wrong image_index
     //'M- garbage collector          P4P3P2P1                    EEEEFF
     //  - trail
+    //'M- gaslit dodge (See animation)                       FF FF
     //===================================================================
 
 
