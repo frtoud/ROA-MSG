@@ -56,12 +56,12 @@ land_time           = 6; //normal landing frames
 prat_land_time      = 31;
 
 //Shielding
-roll_forward_max    = 5; //roll speed
-roll_backward_max   = 5;
+roll_forward_max    = 7; //roll speed
+roll_backward_max   = 7;
 wave_friction       = .04; //grounded deceleration when wavelanding
 wave_land_time      = 8;
 wave_land_adj       = 1.35; //the multiplier to your initial hsp when wavelanding. Usually greater than 1
-air_dodge_speed     = 5.5;
+air_dodge_speed     = 6.5;
 techroll_speed      = 10;
 
 //Animation
