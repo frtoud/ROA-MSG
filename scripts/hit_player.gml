@@ -65,6 +65,12 @@ if (my_hitboxID.attack == AT_FAIR)
         hit_player_obj.old_hsp *= -1;
     }
     else if (hit_player_obj.orig_knock < min_knockback) hit_player_obj.orig_knock = min_knockback;
+
+    //SFX
+    print(victim_dmg)
+    if (victim_dmg < -80)   sound_play(sound_get("aurorabeam"));
+    else if (bonus_dmg > 4) sound_play(sound_get("confusion"));
+    else                    sound_play(sound_get("cometpunch"));
 }
 
 //==========================================================
