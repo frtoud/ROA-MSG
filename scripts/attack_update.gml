@@ -481,10 +481,13 @@ switch (attack)
             {
                 sound_play(sfx_error);
                 //turn damage into negatives (and amplify it)
-                var dmg = abs(floor(get_player_damage(player) * msg_grab_negative_multiplier));
-                set_player_damage(player, clamp(-dmg, -999, 999));
+                var curr_damage = get_player_damage(player);
+                if (curr_damage > 0)
+                {
+                    var dmg = abs(floor(curr_damage * msg_grab_negative_multiplier));
+                    set_player_damage(player, clamp(-dmg, -999, 999));
+                }
                 msg_negative_dmg_timer = msg_grab_negative_duration;
-
                 //Need to handle self as "debuffed"
                 msg_handler_id = self;
             }

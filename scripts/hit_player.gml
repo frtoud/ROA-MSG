@@ -100,6 +100,7 @@ if (my_hitboxID.attack == AT_NTHROW)
         hit_player_obj.marked_player = self.player;
         hit_player_obj.msg_leechseed_timer = 0;
         hit_player_obj.msg_leechseed_owner = self;
+        hit_player_obj.msg_handler_id = self;
 
         hit_player_obj.msg_unsafe_effects.bad_vsync.gameplay_timer = 240;
         hit_player_obj.msg_unsafe_effects.bad_vsync.horz_max = 12;
@@ -108,9 +109,14 @@ if (my_hitboxID.attack == AT_NTHROW)
     else if (my_hitboxID.hbox_num == MSG_GRAB_NEGATIVE_HITBOX)
     {
         //turn damage into negatives (and amplify it)
-        var dmg = abs(floor(get_player_damage(hit_player_obj.player) * msg_grab_negative_multiplier));
-        set_player_damage(hit_player_obj.player, clamp(-dmg, -999, 999));
+        var curr_damage = get_player_damage(hit_player_obj.player);
+        if (curr_damage > 0)
+        {
+            var dmg = abs(floor(curr_damage * msg_grab_negative_multiplier));
+            set_player_damage(hit_player_obj.player, clamp(-dmg, -999, 999));
+        }
         hit_player_obj.msg_negative_dmg_timer = msg_grab_negative_duration;
+        hit_player_obj.msg_handler_id = self;
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_FREEZE_HITBOX)
     {
