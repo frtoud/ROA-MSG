@@ -1,6 +1,21 @@
 if (my_hitboxID.orig_player_id != self) exit; //Only our own hitboxes
 
 //==========================================================
+// By FSTRONG charge-storage glitch's nature, every attack is 
+// forced to become, functionally, a strong attack.
+// Therefore; we need to apply the fix anyways (see user_event0)
+// unless we want every hitbox we land to deal essentially no damage
+if ("msg_last_known_damage" in hit_player_obj)
+&& (hit_player_obj.msg_last_known_damage < 0)
+&& (get_player_damage(hit_player_obj.player) == 0)
+{
+    var new_damage = hit_player_obj.msg_last_known_damage + my_hitboxID.damage;
+    set_player_damage(hit_player_obj.player, new_damage);
+    hit_player_obj.msg_last_known_damage = new_damage;
+}
+//==========================================================
+
+//==========================================================
 //Bubbles internal lockout logic (hopefully less heavy)
 if (my_hitboxID.attack == AT_FSPECIAL_2)
 {
@@ -67,7 +82,6 @@ if (my_hitboxID.attack == AT_FAIR)
     else if (hit_player_obj.orig_knock < min_knockback) hit_player_obj.orig_knock = min_knockback;
 
     //SFX
-    print(victim_dmg)
     if (victim_dmg < -80)   sound_play(sound_get("aurorabeam"));
     else if (bonus_dmg > 4) sound_play(sound_get("confusion"));
     else                    sound_play(sound_get("cometpunch"));

@@ -5,6 +5,16 @@ if (msg_exploded_damage != 0)
     msg_exploded_damage = 0;
 }
 
+//==========================================================
+// attempt to apply the fix to negative damage premptively (see user_event0)
+if (msg_last_known_damage < 0) && (get_player_damage(player) == 0)
+{
+    var new_damage = msg_last_known_damage + enemy_hitboxID.damage;
+    set_player_damage(player, new_damage);
+    msg_last_known_damage = new_damage;
+}
+//==========================================================
+
 //clears saved attack index
 msg_bspecial_last_move.target = noone;
 

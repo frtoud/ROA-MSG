@@ -26,6 +26,22 @@ with (oPlayer)
         }
     }
 
+    //===================================================================
+    //Rivals Bug: certain attacks (uncharged strongs, heals) can snap the
+    // damage counter back to Zero: detect those cases and (try) fixing them
+    //See also: hit_player, got_hit (where the interaction involves Missingno and is fixed directly)
+    var curr_damage = get_player_damage(player);
+    if (curr_damage == 0 && msg_last_known_damage < 0)
+    && (state != PS_RESPAWN)
+    {
+        //if the hitbox isnt found; just contend to reverting previous known damage
+        var possibly_damage_just_taken = 
+            (instance_exists(enemy_hitboxID) && (enemy_hitboxID != 0)) ? enemy_hitboxID.damage : 0;
+        set_player_damage( player, msg_last_known_damage + possibly_damage_just_taken);
+    }
+    msg_last_known_damage = curr_damage;
+    //===================================================================
+
     if (msg_clone_last_attack_that_needed_offedge != noone) 
     && (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
     {
@@ -33,6 +49,7 @@ with (oPlayer)
         reset_attack_value(msg_clone_last_attack_that_needed_offedge, AG_OFF_LEDGE);
         msg_clone_last_attack_that_needed_offedge = noone;
     }
+
 }
 
 //debuffs management -- only the "handler" missingno needs to manage it
@@ -96,16 +113,12 @@ with (oPlayer) if (msg_handler_id == other)
         debuff_still_active = true;
         msg_negative_dmg_timer--;
         
-        var curr_damage = get_player_damage(player);
-        //Rivals Bug: certain attacks can snap the damage counter back to Zero
-        //Detect those cases and (try) adjusting them
-        if ( curr_damage == 0 && msg_last_known_damage < -10)
+        if (get_player_damage(player) >= 0)
         {
-            set_player_damage( player, msg_last_known_damage )
+            //End debuff early
+            msg_negative_dmg_timer = 0;
         }
-        else msg_last_known_damage = curr_damage;
-        
-        if (msg_negative_dmg_timer <= 0 && get_player_damage( player ) < 0)
+        else if (msg_negative_dmg_timer <= 0 && get_player_damage(player) < 0)
         {
             //restore to positive
             var dmg = abs(floor(get_player_damage(player) / msg_handler_id.msg_grab_negative_multiplier));
