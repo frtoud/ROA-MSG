@@ -65,6 +65,7 @@ set_hitbox_value(AT_FSPECIAL, 1, HG_IGNORES_PROJECTILES, 1);
 set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_SPRITE, asset_get("watergun_spr"));
 //set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_MASK, -1);
 set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_DESTROY_EFFECT, 6);
+set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_GROUND_BEHAVIOR, -1);
 set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_HSPEED, 8);
 set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_VSPEED, -6);
 set_hitbox_value(AT_FSPECIAL, 1, HG_PROJECTILE_GRAVITY, 0.5);

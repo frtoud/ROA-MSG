@@ -53,7 +53,6 @@ if (attack == AT_FSPECIAL)
 {
     //animated droplet
     image_index = clamp(2 + (vsp/2), 0, 6)
-    if (!free) { destroyed = true; }
 }
 
 //==========================================================
