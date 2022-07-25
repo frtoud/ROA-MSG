@@ -241,6 +241,9 @@ msg_clone_last_attack_that_needed_offedge = noone;
 
 //=========================================================
 // Visual effects
+AG_MSG_ALT_SPRITES = 39; //Array of alternate sprites to use. see set_attack.gml
+
+msg_alt_sprite = noone;
 glitch_bg_spr = sprite_get("glitch_bg");
 no_sprite = asset_get("empty_sprite");
 
@@ -266,6 +269,17 @@ gfx_glitch_death = false;
 //gaslight rolls
 msg_gaslight_dodge = { x:0, y:0, active:true };
 
+
+//TBD: move to article?
+msg_is_online = false;
+msg_local_player = player;
+for (var cur = 0; cur < 4; cur++) 
+if (get_player_hud_color(cur+1) == $64e542) //online-only color 
+{
+    msg_local_player = cur+1;
+    msg_is_online = true;
+    break;
+}
 
 //initialize VFX
 msg_init_effects(true);

@@ -140,6 +140,9 @@ switch (state)
 //==================================================================
     case PS_ATTACK_AIR:
     case PS_ATTACK_GROUND:
+
+    if (msg_alt_sprite != noone) sprite_index = msg_alt_sprite;
+    
     switch (attack)
     {
 //==================================================================

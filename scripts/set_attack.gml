@@ -53,8 +53,29 @@ if (attack == AT_BSPECIAL)
     msg_unsafe_effects.shudder.impulse = 4;
 }
 
+//===========================================================
+// RNG for Alternative sprites
+msg_alt_sprite = noone;
+var list = get_attack_value(attack, AG_MSG_ALT_SPRITES);
+switch (attack)
+{
+    case AT_FAIR:
+        //TBD: if not online; check if A potential victim has negative percent
+        var active = ( (!msg_is_online || player != msg_local_player) 
+                      && get_player_damage(msg_local_player) < 0)
+        if (active) msg_alt_sprite = list[0];
+    break;
+    case AT_NSPECIAL:
+        var rng = GET_RNG(20, 0x03);
+        if (rng < array_length(list)) msg_alt_sprite = list[rng];
+    break;
+}
+//===========================================================
+
+
 if (attack == AT_USPECIAL) msg_firstjump_timer = msg_firstjump_timer_max; //fixes jump bug
 
+//=======================================================================
 #define steal_move_data(target_id, target_move)
 {
     with (target_id)
@@ -103,3 +124,15 @@ if (attack == AT_USPECIAL) msg_firstjump_timer = msg_firstjump_timer_max; //fixe
     //allow all moves no matter the situation
     set_attack_value(AT_DSPECIAL_2, AG_CATEGORY, 2);
 }
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

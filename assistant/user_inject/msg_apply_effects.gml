@@ -78,15 +78,17 @@ msg_reroll_random();
 //special msg_is_missingno-only effects are denoted 'M
 //===================================================================
 // BITWISE RANDOM UINT32 MAP = 0x00000000 00000000 00000000 00000000
-// Effects:    Frequency uses: 
-//  - Shudder                                      ttffffff VVVVHHHH
-//  - VSync                            tt GGffffff BBBBBBBB TTTTHHHH
-//  - Quadrant                               tttff ffffGGSS 22GGSS11
+// Effects:    Frequency uses: .
+//  - Shudder                  .                   ttffffff VVVVHHHH
+//  - VSync                    .       tt GGffffff BBBBBBBB TTTTHHHH
+//  - Quadrant                 .             tttff ffffGGSS 22GGSS11
 //  - wrong image_index
-//'M- garbage collector          P4P3P2P1                    EEEEFF 
+//'M- garbage collector        . P4P3P2P1                    EEEEFF 
 //  - trail
-//'M- gaslit dodge (See animation)                       FF FF      
+//'M- gaslit dodge             .                         FF FF      
+//'M- Alt Sprites              .     FFFF FFFF                      
 //===================================================================
+// Also see animation.gml, set_attack.gml
 
 
 //===========================================================
