@@ -494,7 +494,7 @@ switch (attack)
         }
     } break;
 //=============================================================
-    case AT_DSPECIAL:
+    case AT_NSPECIAL:
     {
         can_fast_fall = (window == 2 && window_timer > 16);
         if (window == 1) vsp *= 0.85;
@@ -524,10 +524,10 @@ switch (attack)
             var lenx = lengthdir_x(16, angle);
             var leny = lengthdir_y(4, angle);
 
-            set_hitbox_value(AT_DSPECIAL, 1, HG_HITBOX_X, lenx);
-            set_hitbox_value(AT_DSPECIAL, 1, HG_HITBOX_Y, leny - 30);
-            set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_HSPEED, lenx / 3);
-            set_hitbox_value(AT_DSPECIAL, 1, HG_PROJECTILE_VSPEED, min(3, leny) - 4);
+            set_hitbox_value(AT_NSPECIAL, 1, HG_HITBOX_X, lenx);
+            set_hitbox_value(AT_NSPECIAL, 1, HG_HITBOX_Y, leny - 30);
+            set_hitbox_value(AT_NSPECIAL, 1, HG_PROJECTILE_HSPEED, lenx / 3);
+            set_hitbox_value(AT_NSPECIAL, 1, HG_PROJECTILE_VSPEED, min(3, leny) - 4);
         }
     } break;
 //=============================================================

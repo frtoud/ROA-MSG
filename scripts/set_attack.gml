@@ -1,10 +1,7 @@
 #macro AT_BSPECIAL AT_DSPECIAL_2
 
-//temp. remap of inputs, attack kept separate
-if (attack == AT_NSPECIAL) attack = AT_DSPECIAL; //TMTRAINER
-else if (attack == AT_DSPECIAL) attack = AT_NTHROW; //grab
-//todo: remap correctly
 
+if (attack == AT_DSPECIAL) attack = AT_NTHROW; //GRAB
 else if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 else if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
 
@@ -48,7 +45,7 @@ else
 
 //"morph" effect attacks
 if (attack == AT_BSPECIAL)
-|| (attack == AT_DSPECIAL)
+|| (attack == AT_NSPECIAL)
 {
     msg_unsafe_effects.quadrant.gameplay_timer = 1;
     msg_unsafe_effects.quadrant.freq = 1;

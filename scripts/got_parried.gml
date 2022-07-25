@@ -1,4 +1,4 @@
-if (my_hitboxID.orig_player_id == self) && (my_hitboxID.attack == AT_DSPECIAL)
+if (my_hitboxID.orig_player_id == self) && (my_hitboxID.attack == AT_NSPECIAL)
 {
     my_hitboxID.destroyed = true;
 

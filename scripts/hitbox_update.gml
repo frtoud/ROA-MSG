@@ -56,7 +56,7 @@ if (attack == AT_FSPECIAL)
 }
 
 //==========================================================
-if (attack == AT_DSPECIAL)
+if (attack == AT_NSPECIAL)
 {
     //early land: bounce
     if (!free && hitbox_timer < 12)

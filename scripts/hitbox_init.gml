@@ -26,7 +26,7 @@ else if (attack == AT_FSPECIAL_AIR) //Hydro Pump
     uses_sprite_collision = false; //to show hitbox
 }
 //==========================================================
-else if (attack == AT_DSPECIAL)
+else if (attack == AT_NSPECIAL)
 {
     if ("missingno_copied_player_id" not in self)
         missingno_copied_player_id = player_id;
