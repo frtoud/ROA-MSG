@@ -64,6 +64,7 @@ switch (attack)
         var active = ( (!msg_is_online || player != msg_local_player) 
                       && get_player_damage(msg_local_player) < 0)
         if (active) msg_alt_sprite = list[0];
+        set_window_value(AT_FAIR, 1, AG_WINDOW_SFX,asset_get( active ? "sfx_clairen_arc_lose" : "sfx_swipe_weak2"));
     break;
     case AT_NSPECIAL:
         var rng = GET_RNG(20, 0x03);

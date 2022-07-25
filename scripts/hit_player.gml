@@ -82,7 +82,8 @@ if (my_hitboxID.attack == AT_FAIR)
     else if (hit_player_obj.orig_knock < min_knockback) hit_player_obj.orig_knock = min_knockback;
 
     //SFX
-    if (victim_dmg < -80)   sound_play(sound_get("aurorabeam"));
+    if (victim_dmg < -80)   
+    { sound_play(sound_get("aurorabeam")); msg_alt_sprite = get_attack_value(attack, AG_MSG_ALT_SPRITES)[0]; }
     else if (bonus_dmg > 4) sound_play(sound_get("confusion"));
     else                    sound_play(sound_get("cometpunch"));
 }
