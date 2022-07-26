@@ -57,7 +57,7 @@ if (attack == AT_BSPECIAL)
 // RNG for Alternative sprites
 msg_alt_sprite = noone;
 var list = get_attack_value(attack, AG_MSG_ALT_SPRITES);
-switch (attack)
+if (list != 0) switch (attack)
 {
     case AT_FAIR:
         //TBD: if not online; check if A potential victim has negative percent
