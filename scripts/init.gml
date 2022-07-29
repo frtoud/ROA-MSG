@@ -223,21 +223,7 @@ msg_uspecial_wraparound = false; //while this is true, you get one free vertical
 msg_uspecial_wraparound_require_pratfall = false; //once wraparound happens, apply pratfall first chance you get
 
 //Copy of other_init
-msg_handler_id = noone;
-msg_grabbed_timer = 0;
-msg_grab_immune_timer = 0;
-
-// Leech Seed
-msg_leechseed_timer = 0;
-msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
-// Negative DMG
-msg_negative_dmg_timer = 0;
-//ACTUAL BUG: getting hit by <0 hitboxes (or uncharged strongs) while in negative damage resets % to zero
-msg_last_known_damage = 0;
-
-msg_clone_microplatform = noone; //clone pseudoground
-msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
-msg_clone_last_attack_that_needed_offedge = noone;
+msg_common_init();
 
 //=========================================================
 // Visual effects
@@ -418,5 +404,30 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     //append to list directly
     array_push(msg_unsafe_effects.effects_list, fx);
     return fx;
+
+#define msg_common_init // Version 0
+    // initialize variables for debuffs and oddities
+    {
+        msg_handler_id = noone;
+        msg_grabbed_timer = 0;
+
+        msg_grab_immune_timer = 0;
+
+        // Leech Seed
+        msg_leechseed_timer = 0;
+        msg_leechseed_owner = noone; //if not noone, leech seed is active and heals THIS player.
+        // Negative DMG
+        msg_negative_dmg_timer = 0;
+        //ACTUAL BUG: getting hit by <0 hitboxes (or uncharged strongs) while in negative damage resets % to zero
+        msg_last_known_damage = 0;
+        //Glitched double-time
+        msg_doubled_time_timer = 0;
+        msg_has_doubled_frame = false;
+        msg_prev_status = { state:0, x:0, y:0, hsp:0, vsp:0 };
+
+        msg_clone_microplatform = noone; //clone pseudoground
+        msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
+        msg_clone_last_attack_that_needed_offedge = noone;
+    }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
