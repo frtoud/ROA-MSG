@@ -392,6 +392,7 @@ switch (attack)
                 //last frame of window. release grab
                 var current_outcome = msg_grab_rotation[msg_grab_selected_index];
                 
+                //proceed with outcome
                 window_timer = 0;
                 window = current_outcome.window;
                     
@@ -404,12 +405,8 @@ switch (attack)
                     msg_grab_immune_timer = other.msg_grab_immune_timer_max;
                 }
                 
-                ///rotate grab outcome selection
-                //msg_grab_rotation[msg_grab_selected_index] = msg_grab_queue[msg_grab_queue_pointer];
-                //msg_grab_queue[msg_grab_queue_pointer] = current_outcome;
-                //msg_grab_queue_pointer = (msg_grab_queue_pointer + 1) % array_length(msg_grab_queue)
-                
-                //msg_grab_selected = noone;
+                //rotate grab outcome selection
+                msg_grab_pointer++;
             }
             else
             {
@@ -420,13 +417,16 @@ switch (attack)
                 }
                 
                 //figure out which direction is being held
+                var temp_joydir = (spr_dir > 0) ? joy_dir : (180 - joy_dir);
+                if (joy_pad_idle) temp_joydir = 0;
+
                 var selected = floor((joy_dir + 45)/90.0) % 4;
-                //RIGHT: 0
+                //FRONT: 0
                 //UP:    1
-                //LEFT:  2
+                //BACK:  2
                 //DOWN:  3
-                //TODO: adjust math to take into account spr_dir?
-                
+                selected = (msg_grab_pointer + selected) % array_length(msg_grab_rotation);
+
                 if (msg_grab_selected_index != selected)
                 {
                     sound_stop(msg_grab_sfx);

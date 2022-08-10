@@ -185,14 +185,12 @@ var grab_leechseed = { window:MSG_GRAB_LEECHSEED_WINDOW, sound:sound_get("grab3"
 var grab_explode =   { window:MSG_GRAB_EXPLOSION_WINDOW, sound:sound_get("grab4")}; //Selfdestruct
 var grab_negative =  { window:MSG_GRAB_NEGATIVE_WINDOW,  sound:sound_get("grab5")}; //Negative Damage
 
-//Put 4 in starting rotation
+//starting rotation of grabs
+msg_grab_pointer = 0;
 msg_grab_rotation = [grab_negative, 
                      grab_explode, 
                      grab_leechseed, 
                      grab_frostburn];
-
-//Add the rest to the queue (minimum 1)
-msg_grab_queue = [grab_frostburn];
 
 //============================================
 // Sets basic outcome window animation variables

@@ -191,11 +191,8 @@ msg_ntilt_origin = { x:0, y:0 };
 //See attacks -> grab.gml for the actual definition
 var dummy_outcome = { window:3, sound:asset_get("sfx_bubblepop")};
 // list of outcomes selectable by direction inputs
-msg_grab_rotation = [dummy_outcome, dummy_outcome, dummy_outcome, dummy_outcome];  
-// list of outcomes on standby
-msg_grab_queue = [dummy_outcome];
-
-msg_grab_queue_pointer = 0; //index of next element on the queue to be swapped in
+msg_grab_pointer = 0;
+msg_grab_rotation = [dummy_outcome];
 msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
 
 //estimated maximum of particles at once (4/second, 2 at once, per victim)
