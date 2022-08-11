@@ -207,11 +207,11 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_swipe_heavy2"))
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
 //List of Grab outcomes
-var grab_glitchtime = { window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")}; //Glitched Time
-var grab_frostburn =  { window:MSG_GRAB_FROSTBURN_WINDOW,  sound:sound_get("grab2")}; //Frozen + Burning
-var grab_leechseed =  { window:MSG_GRAB_LEECHSEED_WINDOW,  sound:sound_get("grab3")}; //LeechSeed x Poisoned
-var grab_explode =    { window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab4")}; //Selfdestruct
-var grab_negative =   { window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab5")}; //Negative Damage
+var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
+var grab_frostburn =  { name:"3A", window:MSG_GRAB_FROSTBURN_WINDOW,  sound:sound_get("grab2")};
+var grab_leechseed =  { name:"49", window:MSG_GRAB_LEECHSEED_WINDOW,  sound:sound_get("grab3")};
+var grab_explode =    { name:"99", window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab4")};
+var grab_negative =   { name:"DC", window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab5")};
 
 //starting rotation of grabs
 msg_grab_pointer = 0;

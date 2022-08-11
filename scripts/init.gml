@@ -190,7 +190,7 @@ msg_fstrong_interrupted_timer = 0;
 msg_ntilt_origin = { x:0, y:0 };
 
 //See attacks -> grab.gml for the actual definition
-var dummy_outcome = { window:3, sound:asset_get("sfx_bubblepop")};
+var dummy_outcome = { name:"00", window:3, sound:asset_get("sfx_bubblepop")};
 // list of outcomes selectable by direction inputs
 msg_grab_pointer = 0;
 msg_grab_rotation = [dummy_outcome];
