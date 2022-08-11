@@ -149,6 +149,7 @@ msg_grab_explode_penalty = 30; //damage cost of using Explosion
 msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negatives
 msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
+msg_grab_glitchtime_duration = 60*8; //how long to stay in glitchtime debuff mode
 
 
 //=========================================================

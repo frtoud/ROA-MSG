@@ -176,21 +176,50 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 10);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 20);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_blow_heavy2"));
 //========================================================================
+// Grab Outcome: GLITCH_TIME
+current_window++;
+MSG_GRAB_GLITCHTIME_WINDOW = current_window;
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 24);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, -8);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 8);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+
+hbox_num++;
+MSG_GRAB_GLITCHTIME_HITBOX = hbox_num;
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 45);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 20);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_swipe_heavy2"));
+//========================================================================
 
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
 //List of Grab outcomes
-var grab_frostburn = { window:MSG_GRAB_FROSTBURN_WINDOW, sound:sound_get("grab2")}; //Frozen + Burning
-var grab_leechseed = { window:MSG_GRAB_LEECHSEED_WINDOW, sound:sound_get("grab3")}; //LeechSeed x Poisoned
-var grab_explode =   { window:MSG_GRAB_EXPLOSION_WINDOW, sound:sound_get("grab4")}; //Selfdestruct
-var grab_negative =  { window:MSG_GRAB_NEGATIVE_WINDOW,  sound:sound_get("grab5")}; //Negative Damage
+var grab_glitchtime = { window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")}; //Glitched Time
+var grab_frostburn =  { window:MSG_GRAB_FROSTBURN_WINDOW,  sound:sound_get("grab2")}; //Frozen + Burning
+var grab_leechseed =  { window:MSG_GRAB_LEECHSEED_WINDOW,  sound:sound_get("grab3")}; //LeechSeed x Poisoned
+var grab_explode =    { window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab4")}; //Selfdestruct
+var grab_negative =   { window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab5")}; //Negative Damage
 
 //starting rotation of grabs
 msg_grab_pointer = 0;
 msg_grab_rotation = [grab_negative, 
                      grab_explode, 
                      grab_leechseed, 
-                     grab_frostburn];
+                     grab_frostburn,
+                     grab_glitchtime];
 
 //============================================
 // Sets basic outcome window animation variables

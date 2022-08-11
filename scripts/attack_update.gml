@@ -407,6 +407,7 @@ switch (attack)
                 
                 //rotate grab outcome selection
                 msg_grab_pointer++;
+                move_cooldown[AT_NTHROW] = msg_grab_immune_timer_max;
             }
             else
             {
@@ -492,6 +493,22 @@ switch (attack)
                 msg_handler_id = self;
             }
         }
+        else if (window == MSG_GRAB_GLITCHTIME_WINDOW)
+        {
+            if (window_timer == 0 && !hitpause)
+            {
+                //apply Glitch Time (to self)
+                msg_doubled_time_timer = msg_grab_glitchtime_duration;
+                //Need to handle self as "debuffed"
+                msg_handler_id = self;
+                msg_prev_status.x = x;
+                msg_prev_status.y = y;
+                msg_prev_status.hsp = hsp;
+                msg_prev_status.vsp = vsp;
+                msg_prev_status.state = state;
+            }
+        }
+
     } break;
 //=============================================================
     case AT_NSPECIAL:

@@ -32,17 +32,6 @@ if (my_hitboxID.attack == AT_FSPECIAL_2)
 // NAIR sfx
 if (my_hitboxID.attack == AT_NAIR && my_hitboxID.hbox_num == 1)
 {
-        hit_player_obj.msg_doubled_time_timer = 60000;
-        hit_player_obj.msg_handler_id = self;
-        with (hit_player_obj)
-        {
-            msg_prev_status.x = x;
-            msg_prev_status.y = y;
-            msg_prev_status.hsp = hsp;
-            msg_prev_status.vsp = vsp;
-            msg_prev_status.state = state;
-        }
-
     sound_stop(get_window_value(AT_NAIR, 1, AG_WINDOW_SFX));
 }
 //==========================================================
@@ -147,8 +136,23 @@ if (my_hitboxID.attack == AT_NTHROW)
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_FREEZE_HITBOX)
     {
-        //turn damage into negatives (and amplify it)
+        //Reduces freeze time
         hit_player_obj.state_timer += 45;
+    }
+    else if (my_hitboxID.hbox_num == MSG_GRAB_GLITCHTIME_HITBOX)
+    {
+        //apply Glitch Time
+        hit_player_obj.msg_doubled_time_timer = msg_grab_glitchtime_duration;
+        hit_player_obj.msg_handler_id = self;
+        with (hit_player_obj)
+        {
+            msg_prev_status.x = x;
+            msg_prev_status.y = y;
+            msg_prev_status.hsp = hsp;
+            msg_prev_status.vsp = vsp;
+            msg_prev_status.state = state;
+        }
+
     }
 }
 
