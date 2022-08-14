@@ -30,7 +30,7 @@ sprite_change_offset("nair", 34, 45, true);
 sprite_change_offset("fair", 23, 39, true);
 sprite_change_offset("fair_alt", 24, 42);
 sprite_change_offset("bair", 42, 52, true);
- sprite_change_offset("uair", 32, 47, true);
+sprite_change_offset("uair", 42, 72, true);
 sprite_change_offset("dair", 20, 47, true);
  sprite_change_offset("fstrong", 32, 47, true);
  sprite_change_offset("ustrong", 25, 39, true);
