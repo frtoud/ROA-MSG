@@ -274,6 +274,7 @@ if (sprite_index == jump_sprite) && (prev_state == PS_DOUBLE_JUMP || attack == A
             var is_running = (fx.gameplay_timer > 0);
             fx.gameplay_timer -= is_running;
             fx.freq *= is_running;
+            fx.frozen *= is_running;
         }
     }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!

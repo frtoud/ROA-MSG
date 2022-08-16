@@ -40,6 +40,7 @@ with (oPlayer) if ("msg_unsafe_handler_id" in self
         var is_running = (fx.gameplay_timer > 0);
         fx.gameplay_timer -= is_running;
         fx.freq *= is_running;
+        fx.frozen *= is_running;
     }
 }
 
@@ -95,7 +96,8 @@ msg_reroll_random();
 //effect: SHUDDER, type: DRAW PARAMETER
 var fx = msg_unsafe_effects.shudder 
 {
-    if (fx.impulse > 0) || (fx.freq > GET_RNG(8, 0x3F))
+    if ( (fx.impulse > 0) || (fx.freq > GET_RNG(8, 0x3F)) )
+    && (!fx.frozen)
     {
         fx.impulse -= (fx.impulse > 0);
         //reroll parameters
@@ -103,7 +105,7 @@ var fx = msg_unsafe_effects.shudder
     }
     if (fx.timer > 0)
     {
-        fx.timer--;
+        fx.timer -= !fx.frozen;
         //apply
         draw_x += max(fx.impulse , 1) * fx.horz_max * GET_INT(0, 0x0F, true);
         draw_y += max(fx.impulse , 1) * fx.vert_max * GET_INT(4, 0x0F, true);
@@ -113,7 +115,8 @@ var fx = msg_unsafe_effects.shudder
 //effect: VSYNC, type: REDRAW
 var fx = msg_unsafe_effects.bad_vsync 
 {
-    if (fx.impulse > 0) || (fx.freq > GET_RNG(16, 0x3F))
+    if ( (fx.impulse > 0) || (fx.freq > GET_RNG(16, 0x3F)) )
+    && (!fx.frozen)
     {
         fx.impulse -= (fx.impulse > 0);
         //reroll parameters
@@ -126,14 +129,14 @@ var fx = msg_unsafe_effects.bad_vsync
     }
     if (fx.timer > 0)
     {
-        fx.timer -= (fx.freq == 0);
+        fx.timer -= !fx.frozen;
         //apply
     }
 }
 //===========================================================
 //effect: QUADRANT, type: REDRAW
 var fx = msg_unsafe_effects.quadrant 
-{
+if (!fx.frozen) {
     if (fx.impulse > 0) || (fx.freq > GET_RNG(12, 0x3F))
     {
         fx.impulse -= (fx.impulse > 0);

@@ -123,16 +123,18 @@ var fx = {
             gameplay_timer: 0, //if zero; resets frequency. may count as effect duration. (in game frames)
             freq:0,        //chance per frame of activating; exact ratio varies
             timer:0,       //time of effect duration (in draw frames)
-            impulse:0      //effect duration, also scales intensity (in draw frames)
+            impulse:0,     //effect duration, also scales intensity (in draw frames)
+            frozen:false   //if true, locks the effect in its current state
          };
 // standard behavior as follows:
 //
 // gameplay_timer counts down (gameframe)
-//     if zero, freq resets
+//     if zero, freq & frozen resets
 //
 // if !frozen
 //    if freq rolls success OR impulse, roll parameters & timer
-//    if timer, count down (drawframes) and apply parameters
+//    if timer, count down (drawframes) 
+// if timer, apply parameters
 
 
 //append to list directly
