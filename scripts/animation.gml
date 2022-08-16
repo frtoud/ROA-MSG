@@ -52,7 +52,11 @@ switch (state)
         {
             var max_dist = 80;
             var distance_walked = x - msg_walk_start_x;
-
+            if (abs(distance_walked) < 5)
+            {
+                msg_unsafe_effects.bad_vsync.timer = 1;
+                msg_unsafe_effects.bad_vsync.frozen = true;
+            }
             msg_unsafe_effects.bad_vsync.freq = abs(distance_walked/5);
             msg_unsafe_effects.bad_vsync.horz_max = abs(distance_walked/10);
 
@@ -71,11 +75,21 @@ switch (state)
     case PS_WALK_TURN:
     {
         sprite_index = sprite_get("idle");
-        msg_unsafe_effects.bad_vsync.freq = 12;
-        msg_unsafe_effects.bad_vsync.horz_max = 18;
-        msg_unsafe_effects.shudder.freq = 12;
-        msg_unsafe_effects.shudder.horz_max = 18;
-        msg_unsafe_effects.shudder.vert_max = 12;
+        if (abs(hsp) > 0.2)
+        {
+            msg_unsafe_effects.bad_vsync.gameplay_timer = 4;
+            msg_unsafe_effects.bad_vsync.timer = 1;
+            msg_unsafe_effects.bad_vsync.frozen = true;
+        }
+        else
+        {
+            msg_unsafe_effects.bad_vsync.freq = 12;
+            msg_unsafe_effects.bad_vsync.horz_max = 18;
+            msg_unsafe_effects.shudder.freq = 12;
+            msg_unsafe_effects.shudder.horz_max = 18;
+            msg_unsafe_effects.shudder.vert_max = 12;
+
+        }
     } break;
 //==================================================================
     case PS_CROUCH:
