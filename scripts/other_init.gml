@@ -124,12 +124,11 @@ msg_init_effects(false);
     // standard behavior as follows:
     //
     // gameplay_timer counts down (gameframe)
-    //     if zero, freq & frozen resets
+    //    if zero, freq & frozen resets
     //
-    // if !frozen
     //    if freq rolls success OR impulse, roll parameters & timer
-    //    if timer, count down (drawframes)
-    // if timer, apply parameters
+    //    if timer, apply parameters
+    //       if !frozen, count down (drawframes)
 
 
     //append to list directly
