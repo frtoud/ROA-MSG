@@ -166,20 +166,28 @@ msg_manual_draw(true);
     // sprite split in four corners, then rearranged
     else if (msg_unsafe_effects.quadrant.timer > 0)
     {
-        var spr_w = abs(sprite_width);
-        var spr_h = abs(sprite_height);
-        var spr_ox = abs(sprite_xoffset);
-        var spr_oy = abs(sprite_yoffset);
+        var ofx = abs(sprite_xoffset);
+        var ofy = abs(sprite_yoffset);
+        var bbt = sprite_get_bbox_top(sprite_index);
+        var bbl = sprite_get_bbox_left(sprite_index);
+        var bbr = sprite_get_bbox_right(sprite_index);
+        var bbb = sprite_get_bbox_bottom(sprite_index);
+
+        //centerpoint of sprite quad division
+        var half_h = min((ofy - bbt)*scale, char_height) / 2; //realspace
+        var c_y = ofy - half_h/scale; //spritespace
 
         // 0 1
         // 2 3
-        var half_h = min(spr_oy/2 * scale, char_height/2 ); //realspace
-
         var q = [noone, noone, noone, noone];
-        q[0]={spr:sprite_index, ind:image_index, x:0, y:0, w:spr_ox, h:spr_oy - (half_h/scale) };
-        q[1]={spr:sprite_index, ind:image_index, x:q[0].w, y:0, w:spr_w - q[0].w, h:q[0].h };
-        q[2]={spr:sprite_index, ind:image_index, x:0, y:q[0].h, w:q[0].w, h:spr_h - q[0].h };
-        q[3]={spr:sprite_index, ind:image_index, x:q[0].w, y:q[0].h, w:spr_w - q[0].w, h:spr_h - q[0].h };
+        q[0]={spr:sprite_index, ind:image_index, x:bbl, y:bbt, w:(ofx - bbl), h:(c_y - bbt) };
+        q[1]={spr:sprite_index, ind:image_index, x:ofx, y:bbt, w:(bbr - ofx), h:(c_y - bbt) };
+        q[2]={spr:sprite_index, ind:image_index, x:bbl, y:c_y, w:(ofx - bbl), h:(bbb - c_y) };
+        q[3]={spr:sprite_index, ind:image_index, x:ofx, y:c_y, w:(bbr - ofx), h:(bbb - c_y) };
+
+
+        //draw_line_color(x - (ofx - bbl)*scale, y - half_h, x + (bbr - ofx)*scale, y - half_h, c_white, c_white)
+        //draw_line_color(x, y - half_h - half_h, x, y - half_h + half_h, c_white, c_white)
 
         if (main_draw) shader_start();
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
@@ -303,6 +311,9 @@ msg_manual_draw(true);
     {
         if (fx.impulse > 0) || (fx.freq > GET_RNG(12, 0x3F))
         {
+            fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
+            fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
+
             fx.impulse -= (fx.impulse > 0);
             //reroll parameters
             fx.timer = 4 + GET_RNG(18, 0x07);
@@ -324,7 +335,7 @@ msg_manual_draw(true);
         else
         {
             fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
-            fx.garbage[0] = 0; fx.garbage[1] = 1; fx.garbage[2] = 2; fx.garbage[3] = 3;
+            fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
         }
     }
 

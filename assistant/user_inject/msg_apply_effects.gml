@@ -137,6 +137,9 @@ var fx = msg_unsafe_effects.quadrant
 {
     if (fx.impulse > 0) || (fx.freq > GET_RNG(12, 0x3F))
     {
+        fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
+        fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
+        
         fx.impulse -= (fx.impulse > 0);
         //reroll parameters
         fx.timer = 4 + GET_RNG(18, 0x07);
@@ -158,7 +161,7 @@ var fx = msg_unsafe_effects.quadrant
     else
     {
         fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
-        fx.garbage[0] = 0; fx.garbage[1] = 1; fx.garbage[2] = 2; fx.garbage[3] = 3;
+        fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
     }
 }
 //===========================================================

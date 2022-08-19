@@ -4,10 +4,21 @@ var line = 0;
 var offset = 15;
 
 exit;
-draw_debug_text(x-20, y+(offset*line++), "bbt " + string(bbox_right));
-draw_debug_text(x-20, y+(offset*line++), "get_bbr " + string(sprite_get_bbox_right(sprite_index)));
-draw_debug_text(x-20, y+(offset*line++), "bbl " + string(bbox_left));
-draw_debug_text(x-20, y+(offset*line++), "get_bbl " + string(sprite_get_bbox_left(sprite_index)));
+
+    var ofx = abs(sprite_xoffset);
+    var ofy = abs(sprite_yoffset);
+    var bbt = sprite_get_bbox_top(sprite_index);
+    var bbl = sprite_get_bbox_left(sprite_index);
+    var bbr = sprite_get_bbox_right(sprite_index);
+    var bbb = sprite_get_bbox_bottom(sprite_index);
+
+draw_debug_text(x-20, y+(offset*line++), "");
+draw_debug_text(x-20, y+(offset*line++), "ofx " + string(ofx));
+draw_debug_text(x-20, y+(offset*line++), "ofy " + string(ofy));
+draw_debug_text(x-20, y+(offset*line++), "bbt " + string(bbt));
+draw_debug_text(x-20, y+(offset*line++), "bbl " + string(bbl));
+draw_debug_text(x-20, y+(offset*line++), "bbr " + string(bbr));
+draw_debug_text(x-20, y+(offset*line++), "bbb " + string(bbb));
 
 draw_debug_text(x-20, y+(offset*line++), "hsp " + string(hsp));
 draw_debug_text(x-20, y+(offset*line++), "vsp " + string(vsp));
