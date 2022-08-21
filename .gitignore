@@ -4,3 +4,7 @@ assistant/.assistant
 assistant/assistant_config.yaml
 anims/export.sh
 anims/outputs/*
+anims/export.py
+*.gif
+assistant/.lock
+anims/animtest.aseprite
