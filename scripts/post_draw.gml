@@ -11,6 +11,16 @@ if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
     draw_sprite_ext(sprite_get("dstrong"), 1, msg_dstrong_yoyo.x, msg_dstrong_yoyo.y, 2, 2, 0, c_white, 0.9);
 }
 
+
+if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
+{
+
+    if (attack == AT_NTHROW && window == MSG_GRAB_ANTIBASH_WINDOW)
+    {
+        draw_sprite_ext(asset_get("bash_dir_spr"), 0, x+25*spr_dir, y-25, 1, 1, msg_antibash_direction - 45, c_white, 1);
+    }
+}
+
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.

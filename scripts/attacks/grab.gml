@@ -204,11 +204,45 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 1);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 20);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_swipe_heavy2"));
 //========================================================================
+// Grab Outcome: REVERSE_BASH
+current_window++;
+MSG_GRAB_ANTIBASH_WINDOW = current_window;
+set_anim(current_window, 25);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_HSPEED_TYPE, 1);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_VSPEED_TYPE, 1);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_CANCEL_FRAME, 15)
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_HAS_SFX, 1)
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_SFX, asset_get("sfx_ori_bash_hit"))
+
+hbox_num++;
+MSG_GRAB_ANTIBASH_HITBOX = hbox_num;
+//see ORI bash
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW_CREATION_FRAME, 23);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 45);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 7);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.7);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITPAUSE_SCALING, 0.3);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_ori_bash_launch"));
+set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 110); //Ori large
+//========================================================================
 
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
 //List of Grab outcomes
 var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
+var grab_antibash =   { name:"F1", window:MSG_GRAB_ANTIBASH_WINDOW,   sound:sound_get("grab1")};
 var grab_frostburn =  { name:"3A", window:MSG_GRAB_FROSTBURN_WINDOW,  sound:sound_get("grab2")};
 var grab_leechseed =  { name:"49", window:MSG_GRAB_LEECHSEED_WINDOW,  sound:sound_get("grab3")};
 var grab_explode =    { name:"99", window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab4")};
@@ -221,7 +255,8 @@ msg_grab_rotation = [grab_negative,
                      grab_explode, 
                      grab_leechseed, 
                      grab_frostburn,
-                     grab_glitchtime];
+                     grab_glitchtime,
+                     grab_antibash];
 
 //============================================
 // Sets basic outcome window animation variables

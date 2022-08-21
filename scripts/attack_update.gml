@@ -520,6 +520,48 @@ switch (attack)
                 msg_prev_status.state = state;
             }
         }
+        else if (window == MSG_GRAB_ANTIBASH_WINDOW)
+        {
+            if (window_timer < get_window_value(AT_NTHROW, window, AG_WINDOW_CANCEL_FRAME))
+            {
+                var target_x = 0;
+                var target_y = 0;
+
+                with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
+                {
+                    msg_grabbed_timer = 10; //still technically in grab
+                    if (!joy_pad_idle)
+                    {
+                        target_x += lengthdir_x(max(30, get_player_damage(player)), joy_dir);
+                        target_y += lengthdir_y(max(30, get_player_damage(player)), joy_dir);
+                    }
+                }
+
+                if (target_x == 0 && target_y == 0)
+                {
+                    if (joy_pad_idle) target_y  = -1;
+                    else
+                    {
+                        target_x = lengthdir_x(1, joy_dir);
+                        target_y = lengthdir_y(1, joy_dir);
+                    }
+                }
+
+                msg_antibash_direction = point_direction(0,0,target_x,target_y);
+
+                set_hitbox_value(AT_NTHROW, MSG_GRAB_ANTIBASH_HITBOX, HG_ANGLE, 
+                    ( (spr_dir > 0) ? msg_antibash_direction : (180 - msg_antibash_direction) ) + 180);
+            }
+            else if (window_timer > get_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH) - 1)
+            {
+                //eject MissingNo
+                hsp = lengthdir_x(msg_grab_antibash_force, msg_antibash_direction);
+                vsp = lengthdir_y(msg_grab_antibash_force, msg_antibash_direction);
+                old_hsp = hsp;
+                old_vsp = vsp;
+                set_state(PS_PRATFALL)
+            }
+        }
 
     } break;
 //=============================================================

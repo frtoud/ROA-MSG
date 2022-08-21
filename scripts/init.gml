@@ -150,6 +150,7 @@ msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negative
 msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
 msg_grab_glitchtime_duration = 60*8; //how long to stay in glitchtime debuff mode
+msg_grab_antibash_force = 12; //how far to send Missingno after the bash
 
 
 //=========================================================
@@ -210,6 +211,8 @@ msg_leechseed_particle_pointer = 0;
 //Explosion
 msg_exploded_damage = 0; //to reapply once Missingno gets hit
 msg_exploded_respawn = false; //to check wether a respawned missingno gets invincibility
+
+msg_antibash_direction = 0; //where to send Missingno after the bash
 
 
 msg_fspecial_charge = 0;

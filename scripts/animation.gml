@@ -185,6 +185,14 @@ switch (state)
                 msg_unsafe_effects.bad_vsync.horz_max = 50;
                 msg_unsafe_paused_timer = msg_grab_selection_timer == 1 ? 0 : 5;
             }
+            else if (window == MSG_GRAB_ANTIBASH_WINDOW)
+            {
+                sprite_index = sprite_get("pratfall");
+                if (window_timer == 0)
+                {
+                    spawn_hit_fx(x+25*spr_dir, y-25, 113)
+                }
+            }
         } break;
 //==================================================================
         default: break;
