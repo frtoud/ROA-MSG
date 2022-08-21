@@ -23,12 +23,13 @@ set_window_value(AT_NTHROW, 3, AG_WINDOW_ANIM_FRAMES, 6);
 set_window_value(AT_NTHROW, 3, AG_WINDOW_ANIM_FRAME_START, 4);
 
 //Grab Success
-set_window_value(AT_NTHROW, 4, AG_WINDOW_LENGTH, 40);
+set_window_value(AT_NTHROW, 4, AG_WINDOW_LENGTH, 80);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_INVINCIBILITY, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_HSPEED_TYPE, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_VSPEED_TYPE, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_NTHROW, 4, AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(AT_NTHROW, 4, AG_WINDOW_CANCEL_FRAME, 40); //after this point you can no longer change grab outcome
 
 //Grab
 set_hitbox_value(AT_NTHROW, 1, HG_HITBOX_TYPE, 1);
@@ -214,6 +215,7 @@ var grab_explode =    { name:"99", window:MSG_GRAB_EXPLOSION_WINDOW,  sound:soun
 var grab_negative =   { name:"DC", window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab5")};
 
 //starting rotation of grabs
+//front, up, back, down, rest is backlogged
 msg_grab_pointer = 0;
 msg_grab_rotation = [grab_negative, 
                      grab_explode, 

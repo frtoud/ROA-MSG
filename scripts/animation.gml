@@ -183,7 +183,7 @@ switch (state)
             {
                 msg_unsafe_effects.bad_vsync.freq = 999;
                 msg_unsafe_effects.bad_vsync.horz_max = 50;
-                msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 5);
+                msg_unsafe_paused_timer = msg_grab_selection_timer == 1 ? 0 : 5;
             }
         } break;
 //==================================================================

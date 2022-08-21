@@ -195,6 +195,7 @@ var dummy_outcome = { name:"00", window:3, sound:asset_get("sfx_bubblepop")};
 msg_grab_pointer = 0;
 msg_grab_rotation = [dummy_outcome];
 msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
+msg_grab_selection_timer = 0;
 
 //estimated maximum of particles at once (4/second, 2 at once, per victim)
 //if you somehow exceed that number, it will start overwriting previous ones and... well, let's say its an intentional bug.
