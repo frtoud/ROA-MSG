@@ -129,7 +129,7 @@ msg_crawl_anim_index = 0; //crawling animation
 //=========================================================
 //extra physics on first jump
 msg_firstjump_timer_max = 8; //number of frames to apply extreme boost
-msg_firstjump_timer = 0; //if between zero and _max, gets vsp boost
+msg_firstjump_timer = 8; //if between zero and _max, gets vsp boost
 
 //=========================================================
 // Balance variables
