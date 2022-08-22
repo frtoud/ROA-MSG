@@ -683,7 +683,7 @@ switch (attack)
                 spr_dir = new_dir;
             }
 
-            if (shield_down || msg_is_bspecial)
+            if (!special_down || msg_is_bspecial)
             {
                 window = 5;
                 window_timer = 0;
