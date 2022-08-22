@@ -277,6 +277,73 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_UAIR:
+    {
+        if (window == 1 && window_timer == 1)
+        {
+            //apply current stack of bonuses
+            var psn = false, prat = false;
+            var bkb = 0, kbs = 0, dmg = 0;
+            msg_uair_ace_coins = 0;
+            reset_hitbox_value(AT_UAIR, 1, HG_DAMAGE);
+            reset_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK);
+            reset_hitbox_value(AT_UAIR, 1, HG_KNOCKBACK_SCALING);
+            for (var i = 0; i < array_length(msg_uair_ace_buffer); i++)
+            {
+                switch(msg_uair_ace_buffer[i])
+                {
+                    case AT_USPECIAL: prat = true; break;
+                    //case AT_NSPECIAL: break;
+                    //case AT_FSPECIAL: break;
+                    case AT_NTHROW: take_damage(player, player, 4); break;
+                    case AT_UTILT: y -= 80; break;
+                    case AT_DTILT: kbs -= 0.2; break;
+                    case AT_FTILT: bkb -= 2; break;
+                    case AT_DATTACK: hsp += 5 * spr_dir; break;
+                    case AT_USTRONG: msg_uair_ace_coins += 2; break;
+                    case AT_DSTRONG: bkb += 2; break;
+                    case AT_FSTRONG: kbs += 0.3; break;
+                    case AT_NAIR: psn = true; break;
+                    case AT_DAIR: vsp += 5; break;
+                    case AT_FAIR: dmg += 3; break;
+                    case AT_BAIR: hsp -= 4 * spr_dir; break;
+                    case AT_UAIR:
+                    default: break; //NO-OP
+                    case AT_DSPECIAL_2: break; //???
+                }
+            }
+
+            set_hitbox_value(AT_UAIR, 1, HG_EFFECT, (psn ? 10 : 0) );
+            set_window_value(AT_UAIR, 3, AG_WINDOW_TYPE, (prat ? 7 : 0) );
+
+            set_hitbox_value(AT_UAIR, 1, HG_DAMAGE, 
+                             dmg + get_hitbox_value(AT_UAIR, 1, HG_DAMAGE));
+            set_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK, 
+                             bkb + get_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK));
+            set_hitbox_value(AT_UAIR, 1, HG_KNOCKBACK_SCALING, 
+                             kbs + get_hitbox_value(AT_UAIR, 1, HG_KNOCKBACK_SCALING));
+
+            //activate write mode (on hit: UAIR will get saved)
+            msg_uair_ace_activated = true;
+        }
+        //Coin effect (mostly copied from UStrong)
+        else if (window == 2 && window_timer == 1 && !hitpause)
+        {
+            for (var i = 0; i < msg_uair_ace_coins; i++)
+            {
+                var hb = create_hitbox(AT_USTRONG, 3, x+spr_dir*35, y-20);
+                hb.hsp += hsp;
+                hb.vsp -= abs(vsp/3);
+                if (i != 0)
+                {
+                    hb.x += (random_func_2(2*i, 10, false) - 5);
+                    hb.hsp += (random_func_2(2*i, 3, false) - spread);
+                    hb.vsp += (random_func_2(2*i + 1, 3, false) - spread);
+                }
+            }
+        }
+    } break;
+//=============================================================
     case AT_FSPECIAL: // Charge & Water Gun
     {
         if (window == 2)
