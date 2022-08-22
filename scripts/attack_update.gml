@@ -309,7 +309,8 @@ switch (attack)
                     case AT_BAIR: hsp -= 4 * spr_dir; break;
                     case AT_UAIR:
                     default: break; //NO-OP
-                    case AT_DSPECIAL_2: break; //???
+                    case AT_DSPECIAL_2: take_damage(player, player, 
+                                       -get_attack_value(AT_DSPECIAL_2, AG_NUM_WINDOWS)); break; //???
                 }
             }
 
