@@ -1,10 +1,14 @@
-sprite_change_offset("idle", 80, 127, true);
+sprite_change_offset("idle", 13, 42, true);
 sprite_change_offset("jumpstart", 23, 32);
 sprite_change_offset("jump", 16, 45);
 sprite_change_offset("doublejump", 45, 62);
 sprite_change_offset("land", 33, 35);
 sprite_change_offset("crouch", 19, 38);
-sprite_change_offset("crawl", 20, 18);
+sprite_change_offset("crawl", 20, 29);
+sprite_change_offset("dashstart", 22, 42);
+sprite_change_offset("dash", 39, 45);
+sprite_change_offset("dashturn", 21, 45);
+sprite_change_offset("dashstop", 21, 42);
 sprite_change_offset("roll", 20, 39);
 sprite_change_offset("ntilt", 20, 42, true);
 sprite_change_offset("vfx_yoyo_snap", 66, 44);

@@ -44,7 +44,28 @@ else if (state == PS_DASH_START) && down_down
                        + (right_down - left_down) * (ground_friction + dashcrawl_accel),
                        -speed_limit, speed_limit);
     }
-    hurtboxID.sprite_index = crouchbox_spr;
+}
+
+//==============================================================
+//hurtbox control
+switch (state)
+{
+    case PS_CROUCH:
+        hurtboxID.sprite_index = crouchbox_spr;
+        break;
+    case PS_DASH_START:
+        hurtboxID.sprite_index = down_down ? crouchbox_spr : dashbox_spr;
+        break;
+    case PS_DASH:
+    case PS_DASH_TURN:
+        hurtboxID.sprite_index = dashbox_spr;
+        break;
+    case PS_ATTACK_AIR:
+    case PS_ATTACK_GROUND:
+        break;
+    default:
+        hurtboxID.sprite_index = hurtbox_spr;
+        break;
 }
 
 

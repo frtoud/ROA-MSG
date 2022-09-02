@@ -8,6 +8,7 @@ hurtbox_spr = sprite_get("idle_hurt");
 crouchbox_spr = asset_get("orca_crouchbox");
 air_hurtbox_spr = -1;
 hitstun_hurtbox_spr = -1;
+dashbox_spr = asset_get("bear_hurtbox");
 
 //Ground movement
 walk_speed          = 3.15;
@@ -17,9 +18,9 @@ walk_turn_time      = 8;    //note: influences window of grounded bspec input
 initial_dash_time   = 14;
 initial_dash_speed  = 6;
 dash_speed          = 6.25;
-dash_turn_time      = 8;    //note: influences window of grounded bspec input
-dash_turn_accel     = 4.5;
-dash_stop_time      = 4;
+dash_turn_time      = 16;    //note: influences window of grounded bspec input
+dash_turn_accel     = 2;
+dash_stop_time      = 8;
 dash_stop_percent   = .05; //the value to multiply your hsp by when going into idle from dash or dashstop
 
 ground_friction     = 0.45;
@@ -68,7 +69,7 @@ techroll_speed      = 10;
 idle_anim_speed = .1;
 crouch_anim_speed = .25;
 walk_anim_speed = .125;
-dash_anim_speed = .2;
+dash_anim_speed = .25;
 pratfall_anim_speed = .25;
 
 //crouch animation frames

@@ -148,7 +148,13 @@ switch (state)
             {
                 msg_crawl_anim_index = (msg_crawl_anim_index + 4 + hsp/12) % 4;
             }
-            image_index = msg_crawl_anim_index;
+            image_index =  msg_crawl_anim_index;
+
+            if (msg_crawlintro_timer < 6)
+            && (prev_prev_state == PS_DASH || prev_state == PS_DASH)
+            {
+                image_index = 5;
+            }
         }
     } break;
 //==================================================================
