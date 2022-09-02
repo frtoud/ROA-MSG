@@ -1,7 +1,7 @@
 #macro AT_BSPECIAL AT_DSPECIAL_2
 
 
-if (attack == AT_DSPECIAL) attack = AT_NTHROW; //GRAB
+if (attack == AT_DSPECIAL && move_cooldown[AT_NTHROW] < 1) attack = AT_NTHROW; //GRAB
 else if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 else if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
 
