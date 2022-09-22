@@ -22,11 +22,12 @@ sprite_change_offset("land", 33, 35);
  sprite_change_offset("waveland", 16, 31);
  sprite_change_offset("tech", 16, 31);
 
- sprite_change_offset("dattack", 32, 47, true);
+sprite_change_offset("dattack", 48, 47, true);
 sprite_change_offset("ntilt", 20, 42, true);
- sprite_change_offset("dtilt", 30, 19, true);
+sprite_change_offset("dtilt", 26, 18, true);
 sprite_change_offset("utilt", 14, 79, true);
 sprite_change_offset("nair", 34, 45, true);
+sprite_change_offset("nair_alt", 24, 40);
 sprite_change_offset("fair", 23, 39, true);
 sprite_change_offset("fair_alt", 24, 42);
 sprite_change_offset("bair", 42, 52, true);
