@@ -59,6 +59,11 @@ msg_alt_sprite = noone;
 var list = get_attack_value(attack, AG_MSG_ALT_SPRITES);
 if (list != 0) switch (attack)
 {
+    case AT_NAIR:
+        //TBD: "seen" criteria tracked across game session
+        var active = GET_RNG(10, 0x07) < 3;
+        if (active) msg_alt_sprite = list[0];
+    break;
     case AT_FAIR:
         //TBD: if not online; check if A potential victim has negative percent
         var active = ( (!msg_is_online || player != msg_local_player) 
