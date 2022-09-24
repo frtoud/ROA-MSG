@@ -4,7 +4,7 @@ char_height = 72;
 knockback_adj = 1.1; //the multiplier to KB dealt to you. 
 
 //Hurtboxes
-hurtbox_spr = sprite_get("idle_hurt");
+hurtbox_spr = asset_get("bug_hurtbox");
 crouchbox_spr = asset_get("orca_crouchbox");
 air_hurtbox_spr = -1;
 hitstun_hurtbox_spr = -1;

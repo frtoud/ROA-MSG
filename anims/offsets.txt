@@ -1,4 +1,4 @@
-sprite_change_offset("idle", 13, 42, true);
+sprite_change_offset("idle", 13, 42);
 sprite_change_offset("jumpstart", 23, 32);
 sprite_change_offset("jump", 16, 45);
 sprite_change_offset("doublejump", 45, 62);
