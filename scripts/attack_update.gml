@@ -134,6 +134,27 @@ switch (attack)
         }
     } break;
 //=============================================================
+    case AT_DATTACK:
+    {
+        if (window > 2) && (window < 5) && !free
+        {
+            window = 5;
+            window_timer = 0;
+            sound_play(get_window_value(attack, 5, AG_WINDOW_SFX));
+        }
+        else if (window == 4) && (window_timer > get_window_value(attack, window, AG_WINDOW_CANCEL_FRAME))
+        {
+            window_timer--;
+            can_jump = true;
+        }
+        else if (window == 5 && (window_timer >= get_window_value(attack, window, AG_WINDOW_LENGTH) - 1)
+             && !free)
+        {
+            set_state(PS_CROUCH);
+            state_timer += 2;
+        }
+    } break;
+//=============================================================
     case AT_FSTRONG:
     {
         if (window == 1 && strong_charge > 0)
