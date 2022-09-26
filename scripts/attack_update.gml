@@ -141,6 +141,7 @@ switch (attack)
             window = 5;
             window_timer = 0;
             sound_play(get_window_value(attack, 5, AG_WINDOW_SFX));
+            destroy_hitboxes();
         }
         else if (window == 4) && (window_timer > get_window_value(attack, window, AG_WINDOW_CANCEL_FRAME))
         {
@@ -152,6 +153,10 @@ switch (attack)
         {
             set_state(PS_CROUCH);
             state_timer += 2;
+        }
+        else if (has_hit && vsp > 0)
+        {
+            can_jump = true;
         }
     } break;
 //=============================================================
