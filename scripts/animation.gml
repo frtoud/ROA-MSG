@@ -1,15 +1,7 @@
 //animation.gml
 draw_x = 0;
 draw_y = 0; //does not always reset!?
-
-//==================================================================
-// BSPECIAL must consider the small_sprites parameter of the stolen sprites!
-// note: regular draw event needs this to happen before pre_draw, apparently.
-if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && (attack == AT_DSPECIAL_2)
-{
-    small_sprites = msg_bspecial_last_move.small_sprites;
-}
-else { small_sprites = 1; }
+small_sprites = 1; //see PS_ATTACK* case below
 
 //==================================================================
 // Glitch unsafe effects timers
@@ -162,6 +154,15 @@ switch (state)
     case PS_ATTACK_GROUND:
 
     if (msg_alt_sprite != noone) sprite_index = msg_alt_sprite;
+
+    // BSPECIAL must consider the small_sprites parameter of the stolen sprites!
+    // note: regular draw event needs this to happen before pre_draw, apparently.
+    if (attack == AT_DSPECIAL_2) 
+        small_sprites = msg_bspecial_last_move.small_sprites;
+    //Special case of stolen asset needs similar consideration
+    else if (attack == AT_FSTRONG) && (msg_alt_sprite != noone)
+        small_sprites = 0;
+
     
     switch (attack)
     {
