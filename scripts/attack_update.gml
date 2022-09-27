@@ -159,7 +159,7 @@ switch (attack)
         }
         else if (has_hit && vsp > 0)
         {
-            can_jump = true;
+            //can_jump = true;
         }
     } break;
 //=============================================================
@@ -194,6 +194,7 @@ switch (attack)
         }
         else if (window == 3 && window_timer == 1 && !hitpause)
         {
+            move_cooldown[attack] = 60;
             var hsp_base = hsp/3 + (2 + (strong_charge/60.0)) * (right_down - left_down);
             var vsp_base = vsp/3 + 1 * (right_down or left_down) - 2 * (strong_charge/60.0);
 
