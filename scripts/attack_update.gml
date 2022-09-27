@@ -56,6 +56,7 @@ switch (attack)
             {
                 set_attack_value(AT_FTILT, AG_NO_PARRY_STUN, 1);
                 set_window_value(AT_FTILT, 4, AG_WINDOW_ANIM_FRAME_START, 2);
+                set_window_value(AT_FTILT, 5, AG_WINDOW_LENGTH, 8);
                 if (attack_down)
                 && (window_timer == get_window_value(AT_FTILT, 1, AG_WINDOW_LENGTH))
                 {
@@ -93,6 +94,7 @@ switch (attack)
             case 3: // DRAG END
             {
                 set_attack_value(AT_FTILT, AG_NO_PARRY_STUN, 0);
+                set_window_value(AT_FTILT, 5, AG_WINDOW_LENGTH, 12);
                 if (window_timer == 2)
                 {
                     //setup interpolation & teleport
@@ -114,6 +116,7 @@ switch (attack)
             case 4: // HIT
             {
                 if (!hitpause) hsp = held_dir * walk_speed;
+                move_cooldown[attack] = 16;
             }
         }
     } break;

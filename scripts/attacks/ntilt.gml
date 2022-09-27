@@ -43,7 +43,7 @@ set_window_value(AT_FTILT, 4, AG_WINDOW_HAS_CUSTOM_FRICTION, 1);
 
 //endlag
 set_window_value(AT_FTILT, 5, AG_WINDOW_TYPE, 1);
-set_window_value(AT_FTILT, 5, AG_WINDOW_LENGTH, 6);
+set_window_value(AT_FTILT, 5, AG_WINDOW_LENGTH, 8); //see attack_update
 set_window_value(AT_FTILT, 5, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_FTILT, 5, AG_WINDOW_ANIM_FRAME_START, 3);
 set_window_value(AT_FTILT, 5, AG_WINDOW_HAS_WHIFFLAG, 1);
