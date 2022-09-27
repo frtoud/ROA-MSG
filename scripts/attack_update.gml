@@ -139,6 +139,7 @@ switch (attack)
 //=============================================================
     case AT_DATTACK:
     {
+        can_fast_fall = has_hit;
         if (window > 2) && (window < 5) && !free
         {
             window = 5;
@@ -156,10 +157,6 @@ switch (attack)
         {
             set_state(PS_CROUCH);
             state_timer += 2;
-        }
-        else if (has_hit && vsp > 0)
-        {
-            //can_jump = true;
         }
     } break;
 //=============================================================
