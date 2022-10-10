@@ -80,10 +80,6 @@ if (list != 0) switch (attack)
         if (rng < array_length(list)) msg_alt_sprite = list[rng];
     break;
 }
-//===========================================================
-
-
-if (attack == AT_USPECIAL) msg_firstjump_timer = msg_firstjump_timer_max; //fixes jump bug
 
 //=======================================================================
 #define steal_move_data(target_id, target_move)

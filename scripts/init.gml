@@ -43,8 +43,8 @@ hitstun_grav        = .5;
 
 //Jumping
 jump_start_time     = 5;
-jump_speed          = 7.5; //boosted by msg_firstjump_timer
-short_hop_speed     = 4.5;
+jump_speed          = 6.5; //boosted by msg_firstjump_height
+short_hop_speed     = 6.5;
 double_jump_time    = 25; //the number of frames to play the djump animation. 
 djump_speed         = 9;
 max_djumps          = 2;
@@ -128,9 +128,8 @@ msg_crawlintro_timer = 0; //time in which to animate the transition into/from cr
 msg_crawl_anim_index = 0; //crawling animation
 
 //=========================================================
-//extra physics on first jump
-msg_firstjump_timer_max = 8; //number of frames to apply extreme boost
-msg_firstjump_timer = 8; //if between zero and _max, gets vsp boost
+//full-jump shenanigan
+msg_firstjump_height = 90; //distance to add
 
 //=========================================================
 // Balance variables

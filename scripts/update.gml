@@ -1,26 +1,12 @@
 //update.gml
 
 //==============================================================
-//First-jump physics
-if (state == PS_JUMPSQUAT)
+//First-jump physics: same as shorthop, just with teleport
+if (state == PS_FIRST_JUMP && state_timer == 0 && jump_down)
 {
-    msg_firstjump_timer = 0;
+    y -= msg_firstjump_height;
 }
-else if (free && djumps == 0)
-     && (msg_firstjump_timer < msg_firstjump_timer_max)
-{
-    if (vsp < 0)
-    {
-        var capped_vsp = max(vsp, -jump_speed);
-        y += capped_vsp * abs(capped_vsp/3.0); 
-        msg_firstjump_timer++;
-    }
-    else //Reached peak or got hitstunned
-    {
-        msg_firstjump_timer = msg_firstjump_timer_max;
-    }
-    
-}
+
 
 //==============================================================
 //crawling 
