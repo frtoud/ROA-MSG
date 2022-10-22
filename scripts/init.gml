@@ -79,8 +79,8 @@ crouch_recovery_frames = 2;
 
 //parry animation frames
 dodge_startup_frames = 1;
-dodge_active_frames = 1;
-dodge_recovery_frames = 3;
+dodge_active_frames = 2;
+dodge_recovery_frames = 2;
 
 //tech animation frames
 tech_active_frames = 3;
@@ -88,7 +88,7 @@ tech_recovery_frames = 1;
 
 //tech roll animation frames
 techroll_startup_frames = 1;
-techroll_active_frames = 1;
+techroll_active_frames = 2;
 techroll_recovery_frames = 1;
 
 //airdodge animation frames
@@ -98,10 +98,10 @@ air_dodge_recovery_frames = 3;
 
 //roll animation frames
 roll_forward_startup_frames = 1;
-roll_forward_active_frames = 1;
+roll_forward_active_frames = 2;
 roll_forward_recovery_frames = 1;
 roll_back_startup_frames = 1;
-roll_back_active_frames = 1;
+roll_back_active_frames = 2;
 roll_back_recovery_frames = 1;
 
 //standard SFX
