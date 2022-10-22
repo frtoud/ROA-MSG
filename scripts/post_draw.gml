@@ -14,11 +14,14 @@ if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
 
 if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
 {
-
     if (attack == AT_NTHROW && window == MSG_GRAB_ANTIBASH_WINDOW)
     {
         draw_sprite_ext(asset_get("bash_dir_spr"), 0, x+25*spr_dir, y-25, 1, 1, msg_antibash_direction - 45, c_white, 1);
     }
+}
+else if (state == PS_PARRY && (state_timer > 0 && state_timer < 10) && !has_parried)
+{
+    draw_sprite_ext(msg_substitute, 0, x+15*spr_dir, y, 1*spr_dir, 1, 0, c_white, 1);
 }
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv

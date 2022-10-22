@@ -105,6 +105,16 @@ switch (state)
         }
     } break;
 //==================================================================
+    case PS_PARRY:
+    {
+        if (state_timer == 0) has_parried = false;
+
+        else if (state_timer == 10 && !has_parried)
+        {
+            create_hitbox(AT_JAB, 1, x + 15*spr_dir, y);
+        }
+    } break;
+//==================================================================
     case PS_ROLL_FORWARD:
     case PS_ROLL_BACKWARD:
     case PS_TECH_FORWARD:

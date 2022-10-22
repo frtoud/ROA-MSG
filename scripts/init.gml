@@ -239,6 +239,11 @@ AG_MSG_ALT_SPRITES = 39; //Array of alternate sprites to use. see set_attack.gml
 msg_alt_sprite = noone;
 glitch_bg_spr = sprite_get("glitch_bg");
 no_sprite = asset_get("empty_sprite");
+error_sprite_x = asset_get("net_disc_spr");
+error_sprite_b = asset_get("solid_32x32");
+
+hfx_error_x = hit_fx_create(error_sprite_x, 4);
+hfx_error_b = hit_fx_create(error_sprite_b, 4);
 
 jump_sprite = sprite_get("jump");
 djump_sprite = sprite_get("doublejump");
@@ -262,6 +267,10 @@ gfx_glitch_death = false;
 //gaslight rolls
 msg_gaslight_dodge = { x:0, y:0, active:true };
 
+//Substitute sprites
+msg_substitute = sprite_get("substitute_fall");
+msg_substitute_hit = sprite_get("substitute_hit");
+has_parried = false;
 
 //TBD: move to article?
 msg_is_online = false;

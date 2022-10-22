@@ -3,7 +3,9 @@
 var line = 0;
 var offset = 15;
 
-exit;
+if !get_match_setting(SET_HITBOX_VIS) exit;
+
+
 
     var ofx = abs(sprite_xoffset);
     var ofy = abs(sprite_yoffset);

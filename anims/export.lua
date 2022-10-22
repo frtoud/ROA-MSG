@@ -8,7 +8,8 @@ Animation file will be processed as follows:
 - GREEN pixels (0x00FF00) are converted to glitch patterned background
 - RED pixels (0xFF0000) are converted to fullbright-green
 
-- BLUE tags
+- ORANGE tags are exported as-is
+- RED tags are exported at double size
 - GREEN tags are exported with _hurt versions
 - other tags are ignored
 
@@ -20,6 +21,7 @@ Animation file will be processed as follows:
 local options = {}
 
 options.tagcol_animation = Color(0xf7,0xa5,0x47) --are exported as is
+options.tagcol_anim_proj = Color(0xfe,0x5b,0x59) --are exported at double size
 options.tagcol_anim_hurt = Color(0x6a,0xcd,0x5b) --are exported with _hurt versions
 
 options.tagname_glitch_bg = "BACKGROUND" --name of glitchbg. there should be ONE cel with the background in it
@@ -100,6 +102,7 @@ end
 --assume file is valid open io, spr_name is a string, x/y are numbers
 local function write_offset(file, spr_name, x, y, add_true)
     add_true = add_true or false
+
     local line = 'sprite_change_offset("'.. spr_name .. '", ' .. x .. ', ' .. y 
     if (add_true) then 
         line = line .. ', true'
@@ -110,8 +113,10 @@ end
 
 --exports a tag as an animation file
 --assume offset_file is valid open io, tag is a valid tag
-local function export(sprite, tag, offset_file, options, do_hurtbox)
-    do_hurtbox = do_hurtbox or false
+local function export(sprite, tag, offset_file, options)
+
+    do_hurtbox = (tag.color == options.tagcol_anim_hurt) --do extra hurtbox steps
+    do_projectile = (tag.color == options.tagcol_anim_proj) --export at 200%
     
     local anim_name = string.lower(tag.name)
     local anim_suffix = "_strip" .. tag.frames .. ".png"
@@ -147,7 +152,8 @@ local function export(sprite, tag, offset_file, options, do_hurtbox)
         app.command.AutocropSprite()
 
         --send the offsets to file
-        write_offset(offset_file, anim_name, sprite.selection.bounds.x, sprite.selection.bounds.y, do_hurtbox)
+        local scale = (do_projectile and 2) or 1 --ternary lua (careful with those)
+        write_offset(offset_file, anim_name, scale * sprite.selection.bounds.x, scale * sprite.selection.bounds.y, do_hurtbox)
     end)
     
 
@@ -155,6 +161,13 @@ local function export(sprite, tag, offset_file, options, do_hurtbox)
         --remove hurtbox visibility
         for i,layer in ipairs(sprite.layers) do
             layer.isVisible = not (layer.name == options.layername_hurtbox)
+        end
+
+        if (do_projectile) then
+            app.command.SpriteSize {
+                scaleX=2,
+                scaleY=2,
+            }
         end
         
         app.command.ExportSpriteSheet {
@@ -219,10 +232,10 @@ end
 
 --export tags
 for i,tag in ipairs(mainsprite.tags) do
-    if (tag.color == options.tagcol_animation) then
+    if (tag.color == options.tagcol_animation)
+    or (tag.color == options.tagcol_anim_proj)
+    or (tag.color == options.tagcol_anim_hurt) then
         export(mainsprite, tag, offsets_file, options)
-    elseif (tag.color == options.tagcol_anim_hurt) then
-        export(mainsprite, tag, offsets_file, options, true)
     end
 end
 

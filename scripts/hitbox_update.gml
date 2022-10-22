@@ -184,6 +184,26 @@ if (attack == AT_DSPECIAL_2)
     if (grounds == 0) && (!free) { destroyed = true; }
 }
 
+
+//==========================================================
+if (attack == AT_JAB)
+{
+    //decorative Substitute
+    if (hbox_num == 1) //fall over after parry
+    {
+        if (hitbox_timer >= (length - 2)) 
+        {
+            spawn_hit_fx(x + spr_dir*random_func_2(3, 20, true), 
+                         y - random_func_2(4, 30, true),
+                         (hitbox_timer % 2 == 0) ? hit_effect : destroy_fx);
+        }
+    }
+    else //knocked around after a hit
+    {
+
+    }
+}
+
 //==========================================================
 // destroy all current missingno-copies of a player
 #define destroy_copies(target_client_id)
