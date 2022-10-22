@@ -210,7 +210,7 @@ switch (state)
 
 //==================================================================
 // Revert gaslighting
-if (hitpause)
+if (hitpause || state == PS_RESPAWN)
 {
     msg_gaslight_dodge.x = 0; 
     msg_gaslight_dodge.y = 0;
