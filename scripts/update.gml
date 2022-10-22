@@ -2,7 +2,8 @@
 
 //==============================================================
 //First-jump physics: same as shorthop, just with teleport
-if (state == PS_FIRST_JUMP && state_timer == 0 && jump_down)
+//jump_down is the full-hop condition. shield_down prevents breaking wavedash
+if (state == PS_FIRST_JUMP && state_timer == 0 && jump_down && !shield_pressed)
 {
     y -= msg_firstjump_height;
 }
