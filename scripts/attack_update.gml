@@ -293,6 +293,7 @@ switch (attack)
             {
                 //want "next" player, but if there is none, wrap around from zero
                 //this makes it so player 1 appears "after" player 4 in the ordering
+                //NOTE: CHECK ONLINE. unsure this can be assumed to be consistent.
                 var corrected_player = (player > other.player ? player : player + 30);
                 if (corrected_player < best_player)
                 {
