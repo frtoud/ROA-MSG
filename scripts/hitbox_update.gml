@@ -191,17 +191,65 @@ if (attack == AT_JAB)
     //decorative Substitute
     if (hbox_num == 1) //fall over after parry
     {
-        if (hitbox_timer >= (length - 2)) 
-        {
-            spawn_hit_fx(x + spr_dir*random_func_2(3, 20, true), 
-                         y - random_func_2(4, 30, true),
-                         (hitbox_timer % 2 == 0) ? hit_effect : destroy_fx);
-        }
+        //todo: animate
     }
     else //knocked around after a hit
     {
+        grounds = (vsp > 10) ? 2 : 0
 
+        if (hitpause_timer > 0) 
+        {
+            image_index = 0;
+            bkb_start = 0;
+        }
+        else if (!free)
+        {
+            var newsub = noone;
+            with (player_id) newsub = create_hitbox(AT_JAB, 1, other.x, other.y + 10);
+            newsub.spr_dir = spr_dir;
+            newsub.hitbox_timer = 15;
+            newsub.image_index = 3;
+            newsub.hsp = hsp;
+            destroyed = true;
+        }
+        else
+        {
+            bkb_start += clamp(0.025 * point_distance(0, 0, hsp, vsp), 0.1, 0.5);
+            image_index = bkb_start;
+        }
     }
+
+    if (hitpause_timer > 0)
+    {
+        hitbox_timer--;
+        hitpause_timer--;
+        vsp = 0; hsp = 0;
+
+        if (hitpause_timer <= 0)
+        {
+            hsp = old_hsp; vsp = old_vsp;
+        }
+    }
+    else
+    {
+        var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
+        var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
+        var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
+        var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
+        if ( y >= blastzone_b ) || ( y <= blastzone_t )
+        || ( x >= blastzone_r ) || ( x <= blastzone_l )
+        {
+            sound_play(asset_get("sfx_death1"), false, noone, 0.5, 1.5);
+            instance_destroy(self); exit;
+        }
+        else if (hitbox_timer >= (length - 2)) 
+        {
+            spawn_hit_fx(x + spr_dir*random_func_2(3, 20, true), 
+                            y - random_func_2(4, 30, true),
+                            (hitbox_timer % 2 == 0) ? hit_effect : destroy_fx);
+        }
+    }
+
 }
 
 //==========================================================

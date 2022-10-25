@@ -271,6 +271,7 @@ msg_gaslight_dodge = { x:0, y:0, active:true };
 msg_substitute = sprite_get("substitute_fall");
 msg_substitute_hit = sprite_get("substitute_hit");
 has_parried = false;
+msg_multiparry = 0; //counts down for the infinite parry glitch
 
 //TBD: move to article?
 msg_is_online = false;
