@@ -1,8 +1,8 @@
 #define msg_manual_draw
 /// msg_manual_draw(main_draw = true)
 //Handles REDRAW-type effects that need to draw differently than usual
-var main_draw = argument_count > 0 ? argument[0] : true;
-var skips_draw = false; //determines if the actual draw event needs to be interrupted
+var main_draw = argument_count > 0 ? argument[0] : true; //FALSE when rendering the glitch BG
+var skips_draw = false; //determines if the actual draw event needs to be prevented
 
 var scale = 1 + small_sprites;
 
@@ -11,7 +11,7 @@ var scale = 1 + small_sprites;
 // sprite trisected vertically, middle displaced
 if (msg_unsafe_effects.bad_vsync.timer > 0)
 {
-    var spr_w = abs(sprite_width); //WHY!?
+    var spr_w = abs(sprite_width); //why is this necessary !?
     var spr_cliptop = sprite_height - msg_unsafe_effects.bad_vsync.cliptop;
     var spr_clipbot = sprite_height - msg_unsafe_effects.bad_vsync.clipbot;
     var pos_x = x - scale*sprite_xoffset + draw_x;
@@ -102,10 +102,32 @@ else if (msg_unsafe_effects.quadrant.timer > 0)
     skips_draw = main_draw;
 }
 //===========================================================
-// Normal draw (possibly needed by glitch BG)
+// REDRAW EFFECT: CRT
+// sprite R/G/B misaligned
+else if (msg_unsafe_effects.crt.timer > 0)
+{
+    if (main_draw) shader_start();
+    var crt_offset = msg_unsafe_effects.crt.offset;
+
+    gpu_set_colorwriteenable(false, true, true, true); //R
+    draw_sprite_ext(sprite_index, image_index, x+draw_x-crt_offset, y+draw_y, 
+                    scale*spr_dir, scale, spr_angle, c_white, 1);
+
+    gpu_set_colorwriteenable(true, false, false, true); //GB
+    draw_sprite_ext(sprite_index, image_index, x+draw_x+crt_offset, y+draw_y, 
+                    scale*spr_dir, scale, spr_angle, c_white, 1);
+
+    gpu_set_colorwriteenable(true, true, true, true);
+    if (main_draw) shader_end();
+
+    skips_draw = main_draw;
+}
+//===========================================================
+// Normal draw (needed by glitch BG)
 else if (!main_draw) || (small_sprites != msg_anim_backup.small_sprites)
 {
-    //note: not sure if worth keeping small_sprites clause.
+    //note: the small_sprites clause is there because changing 
+    //      it in pre_draw does not affect regular draw code.
     if (main_draw) shader_start();
     draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y, 
                     scale*spr_dir, scale, spr_angle, c_white, 1);

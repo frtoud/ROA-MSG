@@ -81,8 +81,17 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
     ///draw the masked "background"
     //cannot shade -- kills performance... 
     //uses preshaded backgrounds for this purpose
-    draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x, draw_y, 
-                          1+small_sprites, 1+small_sprites, c_white, 1);
+    if (msg_unsafe_effects.crt.timer > 0)
+    {
+        var crt_offset = msg_unsafe_effects.crt.offset;
+        gpu_set_colorwriteenable(false, true, true, true); //R
+        draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x - crt_offset, draw_y, 2, 2, c_white, 1);
+        gpu_set_colorwriteenable(true, false, false, true); //GB
+        draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x + crt_offset, draw_y, 2, 2, c_white, 1);
+        gpu_set_colorwriteenable(true, true, true, true);
+    }
+    else draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x, draw_y, 2, 2, c_white, 1);
+    
     
     //playtest zone fix (or unfix...?)
     ///Disable blend; write alpha only, don't alphatest
@@ -115,8 +124,8 @@ msg_manual_draw(true);
 #define msg_manual_draw // Version 0
     // / msg_manual_draw(main_draw = true)
     // Handles REDRAW-type effects that need to draw differently than usual
-    var main_draw = argument_count > 0 ? argument[0] : true;
-    var skips_draw = false; //determines if the actual draw event needs to be interrupted
+    var main_draw = argument_count > 0 ? argument[0] : true; //FALSE when rendering the glitch BG
+    var skips_draw = false; //determines if the actual draw event needs to be prevented
 
     var scale = 1 + small_sprites;
 
@@ -125,7 +134,7 @@ msg_manual_draw(true);
     // sprite trisected vertically, middle displaced
     if (msg_unsafe_effects.bad_vsync.timer > 0)
     {
-        var spr_w = abs(sprite_width); //WHY!?
+        var spr_w = abs(sprite_width); //why is this necessary !?
         var spr_cliptop = sprite_height - msg_unsafe_effects.bad_vsync.cliptop;
         var spr_clipbot = sprite_height - msg_unsafe_effects.bad_vsync.clipbot;
         var pos_x = x - scale*sprite_xoffset + draw_x;
@@ -216,10 +225,32 @@ msg_manual_draw(true);
         skips_draw = main_draw;
     }
     //===========================================================
-    // Normal draw (possibly needed by glitch BG)
+    // REDRAW EFFECT: CRT
+    // sprite R/G/B misaligned
+    else if (msg_unsafe_effects.crt.timer > 0)
+    {
+        if (main_draw) shader_start();
+        var crt_offset = msg_unsafe_effects.crt.offset;
+
+        gpu_set_colorwriteenable(false, true, true, true); //R
+        draw_sprite_ext(sprite_index, image_index, x+draw_x-crt_offset, y+draw_y,
+                        scale*spr_dir, scale, spr_angle, c_white, 1);
+
+        gpu_set_colorwriteenable(true, false, false, true); //GB
+        draw_sprite_ext(sprite_index, image_index, x+draw_x+crt_offset, y+draw_y,
+                        scale*spr_dir, scale, spr_angle, c_white, 1);
+
+        gpu_set_colorwriteenable(true, true, true, true);
+        if (main_draw) shader_end();
+
+        skips_draw = main_draw;
+    }
+    //===========================================================
+    // Normal draw (needed by glitch BG)
     else if (!main_draw) || (small_sprites != msg_anim_backup.small_sprites)
     {
-        //note: not sure if worth keeping small_sprites clause.
+        //note: the small_sprites clause is there because changing
+        //      it in pre_draw does not affect regular draw code.
         if (main_draw) shader_start();
         draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y,
                         scale*spr_dir, scale, spr_angle, c_white, 1);
@@ -257,11 +288,12 @@ msg_manual_draw(true);
     //  - Shudder                  .                   ttffffff VVVVHHHH
     //  - VSync                    .       tt GGffffff BBBBBBBB TTTTHHHH
     //  - Quadrant                 .             tttff ffffGGSS 22GGSS11
+    //  - CRT                      .                OO OOOO  tt ffff
     //  - wrong image_index
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
     //'M- gaslit dodge             .                         FF FF
-    //'M- Alt Sprites              .     FFFF FFFF
+    //'M- Alt Sprites              .     FFFF FFFF        NNN
     //===================================================================
     // Also see animation.gml, set_attack.gml
 
@@ -338,6 +370,24 @@ msg_manual_draw(true);
             fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
         }
     }
+    //===========================================================
+    //effect: CRT, type: REDRAW
+    var fx = msg_unsafe_effects.crt
+    {
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(4, 0x0F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+            fx.timer = 4 + GET_RNG(8, 0x03);
+
+            fx.offset = floor(GET_INT(12, 0x3F) * fx.maximum);
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer -= !fx.frozen;
+            //apply
+        }
+    }
 
 #define msg_reroll_random // Version 0
     // reroll msg_unsafe_random
@@ -359,6 +409,13 @@ msg_manual_draw(true);
 
         msg_unsafe_random = rng;
     }
+
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
 
 #define GET_INT // Version 0
     // ===========================================================

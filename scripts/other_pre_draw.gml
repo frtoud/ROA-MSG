@@ -30,8 +30,8 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 #define msg_manual_draw // Version 0
     // / msg_manual_draw(main_draw = true)
     // Handles REDRAW-type effects that need to draw differently than usual
-    var main_draw = argument_count > 0 ? argument[0] : true;
-    var skips_draw = false; //determines if the actual draw event needs to be interrupted
+    var main_draw = argument_count > 0 ? argument[0] : true; //FALSE when rendering the glitch BG
+    var skips_draw = false; //determines if the actual draw event needs to be prevented
 
     var scale = 1 + small_sprites;
 
@@ -40,7 +40,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     // sprite trisected vertically, middle displaced
     if (msg_unsafe_effects.bad_vsync.timer > 0)
     {
-        var spr_w = abs(sprite_width); //WHY!?
+        var spr_w = abs(sprite_width); //why is this necessary !?
         var spr_cliptop = sprite_height - msg_unsafe_effects.bad_vsync.cliptop;
         var spr_clipbot = sprite_height - msg_unsafe_effects.bad_vsync.clipbot;
         var pos_x = x - scale*sprite_xoffset + draw_x;
@@ -131,10 +131,32 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         skips_draw = main_draw;
     }
     //===========================================================
-    // Normal draw (possibly needed by glitch BG)
+    // REDRAW EFFECT: CRT
+    // sprite R/G/B misaligned
+    else if (msg_unsafe_effects.crt.timer > 0)
+    {
+        if (main_draw) shader_start();
+        var crt_offset = msg_unsafe_effects.crt.offset;
+
+        gpu_set_colorwriteenable(false, true, true, true); //R
+        draw_sprite_ext(sprite_index, image_index, x+draw_x-crt_offset, y+draw_y,
+                        scale*spr_dir, scale, spr_angle, c_white, 1);
+
+        gpu_set_colorwriteenable(true, false, false, true); //GB
+        draw_sprite_ext(sprite_index, image_index, x+draw_x+crt_offset, y+draw_y,
+                        scale*spr_dir, scale, spr_angle, c_white, 1);
+
+        gpu_set_colorwriteenable(true, true, true, true);
+        if (main_draw) shader_end();
+
+        skips_draw = main_draw;
+    }
+    //===========================================================
+    // Normal draw (needed by glitch BG)
     else if (!main_draw) || (small_sprites != msg_anim_backup.small_sprites)
     {
-        //note: not sure if worth keeping small_sprites clause.
+        //note: the small_sprites clause is there because changing
+        //      it in pre_draw does not affect regular draw code.
         if (main_draw) shader_start();
         draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y,
                         scale*spr_dir, scale, spr_angle, c_white, 1);
@@ -172,11 +194,12 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //  - Shudder                  .                   ttffffff VVVVHHHH
     //  - VSync                    .       tt GGffffff BBBBBBBB TTTTHHHH
     //  - Quadrant                 .             tttff ffffGGSS 22GGSS11
+    //  - CRT                      .                OO OOOO  tt ffff
     //  - wrong image_index
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
     //'M- gaslit dodge             .                         FF FF
-    //'M- Alt Sprites              .     FFFF FFFF
+    //'M- Alt Sprites              .     FFFF FFFF        NNN
     //===================================================================
     // Also see animation.gml, set_attack.gml
 
@@ -251,6 +274,24 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         {
             fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
             fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
+        }
+    }
+    //===========================================================
+    //effect: CRT, type: REDRAW
+    var fx = msg_unsafe_effects.crt
+    {
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(4, 0x0F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+            fx.timer = 4 + GET_RNG(8, 0x03);
+
+            fx.offset = floor(GET_INT(12, 0x3F) * fx.maximum);
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer -= !fx.frozen;
+            //apply
         }
     }
 

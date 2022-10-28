@@ -83,6 +83,7 @@ msg_reroll_random();
 //  - Shudder                  .                   ttffffff VVVVHHHH
 //  - VSync                    .       tt GGffffff BBBBBBBB TTTTHHHH
 //  - Quadrant                 .             tttff ffffGGSS 22GGSS11
+//  - CRT                      .                OO OOOO  tt ffff    
 //  - wrong image_index
 //'M- garbage collector        . P4P3P2P1                    EEEEFF 
 //  - trail
@@ -162,6 +163,24 @@ var fx = msg_unsafe_effects.quadrant
     {
         fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
         fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
+    }
+}
+//===========================================================
+//effect: CRT, type: REDRAW
+var fx = msg_unsafe_effects.crt 
+{
+    if (fx.impulse > 0) || (fx.freq > GET_RNG(4, 0x0F))
+    {
+        fx.impulse -= (fx.impulse > 0);
+        //reroll parameters
+        fx.timer = 4 + GET_RNG(8, 0x03);
+
+        fx.offset = floor(GET_INT(12, 0x3F) * fx.maximum);
+    }
+    if (fx.timer > 0)
+    {
+        fx.timer -= !fx.frozen;
+        //apply
     }
 }
 //===========================================================

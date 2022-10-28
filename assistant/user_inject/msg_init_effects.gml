@@ -83,6 +83,14 @@ if ("msg_unsafe_handler_id" not in self)
 
     //===========================================================
     //effect type: REDRAW
+    msg_unsafe_effects.crt = msg_make_effect();
+    //Parameters
+    msg_unsafe_effects.crt.maximum = 4; //maximum horizontal spread of RGB
+    //Outputs
+    msg_unsafe_effects.crt.offset = 0; //displacement of R (left) and B (right)
+
+    //===========================================================
+    //effect type: REDRAW
     msg_unsafe_effects.bad_crop = msg_make_effect();
 
 } //end for generics

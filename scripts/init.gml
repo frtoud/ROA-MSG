@@ -359,6 +359,14 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
 
         //===========================================================
         //effect type: REDRAW
+        msg_unsafe_effects.crt = msg_make_effect();
+        //Parameters
+        msg_unsafe_effects.crt.maximum = 4; //maximum horizontal spread of RGB
+        //Outputs
+        msg_unsafe_effects.crt.offset = 0; //displacement of R (left) and B (right)
+
+        //===========================================================
+        //effect type: REDRAW
         msg_unsafe_effects.bad_crop = msg_make_effect();
 
     } //end for generics
