@@ -159,11 +159,6 @@ var fx = msg_unsafe_effects.quadrant
         fx.timer -= !fx.frozen;
         //apply
     }
-    else
-    {
-        fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
-        fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
-    }
 }
 //===========================================================
 //effect: CRT, type: REDRAW

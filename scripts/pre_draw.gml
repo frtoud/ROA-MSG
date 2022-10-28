@@ -128,6 +128,7 @@ msg_manual_draw(true);
     var skips_draw = false; //determines if the actual draw event needs to be prevented
 
     var scale = 1 + small_sprites;
+    var g = msg_unsafe_garbage;
 
     //===========================================================
     // REDRAW EFFECT: VSYNC
@@ -150,12 +151,12 @@ msg_manual_draw(true);
         if (msg_unsafe_effects.bad_vsync.garbage)
         {
             //middle bit borrowed from unrelated sprite
-            mid_sprite = msg_unsafe_garbage.spr;
-            mid_scale = msg_unsafe_garbage.scale;
-            mid_width = msg_unsafe_garbage.width;
-            mid_posx -= (spr_dir*mid_scale*msg_unsafe_garbage.x_offset - scale*sprite_xoffset);
+            mid_sprite = g.spr;
+            mid_scale = g.scale;
+            mid_width = g.width;
+            mid_posx -= (spr_dir*mid_scale*g.x_offset - scale*sprite_xoffset);
             mid_clipheight *= (scale/mid_scale);
-            mid_cliptop += (msg_unsafe_garbage.y_offset - sprite_yoffset)
+            mid_cliptop += (g.y_offset - sprite_yoffset)
         }
 
         if (main_draw) shader_start();
@@ -183,17 +184,33 @@ msg_manual_draw(true);
         var bbb = sprite_get_bbox_bottom(sprite_index);
 
         //centerpoint of sprite quad division
-        var half_h = min((ofy - bbt)*scale, char_height) / 2; //realspace
-        var c_y = ofy - half_h/scale; //spritespace
+        var half_h = min((ofy - bbt)*scale, char_height) / 2; //realspace (used for draw pos)
+        var c_y = ofy - half_h/scale; //spritespace (used for sprite source cropping)
+
+        //garbage variables
+        var gofx = abs(g.x_offset);
+        var gofy = abs(g.y_offset);
+        var gbt = sprite_get_bbox_top(g.spr);
+        var gbl = sprite_get_bbox_left(g.spr);
+        var gbr = sprite_get_bbox_right(g.spr);
+        var gbb = sprite_get_bbox_bottom(g.spr);
+        var gcy = gofy - half_h/g.scale; //spritespace (used for sprite source cropping)
 
         // 0 1
         // 2 3
         var q = [noone, noone, noone, noone];
-        q[0]={spr:sprite_index, ind:image_index, x:bbl, y:bbt, w:(ofx - bbl), h:(c_y - bbt) };
-        q[1]={spr:sprite_index, ind:image_index, x:ofx, y:bbt, w:(bbr - ofx), h:(c_y - bbt) };
-        q[2]={spr:sprite_index, ind:image_index, x:bbl, y:c_y, w:(ofx - bbl), h:(bbb - c_y) };
-        q[3]={spr:sprite_index, ind:image_index, x:ofx, y:c_y, w:(bbr - ofx), h:(bbb - c_y) };
-
+        q[0]=msg_unsafe_effects.quadrant.garbage[0] ?
+             {scale:g.scale, spr:g.spr,        ind:image_index, x:gbl, y:gbt, w:(gofx- gbl), h:(gcy - gbt) }:
+             {scale:scale,   spr:sprite_index, ind:image_index, x:bbl, y:bbt, w:(ofx - bbl), h:(c_y - bbt) };
+        q[1]=msg_unsafe_effects.quadrant.garbage[1] ?
+             {scale:g.scale, spr:g.spr,        ind:image_index, x:gofx,y:gbt, w:(gbr -gofx), h:(gcy - gbt) }:
+             {scale:scale,   spr:sprite_index, ind:image_index, x:ofx, y:bbt, w:(bbr - ofx), h:(c_y - bbt) };
+        q[2]=msg_unsafe_effects.quadrant.garbage[2] ?
+             {scale:g.scale, spr:g.spr,        ind:image_index, x:gbl, y:gcy, w:(gofx- gbl), h:(gbb - gcy) }:
+             {scale:scale,   spr:sprite_index, ind:image_index, x:bbl, y:c_y, w:(ofx - bbl), h:(bbb - c_y) };
+        q[3]=msg_unsafe_effects.quadrant.garbage[2] ?
+             {scale:g.scale, spr:g.spr,        ind:image_index, x:gofx,y:gcy, w:(gbr -gofx), h:(gbb - gcy) }:
+             {scale:scale,   spr:sprite_index, ind:image_index, x:ofx, y:c_y, w:(bbr - ofx), h:(bbb - c_y) };
 
         //draw_line_color(x - (ofx - bbl)*scale, y - half_h, x + (bbr - ofx)*scale, y - half_h, c_white, c_white)
         //draw_line_color(x, y - half_h - half_h, x, y - half_h + half_h, c_white, c_white)
@@ -203,23 +220,23 @@ msg_manual_draw(true);
 
         var s = msg_unsafe_effects.quadrant.source[0];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
-                             x +draw_x - q[s].w*scale*spr_dir, y +draw_y - half_h - q[s].h*scale,
-                             spr_dir * scale, scale, c_white, 1.0);
+                             x +draw_x - q[s].w*q[s].scale*spr_dir, y +draw_y - half_h - q[s].h*q[s].scale,
+                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
 
         s = msg_unsafe_effects.quadrant.source[1];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
-                             x +draw_x, y +draw_y - half_h - q[s].h*scale,
-                             spr_dir * scale, scale, c_white, 1.0);
+                             x +draw_x, y +draw_y - half_h - q[s].h*q[s].scale,
+                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
 
         s = msg_unsafe_effects.quadrant.source[2];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
-                             x +draw_x - q[s].w*scale*spr_dir, y +draw_y - half_h,
-                             spr_dir * scale, scale, c_white, 1.0);
+                             x +draw_x - q[s].w*q[s].scale*spr_dir, y +draw_y - half_h,
+                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
 
         s = msg_unsafe_effects.quadrant.source[3];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x, y +draw_y - half_h,
-                             spr_dir * scale, scale, c_white, 1.0);
+                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
         if (main_draw) shader_end();
 
         skips_draw = main_draw;
@@ -363,11 +380,6 @@ msg_manual_draw(true);
         {
             fx.timer -= !fx.frozen;
             //apply
-        }
-        else
-        {
-            fx.source[0]  = 0; fx.source[1]  = 1; fx.source[2]  = 2; fx.source[3]  = 3;
-            fx.garbage[0] = 0; fx.garbage[1] = 0; fx.garbage[2] = 0; fx.garbage[3] = 0;
         }
     }
     //===========================================================
