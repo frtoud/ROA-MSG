@@ -310,6 +310,8 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     }
     //A ditto match can involve multiple MissingNo other_init.gml running here. on top of their own inits.
     //initialize everything "generic" once only
+    //ONE EXCEPTION: garbage sprite could be holding invalid data after a reload. always reset this.
+    msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2);
     //==========================================================
     if ("msg_unsafe_handler_id" not in self)
     {
@@ -319,7 +321,6 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
         msg_unsafe_paused_timer = 0; //for pausing the RNG
 
         msg_unsafe_handler_id = noone;
-        msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2); //updated once in a while
 
         //ability to restore draw parameters
         msg_anim_backup = {
