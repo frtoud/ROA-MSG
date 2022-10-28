@@ -6,7 +6,10 @@ if (!has_parried)
 
     has_parried = true;
 
-    if (msg_multiparry == 0) msg_multiparry = (random_func_2(1, 8, true) == 0) ? 24 : 0
+    if (msg_multiparry == 0) && (random_func_2(1, 8, true) == 0)
+    {
+        msg_multiparry = 8 + random_func_2(2, 24, true);
+    }
 
     //multiparry glitch
     if (msg_multiparry > 0)
