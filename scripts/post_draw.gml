@@ -4,7 +4,7 @@
 msg_copy_params(msg_anim_backup, self, msg_anim_backup);
 
 //Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
-if (msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw) gpu_pop_state();
+msg_gpu_clear();
 
 if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
 {
@@ -34,6 +34,12 @@ else if (state == PS_PARRY && (state_timer > 0 && state_timer < 10) && !has_parr
     {
         variable_instance_set(target, keys[k],
                                 variable_instance_get(source, keys[k]));
+    }
+
+#define msg_gpu_clear // Version 0
+    while (msg_unsafe_gpu_stack_level > 0)
+    {
+        gpu_pop_state(); msg_unsafe_gpu_stack_level--;
     }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion

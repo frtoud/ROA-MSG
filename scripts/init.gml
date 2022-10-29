@@ -289,8 +289,6 @@ msg_init_effects(true);
 
 //removes special rendering shenanigans
 msg_low_fps_mode = false; //pointless?
-//flag to help prevent Rivals outright crashing if an error interrupts pre_draw code at the wrong time
-msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
 
 //=========================================================
 
@@ -315,6 +313,7 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
     //==========================================================
     if ("msg_unsafe_handler_id" not in self)
     {
+
         //initialize everything here
         msg_is_missingno = false;
         msg_unsafe_random = current_time + player;
@@ -328,6 +327,8 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
             sprite_index:0, image_index:0,
             spr_angle:0, draw_x:0, draw_y:0
         }
+        //tracks how many gpu_push_state were used to revert them if needed
+        msg_unsafe_gpu_stack_level = 0;
 
         //Namespace for effect structures
         msg_unsafe_effects = {

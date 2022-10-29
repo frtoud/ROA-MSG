@@ -39,6 +39,7 @@ msg_unsafe_garbage = msg_make_garbage(asset_get("bug_idle"), 2);
 //==========================================================
 if ("msg_unsafe_handler_id" not in self)
 {
+
     //initialize everything here
     msg_is_missingno = false;
     msg_unsafe_random = current_time + player;
@@ -52,6 +53,8 @@ if ("msg_unsafe_handler_id" not in self)
         sprite_index:0, image_index:0,
         spr_angle:0, draw_x:0, draw_y:0
     }
+    //tracks how many gpu_push_state were used to revert them if needed
+    msg_unsafe_gpu_stack_level = 0;
 
     //Namespace for effect structures
     msg_unsafe_effects = {

@@ -27,19 +27,45 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
 //todo: move to animation.gml?
 msg_copy_params(self, msg_anim_backup, msg_anim_backup);
 
-if (msg_low_fps_mode) exit;
-
-//=============================================
-// Reroll Missingno effects
-msg_apply_effects();
-
-//==================================================================
-// Plaid effect
-gpu_push_state();
-//Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
-msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true; 
+if (!msg_low_fps_mode)
 {
+    // Reroll Missingno effects
+    msg_apply_effects();
 
+    // Plaid effect
+    msg_background_draw(glitch_bg_spr, get_player_color(player))
+
+    //might need to override normal draw code
+    msg_manual_draw(true);
+}
+
+if (vfx_yoyo_snap.timer > 0)
+{
+    if (msg_low_fps_mode)
+    {
+        //yoyo glitch trail visible even with plaid bg disabled
+        shader_start();
+        draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2, 
+        vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
+        shader_end();
+    }
+
+    vfx_yoyo_snap.timer --;
+}
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define msg_background_draw(bg_spr, bg_index) // Version 0
+    // Draws the masked Missingno-patterned unmoving plaid background
+    // considers:
+    // - Current sprite
+    // - REDRAW effects (special mention to CRT)
+    // - Copies of self
+    // - Yoyo vfx
+
+    msg_gpu_push_state();
+    //====================
     ///Disable blend; write alpha only, don't alphatest
     gpu_set_blendenable(false);
     gpu_set_alphatestenable(false);
@@ -50,14 +76,8 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
     draw_set_alpha(1);
     gpu_set_alphatestenable(true);
 
-    ///setup masks
-
-    //yoyo stretch fx
-    if (vfx_yoyo_snap.timer > 0)
-    {
-        draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2, 
-        vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
-    }
+    //====================
+    //setup masks
 
     // (exact position/sprite of player)
     msg_manual_draw(false);
@@ -71,28 +91,36 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
         with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, bg_scale*spr_dir, bg_scale, 0, c_white, bg_alpha);
     }
 
+    // yoyo stretch fx
+    if (vfx_yoyo_snap.timer > 0)
+    {
+        draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2,
+        vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
+    }
+
+    //====================
     ///Reenable blend, alphatest & colors
     gpu_set_blendenable(true);
     gpu_set_colorwriteenable(true, true, true, true);
     ///Blend using destination pixels alpha, set by the mask
     gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
-    
-    
+
+    //====================
     ///draw the masked "background"
-    //cannot shade -- kills performance... 
+    //cannot shade -- kills performance...
     //uses preshaded backgrounds for this purpose
     if (msg_unsafe_effects.crt.timer > 0)
     {
         var crt_offset = msg_unsafe_effects.crt.offset;
         gpu_set_colorwriteenable(false, true, true, true); //R
-        draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x - crt_offset, draw_y, 2, 2, c_white, 1);
+        draw_sprite_tiled_ext(bg_spr, bg_index, draw_x - crt_offset, draw_y, 2, 2, c_white, 1);
         gpu_set_colorwriteenable(true, false, false, true); //GB
-        draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x + crt_offset, draw_y, 2, 2, c_white, 1);
+        draw_sprite_tiled_ext(bg_spr, bg_index, draw_x + crt_offset, draw_y, 2, 2, c_white, 1);
         gpu_set_colorwriteenable(true, true, true, true);
     }
-    else draw_sprite_tiled_ext(glitch_bg_spr, get_player_color(player), draw_x, draw_y, 2, 2, c_white, 1);
-    
-    
+    else draw_sprite_tiled_ext(bg_spr, bg_index, draw_x, draw_y, 2, 2, c_white, 1);
+
+    //====================
     //playtest zone fix (or unfix...?)
     ///Disable blend; write alpha only, don't alphatest
     gpu_set_blendenable(false);
@@ -100,27 +128,10 @@ msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = true;
     gpu_set_colorwriteenable(false, false, false, true);
     ///Draw an alpha-one background to reallow draw
     draw_sprite_tiled(glitch_bg_spr, 0, 0, 0);
-}
-msg_draw_is_in_progress_temp_flag_should_never_be_true_outside_pre_draw = false;
-gpu_pop_state();
-//==================================================================
 
-if (vfx_yoyo_snap.timer > 0)
-{
-    shader_start();
-    draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2, 
-    vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
+    //====================
+    msg_gpu_pop_state();
 
-    vfx_yoyo_snap.timer --;
-    shader_end();
-}
-
-//might need to override normal draw code
-msg_manual_draw(true);
-
-// #region vvv LIBRARY DEFINES AND MACROS vvv
-// DANGER File below this point will be overwritten! Generated defines and macros below.
-// Write NO-INJECT in a comment above this area to disable injection.
 #define msg_manual_draw // Version 0
     // / msg_manual_draw(main_draw = true)
     // Handles REDRAW-type effects that need to draw differently than usual
@@ -279,6 +290,15 @@ msg_manual_draw(true);
 
     // to turn off normal rendering for this frame
     if (skips_draw) sprite_index = asset_get("empty_sprite");
+
+#define msg_gpu_push_state // Version 0
+    gpu_push_state(); msg_unsafe_gpu_stack_level++;
+
+#define msg_gpu_pop_state // Version 0
+    if (msg_unsafe_gpu_stack_level > 0)
+    {
+        gpu_pop_state(); msg_unsafe_gpu_stack_level--;
+    }
 
 #define msg_copy_params(source, target, limiter) // Version 0
     // Usage: for all variables in LIMITER: copy value from SOURCE to TARGET
