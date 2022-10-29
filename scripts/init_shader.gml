@@ -1,5 +1,6 @@
 //init_shader.gml
 
+
 //============================================
 //remove all shading
 if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlayer"))
@@ -21,12 +22,13 @@ if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlay
         set_article_color_slot( 6, 0, 0, 0, 0);
         set_article_color_slot( 7, 0, 0, 0, 0);
     }
-    else if (0 == get_player_color(player))
+    else
     {
-        apply_color_slot(4, 0, 0);
-        apply_color_slot(5, 0, 1);
-        apply_color_slot(6, 0, 2);
-        apply_color_slot(7, 0, 3);
+        var c = get_player_color(player);
+        apply_color_slot(4, c, 0);
+        apply_color_slot(5, c, 1);
+        apply_color_slot(6, c, 2);
+        apply_color_slot(7, c, 3);
     }
 }
 

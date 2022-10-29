@@ -7,8 +7,12 @@ small_sprites = 1; //see PS_ATTACK* case below
 // Glitch unsafe effects timers
 
 msg_unsafe_handler_id = self; //missingnos always handle themselves
-msg_collect_garbage(); //?
-msg_refresh_effects();
+
+if (!msg_low_fps_mode)
+{
+   msg_collect_garbage();
+   msg_refresh_effects();
+}
 
 //==================================================================
 //crawl transition timers

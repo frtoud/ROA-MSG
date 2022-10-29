@@ -20,15 +20,16 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
     }
 }
 
-//==================================================================
-// GLITCH-FX BEYOND THIS POINT
-//==================================================================
-// back up drawing-related parameters that can get fiddled with
-//todo: move to animation.gml?
-msg_copy_params(self, msg_anim_backup, msg_anim_backup);
 
 if (!msg_low_fps_mode)
 {
+    //==================================================================
+    // GLITCH-FX BEYOND THIS POINT
+    //==================================================================
+    // back up drawing-related parameters that can get fiddled with
+    //todo: move to animation.gml?
+    msg_copy_params(self, msg_anim_backup, msg_anim_backup);
+    
     // Reroll Missingno effects
     msg_apply_effects();
 

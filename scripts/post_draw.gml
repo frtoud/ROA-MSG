@@ -1,10 +1,13 @@
 //post_draw.gml
 
-//Restore drawing parameters
-msg_copy_params(msg_anim_backup, self, msg_anim_backup);
+if (!msg_low_fps_mode)
+{
+    //Restore drawing parameters
+    msg_copy_params(msg_anim_backup, self, msg_anim_backup);
 
-//Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
-msg_gpu_clear();
+    //Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
+    msg_gpu_clear();
+}
 
 if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
 {
