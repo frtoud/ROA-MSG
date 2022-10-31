@@ -242,6 +242,8 @@ no_sprite = asset_get("empty_sprite");
 error_sprite_x = asset_get("net_disc_spr");
 error_sprite_b = asset_get("solid_32x32");
 
+set_ui_element(UI_OFFSCREEN, error_sprite_x);
+
 hfx_error_x = hit_fx_create(error_sprite_x, 4);
 hfx_error_b = hit_fx_create(error_sprite_b, 4);
 
