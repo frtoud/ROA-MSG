@@ -88,6 +88,7 @@ msg_reroll_random();
 //'M- garbage collector        . P4P3P2P1                    EEEEFF 
 //  - trail
 //'M- gaslit dodge             .                         FF FF      
+//'M- glitch trail             .          wwwwhhhh   xxxxxx  yyyyy  
 //'M- Alt Sprites              .     FFFF FFFF        NNN           
 //===================================================================
 // Also see animation.gml, set_attack.gml

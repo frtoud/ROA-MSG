@@ -42,6 +42,14 @@ if (vfx_yoyo_snap.timer > 0)
     vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
 }
 
+//trail fxs
+for (var n = 0; n < msg_unsafe_trail_max; ++n) 
+{
+    var trail = msg_unsafe_trail[n];
+    if (trail.x != 0) draw_rectangle_color(trail.x, trail.y, trail.x + trail.w, trail.y + trail.h, 
+                                           c_white, c_white, c_white, c_white, false);
+}
+
 //====================
 ///Reenable blend, alphatest & colors
 gpu_set_blendenable(true);

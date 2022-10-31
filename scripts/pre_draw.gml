@@ -20,7 +20,6 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
     }
 }
 
-
 if (!msg_low_fps_mode)
 {
     //==================================================================
@@ -32,6 +31,14 @@ if (!msg_low_fps_mode)
     
     // Reroll Missingno effects
     msg_apply_effects();
+
+    //glitch trail
+    var trail = msg_unsafe_trail[msg_unsafe_trail_pointer];
+    trail.w = msg_unsafe_trail_active ? 8 + GET_RNG(20, 0x0F) : 0;
+    trail.h = msg_unsafe_trail_active ? 8 + GET_RNG(16, 0x0F) : 0;
+    trail.x = msg_unsafe_trail_active ? x + draw_x - 16 + GET_RNG(8, 0x1F) - (trail.w/2) : 0;
+    trail.y = msg_unsafe_trail_active ? y + draw_y - 16 - GET_RNG(2, 0x1F) - (trail.h/2) : 0;
+    msg_unsafe_trail_pointer = (msg_unsafe_trail_pointer + 1) % msg_unsafe_trail_max;
 
     // Plaid effect
     msg_background_draw(glitch_bg_spr, get_player_color(player))
@@ -97,6 +104,14 @@ if (vfx_yoyo_snap.timer > 0)
     {
         draw_sprite_ext(vfx_yoyo_snap.spr, (8 - vfx_yoyo_snap.timer)/2,
         vfx_yoyo_snap.x, vfx_yoyo_snap.y, (vfx_yoyo_snap.length/128.0), 2, vfx_yoyo_snap.angle, c_white, 1);
+    }
+
+    //trail fxs
+    for (var n = 0; n < msg_unsafe_trail_max; ++n)
+    {
+        var trail = msg_unsafe_trail[n];
+        if (trail.x != 0) draw_rectangle_color(trail.x, trail.y, trail.x + trail.w, trail.y + trail.h,
+                                               c_white, c_white, c_white, c_white, false);
     }
 
     //====================
@@ -331,6 +346,7 @@ if (vfx_yoyo_snap.timer > 0)
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
     //'M- gaslit dodge             .                         FF FF
+    //'M- glitch trail             .          wwwwhhhh   xxxxxx  yyyyy
     //'M- Alt Sprites              .     FFFF FFFF        NNN
     //===================================================================
     // Also see animation.gml, set_attack.gml

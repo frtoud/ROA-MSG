@@ -3,6 +3,8 @@ draw_x = 0;
 draw_y = 0; //does not always reset!?
 small_sprites = 1; //see PS_ATTACK* case below
 
+var do_glitch_trail = false; //if requires glitchbg trail
+
 //==================================================================
 // Glitch unsafe effects timers
 
@@ -141,6 +143,8 @@ switch (state)
             msg_gaslight_dodge.y -= 2 * vsp;
         }
 
+        do_glitch_trail = true;
+
     } break;
 //==================================================================
     case PS_DASH_START:
@@ -162,6 +166,10 @@ switch (state)
                 image_index = 5;
             }
         }
+    } break;
+    case PS_DASH:
+    {
+        do_glitch_trail = true;
     } break;
 //==================================================================
     case PS_ATTACK_AIR:
@@ -187,6 +195,11 @@ switch (state)
             {
                 hud_offset = 100;
             }
+        } break;
+//==================================================================
+        case AT_DATTACK:
+        {
+            do_glitch_trail = (window < 5);
         } break;
 //==================================================================
         case AT_NAIR:
@@ -251,6 +264,13 @@ if (sprite_index == jump_sprite) && (prev_state == PS_DOUBLE_JUMP || attack == A
 {
     sprite_index = djump_sprite;
     image_index = 4;
+}
+
+//glitch trail (see top of file)
+msg_unsafe_trail_active = do_glitch_trail;
+if (do_glitch_trail && msg_low_fps_mode)
+{
+    //sparkles
 }
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv

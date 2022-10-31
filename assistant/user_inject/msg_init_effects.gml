@@ -122,6 +122,14 @@ if (is_missingno) //MissingNo's own special init steps
     msg_garbage_collection[0]  = msg_make_garbage(sprite_get("idle"), 2);
 
     msg_unsafe_garbage = msg_garbage_collection[player];
+
+    msg_unsafe_trail_active = false;
+    msg_unsafe_trail_pointer = 0;
+    msg_unsafe_trail_max = 8;
+    for (var n = msg_unsafe_trail_max; n > 0; n--)
+    {
+        msg_unsafe_trail[n-1] = { x:0, y:0, w:0, h:0 };
+    }
 }
 
 
