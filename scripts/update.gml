@@ -211,7 +211,7 @@ if (msg_exploded_respawn)
         //faster Respawn
         state_timer++;
     }
-    else
+    else if !respawn_taunt
     {
         // Non-invincible after an explosion respawn
         msg_exploded_respawn = false;

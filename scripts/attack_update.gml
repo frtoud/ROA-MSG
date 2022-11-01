@@ -574,12 +574,12 @@ switch (attack)
 
                 msg_exploded_damage += get_player_damage( player ) + msg_grab_explode_penalty;
                 set_player_damage( player, 0 );
-                msg_exploded_respawn = true;
             }
             else if (window_timer == 3)
             {
                 x = room_width / 2;
                 y = room_height / 2;
+                msg_exploded_respawn = true;
                 set_state(PS_RESPAWN);
                 state_timer = 30;
             }
