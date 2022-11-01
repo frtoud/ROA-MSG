@@ -9,14 +9,12 @@ if (!instance_exists(client_id) || client_id.state == PS_RESPAWN)
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
 //====================================================================
 // 1-866-THX-SUPR
-var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
-var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
-var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
-var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
-if ( y >= blastzone_b ) || ( y <= blastzone_t )
-|| ( x >= blastzone_r ) || ( x <= blastzone_l )
+if  !is_in_playtesting &&
+    ( ( y >= blastzone_b ) || ( y <= blastzone_t )
+   || ( x >= blastzone_r ) || ( x <= blastzone_l ) )
 {
     //death of clone
+    print(room); 
     with (client_id) sound_play(asset_get("sfx_death1"), false, noone, 0.5, 1.5);
     destroy_my_hitboxes(); instance_destroy(self); exit;
 }
@@ -259,13 +257,9 @@ force_hitpause_cooldown = force_hitpause_cooldown_max;
             destroy_copies(self);
         }
 
-        // 1-866-THX-SUPR
-        var blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
-        var blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
-        var blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
-        var blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
-        death_swap.about_to_die = ( y + vsp >= blastzone_b ) || ( y + vsp <= blastzone_t )
-                               || ( x + hsp >= blastzone_r ) || ( x + hsp <= blastzone_l );
+        death_swap.about_to_die = !other.is_in_playtesting && 
+                                ( ( y + vsp >= other.blastzone_b ) || ( y + vsp <= other.blastzone_t )
+                               || ( x + hsp >= other.blastzone_r ) || ( x + hsp <= other.blastzone_l ) );
 
         with (obj_article2) if ("is_missingno_copy" in self)
                             && (client_id == other)

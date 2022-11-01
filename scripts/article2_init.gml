@@ -52,3 +52,11 @@ collision_checks =
     hit_ceiling:false,
     hit_wall:false
 }
+
+//constants initialized here for optimization
+// 1-866-THX-SUPR
+blastzone_r = get_stage_data(SD_RIGHT_BLASTZONE_X);
+blastzone_l = get_stage_data(SD_LEFT_BLASTZONE_X);
+blastzone_t = get_stage_data(SD_TOP_BLASTZONE_Y);
+blastzone_b = get_stage_data(SD_BOTTOM_BLASTZONE_Y);
+is_in_playtesting = instance_exists(asset_get("oTestPlayer"));
