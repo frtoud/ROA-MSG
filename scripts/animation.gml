@@ -146,6 +146,11 @@ switch (state)
         do_glitch_trail = true;
 
     } break;
+//==================================================================
+    case PS_WALL_JUMP:
+    {
+        if (state_timer == 3) sound_play(jump_sound);
+    } break;
     
 //==================================================================
     case PS_PRATFALL:

@@ -10,7 +10,7 @@ sprite_change_offset("dashstop", 21, 42);
 sprite_change_offset("jumpstart", 23, 32);
 sprite_change_offset("jump", 16, 45);
 sprite_change_offset("doublejump", 45, 62);
- sprite_change_offset("walljump", 16, 31);
+sprite_change_offset("walljump", 32, 47);
 sprite_change_offset("pratfall", 11, 33);
 sprite_change_offset("pratland", 22, 38);
 sprite_change_offset("land", 33, 35);
@@ -49,7 +49,7 @@ sprite_change_offset("grab", 27, 45, true);
  sprite_change_offset("taunt", 16, 31, true);
 
  sprite_change_offset("plat", 32, 47);
- sprite_change_offset("microplatform", 1, 0);
+sprite_change_offset("microplatform", 1, 0);
 
 sprite_change_offset("proj_pokeball", 12, 12);
 sprite_change_offset("proj_pokeball_broken", 12, 12);

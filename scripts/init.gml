@@ -49,9 +49,9 @@ double_jump_time    = 25; //the number of frames to play the djump animation.
 djump_speed         = 9;
 max_djumps          = 2;
 
-walljump_time       = 32;
-walljump_hsp        = 7;
-walljump_vsp        = 11;
+walljump_time       = 24;
+walljump_hsp        = 9;
+walljump_vsp        = 6;
 
 land_time           = 6; //normal landing frames
 prat_land_time      = 31;
