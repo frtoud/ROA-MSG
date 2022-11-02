@@ -7,6 +7,10 @@ if (msg_grab_selected_index >= 0)
     suppress_stage_music(0, 1);
 }
 
+if (state == PS_PRATFALL)
+{
+    image_index += pratfall_anim_speed;
+}
 
 //==================================================================
 //Leech seed healy bits

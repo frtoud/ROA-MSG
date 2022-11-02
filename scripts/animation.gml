@@ -146,6 +146,18 @@ switch (state)
         do_glitch_trail = true;
 
     } break;
+    
+//==================================================================
+    case PS_PRATFALL:
+    {
+        do_glitch_trail = true;
+    } break;
+    case PS_PRATLAND:
+    {
+        sprite_index = pratland_spr;
+        image_index = floor(image_number * (state_timer/prat_land_time));
+    } break;
+
 //==================================================================
     case PS_DASH_START:
     {

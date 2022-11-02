@@ -249,6 +249,7 @@ hfx_error_b = hit_fx_create(error_sprite_b, 4);
 
 jump_sprite = sprite_get("jump");
 djump_sprite = sprite_get("doublejump");
+pratland_spr = sprite_get("pratland");
 
 //Grab
 msg_grab_sfx = noone; //looping grab SFX that is currently playing (if any)
