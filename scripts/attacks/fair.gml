@@ -37,9 +37,10 @@ set_hitbox_value(AT_FAIR, 1, HG_HEIGHT, 75);
 set_hitbox_value(AT_FAIR, 1, HG_PRIORITY, 2);
 set_hitbox_value(AT_FAIR, 1, HG_DAMAGE, 1); //see hit_player.gml
 set_hitbox_value(AT_FAIR, 1, HG_ANGLE, 75);
-set_hitbox_value(AT_FAIR, 1, HG_BASE_KNOCKBACK, 13);
-set_hitbox_value(AT_FAIR, 1, HG_KNOCKBACK_SCALING, -0.7);
-set_hitbox_value(AT_FAIR, 1, HG_BASE_HITPAUSE, 12);
+set_hitbox_value(AT_FAIR, 1, HG_BASE_KNOCKBACK, 12);
+set_hitbox_value(AT_FAIR, 1, HG_KNOCKBACK_SCALING, -0.6);
+set_hitbox_value(AT_FAIR, 1, HG_HITSTUN_MULTIPLIER, 0.7);
+set_hitbox_value(AT_FAIR, 1, HG_BASE_HITPAUSE, 8);
 set_hitbox_value(AT_FAIR, 1, HG_HITPAUSE_SCALING, -.5);
 set_hitbox_value(AT_FAIR, 1, HG_VISUAL_EFFECT_X_OFFSET, 32);
 set_hitbox_value(AT_FAIR, 1, HG_VISUAL_EFFECT_Y_OFFSET, -10);

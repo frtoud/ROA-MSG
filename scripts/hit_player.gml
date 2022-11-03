@@ -69,7 +69,7 @@ if (my_hitboxID.attack == AT_FAIR)
 {
     var victim_dmg = get_player_damage(hit_player_obj.player);
 
-    var bonus_dmg = floor(max(0, 8 - victim_dmg * (0.1)));
+    var bonus_dmg = floor(clamp(14.5 - (victim_dmg * 0.12), 0, 19));
     take_damage(hit_player_obj.player, player, bonus_dmg);
 
     var min_knockback = 7;
@@ -84,7 +84,7 @@ if (my_hitboxID.attack == AT_FAIR)
     //SFX
     if (victim_dmg < -80)   
     { sound_play(sound_get("aurorabeam")); msg_alt_sprite = get_attack_value(attack, AG_MSG_ALT_SPRITES)[0]; }
-    else if (bonus_dmg > 4) sound_play(sound_get("confusion"));
+    else if (bonus_dmg > 5) sound_play(sound_get("confusion"));
     else                    sound_play(sound_get("cometpunch"));
 }
 
