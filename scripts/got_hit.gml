@@ -15,9 +15,6 @@ if (msg_last_known_damage < 0) && (get_player_damage(player) == 0)
 }
 //==========================================================
 
-//clears saved attack index
-msg_bspecial_last_move.target = noone;
-
 if (prev_state == PS_ATTACK_GROUND || prev_state == PS_ATTACK_AIR)
 {
     if (attack == AT_FSTRONG && strong_charge > 0 && strong_charge < 60)
