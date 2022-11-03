@@ -232,9 +232,22 @@ switch (state)
         {
             if (window == 4)
             {
-                msg_unsafe_effects.bad_vsync.freq = 999;
-                msg_unsafe_effects.bad_vsync.horz_max = 50;
-                msg_unsafe_paused_timer = msg_grab_selection_timer == 1 ? 0 : 5;
+                if (msg_grab_selected_index < 0)
+                {
+                    msg_unsafe_effects.bad_vsync.freq = 999;
+                    msg_unsafe_effects.bad_vsync.horz_max = 50;
+                    msg_unsafe_effects.bad_vsync.gameplay_timer = 2;
+                    msg_unsafe_effects.bad_vsync.frozen = true;
+                    msg_unsafe_effects.shudder.freq = 999;
+                    msg_unsafe_effects.shudder.horz_max = 50;
+                    msg_unsafe_effects.shudder.vert_max = 50;
+                }
+                else
+                {
+                    msg_unsafe_effects.bad_vsync.freq = 999;
+                    msg_unsafe_effects.bad_vsync.horz_max = 50;
+                    msg_unsafe_paused_timer = (msg_grab_selection_timer == 1) ? 0 : 5;
+                }
             }
             else if (window == MSG_GRAB_ANTIBASH_WINDOW)
             {

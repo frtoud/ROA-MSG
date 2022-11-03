@@ -479,11 +479,6 @@ switch (attack)
         {
             msg_grab_selection_timer = 0;
         }
-        else if (window == 3)
-        {
-            //grab failure
-            //TODO: allow swapping of an index on whiff?
-        }
         else if (window == 4) 
         {
             //grab-success
@@ -491,8 +486,15 @@ switch (attack)
             if (msg_grab_selection_timer >= 40)
             || (window_timer > get_window_value(AT_NTHROW, window, AG_WINDOW_LENGTH) - 1)
             {
+                //for broken-tracking
+                msg_grab_last_outcome = msg_grab_selected_index;
+
                 //last frame of window. release grab
-                var current_outcome = msg_grab_rotation[msg_grab_selected_index];
+                var current_outcome = (msg_grab_selected_index < 0) ?
+                     //broken
+                     msg_grab_queue[random_func(1, array_length(msg_grab_queue), true)]
+                     //normal
+                   : msg_grab_rotation[msg_grab_selected_index];
                 
                 //proceed with outcome
                 window_timer = 0;
@@ -525,17 +527,22 @@ switch (attack)
                     var temp_joydir = (spr_dir > 0) ? joy_dir : (180 - joy_dir);
                     if (joy_pad_idle) temp_joydir = 0;
 
+                    //360 + 45; to guarantee a positive modulo result >:]
                     var selected = floor((temp_joydir + 405)/90.0) % 4;
                     //FRONT: 0
                     //UP:    1
                     //BACK:  2
                     //DOWN:  3
-                    selected = (msg_grab_pointer + selected) % array_length(msg_grab_rotation);
+
+                    //BROKEN: -1
+                    if (selected == msg_grab_last_outcome) selected = -1;
 
                     if (msg_grab_selected_index != selected)
                     {
                         sound_stop(msg_grab_sfx);
-                        msg_grab_sfx = sound_play(msg_grab_rotation[selected].sound, true, 0, 1, 1);
+                        var sound = (selected == -1) ? msg_grab_broken_outcome.sound 
+                                                     : msg_grab_rotation[selected].sound;
+                        msg_grab_sfx = sound_play(sound, true, 0, 1, 1);
                         msg_grab_selected_index = selected;
 
                         msg_grab_selection_timer = 0;

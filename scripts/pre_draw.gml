@@ -2,7 +2,7 @@
 
 //==================================================================
 //playing sounds (needs to happen here so it works when pausing)
-if (msg_grab_selected_index >= 0)
+if (msg_grab_selected_index != noone)
 {
     suppress_stage_music(0, 1);
 }

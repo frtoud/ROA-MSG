@@ -241,22 +241,24 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 110); //Ori large
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
 //List of Grab outcomes
-var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
-var grab_antibash =   { name:"F1", window:MSG_GRAB_ANTIBASH_WINDOW,   sound:sound_get("grab1")};
-var grab_frostburn =  { name:"3A", window:MSG_GRAB_FROSTBURN_WINDOW,  sound:sound_get("grab2")};
-var grab_leechseed =  { name:"49", window:MSG_GRAB_LEECHSEED_WINDOW,  sound:sound_get("grab3")};
-var grab_explode =    { name:"99", window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab4")};
-var grab_negative =   { name:"DC", window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab5")};
+var grab_frostburn =  { name:"3A", window:MSG_GRAB_FROSTBURN_WINDOW,  sound:sound_get("grab1")};
+var grab_leechseed =  { name:"49", window:MSG_GRAB_LEECHSEED_WINDOW,  sound:sound_get("grab2")};
+var grab_explode =    { name:"99", window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab3")};
+var grab_negative =   { name:"DC", window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab4")};
 
-//starting rotation of grabs
-//front, up, back, down, rest is backlogged
+var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
+var grab_antibash =   { name:"F1", window:MSG_GRAB_ANTIBASH_WINDOW,   sound:sound_get("grab5")};
+
 msg_grab_pointer = 0;
-msg_grab_rotation = [grab_negative, 
-                     grab_explode, 
-                     grab_leechseed, 
-                     grab_frostburn,
-                     grab_glitchtime,
-                     grab_antibash];
+//standard rotation of grabs
+msg_grab_rotation = [grab_leechseed, //front,
+                     grab_explode,   //up, 
+                     grab_negative,  //back, 
+                     grab_frostburn];//down 
+                     //rest is broken/glitched
+ msg_grab_queue = [msg_grab_broken_outcome,
+                   grab_glitchtime,
+                   grab_antibash];
 
 //============================================
 // Sets basic outcome window animation variables

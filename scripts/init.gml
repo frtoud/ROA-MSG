@@ -196,12 +196,14 @@ msg_fstrong_interrupted_timer = 0;
 msg_ntilt_origin = { x:0, y:0 };
 
 //See attacks -> grab.gml for the actual definition
-var dummy_outcome = { name:"00", window:3, sound:asset_get("sfx_bubblepop")};
+msg_grab_broken_outcome = { name:"FF", window:3, sound:sound_get("grabNaN")};
 // list of outcomes selectable by direction inputs
-msg_grab_pointer = 0;
-msg_grab_rotation = [dummy_outcome];
+msg_grab_rotation = [msg_grab_broken_outcome, msg_grab_broken_outcome, msg_grab_broken_outcome, msg_grab_broken_outcome];  
+// list of "broken" outcomes
+msg_grab_queue = [msg_grab_broken_outcome];
 msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
 msg_grab_selection_timer = 0;
+msg_grab_last_outcome = -1; //"-1" is a signal to use the RNG one
 
 //estimated maximum of particles at once (4/second, 2 at once, per victim)
 //if you somehow exceed that number, it will start overwriting previous ones and... well, let's say its an intentional bug.
