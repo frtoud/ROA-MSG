@@ -187,7 +187,7 @@ msg_dair_earthquake_counter = 0;
 msg_dair_earthquake_max = 10;
 
 msg_uair_ace_activated = false; //if true, next melee hit will be saved
-msg_uair_ace_buffer = [AT_UAIR, AT_UAIR]; //act as NOPs
+msg_uair_ace_buffer = [AT_UAIR, AT_UAIR, AT_UAIR, AT_UAIR]; //act as NOPs
 msg_uair_ace_pointer = 0;
 msg_uair_ace_coins = 0;
 

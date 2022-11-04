@@ -93,9 +93,12 @@ if (my_hitboxID.attack == AT_FAIR)
 if (msg_uair_ace_activated) && (my_hitboxID.type == 1)
 {
     msg_uair_ace_activated = false;
-    msg_uair_ace_buffer[msg_uair_ace_pointer] = my_hitboxID.attack;
-    msg_uair_ace_pointer = (msg_uair_ace_pointer + 1) 
-                         % array_length(msg_uair_ace_buffer);
+    if (my_hitboxID.attack != AT_UAIR)
+    {
+        msg_uair_ace_buffer[msg_uair_ace_pointer] = my_hitboxID.attack;
+        msg_uair_ace_pointer = (msg_uair_ace_pointer + 1) 
+                            % array_length(msg_uair_ace_buffer);
+    }
 }
 
 //==========================================================

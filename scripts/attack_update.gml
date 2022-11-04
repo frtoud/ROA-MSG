@@ -307,11 +307,12 @@ switch (attack)
 //=============================================================
     case AT_UAIR:
     {
-        if (window == 1 && window_timer == 1)
+        if (window == 1 && window_timer == get_window_value(AT_UAIR, 1, AG_WINDOW_LENGTH))
         {
             //apply current stack of bonuses
             var psn = false, prat = false;
             var bkb = 0, kbs = 0, dmg = 0;
+            var displace_y = 0, self_damage = 0;
             msg_uair_ace_coins = 0;
             reset_hitbox_value(AT_UAIR, 1, HG_DAMAGE);
             reset_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK);
@@ -321,26 +322,32 @@ switch (attack)
                 switch(msg_uair_ace_buffer[i])
                 {
                     case AT_USPECIAL: prat = true; break;
-                    //case AT_NSPECIAL: break;
-                    //case AT_FSPECIAL: break;
-                    case AT_NTHROW: take_damage(player, player, 4); break;
-                    case AT_UTILT: y -= 80; break;
-                    case AT_DTILT: kbs -= 0.2; break;
-                    case AT_FTILT: bkb -= 2; break;
-                    case AT_DATTACK: hsp += 5 * spr_dir; break;
-                    case AT_USTRONG: msg_uair_ace_coins += 2; break;
-                    case AT_DSTRONG: bkb += 2; break;
-                    case AT_FSTRONG: kbs += 0.3; break;
+                    case AT_NTHROW: self_damage = 6; break;
+                    case AT_UTILT: displace_y = 100; break;
+                    case AT_DTILT: kbs = -0.8; break;
+                    case AT_FTILT: bkb = -6; break;
+                    case AT_DATTACK: hsp = 9 * spr_dir; break;
+                    case AT_USTRONG: msg_uair_ace_coins = 5; break;
+                    case AT_DSTRONG: bkb = 5; break;
+                    case AT_FSTRONG: kbs = 0.5; break;
                     case AT_NAIR: psn = true; break;
-                    case AT_DAIR: vsp += 5; break;
-                    case AT_FAIR: dmg += 3; break;
-                    case AT_BAIR: hsp -= 4 * spr_dir; break;
+                    case AT_DAIR: vsp = 5; break;
+                    case AT_FAIR: dmg = 5; break;
+                    case AT_BAIR: hsp = -7 * spr_dir; break;
+                    //NO-OPs
                     case AT_UAIR:
-                    default: break; //NO-OP
-                    case AT_DSPECIAL_2: take_damage(player, player, 
-                                       -get_attack_value(AT_DSPECIAL_2, AG_NUM_WINDOWS)); break; //???
+                    case AT_NSPECIAL:
+                    case AT_FSPECIAL:
+                    default: 
+
+                        break;
+                    //???
+                    case AT_DSPECIAL_2: self_damage = -get_attack_value(AT_DSPECIAL_2, AG_NUM_WINDOWS); break;
                 }
             }
+            
+            y -= displace_y;
+            take_damage(player, player, self_damage);
 
             set_hitbox_value(AT_UAIR, 1, HG_EFFECT, (psn ? 10 : 0) );
             set_window_value(AT_UAIR, 3, AG_WINDOW_TYPE, (prat ? 7 : 0) );
