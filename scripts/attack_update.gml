@@ -288,6 +288,10 @@ switch (attack)
             }
         }
     } break;
+    case AT_DTHROW: //alt Dair
+    {
+        move_cooldown[AT_DAIR] = 120;
+    } break;
 //=============================================================
     case AT_BAIR:
     {

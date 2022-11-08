@@ -1,7 +1,15 @@
 //hitbox_init
 
+if (attack == AT_DTHROW)
+{
+    should_try_get_hit = false; //temp dair2 interaction
+    with (pHitBox) if (self != other) && (player_id == other.player_id) && (attack == AT_DTHROW)
+    {
+        hitbox_timer = 475;
+    }
+}
 //==========================================================
-if (attack == AT_USTRONG)
+else if (attack == AT_USTRONG)
 {
     coin_fading = false;
 
@@ -9,7 +17,6 @@ if (attack == AT_USTRONG)
     original_kb_scale = kb_scale;
     temp_team_attack = get_match_setting(SET_TEAMATTACK);
 }
-
 //==========================================================
 else if (attack == AT_FSPECIAL_2)
 {

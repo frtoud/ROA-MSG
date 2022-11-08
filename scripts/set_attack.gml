@@ -5,6 +5,9 @@ if (attack == AT_DSPECIAL && move_cooldown[AT_NTHROW] < 1) attack = AT_NTHROW; /
 else if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 else if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
 
+if (attack == AT_DAIR) && dair_toggle attack = AT_DTHROW;
+if (attack == AT_TAUNT) dair_toggle = !dair_toggle;
+
 //==========================================================
 // BSPECIAL input
 if (attack == AT_FSPECIAL && (spr_dir * at_prev_spr_dir < 0))

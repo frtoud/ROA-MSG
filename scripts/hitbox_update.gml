@@ -253,6 +253,60 @@ if (attack == AT_JAB)
 }
 
 //==========================================================
+if (attack == AT_DTHROW)
+{
+    if (!free)
+    {
+        image_xscale = 0;
+    }
+
+    //detect a hit
+    var best_hit = detect_hit();
+    
+    if (best_hit != noone)
+    {
+        with (player_id)
+        {
+            set_attack(AT_DTHROW);
+            //bug with hurtbox
+            window = 4;
+            window_timer = 0;
+            sound_play(asset_get("sfx_parry_success"));
+            hitpause = true;
+            hitstop = 16;
+            hitstop_full = 20;
+            old_vsp = vsp;
+            old_hsp = hsp;
+            destroy_hitboxes();
+
+            x = other.x;
+            y = other.y;
+
+            if (best_hit.player_id != self) with (best_hit.player_id)
+            {
+                hitpause = true;
+                hitstop = 20;
+                hitstop_full = 20;
+                old_vsp = vsp;
+                old_hsp = hsp;
+                destroy_hitboxes();
+            }
+        }
+        destroyed = true;
+    }
+    else if (hitbox_timer >= length)
+    {
+        var newsub = noone;
+        with (player_id) newsub = create_hitbox(AT_JAB, 1, other.x, other.y);
+        newsub.spr_dir = sign(draw_xscale);
+        newsub.draw_xscale = draw_xscale;
+        destroyed = true;
+    }
+    
+
+}
+
+//==========================================================
 // destroy all current missingno-copies of a player
 #define destroy_copies(target_client_id)
 {
@@ -261,4 +315,36 @@ if (attack == AT_JAB)
     {
         needs_to_die = true; //article consumed
     }
+}
+
+
+
+//============================================================
+// return best detected hitbox that could hit you
+#define detect_hit()
+{
+    var best_hitbox = noone;
+    var best_priority = 0;
+    
+    //Detect hitboxes. (only those that could have damaged you)
+    var team_attack = get_match_setting(SET_TEAMATTACK);
+
+    var obj_player = player_id;
+    var obj_sub = self;
+    //newfound irrational hatred of nested withs
+    for (var i = 0; i < instance_number(pHitBox); i++) 
+    with (instance_find(pHitBox, i))  
+        if (hit_priority > best_priority)
+        && (self != obj_sub)
+        && ( (player == obj_player.player)
+        ||   (get_player_team(obj_player.player) != get_player_team(player) 
+                        || (team_attack && player != obj_player.player) ) )
+        && (obj_player.can_be_hit[player] == 0) && (can_hit[obj_player.player])
+        && collision_circle(obj_sub.x, obj_sub.y - 20, 20, self, true, false)
+    {
+        best_hitbox = self;
+        best_priority = hit_priority;
+    }
+
+    return best_hitbox;
 }
