@@ -14,7 +14,6 @@ if  !is_in_playtesting &&
    || ( x >= blastzone_r ) || ( x <= blastzone_l ) )
 {
     //death of clone
-    print(room); 
     with (client_id) sound_play(asset_get("sfx_death1"), false, noone, 0.5, 1.5);
     destroy_my_hitboxes(); instance_destroy(self); exit;
 }
