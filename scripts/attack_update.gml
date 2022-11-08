@@ -228,13 +228,16 @@ switch (attack)
     case AT_DAIR:
     {
         can_move = window == 1;
+        can_fast_fall = false;
         if (window == 1)
         {
             msg_dair_earthquake_counter = 0;
+            hsp *= 0.9;
         }
         else if (window == 2)
         {
-            window_timer = 1;
+            window_timer = min(window_timer, 5);
+
             if (!free) //manual looping due to strong_charge window incompatibility
             {
                 window = 3; 
@@ -242,7 +245,12 @@ switch (attack)
             }
             else if (!was_parried && !hitpause)
             {
-                if (shield_pressed) set_state(PS_PRATFALL)
+                if (shield_pressed || shield_down) 
+                {
+                    set_state(PS_PRATFALL);
+                    vsp = -6;
+                    create_hitbox(AT_JAB, 2, x, y);
+                }
                 else if (has_hit) can_jump = true;
             }
         }

@@ -6,10 +6,10 @@ set_attack_value(AT_DAIR, AG_LANDING_LAG, 4);
 set_attack_value(AT_DAIR, AG_HURTBOX_SPRITE, sprite_get("dair_hurt"));
 
 set_window_value(AT_DAIR, 1, AG_WINDOW_TYPE, 1);
-set_window_value(AT_DAIR, 1, AG_WINDOW_LENGTH, 9);
+set_window_value(AT_DAIR, 1, AG_WINDOW_LENGTH, 12);
 set_window_value(AT_DAIR, 1, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_DAIR, 1, AG_WINDOW_VSPEED, 0);
-set_window_value(AT_DAIR, 1, AG_WINDOW_VSPEED_TYPE, 1);
+set_window_value(AT_DAIR, 1, AG_WINDOW_VSPEED, -3);
+set_window_value(AT_DAIR, 1, AG_WINDOW_VSPEED_TYPE, 2);
 set_window_value(AT_DAIR, 1, AG_WINDOW_HAS_SFX, 1);
 set_window_value(AT_DAIR, 1, AG_WINDOW_SFX, asset_get("sfx_kragg_roll_start"));
 set_window_value(AT_DAIR, 1, AG_WINDOW_SFX_FRAME, 1);
