@@ -38,7 +38,7 @@ sprite_change_offset("uair", 42, 72, true);
 sprite_change_offset("dair", 20, 47, true);
  sprite_change_offset("fstrong", 32, 47, true);
  sprite_change_offset("ustrong", 25, 39, true);
- sprite_change_offset("dstrong", 45, 45, true);
+sprite_change_offset("dstrong", 48, 58, true);
 sprite_change_offset("nspecial", 17, 45, true);
 sprite_change_offset("nspecial_alt1", 14, 43);
 sprite_change_offset("nspecial_alt2", 14, 43);
@@ -54,6 +54,7 @@ sprite_change_offset("microplatform", 1, 0);
 sprite_change_offset("proj_pokeball", 12, 12);
 sprite_change_offset("proj_pokeball_broken", 12, 12);
 sprite_change_offset("vfx_ball_open", 48, 48);
+sprite_change_offset("vfx_yoyo_drop", 36, 30);
 sprite_change_offset("vfx_yoyo_snap", 4, 11); //length: 128
 
 sprite_change_offset("proj_payday", 16, 16);
