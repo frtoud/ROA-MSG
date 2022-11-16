@@ -54,7 +54,7 @@ sprite_change_offset("microplatform", 1, 0);
 sprite_change_offset("proj_pokeball", 12, 12);
 sprite_change_offset("proj_pokeball_broken", 12, 12);
 sprite_change_offset("vfx_ball_open", 48, 48);
-sprite_change_offset("vfx_yoyo_drop", 36, 30);
+sprite_change_offset("vfx_yoyo_drop", 36, 20);
 sprite_change_offset("vfx_yoyo_snap", 4, 11); //length: 128
 
 sprite_change_offset("proj_payday", 16, 16);

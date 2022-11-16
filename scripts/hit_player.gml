@@ -47,7 +47,7 @@ if (my_hitboxID.attack == AT_DSTRONG && my_hitboxID.hbox_num <= 2)
     //1 is in front, 2 is in back
     msg_dstrong_yoyo.dir = spr_dir * (my_hitboxID.hbox_num == 1 ? 1 : -1);
     msg_dstrong_yoyo.x = my_hitboxID.x;
-    msg_dstrong_yoyo.y = my_hitboxID.y +10;
+    msg_dstrong_yoyo.y = my_hitboxID.y;
 }
 
 //==========================================================
