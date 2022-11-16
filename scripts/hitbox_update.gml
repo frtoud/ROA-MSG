@@ -69,7 +69,7 @@ if (attack == AT_NSPECIAL)
         if (hbox_num == 1) destroy_copies(missingno_copied_player_id); //flushes old clones
         destroyed = true;
 
-        with (orig_player_id)
+        with (orig_player_id) if instance_exists(other.missingno_copied_player_id) 
         {
             var k = spawn_hit_fx(other.x, other.y, hfx_ball_open);
             k.depth -= 20;
@@ -88,6 +88,12 @@ if (attack == AT_NSPECIAL)
             var GRIDSNAP = 16;
             copy.client_offset_x = GRIDSNAP * floor((copy.x - copy.client_id.x) / GRIDSNAP);
             copy.client_offset_y = GRIDSNAP * floor((copy.y - copy.client_id.y) / GRIDSNAP);
+        }
+        else //no copy foe
+        {
+            var k = spawn_hit_fx(other.x, other.y, hfx_error_b);
+            k.depth -= 20;
+            sound_play(sound_get("079-B"));
         }
     }
     //special collision checks
