@@ -41,6 +41,16 @@ if (my_hitboxID.attack == AT_UTILT && my_hitboxID.hbox_num == 2)
     msg_air_tech_active = true;
 }
 //==========================================================
+// DSTRONG: save which side to activate yoyo from
+if (my_hitboxID.attack == AT_DSTRONG && my_hitboxID.hbox_num <= 2)
+{
+    //1 is in front, 2 is in back
+    msg_dstrong_yoyo.dir = spr_dir * (my_hitboxID.hbox_num == 1 ? 1 : -1);
+    msg_dstrong_yoyo.x = my_hitboxID.x;
+    msg_dstrong_yoyo.y = my_hitboxID.y +10;
+}
+
+//==========================================================
 // USTRONG non-interruption of kb
 if (my_hitboxID.attack == AT_USTRONG && my_hitboxID.hbox_num != 1)
 {

@@ -176,7 +176,6 @@ switch (attack)
             //yoyo activated, rolling out
             msg_dstrong_yoyo.active = true;
             msg_dstrong_yoyo.visible = true;
-            msg_dstrong_yoyo.x = x; msg_dstrong_yoyo.y = y;
 
             set_state( (right_down - left_down)*spr_dir > 0 ? PS_ROLL_FORWARD : PS_ROLL_BACKWARD);
         }

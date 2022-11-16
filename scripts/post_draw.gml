@@ -11,7 +11,14 @@ if (!msg_low_fps_mode)
 
 if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
 {
-    draw_sprite_ext(sprite_get("dstrong"), 1, msg_dstrong_yoyo.x, msg_dstrong_yoyo.y, 2, 2, 0, c_white, 0.9);
+    var subspr = msg_low_fps_mode ? get_gameplay_time() % 8 : GET_RNG(6, 0x1F);
+    var ofx = msg_low_fps_mode ? 0 : GET_RNG(8, 0x03);
+    var ofy = msg_low_fps_mode ? 0 : GET_RNG(12, 0x03);
+    if (subspr > 5) 
+    {
+        subspr = 0; ofx = 0; ofy = 0;
+    }
+    draw_sprite_ext(msg_dstrong_yoyo.spr, subspr, msg_dstrong_yoyo.x+ofx, msg_dstrong_yoyo.y+ofy, msg_dstrong_yoyo.dir, 1, 0, c_white, 0.9);
 }
 
 
@@ -44,5 +51,12 @@ else if (state == PS_PARRY && (state_timer > 0 && state_timer < 10) && !has_parr
     {
         gpu_pop_state(); msg_unsafe_gpu_stack_level--;
     }
+
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion

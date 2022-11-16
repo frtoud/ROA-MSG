@@ -169,6 +169,8 @@ msg_dstrong_yoyo =
 {
     x: 0,
     y: 0,
+    spr: sprite_get("vfx_yoyo_drop"),
+    dir: 1, // -1 left vs  +1 right
     active: false,
     visible: false
 }
