@@ -327,8 +327,8 @@ switch (attack)
     {
         if (window == 1 && window_timer == 1)
         {
-            var newwidth = min(200, 1.1 * get_hitbox_value(AT_UAIR, 1, HG_WIDTH));
-            var newheight = min(320, 1.1 * get_hitbox_value(AT_UAIR, 1, HG_WIDTH));
+            var newwidth = min(360, 1.1 * get_hitbox_value(AT_UAIR, 1, HG_WIDTH));
+            var newheight = min(400, 1.1 * get_hitbox_value(AT_UAIR, 1, HG_HEIGHT));
             var newdamage = min(18, 1 + get_hitbox_value(AT_UAIR, 1, HG_DAMAGE));
             var newstartup = min(24, 2 + get_window_value(AT_UAIR, 1, AG_WINDOW_LENGTH));
             set_hitbox_value(AT_UAIR, 1, HG_WIDTH, newwidth);
