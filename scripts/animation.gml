@@ -225,6 +225,7 @@ switch (state)
             {
                 msg_unsafe_effects.shudder.impulse = 8;
                 msg_unsafe_effects.shudder.horz_max = 5;
+                msg_unsafe_effects.shudder.vert_max = 5;
             }
         } break;
 //==================================================================
@@ -237,6 +238,19 @@ switch (state)
             else if (window == 4 && msg_dstrong_sweetspot_hit)
             {
                 image_index = 1 + get_window_value(AT_DSTRONG, 4, AG_WINDOW_ANIM_FRAME_START);
+            }
+        } break;
+//==================================================================
+        case AT_UAIR:
+        {
+            if (window == 1)
+            {
+                msg_unsafe_effects.quadrant.gameplay_timer = 2;
+                
+                msg_unsafe_effects.quadrant.freq = 2 * max(0, window_timer - 14);
+                msg_unsafe_effects.shudder.impulse = max(0, window_timer - 13);
+                msg_unsafe_effects.shudder.horz_max = max(0, window_timer - 8);
+                msg_unsafe_effects.shudder.vert_max = max(0, window_timer - 8);
             }
         } break;
 //==================================================================

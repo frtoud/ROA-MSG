@@ -104,16 +104,15 @@ if (my_hitboxID.attack == AT_FAIR)
 }
 
 //==========================================================
-// UAIR write
-if (msg_uair_ace_activated) && (my_hitboxID.type == 1)
+// UAIR stacking reset
+if (my_hitboxID.attack == AT_UAIR)
 {
-    msg_uair_ace_activated = false;
-    if (my_hitboxID.attack != AT_UAIR)
-    {
-        msg_uair_ace_buffer[msg_uair_ace_pointer] = my_hitboxID.attack;
-        msg_uair_ace_pointer = (msg_uair_ace_pointer + 1) 
-                            % array_length(msg_uair_ace_buffer);
-    }
+    reset_hitbox_value(AT_UAIR, 1, HG_WIDTH);
+    reset_hitbox_value(AT_UAIR, 1, HG_HEIGHT);
+    reset_hitbox_value(AT_UAIR, 1, HG_DAMAGE);
+    reset_window_value(AT_UAIR, 1, AG_WINDOW_LENGTH);
+    reset_window_value(AT_UAIR, 1, AG_WINDOW_SFX_FRAME);
+    reset_window_value(AT_UAIR, 1, AG_WINDOW_SFX);
 }
 
 //==========================================================

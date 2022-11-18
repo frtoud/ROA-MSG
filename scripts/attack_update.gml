@@ -325,76 +325,19 @@ switch (attack)
 //=============================================================
     case AT_UAIR:
     {
-        if (window == 1 && window_timer == get_window_value(AT_UAIR, 1, AG_WINDOW_LENGTH))
+        if (window == 1 && window_timer == 1)
         {
-            //apply current stack of bonuses
-            var psn = false, prat = false;
-            var bkb = 0, kbs = 0, dmg = 0;
-            var displace_y = 0, self_damage = 0;
-            msg_uair_ace_coins = 0;
-            reset_hitbox_value(AT_UAIR, 1, HG_DAMAGE);
-            reset_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK);
-            reset_hitbox_value(AT_UAIR, 1, HG_KNOCKBACK_SCALING);
-            for (var i = 0; i < array_length(msg_uair_ace_buffer); i++)
-            {
-                switch(msg_uair_ace_buffer[i])
-                {
-                    case AT_USPECIAL: prat = true; break;
-                    case AT_NTHROW: self_damage = 6; break;
-                    case AT_UTILT: displace_y = 100; break;
-                    case AT_DTILT: kbs = -0.8; break;
-                    case AT_FTILT: bkb = -6; break;
-                    case AT_DATTACK: hsp = 9 * spr_dir; break;
-                    case AT_USTRONG: msg_uair_ace_coins = 5; break;
-                    case AT_DSTRONG: bkb = 5; break;
-                    case AT_FSTRONG: kbs = 0.5; break;
-                    case AT_NAIR: psn = true; break;
-                    case AT_DAIR: vsp = 5; break;
-                    case AT_FAIR: dmg = 5; break;
-                    case AT_BAIR: hsp = -7 * spr_dir; break;
-                    //NO-OPs
-                    case AT_UAIR:
-                    case AT_NSPECIAL:
-                    case AT_FSPECIAL:
-                    default: 
+            var newwidth = min(200, 1.1 * get_hitbox_value(AT_UAIR, 1, HG_WIDTH));
+            var newheight = min(320, 1.1 * get_hitbox_value(AT_UAIR, 1, HG_WIDTH));
+            var newdamage = min(18, 1 + get_hitbox_value(AT_UAIR, 1, HG_DAMAGE));
+            var newstartup = min(24, 2 + get_window_value(AT_UAIR, 1, AG_WINDOW_LENGTH));
+            set_hitbox_value(AT_UAIR, 1, HG_WIDTH, newwidth);
+            set_hitbox_value(AT_UAIR, 1, HG_HEIGHT, newheight);
+            set_hitbox_value(AT_UAIR, 1, HG_DAMAGE, newdamage);
+            set_window_value(AT_UAIR, 1, AG_WINDOW_LENGTH, newstartup);
+            set_window_value(AT_UAIR, 1, AG_WINDOW_SFX_FRAME, newstartup - 1);
+            if (newstartup > 17) set_window_value(AT_UAIR, 1, AG_WINDOW_SFX, asset_get("sfx_swipe_heavy1"));
 
-                        break;
-                    //???
-                    case AT_DSPECIAL_2: self_damage = -get_attack_value(AT_DSPECIAL_2, AG_NUM_WINDOWS); break;
-                }
-            }
-            
-            y -= displace_y;
-            take_damage(player, player, self_damage);
-
-            set_hitbox_value(AT_UAIR, 1, HG_EFFECT, (psn ? 10 : 0) );
-            set_window_value(AT_UAIR, 3, AG_WINDOW_TYPE, (prat ? 7 : 0) );
-
-            set_hitbox_value(AT_UAIR, 1, HG_DAMAGE, 
-                             dmg + get_hitbox_value(AT_UAIR, 1, HG_DAMAGE));
-            set_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK, 
-                             bkb + get_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK));
-            set_hitbox_value(AT_UAIR, 1, HG_KNOCKBACK_SCALING, 
-                             kbs + get_hitbox_value(AT_UAIR, 1, HG_KNOCKBACK_SCALING));
-
-            //activate write mode (on hit: UAIR will get saved)
-            msg_uair_ace_activated = true;
-        }
-        //Coin effect (mostly copied from UStrong)
-        else if (window == 2 && window_timer == 1 && !hitpause)
-        {
-            for (var i = 0; i < msg_uair_ace_coins; i++)
-            {
-                var hb = create_hitbox(AT_USTRONG, 3, x+spr_dir*35, y-20);
-                hb.hsp += hsp;
-                hb.vsp -= abs(vsp/3);
-                if (i != 0)
-                {
-                    hb.x += (random_func_2(2*i, 10, false) - 5);
-                    hb.hsp += (random_func_2(2*i, 3, false) - spread);
-                    hb.vsp += (random_func_2(2*i + 1, 3, false) - spread);
-                }
-            }
         }
     } break;
 //=============================================================
