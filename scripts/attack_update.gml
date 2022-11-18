@@ -550,7 +550,6 @@ switch (attack)
                 {
                     //figure out which direction is being held
                     var temp_joydir = (spr_dir > 0) ? joy_dir : (180 - joy_dir);
-                    if (joy_pad_idle) temp_joydir = 0;
 
                     //360 + 45; to guarantee a positive modulo result >:]
                     var selected = floor((temp_joydir + 405)/90.0) % 4;
