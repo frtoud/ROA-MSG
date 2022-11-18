@@ -140,6 +140,13 @@ switch (attack)
     case AT_DATTACK:
     {
         can_fast_fall = has_hit;
+        if (window == 2 && window_timer == 1) && !hitpause
+        && (right_down - left_down == -spr_dir)
+        {
+            //holding back: reduce HSP boost
+            hsp *= 0.5;
+        }
+
         if (window > 2) && (window < 5) && !free
         {
             window = 5;
