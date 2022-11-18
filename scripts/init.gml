@@ -281,6 +281,8 @@ msg_substitute_hit = sprite_get("substitute_hit");
 has_parried = false;
 msg_multiparry = 0; //counts down for the infinite parry glitch
 
+msg_dstrong_sweetspot_hit = false;
+
 //TBD: move to article?
 msg_is_online = false;
 msg_local_player = player;

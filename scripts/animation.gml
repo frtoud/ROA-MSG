@@ -228,6 +228,18 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_DSTRONG:
+        {
+            if (window == 2 && window_timer == 0)
+            {
+                msg_dstrong_sweetspot_hit = false;
+            }
+            else if (window == 4 && msg_dstrong_sweetspot_hit)
+            {
+                image_index = 1 + get_window_value(AT_DSTRONG, 4, AG_WINDOW_ANIM_FRAME_START);
+            }
+        } break;
+//==================================================================
         case AT_NTHROW:
         {
             if (window == 4)

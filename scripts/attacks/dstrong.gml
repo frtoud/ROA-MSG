@@ -106,7 +106,7 @@ set_hitbox_value(AT_DSTRONG, 3, HG_BASE_KNOCKBACK, 7);
 set_hitbox_value(AT_DSTRONG, 3, HG_KNOCKBACK_SCALING, 1);
 set_hitbox_value(AT_DSTRONG, 3, HG_BASE_HITPAUSE, 6);
 set_hitbox_value(AT_DSTRONG, 3, HG_HITPAUSE_SCALING, .6);
-set_hitbox_value(AT_DSTRONG, 3, HG_HIT_SFX, asset_get("sfx_orca_crunch"));
+set_hitbox_value(AT_DSTRONG, 3, HG_HIT_SFX, asset_get("sfx_crunch"));
 set_hitbox_value(AT_DSTRONG, 3, HG_HITBOX_GROUP, 2);
 
 //Bite (Sweet)
@@ -116,8 +116,8 @@ set_hitbox_value(AT_DSTRONG, 4, HG_WINDOW_CREATION_FRAME, 1);
 set_hitbox_value(AT_DSTRONG, 4, HG_LIFETIME, 5);
 set_hitbox_value(AT_DSTRONG, 4, HG_HITBOX_X, 6);
 set_hitbox_value(AT_DSTRONG, 4, HG_HITBOX_Y, -60);
-set_hitbox_value(AT_DSTRONG, 4, HG_WIDTH, 30);
-set_hitbox_value(AT_DSTRONG, 4, HG_HEIGHT, 80);
+set_hitbox_value(AT_DSTRONG, 4, HG_WIDTH, 20);
+set_hitbox_value(AT_DSTRONG, 4, HG_HEIGHT, 68);
 set_hitbox_value(AT_DSTRONG, 4, HG_SHAPE, 2);
 set_hitbox_value(AT_DSTRONG, 4, HG_PRIORITY, 7);
 set_hitbox_value(AT_DSTRONG, 4, HG_DAMAGE, 12);
@@ -126,5 +126,6 @@ set_hitbox_value(AT_DSTRONG, 4, HG_BASE_KNOCKBACK, 7);
 set_hitbox_value(AT_DSTRONG, 4, HG_KNOCKBACK_SCALING, 1.1);
 set_hitbox_value(AT_DSTRONG, 4, HG_BASE_HITPAUSE, 12);
 set_hitbox_value(AT_DSTRONG, 4, HG_HITPAUSE_SCALING, .8);
-set_hitbox_value(AT_DSTRONG, 4, HG_HIT_SFX, asset_get("sfx_crunch"));
+set_hitbox_value(AT_DSTRONG, 4, HG_VISUAL_EFFECT, 303);
+set_hitbox_value(AT_DSTRONG, 4, HG_HIT_SFX, asset_get("sfx_blow_heavy2"));
 set_hitbox_value(AT_DSTRONG, 4, HG_HITBOX_GROUP, 2);
