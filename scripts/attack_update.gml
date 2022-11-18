@@ -724,7 +724,7 @@ switch (attack)
         }
         else if (window == 5 && window_timer < 5)
         {
-            hsp *= 0.4; 
+            hsp *= 0.9; 
             vsp *= 0.4; vsp -= 1;
         }
     } break;
