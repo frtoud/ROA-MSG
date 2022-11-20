@@ -465,6 +465,7 @@ msg_low_fps_mode = false; //pointless?
         // Negative DMG
         msg_negative_dmg_timer = 0;
         //ACTUAL BUG: getting hit by <0 hitboxes (or uncharged strongs) while in negative damage resets % to zero
+        //ACTUAL BUG: having negative damage causes TempestPeak Stage (Aether mode) to spontaneously crash
         msg_last_known_damage = 0;
         //Glitched double-time
         msg_doubled_time_timer = 0;
