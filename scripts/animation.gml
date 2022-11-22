@@ -127,9 +127,9 @@ switch (state)
     case PS_TECH_BACKWARD:
     case PS_AIR_DODGE:
     {
-        if (state_timer == 0)
+        if (state_timer == 0) && !msg_is_local
         { 
-            msg_gaslight_dodge.active = (GET_RNG(6, 0x0F) == 0);
+            msg_gaslight_dodge.active = (GET_RNG(6, 0x0D) == 0);
             if (msg_gaslight_dodge.active)
             {
                 msg_gaslight_dodge.x = 0;
@@ -238,6 +238,21 @@ switch (state)
             else if (window == 4 && msg_dstrong_sweetspot_hit)
             {
                 image_index = 1 + get_window_value(AT_DSTRONG, 4, AG_WINDOW_ANIM_FRAME_START);
+            }
+        } break;
+//==================================================================
+        case AT_DAIR:
+        {
+            //bait_bomb_hit_spr 2x2?
+            //boss_timed_explosion_notify_spr 2x2
+            //fx_ko_spark 1x1
+
+            //falling_cactus_spr - 1x1
+            //rock_down_spr 2x2
+            if (window == 2 && window_timer == 0)
+            {
+                //msg_unsafe_effects.shudder.impulse = 8;
+                //msg_unsafe_effects.shudder.horz_max = 5;
             }
         } break;
 //==================================================================

@@ -11,15 +11,6 @@ for (var i = 0; i < 4; i++)
 draw_debug_text(temp_x-4, temp_y-12, grabnames);
 
 
-
-var h = 20;
-
-for (var i = 0; i <= 4; i++)
-{
-    var str = get_char_info(i, INFO_STR_NAME) + " team " + string(get_player_team(i)) + " hud " + string(get_player_hud_color(i))
-    draw_debug_text(temp_x-4, h, str); h+=20;
-}
-
 if !get_match_setting(SET_HITBOX_VIS) exit;
 
 exit;

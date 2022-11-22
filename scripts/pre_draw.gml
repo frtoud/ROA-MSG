@@ -349,7 +349,7 @@ if (vfx_yoyo_snap.timer > 0)
     //  - wrong image_index
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
-    //'M- gaslit dodge             .                         FF FF
+    //'M- gaslit dodge             .                         FF  F
     //'M- glitch trail             .          wwwwhhhh   xxxxxx  yyyyy
     //'M- Alt Sprites              .     FFFF FFFF        NNN
     //===================================================================

@@ -297,6 +297,9 @@ if (get_player_hud_color(cur+1) == $64e542) //online-only color
 //initialize VFX
 msg_init_effects(true);
 
+//locality
+msg_init_locality();
+
 //removes special rendering shenanigans
 msg_low_fps_mode = false; //pointless?
 
@@ -476,5 +479,18 @@ msg_low_fps_mode = false; //pointless?
         msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
         msg_clone_last_attack_that_needed_offedge = noone;
     }
+
+#define msg_init_locality // Version 0
+    // Local CSS player zero has hud color 0,0,0
+    // Online CSS player zero has your current team's hud color, or online-only green color
+    // this information is kept on match start, meaning it's possible to detect who's remote
+    var zero_hud = get_player_hud_color(0);
+
+    //wether we are online or not
+    msg_is_online = zero_hud != 0;
+
+    //if online, wether or not you (or a teammate) is the local player
+    //else, always false
+    msg_is_local = zero_hud == get_player_hud_color(player);
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
