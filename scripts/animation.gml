@@ -147,6 +147,14 @@ switch (state)
 
     } break;
 //==================================================================
+    case PS_WAVELAND:
+    {
+        sprite_index = sprite_get("land");
+        msg_unsafe_effects.crt.freq = 12;
+        msg_unsafe_effects.crt.maximum = 8 - state_timer;
+        msg_unsafe_effects.quadrant.freq = 10-state_timer;
+    } break;
+//==================================================================
     case PS_WALL_JUMP:
     {
         if (state_timer == 3) sound_play(jump_sound);
