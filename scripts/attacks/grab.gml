@@ -177,6 +177,32 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 10);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 20);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_blow_heavy2"));
 //========================================================================
+// Grab Outcome: Broken A.C.E.
+//Base stats only. governed by A.C.E. mechanic, see hit_player.gml
+current_window++;
+MSG_GRAB_BROKEN_WINDOW = current_window;
+set_anim(current_window, 3);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+
+hbox_num++;
+MSG_GRAB_BROKEN_HITBOX = hbox_num;
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 45);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 20);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_swipe_heavy2"));
+//========================================================================
 // Grab Outcome: GLITCH_TIME
 current_window++;
 MSG_GRAB_GLITCHTIME_WINDOW = current_window;
@@ -246,6 +272,7 @@ var grab_leechseed =  { name:"49", window:MSG_GRAB_LEECHSEED_WINDOW,  sound:soun
 var grab_explode =    { name:"99", window:MSG_GRAB_EXPLOSION_WINDOW,  sound:sound_get("grab3")};
 var grab_negative =   { name:"DC", window:MSG_GRAB_NEGATIVE_WINDOW,   sound:sound_get("grab4")};
 
+msg_grab_broken_outcome.window = MSG_GRAB_BROKEN_WINDOW; //see failsafe in init.gml
 var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
 var grab_antibash =   { name:"F1", window:MSG_GRAB_ANTIBASH_WINDOW,   sound:sound_get("grab5")};
 
