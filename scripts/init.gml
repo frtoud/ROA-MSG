@@ -1,6 +1,6 @@
 
 //Physical size
-char_height = 72;
+char_height = 71.19;
 knockback_adj = 1.1; //the multiplier to KB dealt to you. 
 
 //Hurtboxes
