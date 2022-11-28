@@ -285,17 +285,6 @@ msg_multiparry = 0; //counts down for the infinite parry glitch
 
 msg_dstrong_sweetspot_hit = false;
 
-//TBD: move to article?
-msg_is_online = false;
-msg_local_player = player;
-for (var cur = 0; cur < 4; cur++) 
-if (get_player_hud_color(cur+1) == $64e542) //online-only color 
-{
-    msg_local_player = cur+1;
-    msg_is_online = true;
-    break;
-}
-
 //initialize VFX
 msg_init_effects(true);
 

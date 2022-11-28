@@ -72,9 +72,9 @@ if (list != 0) switch (attack)
         if (active) msg_alt_sprite = list[0];
     break;
     case AT_FAIR:
-        //TBD: if not online; check if A potential victim has negative percent
-        var active = ( (!msg_is_online || player != msg_local_player) 
-                      && get_player_damage(msg_local_player) < 0)
+        //if not online; check if self has negative percent
+        var active = (!msg_is_online || !msg_is_local)
+                  && 0 > get_player_damage(msg_is_online ? msg_get_local_player() : player);
         if (active) msg_alt_sprite = list[0];
         set_window_value(AT_FAIR, 1, AG_WINDOW_SFX,asset_get( active ? "sfx_clairen_arc_lose" : "sfx_swipe_weak2"));
     break;
@@ -143,5 +143,16 @@ if (list != 0) switch (attack)
     // uses "msg_unsafe_random" implicitly.
     return (mask <= 0) ? 0
            :((msg_unsafe_random >> offset) & mask);
+
+#define msg_get_local_player // Version 0
+    // get closest local player
+    var best_player = player;
+    var best_distance = 9999999;
+    with (oPlayer)
+    {
+        if (msg_is_local) && point_distance(other.x, other.y, x, y) < best_distance
+            best_player = player;
+    }
+    return player;
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
