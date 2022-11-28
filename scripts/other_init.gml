@@ -161,7 +161,7 @@ msg_init_locality();
 #define msg_common_init // Version 0
     // initialize variables for debuffs and oddities
     {
-        msg_handler_id = noone;
+        msg_handler_id = noone; //last missingno to have grabbed you
         msg_grabbed_timer = 0;
 
         msg_grab_immune_timer = 0;

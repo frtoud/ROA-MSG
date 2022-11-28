@@ -3,7 +3,7 @@ if (my_hitboxID.orig_player_id != self) exit; //Only our own hitboxes
 //==========================================================
 // By FSTRONG charge-storage glitch's nature, every attack is 
 // forced to become, functionally, a strong attack.
-// Therefore; we need to apply the fix anyways (see user_event0)
+// Therefore; we need to apply the fix anyways (see article1_update)
 // unless we want every hitbox we land to deal essentially no damage
 if ("msg_last_known_damage" in hit_player_obj)
 && (hit_player_obj.msg_last_known_damage < 0)
@@ -119,13 +119,14 @@ if (my_hitboxID.attack == AT_UAIR)
 //Grab logic
 if (my_hitboxID.attack == AT_NTHROW)
 {
+    hit_player_obj.msg_handler_id = self;
+
     if(my_hitboxID.hbox_num == 1)
     {
         if !(hit_player_obj.msg_grab_immune_timer > 0)
         {
             //grab success: send directly to window 4
             window = 4; window_timer = 0;
-            hit_player_obj.msg_handler_id = self;
             hit_player_obj.msg_grabbed_timer = 5;
             hit_player_obj.hurt_img = 0x99;
             var expected_x = x + spr_dir * get_hitbox_value(AT_NTHROW, 1, HG_HITBOX_X);
@@ -143,7 +144,6 @@ if (my_hitboxID.attack == AT_NTHROW)
         hit_player_obj.marked_player = self.player;
         hit_player_obj.msg_leechseed_timer = 0;
         hit_player_obj.msg_leechseed_owner = self;
-        hit_player_obj.msg_handler_id = self;
 
         hit_player_obj.msg_unsafe_effects.bad_vsync.gameplay_timer = 240;
         hit_player_obj.msg_unsafe_effects.bad_vsync.horz_max = 12;
@@ -159,7 +159,6 @@ if (my_hitboxID.attack == AT_NTHROW)
             set_player_damage(hit_player_obj.player, clamp(-dmg, -999, 999));
         }
         hit_player_obj.msg_negative_dmg_timer = msg_grab_negative_duration;
-        hit_player_obj.msg_handler_id = self;
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_FREEZE_HITBOX)
     {
@@ -170,7 +169,6 @@ if (my_hitboxID.attack == AT_NTHROW)
     {
         //apply Glitch Time
         hit_player_obj.msg_doubled_time_timer = msg_grab_glitchtime_duration;
-        hit_player_obj.msg_handler_id = self;
         with (hit_player_obj)
         {
             msg_prev_status.x = x;

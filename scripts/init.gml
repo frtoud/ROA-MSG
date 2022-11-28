@@ -234,6 +234,8 @@ msg_fspecial_ghost_arrow_active = false;
 msg_uspecial_wraparound = false; //while this is true, you get one free vertical wraparound + solid intangibility
 msg_uspecial_wraparound_require_pratfall = false; //once wraparound happens, apply pratfall first chance you get
 
+msg_other_update_article = noone; //article with update hook for consistent de/buffs management
+
 //Copy of other_init
 msg_common_init();
 
@@ -457,7 +459,7 @@ msg_low_fps_mode = false; //pointless?
 #define msg_common_init // Version 0
     // initialize variables for debuffs and oddities
     {
-        msg_handler_id = noone;
+        msg_handler_id = noone; //last missingno to have grabbed you
         msg_grabbed_timer = 0;
 
         msg_grab_immune_timer = 0;

@@ -6,7 +6,7 @@ if (msg_exploded_damage != 0)
 }
 
 //==========================================================
-// attempt to apply the fix to negative damage premptively (see user_event0)
+// attempt to apply the fix to negative damage premptively (see article1_update)
 if (msg_last_known_damage < 0) && (get_player_damage(player) == 0)
 {
     var new_damage = msg_last_known_damage + enemy_hitboxID.damage;

@@ -571,7 +571,7 @@ switch (attack)
                     set_player_damage(player, clamp(-dmg, -999, 999));
                 }
                 msg_negative_dmg_timer = msg_grab_negative_duration;
-                //Need to handle self as "debuffed"
+                //Need to track self as "debuffed" to undo negative% with correct values
                 msg_handler_id = self;
             }
         }
@@ -581,8 +581,6 @@ switch (attack)
             {
                 //apply Glitch Time (to self)
                 msg_doubled_time_timer = msg_grab_glitchtime_duration;
-                //Need to handle self as "debuffed"
-                msg_handler_id = self;
                 msg_prev_status.x = x;
                 msg_prev_status.y = y;
                 msg_prev_status.hsp = hsp;

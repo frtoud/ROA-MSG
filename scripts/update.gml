@@ -1,13 +1,27 @@
 //update.gml
 
 //==============================================================
+//ensure an update article exists
+if !instance_exists(msg_other_update_article)
+{
+    msg_other_update_article = instance_create(0, 0, "obj_article1");
+    with (oPlayer) if (self != other)
+    {
+        //somehow init gets to run after another's update frame. go figure.
+        if ("msg_other_update_article" in self)
+            instance_destroy(msg_other_update_article);
+
+        msg_other_update_article = other.msg_other_update_article;
+    }
+}
+
+//==============================================================
 //First-jump physics: same as shorthop, just with teleport
 //jump_down is the full-hop condition. shield_down prevents breaking wavedash
 if (state == PS_FIRST_JUMP && state_timer == 0 && jump_down && !shield_pressed)
 {
     y -= msg_firstjump_height;
 }
-
 
 //==============================================================
 //crawling 
@@ -305,10 +319,6 @@ if (msg_uspecial_wraparound_require_pratfall)
     set_state(free ? PS_PRATFALL : PS_PRATLAND);
     msg_uspecial_wraparound_require_pratfall = false;
 }
-
-//other_update
-user_event(0);
-
 
 //========================================================
 #define steal_move_data(target_id, target_move, destination_index)
