@@ -634,7 +634,7 @@ switch (attack)
         {
             if (window_timer == 0 && !hitpause)
             {
-                sound_play(sound_get("hands"));
+                sound_play(sound_get("vanish"));
                 if (!msg_is_local)
                 {
                     msg_unsafe_invisible_timer = msg_grab_vanish_duration + player*30;
