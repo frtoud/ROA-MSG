@@ -182,6 +182,12 @@ msg_init_locality();
         msg_clone_microplatform = noone; //clone pseudoground
         msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
         msg_clone_last_attack_that_needed_offedge = noone;
+
+        //NOTE: INTENTIONALLY DESYNCED FOR ONLINE
+        msg_unsafe_invisible_timer = 0;
+        //decremented over time.
+        //when it reaches zero, resets visible to true.
+        //set to -1 to only reset visible on hit
     }
 
 #define msg_init_locality // Version 0

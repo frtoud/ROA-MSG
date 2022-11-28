@@ -151,7 +151,7 @@ msg_grab_negative_duration = 60*8; //how long before negative damage gets restor
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
 msg_grab_glitchtime_duration = 60*8; //how long to stay in glitchtime debuff mode
 msg_grab_antibash_force = 12; //how far to send Missingno after the bash
-
+msg_grab_vanish_duration = 60*8; //how long players are vanished for (with slight variance)
 
 //=========================================================
 // Attack variables
@@ -207,6 +207,9 @@ msg_grab_queue = [msg_grab_broken_outcome];
 msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
 msg_grab_selection_timer = 0;
 msg_grab_last_outcome = -1; //"-1" is a signal to use the RNG one
+
+msg_broken_selfhurt = 0;
+msg_broken_coins = 0;
 
 //estimated maximum of particles at once (4/second, 2 at once, per victim)
 //if you somehow exceed that number, it will start overwriting previous ones and... well, let's say its an intentional bug.
@@ -469,6 +472,12 @@ msg_low_fps_mode = false; //pointless?
         msg_clone_microplatform = noone; //clone pseudoground
         msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
         msg_clone_last_attack_that_needed_offedge = noone;
+
+        //NOTE: INTENTIONALLY DESYNCED FOR ONLINE
+        msg_unsafe_invisible_timer = 0;
+        //decremented over time.
+        //when it reaches zero, resets visible to true.
+        //set to -1 to only reset visible on hit
     }
 
 #define msg_init_locality // Version 0

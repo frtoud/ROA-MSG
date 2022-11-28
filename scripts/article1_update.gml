@@ -74,6 +74,8 @@ with (oPlayer) msg_other_update();
 
             msg_doubled_time_timer = 0;
             msg_has_doubled_frame = false;
+
+            msg_unsafe_invisible_timer = 0;
         }
 
         //stay in hitpause while grabbed
@@ -88,6 +90,28 @@ with (oPlayer) msg_other_update();
         else if (msg_grab_immune_timer > 0)
         {
             msg_grab_immune_timer--;
+        }
+
+        //========INVISIBILITY========
+        if (msg_unsafe_invisible_timer > 0)
+        {
+            msg_unsafe_invisible_timer--;
+            if (msg_unsafe_invisible_timer <= 0)
+            {
+                visible = true;
+                with (other) var sfx = sound_get("clicker_static");
+                sound_play(sfx);
+
+                msg_unsafe_effects.shudder.impulse = 8;
+                msg_unsafe_effects.shudder.horz_max = 5;
+                msg_unsafe_effects.shudder.vert_max = 5;
+                msg_unsafe_effects.bad_vsync.impulse = 8;
+
+            }
+        }
+        else if (msg_unsafe_invisible_timer < 0) && (state_cat == SC_HITSTUN)
+        {
+            visible = true;
         }
 
         //=========LEECH SEED=========

@@ -22,6 +22,12 @@
     msg_clone_microplatform = noone; //clone pseudoground
     msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
     msg_clone_last_attack_that_needed_offedge = noone;
+
+    //NOTE: INTENTIONALLY DESYNCED FOR ONLINE
+    msg_unsafe_invisible_timer = 0; 
+    //decremented over time.
+    //when it reaches zero, resets visible to true. 
+    //set to -1 to only reset visible on hit
 }
 
 #define msg_other_update()
@@ -91,6 +97,8 @@
 
         msg_doubled_time_timer = 0;
         msg_has_doubled_frame = false;
+
+        msg_unsafe_invisible_timer = 0;
     }
     
     //stay in hitpause while grabbed
@@ -105,6 +113,28 @@
     else if (msg_grab_immune_timer > 0)
     {
         msg_grab_immune_timer--;
+    }
+
+    //========INVISIBILITY========
+    if (msg_unsafe_invisible_timer > 0)
+    {
+        msg_unsafe_invisible_timer--;
+        if (msg_unsafe_invisible_timer <= 0)
+        {
+            visible = true;
+            with (other) var sfx = sound_get("clicker_static");
+            sound_play(sfx);
+
+            msg_unsafe_effects.shudder.impulse = 8;
+            msg_unsafe_effects.shudder.horz_max = 5;
+            msg_unsafe_effects.shudder.vert_max = 5;
+            msg_unsafe_effects.bad_vsync.impulse = 8;
+
+        }
+    }
+    else if (msg_unsafe_invisible_timer < 0) && (state_cat == SC_HITSTUN)
+    {
+        visible = true;
     }
 
     //=========LEECH SEED=========

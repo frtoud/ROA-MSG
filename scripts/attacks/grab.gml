@@ -263,6 +263,31 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_HITPAUSE_SCALING, 0.3);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_ori_bash_launch"));
 set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, 110); //Ori large
 //========================================================================
+// Grab Outcome: VANISH
+current_window++;
+MSG_GRAB_VANISH_WINDOW = current_window;
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_LENGTH, 24);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAMES, -8);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_ANIM_FRAME_START, 8);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+
+hbox_num++;
+MSG_GRAB_VANISH_HITBOX = hbox_num;
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 45);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 5);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 1);
+//========================================================================
 
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
@@ -275,6 +300,7 @@ var grab_negative =   { name:"DC", window:MSG_GRAB_NEGATIVE_WINDOW,   sound:soun
 msg_grab_broken_outcome.window = MSG_GRAB_BROKEN_WINDOW; //see failsafe in init.gml
 var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
 var grab_antibash =   { name:"F1", window:MSG_GRAB_ANTIBASH_WINDOW,   sound:sound_get("grab5")};
+var grab_vanish =     { name:"17", window:MSG_GRAB_VANISH_WINDOW,     sound:sound_get("grab3")};
 
 msg_grab_pointer = 0;
 //standard rotation of grabs
@@ -285,7 +311,16 @@ msg_grab_rotation = [grab_leechseed, //front,
                      //rest is broken/glitched
  msg_grab_queue = [msg_grab_broken_outcome,
                    grab_glitchtime,
-                   grab_antibash];
+                   grab_antibash,
+                   grab_vanish];
+
+exit;
+//debug only
+   msg_grab_queue = [grab_vanish];
+   msg_grab_rotation = [grab_vanish,
+                        grab_vanish,
+                        grab_vanish,
+                        grab_vanish];
 
 //============================================
 // Sets basic outcome window animation variables
