@@ -46,7 +46,7 @@ sprite_change_offset("nspecial_alt3", 15, 46);
  sprite_change_offset("fspecial", 32, 47, true);
  sprite_change_offset("uspecial", 45, 58, true);
 sprite_change_offset("grab", 27, 45, true);
- sprite_change_offset("taunt", 16, 31, true);
+sprite_change_offset("taunt", 23, 49);
 
  sprite_change_offset("plat", 32, 47);
 sprite_change_offset("microplatform", 1, 0);

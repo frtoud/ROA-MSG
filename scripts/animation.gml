@@ -308,6 +308,19 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_TAUNT:
+        {
+            if (window == 2) && (window_timer == get_window_value(AT_TAUNT, 2, AG_WINDOW_LENGTH) - 1)
+            {
+                sound_play(sound_get("clicker_static"), false, noone, 0.6);
+                sound_play(sound_get("krr"), false, noone, 1, 1.1 + GET_RNG(6, 0x07)/15.0);
+                msg_unsafe_effects.quadrant.impulse = 12;
+                msg_unsafe_effects.shudder.impulse = 12;
+                msg_unsafe_effects.shudder.horz_max = 8;
+                msg_unsafe_effects.shudder.vert_max = 8;
+            }
+        } break;
+//==================================================================
         default: break;
     }
 //==================================================================
