@@ -322,8 +322,9 @@ switch (state)
                     {
                         visible = false;
                         sound_play(sound_get("vanish"));
-                        msg_unsafe_invisible_timer = msg_is_local ? 120 : -1;
-                        msg_unsafe_invisible_timer = 120;
+                        var minimum_invis_time = (window == 1) ? get_window_value(AT_TAUNT, 1, AG_WINDOW_LENGTH) - window_timer : 5;
+                        minimum_invis_time += get_window_value(AT_TAUNT, 2, AG_WINDOW_LENGTH);
+                        msg_unsafe_invisible_timer = msg_is_local ? minimum_invis_time : -1;
                     }
                     else
                     {
