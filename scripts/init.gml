@@ -288,6 +288,10 @@ msg_multiparry = 0; //counts down for the infinite parry glitch
 
 msg_dstrong_sweetspot_hit = false;
 
+//alt taunts (unsafe)
+msg_alt_taunt_flag = 0; //see set_attack.gml
+msg_taunt_timestamp = 0; //see animation.gml
+
 //initialize VFX
 msg_init_effects(true);
 

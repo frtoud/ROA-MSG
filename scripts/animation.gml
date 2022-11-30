@@ -310,14 +310,55 @@ switch (state)
 //==================================================================
         case AT_TAUNT:
         {
-            if (window == 2) && (window_timer == get_window_value(AT_TAUNT, 2, AG_WINDOW_LENGTH) - 1)
+            switch (msg_alt_taunt_flag)
             {
-                sound_play(sound_get("clicker_static"), false, noone, 0.6);
-                sound_play(sound_get("krr"), false, noone, 1, 1.1 + GET_RNG(6, 0x07)/15.0);
-                msg_unsafe_effects.quadrant.impulse = 12;
-                msg_unsafe_effects.shudder.impulse = 12;
-                msg_unsafe_effects.shudder.horz_max = 8;
-                msg_unsafe_effects.shudder.vert_max = 8;
+                case 1: //gaster
+                {
+                    if (window == 1 && window_timer <= 1)
+                    {
+                        msg_taunt_timestamp = current_time;
+                    }
+                    else if visible && ((window == 2) || (msg_taunt_timestamp + 1200 < current_time))
+                    {
+                        visible = false;
+                        sound_play(sound_get("vanish"));
+                        msg_unsafe_invisible_timer = msg_is_local ? 120 : -1;
+                        msg_unsafe_invisible_timer = 120;
+                    }
+                    else
+                    {
+                        //animation shenanigans
+                        if (window_timer > 40)
+                        {
+                            image_index = 3;
+                            msg_unsafe_effects.bad_vsync.freq = 16;
+                            msg_unsafe_effects.bad_vsync.horz_max = 35;
+                            msg_unsafe_effects.shudder.freq = 20;
+                            msg_unsafe_effects.shudder.horz_max = 12;
+                            msg_unsafe_effects.shudder.vert_max = 12;
+                        }
+                        else if (window_timer < 8) image_index = 0;
+                        else
+                        {
+                            image_index = 1 + ((window_timer % 8) < 4 );
+                            msg_unsafe_effects.shudder.freq = 7;
+                            msg_unsafe_effects.shudder.horz_max = 12;
+                            msg_unsafe_effects.shudder.vert_max = 12;
+                        }
+                    }
+                } break;
+                default: //case 0
+                {
+                    if (window == 2) && (window_timer == get_window_value(AT_TAUNT, 2, AG_WINDOW_LENGTH) - 1)
+                    {
+                        sound_play(sound_get("clicker_static"), false, noone, 0.6);
+                        sound_play(sound_get("krr"), false, noone, 1, 1.1 + GET_RNG(6, 0x07)/15.0);
+                        msg_unsafe_effects.quadrant.impulse = 12;
+                        msg_unsafe_effects.shudder.impulse = 12;
+                        msg_unsafe_effects.shudder.horz_max = 8;
+                        msg_unsafe_effects.shudder.vert_max = 8;
+                    }
+                }break;
             }
         } break;
 //==================================================================
