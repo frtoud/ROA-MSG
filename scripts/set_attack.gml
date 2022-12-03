@@ -63,8 +63,9 @@ var list = get_attack_value(attack, AG_MSG_ALT_SPRITES);
 if (list != 0) switch (attack)
 {
     case AT_FSTRONG:
-        var active = GET_RNG(10, 0x07) < 3;
+        var active = GET_RNG(10, 0x07) < 1;
         if (active) msg_alt_sprite = list[0];
+        set_hitbox_value(AT_FSTRONG, 1, HG_HIT_SFX, asset_get(active ? "sfx_burnconsume" : "sfx_ell_arc_small_missile_ground"));
     break;
     case AT_NAIR:
         //TBD: "seen" criteria tracked across game session

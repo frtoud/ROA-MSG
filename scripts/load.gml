@@ -22,7 +22,6 @@ sprite_change_offset("substitute_fall", 28, 50);
 sprite_change_offset("airdodge", 20, 39);
 sprite_change_offset("roll_backward", 20, 39);
 sprite_change_offset("roll_forward", 20, 39);
- sprite_change_offset("waveland", 16, 31);
  sprite_change_offset("tech", 16, 31);
 
 sprite_change_offset("dattack", 48, 47, true);
@@ -36,7 +35,7 @@ sprite_change_offset("fair_alt", 24, 42);
 sprite_change_offset("bair", 42, 52, true);
 sprite_change_offset("uair", 42, 72, true);
 sprite_change_offset("dair", 20, 47, true);
- sprite_change_offset("fstrong", 32, 47, true);
+sprite_change_offset("fstrong", 25, 35, true);
  sprite_change_offset("ustrong", 25, 39, true);
 sprite_change_offset("dstrong", 48, 58, true);
 sprite_change_offset("nspecial", 17, 45, true);
