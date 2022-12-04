@@ -235,6 +235,11 @@ switch (state)
                 msg_unsafe_effects.shudder.horz_max = 5;
                 msg_unsafe_effects.shudder.vert_max = 5;
             }
+            if (has_hit && window == 2)
+            {
+                msg_unsafe_effects.crt.freq = 12;
+                msg_unsafe_effects.crt.maximum = 28;
+            }
         } break;
 //==================================================================
         case AT_DSTRONG:
