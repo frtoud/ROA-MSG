@@ -10,7 +10,9 @@ if (current_time % 3 == 0) && (room == asset_get("network_char_select"))
     msg_error_active = true;
 
     var rng_msgs = [];
-    switch (get_local_setting(SET_LANGUAGE))
+    var lang = get_local_setting(SET_LANGUAGE);
+    if ((current_time >> 1) % 7 == 0) lang = 99;
+    switch (lang)
     {
         case 0: //EN
            rng_msgs = [
