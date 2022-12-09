@@ -20,7 +20,7 @@
         clone.persistent = true;
         clone.uses_shader = false;
 
-        ret.master = ref;
+        ret.master = ret;
         clone.master = ret;
         ret.clone = clone;
         clone.clone = clone;

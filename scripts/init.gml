@@ -301,6 +301,9 @@ msg_init_locality();
 //removes special rendering shenanigans
 msg_low_fps_mode = false; //pointless?
 
+
+msg_persistence = msg_find_persistent_article();
+
 //=========================================================
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
@@ -483,6 +486,37 @@ msg_low_fps_mode = false; //pointless?
         //when it reaches zero, resets visible to true.
         //set to -1 to only reset visible on hit
     }
+
+#define msg_find_persistent_article // Version 0
+    var ret = noone;
+    with (asset_get("obj_article3")) if ("missingno" == num)
+    {
+        ret = master; break;
+    }
+
+    if !instance_exists(ret)
+    {
+        ret = instance_create(0, 0, "obj_article3");
+        ret.num = "missingno";
+        ret.persistent = true;
+        ret.uses_shader = false;
+
+        //only exists as an extra hook for master article
+        var clone = instance_create(0, 0, "obj_article3");
+        clone.num = "missingno";
+        clone.persistent = true;
+        clone.uses_shader = false;
+
+        ret.master = ret;
+        clone.master = ret;
+        ret.clone = clone;
+        clone.clone = clone;
+    }
+
+    if !instance_exists(ret)
+       print("MSG: Could not find or create persistent articles");
+
+    return ret;
 
 #define msg_init_locality // Version 0
     // Local CSS player zero has hud color 0,0,0
