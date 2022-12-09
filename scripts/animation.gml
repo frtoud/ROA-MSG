@@ -353,6 +353,14 @@ switch (state)
                         }
                     }
                 } break;
+                case 2: //majora
+                {
+                    if (window == 1)
+                    {
+                        image_index = (window_timer < 36) ? 
+                            floor(window_timer/3) : min(16, 12 + floor((window_timer - 36) /6));
+                    }
+                } //continues for end-of-anim vfx
                 default: //case 0
                 {
                     if (window == 2) && (window_timer == get_window_value(AT_TAUNT, 2, AG_WINDOW_LENGTH) - 1)

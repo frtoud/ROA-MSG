@@ -1,5 +1,5 @@
 set_attack_value(AT_TAUNT, AG_SPRITE, sprite_get("taunt"));
-set_attack_value(AT_TAUNT, AG_MSG_ALT_SPRITES, [sprite_get("taunt_alt1")]);
+set_attack_value(AT_TAUNT, AG_MSG_ALT_SPRITES, [sprite_get("taunt_alt1"), sprite_get("taunt_alt2")]);
 set_attack_value(AT_TAUNT, AG_NUM_WINDOWS, 2);
 set_attack_value(AT_TAUNT, AG_HAS_LANDING_LAG, 3);
 set_attack_value(AT_TAUNT, AG_OFF_LEDGE, 1);
