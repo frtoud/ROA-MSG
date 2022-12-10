@@ -18,7 +18,9 @@ if (msg_dstrong_yoyo.active && msg_dstrong_yoyo.visible)
     {
         subspr = 0; ofx = 0; ofy = 0;
     }
+    shader_start();
     draw_sprite_ext(msg_dstrong_yoyo.spr, subspr, msg_dstrong_yoyo.x+ofx, msg_dstrong_yoyo.y+ofy, msg_dstrong_yoyo.dir, 1, 0, c_white, 0.9);
+    shader_end();
 }
 
 
@@ -31,7 +33,9 @@ if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
 }
 else if (state == PS_PARRY && (state_timer > 0 && state_timer < 10) && !has_parried)
 {
+    shader_start();
     draw_sprite_ext(msg_substitute, 0, x+15*spr_dir, y, 1*spr_dir, 1, 0, c_white, 1);
+    shader_end();
 }
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
