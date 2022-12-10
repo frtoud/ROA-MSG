@@ -13,6 +13,7 @@ msg_gpu_push_state();
 ///Disable blend; write alpha only, don't alphatest
 gpu_set_blendenable(false);
 gpu_set_alphatestenable(false);
+var cw = gpu_get_colorwriteenable();
 gpu_set_colorwriteenable(false, false, false, true);
 ///Draw an alpha-zero background as a base "no draw" zone
 draw_set_alpha(0);
@@ -53,7 +54,7 @@ for (var n = 0; n < msg_unsafe_trail_max; ++n)
 //====================
 ///Reenable blend, alphatest & colors
 gpu_set_blendenable(true);
-gpu_set_colorwriteenable(true, true, true, true);
+gpu_set_colorwriteenable(cw[0], cw[1], cw[2], cw[3]);
 ///Blend using destination pixels alpha, set by the mask
 gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
 
@@ -64,11 +65,10 @@ gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
 if (msg_unsafe_effects.crt.timer > 0)
 {
     var crt_offset = msg_unsafe_effects.crt.offset;
-    gpu_set_colorwriteenable(false, true, true, true); //R
+    gpu_set_colorwriteenable(false, cw[1], cw[2], cw[3]); //R
     draw_sprite_tiled_ext(bg_spr, bg_index, draw_x - crt_offset, draw_y, 2, 2, c_white, 1);
-    gpu_set_colorwriteenable(true, false, false, true); //GB
+    gpu_set_colorwriteenable(cw[0], false, false, cw[3]); //GB
     draw_sprite_tiled_ext(bg_spr, bg_index, draw_x + crt_offset, draw_y, 2, 2, c_white, 1);
-    gpu_set_colorwriteenable(true, true, true, true);
 }
 else draw_sprite_tiled_ext(bg_spr, bg_index, draw_x, draw_y, 2, 2, c_white, 1);
 
