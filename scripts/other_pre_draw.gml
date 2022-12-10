@@ -114,7 +114,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         q[2]=msg_unsafe_effects.quadrant.garbage[2] ?
              {scale:g.scale, spr:g.spr,        ind:image_index, x:gbl, y:gcy, w:(gofx- gbl), h:(gbb - gcy) }:
              {scale:scale,   spr:sprite_index, ind:image_index, x:bbl, y:c_y, w:(ofx - bbl), h:(bbb - c_y) };
-        q[3]=msg_unsafe_effects.quadrant.garbage[2] ?
+        q[3]=msg_unsafe_effects.quadrant.garbage[3] ?
              {scale:g.scale, spr:g.spr,        ind:image_index, x:gofx,y:gcy, w:(gbr -gofx), h:(gbb - gcy) }:
              {scale:scale,   spr:sprite_index, ind:image_index, x:ofx, y:c_y, w:(bbr - ofx), h:(bbb - c_y) };
 
@@ -143,6 +143,35 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x, y +draw_y - half_h,
                              spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
+        if (main_draw) shader_end();
+
+        skips_draw = main_draw;
+    }
+    //===========================================================
+    // REDRAW EFFECT: BAD_STRIP
+    // sprite split vertically as if (n+1) was the strip number given
+    else if (msg_unsafe_effects.bad_strip.timer > 0)
+    {
+        var num_img = sprite_get_number(sprite_index);
+        var spr_w = abs(sprite_width); //why is this necessary !?
+
+        var clamped_index = floor(image_index % num_img);
+        var crop_step = floor(spr_w / (num_img + 1));
+        var crop_total = crop_step * clamped_index;
+        var pos_x = x + draw_x  - scale* (sprite_xoffset - crop_step*sign(spr_dir)*0.5);
+        var pos_y = y - scale*sprite_yoffset + draw_y;
+
+        if (main_draw) shader_start();
+
+        if (clamped_index > 0)
+        {   //slice of previous image
+            draw_sprite_part_ext(sprite_index, clamped_index-1, spr_w - crop_total, 0, crop_total, sprite_height,
+                                 pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
+        }
+        //current image, sliced
+        draw_sprite_part_ext(sprite_index, clamped_index, 0, 0, spr_w - crop_total - crop_step, sprite_height,
+                             pos_x + scale*spr_dir*crop_total, pos_y, spr_dir * scale, scale, c_white, 1.0);
+
         if (main_draw) shader_end();
 
         skips_draw = main_draw;

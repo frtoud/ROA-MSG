@@ -82,6 +82,7 @@ if ("msg_unsafe_handler_id" not in self)
     //===========================================================
     //effect type: REDRAW
     msg_unsafe_effects.quadrant = msg_make_effect();
+    //Outputs
     msg_unsafe_effects.quadrant.source = [0, 1, 2, 3]; //which corner to draw
     msg_unsafe_effects.quadrant.garbage = [false, false, false, false]; //does this draw from wrong sprite?
 
@@ -95,7 +96,7 @@ if ("msg_unsafe_handler_id" not in self)
 
     //===========================================================
     //effect type: REDRAW
-    msg_unsafe_effects.bad_crop = msg_make_effect();
+    msg_unsafe_effects.bad_strip = msg_make_effect();
 
 } //end for generics
 //==========================================================
