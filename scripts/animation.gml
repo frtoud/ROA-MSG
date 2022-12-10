@@ -282,6 +282,14 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_FSPECIAL:
+        {
+            if (window == 2)
+            {
+                image_index = msg_fspecial_charge + 2;
+            }
+        } break;
+//==================================================================
         case AT_NTHROW:
         {
             if (window == 4)

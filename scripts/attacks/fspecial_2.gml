@@ -1,32 +1,37 @@
 set_attack_value(AT_FSPECIAL_2, AG_CATEGORY, 2);
 set_attack_value(AT_FSPECIAL_2, AG_SPRITE, sprite_get("fspecial"));
-set_attack_value(AT_FSPECIAL_2, AG_NUM_WINDOWS, 3);
-set_attack_value(AT_FSPECIAL_2, AG_HAS_LANDING_LAG, 4);
-set_attack_value(AT_FSPECIAL_2, AG_AIR_SPRITE, sprite_get("fspecial"));
+set_attack_value(AT_FSPECIAL_2, AG_NUM_WINDOWS, 4);
+set_attack_value(AT_FSPECIAL_2, AG_AIR_SPRITE, sprite_get("fspecial_air"));
 set_attack_value(AT_FSPECIAL_2, AG_HURTBOX_SPRITE, sprite_get("fspecial_hurt"));
 
-//startup
+//prestartup
 set_window_value(AT_FSPECIAL_2, 1, AG_WINDOW_TYPE, 1);
-set_window_value(AT_FSPECIAL_2, 1, AG_WINDOW_LENGTH, 5);
-set_window_value(AT_FSPECIAL_2, 1, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_FSPECIAL_2, 1, AG_WINDOW_ANIM_FRAME_START, 1);
+set_window_value(AT_FSPECIAL_2, 1, AG_WINDOW_LENGTH, 12);
+set_window_value(AT_FSPECIAL_2, 1, AG_WINDOW_ANIM_FRAMES, 2);
+
+//startup
+set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_TYPE, 1);
+set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_LENGTH, 4);
+set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_ANIM_FRAME_START, 3);
 
 //active (spawns 2 bubbles per frame)
-set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_TYPE, 1);
-set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_LENGTH, 15);
-set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_ANIM_FRAME_START, 2);
-set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_HAS_SFX, 1);
-set_window_value(AT_FSPECIAL_2, 2, AG_WINDOW_SFX, asset_get("sfx_bubblespray"));
+set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_TYPE, 1);
+set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_LENGTH, 15);
+set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_ANIM_FRAME_START, 5);
+set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_HAS_SFX, 1);
+set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_SFX, asset_get("sfx_bubblespray"));
 
 //endlag
-set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_TYPE, 1);
-set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_LENGTH, 12);
-set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_ANIM_FRAMES, 2);
-set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_TYPE, 1);
+set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_LENGTH, 24);
+set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_ANIM_FRAMES, 4);
+set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_ANIM_FRAME_START, 6);
 
 set_num_hitboxes(AT_FSPECIAL_2, 0);
 
+//Bubblebeam
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_HITBOX_TYPE, 2);
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_LIFETIME, 60);
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_PROJECTILE_ANIM_SPEED, 0.02);
