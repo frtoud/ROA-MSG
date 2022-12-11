@@ -170,7 +170,12 @@ switch (state)
         sprite_index = pratland_spr;
         image_index = floor(image_number * (state_timer/prat_land_time));
     } break;
-
+//==================================================================
+    case PS_TUMBLE:
+    {
+        image_index = state_timer * 0.25;
+        msg_unsafe_effects.bad_strip.freq = 999;
+    } break;
 //==================================================================
     case PS_DASH_START:
     {
@@ -409,9 +414,20 @@ else
 //unstable hitstun
 if (state_cat == SC_HITSTUN)
 {
-    msg_unsafe_effects.bad_vsync.freq = 999;
-    if (hitpause)
-    { msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 2); }
+    if (hurt_img == msg_num_hurt_spr) 
+    {
+        sprite_index = msg_unsafe_garbage.spr;
+        small_sprites = msg_unsafe_garbage.scale - 1;
+    }
+    else image_index = hurt_img;
+
+    var base_freq = max(0, (hitstun - state_timer));
+    msg_unsafe_effects.bad_vsync.freq = base_freq / 3;
+    msg_unsafe_effects.shudder.freq = base_freq / 3;
+    msg_unsafe_effects.quadrant.freq = base_freq - 10;
+    msg_unsafe_effects.crt.freq = base_freq/2 -3;
+    //if (hitpause)
+    //{ msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 2); }
 }
 
 //deployed wings

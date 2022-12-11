@@ -1,5 +1,5 @@
 sprite_change_offset("idle", 13, 42);
- sprite_change_offset("hurt", 26, 36);
+sprite_change_offset("hurt", 23, 45);
 sprite_change_offset("crouch", 19, 38);
 sprite_change_offset("crawl", 20, 29);
 sprite_change_offset("dashstart", 22, 42);

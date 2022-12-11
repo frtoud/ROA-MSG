@@ -18,6 +18,7 @@ sprite_change_offset("pratfall", 11, 33);
 sprite_change_offset("pratland", 22, 38);
 sprite_change_offset("roll_forward", 20, 39);
 sprite_change_offset("roll_forward", 20, 39);
+sprite_change_offset("hurt", 23, 45);
 sprite_change_offset("ntilt", 20, 42, true);
 sprite_change_offset("vfx_yoyo_snap", 66, 44);
 sprite_change_offset("utilt", 14, 79, true);

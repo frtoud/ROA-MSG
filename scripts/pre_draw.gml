@@ -375,12 +375,14 @@ if (vfx_yoyo_snap.timer > 0)
     //  - VSync                    .       tt GGffffff BBBBBBBB TTTTHHHH
     //  - Quadrant                 .             tttff ffffGGSS 22GGSS11
     //  - CRT                      .                OO OOOO  tt ffff
+    //  - bad strip                .                 t tt         ffff
     //  - wrong image_index
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
     //'M- gaslit dodge             .                         FF  F
     //'M- glitch trail             .          wwwwhhhh   xxxxxx  yyyyy
     //'M- Alt Sprites              .     FFFF FFFF        NNN
+    //'M- Hurt                     .                         hh hhG
     //===================================================================
     // Also see animation.gml, set_attack.gml
 
@@ -463,6 +465,22 @@ if (vfx_yoyo_snap.timer > 0)
             fx.timer = 4 + GET_RNG(8, 0x03);
 
             fx.offset = floor(GET_INT(12, 0x3F) * fx.maximum);
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer -= !fx.frozen;
+            //apply
+        }
+    }
+    //===========================================================
+    //effect: BAD_STRIP, type: REDRAW
+    var fx = msg_unsafe_effects.bad_strip
+    {
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(2, 0x0F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+            fx.timer = 1 + GET_RNG(14, 0x07);
         }
         if (fx.timer > 0)
         {
