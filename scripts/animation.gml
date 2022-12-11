@@ -148,6 +148,7 @@ switch (state)
     } break;
 //==================================================================
     case PS_WAVELAND:
+    case PS_TECH_GROUND:
     {
         sprite_index = sprite_get("land");
         msg_unsafe_effects.crt.freq = 12;
@@ -426,8 +427,6 @@ if (state_cat == SC_HITSTUN)
     msg_unsafe_effects.shudder.freq = base_freq / 3;
     msg_unsafe_effects.quadrant.freq = base_freq - 10;
     msg_unsafe_effects.crt.freq = base_freq/2 -3;
-    //if (hitpause)
-    //{ msg_unsafe_paused_timer = max(msg_unsafe_paused_timer, 2); }
 }
 
 //deployed wings
