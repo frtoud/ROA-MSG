@@ -11,7 +11,7 @@
 
     //if online, wether or not you (or a teammate) is the local player
     //else, always false
-    msg_is_local = zero_hud == get_player_hud_color(player);
+    msg_is_local = (zero_hud == get_player_hud_color(player));
 }
 
 //========================================
@@ -22,9 +22,9 @@
     var best_distance = 9999999;
     with (oPlayer)
     {
-        if (msg_is_local) && point_distance(other.x, other.y, x, y) < best_distance
+        if (msg_is_local) && (point_distance(other.x, other.y, x, y) < best_distance)
             best_player = player;
     }
-    return player;
+    return best_player;
 }
 

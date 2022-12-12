@@ -202,6 +202,6 @@ msg_init_locality();
 
     //if online, wether or not you (or a teammate) is the local player
     //else, always false
-    msg_is_local = zero_hud == get_player_hud_color(player);
+    msg_is_local = (zero_hud == get_player_hud_color(player));
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion

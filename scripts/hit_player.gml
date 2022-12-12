@@ -180,7 +180,7 @@ if (my_hitboxID.attack == AT_NTHROW)
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_VANISH_HITBOX)
     {
-        if (!msg_is_local)
+        if (!hit_player_obj.msg_is_local)
         {
             hit_player_obj.visible = false;
             hit_player_obj.msg_unsafe_invisible_timer = msg_grab_vanish_duration + hit_player_obj.player*30;

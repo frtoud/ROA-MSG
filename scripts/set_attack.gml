@@ -162,9 +162,9 @@ if (list != 0) switch (attack)
     var best_distance = 9999999;
     with (oPlayer)
     {
-        if (msg_is_local) && point_distance(other.x, other.y, x, y) < best_distance
+        if (msg_is_local) && (point_distance(other.x, other.y, x, y) < best_distance)
             best_player = player;
     }
-    return player;
+    return best_player;
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
