@@ -5,7 +5,6 @@
 
 if (msg_error_active)
 {
-
     var tmp_a = draw_get_alpha();
     draw_set_alpha(0.4);
     draw_rectangle_color(0, 0, room_width, room_height, c_black, c_black, c_black, c_black, false);
@@ -30,7 +29,6 @@ if (msg_error_active)
     draw_sprite_ext(asset_get("popup_ok_but_spr"), 0, text_posx - 50, text_posy + 176, 2, 2, 0, c_white, 1);
     textDraw(text_posx, text_posy + 180, asset_get("medFont"), c_white, 28, 300, fa_center, 1, true, 1, "OK");
 }
-//gus_shopicon_spr - 10
 
 
 

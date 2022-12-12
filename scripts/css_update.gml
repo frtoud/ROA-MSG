@@ -1,4 +1,6 @@
 //css_update.gml
+if ("msg_error_active" not in self) exit;
+
 
 if (msg_error_active)
 {
