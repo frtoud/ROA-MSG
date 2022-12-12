@@ -122,8 +122,10 @@ if (msg_fspecial_is_charging)
     {
         msg_fspecial_ghost_arrow_active = true;
         
-        msg_unsafe_effects.bad_vsync.timer += 30;
-        msg_unsafe_effects.bad_vsync.horz_max = 60;
+        msg_unsafe_effects.shudder.impulse = 20;
+        msg_unsafe_effects.bad_vsync.impulse = 20;
+        msg_unsafe_effects.bad_vsync.horz_max = 8;
+        sound_play(sound_get("krr"));
     }
 }
 msg_fspecial_is_charging = (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)

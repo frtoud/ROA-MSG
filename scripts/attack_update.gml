@@ -353,13 +353,23 @@ switch (attack)
                 window_timer = 0;
                 msg_fspecial_ghost_arrow_active = false;
             }
+            else if (!free && at_prev_free)
+            {
+                set_state(PS_LANDING_LAG);
+                msg_fspecial_ghost_arrow_active = true;
+                
+                msg_unsafe_effects.shudder.impulse = 20;
+                msg_unsafe_effects.bad_vsync.impulse = 20;
+                msg_unsafe_effects.bad_vsync.horz_max = 8;
+                sound_play(sound_get("krr"));
+            }
             else if (window_timer == get_window_value(AT_FSPECIAL, 2, AG_WINDOW_LENGTH) - 1)
             && special_down
             {
                 if (msg_fspecial_charge < 2)
                 {
                    msg_fspecial_charge++;
-                   sound_play(asset_get("sfx_may_arc_cointoss"));
+                   sound_play(msg_fspecial_charge == 1  ?asset_get("sfx_abyss_portal_spawn") : asset_get("sfx_orca_absorb"));
                 }
                 window_timer = 0;  //manual looping due to strong_charge window incompatibility
             }
@@ -388,6 +398,11 @@ switch (attack)
         }
         else if (window == 5 && window_timer == get_window_value(AT_FSPECIAL, 5, AG_WINDOW_LENGTH) - 1)
         {
+            msg_unsafe_effects.shudder.impulse = 7;
+            msg_unsafe_effects.bad_vsync.impulse = 7;
+            msg_unsafe_effects.quadrant.impulse = 7;
+            sound_play(sound_get("clicker_static"));
+
             //try to find a projectile to steal
             var closest_dist = -1;
             var found_proj = noone;
@@ -397,7 +412,7 @@ switch (attack)
             {
                 found_proj = self;
             }
-            
+
             if (found_proj != noone)
             {
                 //steal it: cannot hit me anymore
@@ -755,27 +770,7 @@ switch (attack)
 }
 
 
-/*
-if (attack == AT_DSPECIAL && window_timer == 12 && window == 2 && false) {
-    //set_player_damage(player, -500);
-    var target = noone;
-    with (oPlayer)
-    {
-        if (self != other)
-        target = self;
-    }
-    //crashes when used with base cast
-    //damage also switches
-    var temp_player = self.player;
-    self.player = target.player;
-    self.hurtboxID.player = player;
-    target.player = temp_player;
-    target.hurtboxID.player = temp_player;
-    
-    
-}
-*/
-
+at_prev_free = free;
 
 //==============================================================
 //passive charge glitch

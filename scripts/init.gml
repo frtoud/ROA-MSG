@@ -155,6 +155,7 @@ msg_grab_vanish_duration = 60*8; //how long players are vanished for (with sligh
 
 //=========================================================
 // Attack variables
+at_prev_free = free;
 at_prev_spr_dir = 0;
 at_prev_attack = AT_TAUNT;
 at_prev_special_down = false; //edge detection. set to true by either update or set_attack
@@ -232,7 +233,6 @@ msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
 msg_collective_bubble_lockout = array_create(20, 0);
 msg_fspecial_ghost_arrow_active = false;
-
 
 msg_uspecial_wraparound = false; //while this is true, you get one free vertical wraparound + solid intangibility
 msg_uspecial_wraparound_require_pratfall = false; //once wraparound happens, apply pratfall first chance you get
