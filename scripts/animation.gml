@@ -296,6 +296,14 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_FSPECIAL_AIR:
+        {
+            if (window == 3 && window_timer == 0)
+            {
+                spawn_hit_fx(x+spr_dir*22, y-28, HFX_ORC_WATER_LIGHT);
+            }
+        } break;
+//==================================================================
         case AT_NTHROW:
         {
             if (window == 4)
