@@ -253,6 +253,8 @@ no_sprite = asset_get("empty_sprite");
 error_sprite_x = asset_get("net_disc_spr");
 error_sprite_b = asset_get("solid_32x32");
 
+msg_initial_hud_spr = get_char_info(player, INFO_HUD);
+msg_initial_hudhurt_spr = get_char_info(player, INFO_HUDHURT);
 set_ui_element(UI_OFFSCREEN, error_sprite_x);
 
 hfx_error_x = hit_fx_create(error_sprite_x, 4);

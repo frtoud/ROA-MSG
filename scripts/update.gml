@@ -113,6 +113,9 @@ if (at_fresh_special_down)
         if (target != self) 
             sound_play(sound_get("eden3"));
         else sound_play(asset_get("mfx_change_color"));
+
+        set_ui_element( UI_HUD_ICON, get_char_info( target.player, INFO_HUD));
+        set_ui_element( UI_HUDHURT_ICON, get_char_info( target.player, INFO_HUDHURT));
         
         msg_unsafe_effects.bad_vsync.impulse = 4;
         msg_unsafe_effects.bad_vsync.horz_max = 5;
@@ -345,54 +348,4 @@ if (msg_uspecial_wraparound_require_pratfall)
 {
     set_state(free ? PS_PRATFALL : PS_PRATLAND);
     msg_uspecial_wraparound_require_pratfall = false;
-}
-
-//========================================================
-#define steal_move_data(target_id, target_move, destination_index)
-{
-    with (target_id)
-    {
-        var num_windows = get_attack_value(target_move, AG_NUM_WINDOWS);
-        var num_hitboxes = get_num_hitboxes(target_move);
-    }
-    
-    var k = 0; //windows and hitboxes
-    var i = 0; //for indexes
-    var temp = 0;
-    
-    //Move Indexes
-    for (i = 0; i < 100; i++) 
-    {
-        with (target_id) { temp = get_attack_value(target_move, i); }
-        set_attack_value(destination_index, i, temp);
-    }
-    //Window Indexes
-    for (k = 1; k <= num_windows; k++)
-    {
-        for (i = 0; i < 100; i++) 
-        {
-            with (target_id) { temp = get_window_value(target_move, k, i); }
-            //softlock prevention: no looping windows
-            if (i == AG_WINDOW_TYPE) 
-            { temp = temp == 9 ? 0 : (temp == 10 ? 8 : temp) }
-            else if (i == AG_WINDOW_LENGTH) 
-            { temp = clamp(temp, 0, 60) }
-            set_window_value(destination_index, k, i, temp);
-        }
-    }
-    set_num_hitboxes(destination_index, num_hitboxes);
-    //Hitbox Indexes
-    for (k = 1; k <= num_hitboxes; k++)
-    {
-        for (i = 0; i < 100; i++) 
-        {
-            with (target_id) { temp = get_hitbox_value(target_move, k, i); }
-            if (i == HG_HITBOX_Y || i == HG_HITBOX_X) 
-            { temp = clamp(temp, -500, 500) }
-            set_hitbox_value(destination_index, k, i, temp);
-        }
-    }
-    
-    //allow all moves no matter the situation
-    set_attack_value(destination_index, AG_CATEGORY, 2);
 }
