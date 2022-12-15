@@ -26,11 +26,13 @@ if (attack == AT_BSPECIAL)
     else if (msg_bspecial_last_move.target.msg_is_missingno)
     {
         attack = msg_bspecial_last_move.move;
+        if (attack == AT_BSPECIAL) //copied a Missingno's Bspecial! commutative steal
+            steal_move_data(msg_bspecial_last_move.target, msg_bspecial_last_move.move);
         //...if not self; apply runes?
     }
     else
     {
-        sound_play(sound_get("eden2"));
+        sound_play(sound_get("eden2"), false, noone, 0.6, 0.6 + GET_RNG(6, 0x07)/15.0);
         steal_move_data(msg_bspecial_last_move.target, msg_bspecial_last_move.move);
     }
 

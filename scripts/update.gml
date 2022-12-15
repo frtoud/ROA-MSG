@@ -76,27 +76,52 @@ switch (state)
 
 var counts_as_hitpause = (hitpause) || ( (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
                                          && (attack == AT_NTHROW && window == 4) );
-if (special_down)
+
+//One outcome per distinct special press
+if (!at_prev_special_down && special_down) 
+    at_fresh_special_down = true;
+
+if (at_fresh_special_down)
 {
     var target = noone;
     var saved_move = -1;
-    //last frame of hitpause: steal target's last move
-    if (!counts_as_hitpause && at_was_in_hitpause)
+
+    if (!special_down)
     {
+        //released: save self's last move
+        target = self;
+        saved_move = target.attack;
+        at_fresh_special_down = false;
+    }
+    else if (!counts_as_hitpause && at_was_in_hitpause)
+    {
+        //last frame of hitpause: steal target's last move
         target = instance_exists(hit_player_obj) ? hit_player_obj : self;
         saved_move = target.attack;
+        at_fresh_special_down = false;
     }
 
     //save move info
     if instance_exists(target) && ( (msg_bspecial_last_move.target != target) 
                                  || (msg_bspecial_last_move.move != saved_move) )
+                               && !(saved_move == AT_DSPECIAL_2 && target == self)
     {
-        if (target != self) sound_play(sound_get("eden3"));
         msg_bspecial_last_move.target = target;
         msg_bspecial_last_move.move = saved_move;
         msg_bspecial_last_move.small_sprites = target.small_sprites;
+
+        if (target != self) 
+            sound_play(sound_get("eden3"));
+        else sound_play(asset_get("mfx_change_color"));
+        
+        msg_unsafe_effects.bad_vsync.impulse = 4;
+        msg_unsafe_effects.bad_vsync.horz_max = 5;
+        msg_unsafe_effects.shudder.impulse = 4;
+        msg_unsafe_effects.shudder.horz_max = 5;
+        msg_unsafe_effects.shudder.vert_max = 5;
     }
 }
+
 at_prev_special_down = special_down;
 at_was_in_hitpause = counts_as_hitpause;
 if (attack != AT_DSPECIAL_2) at_prev_attack = attack;

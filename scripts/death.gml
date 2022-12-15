@@ -6,6 +6,7 @@ msg_exploded_respawn = false;
 
 //clears saved attack index
 msg_bspecial_last_move.target = noone;
+msg_bspecial_last_move.move = AT_TAUNT;
 
 /*
 if (get_player_stocks(player) == 1)
