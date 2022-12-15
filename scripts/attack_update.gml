@@ -411,6 +411,7 @@ switch (attack)
             && (closest_dist < 0 || closest_dist > distance_to_point(other.x, other.y))
             {
                 found_proj = self;
+                closest_dist = distance_to_point(other.x, other.y);
             }
 
             if (found_proj != noone)
@@ -419,15 +420,23 @@ switch (attack)
                 found_proj.can_hit_self = true;
                 found_proj.can_hit[found_proj.player_id.player] = true;
                 found_proj.can_hit[player] = false;
-                
+
+                vfx_yoyo_snap.timer = 8;
+                vfx_yoyo_snap.x = found_proj.x;
+                vfx_yoyo_snap.y = found_proj.y;
+                vfx_yoyo_snap.length = closest_dist;
+
                 // and throw it (sort of like water gun)
                 found_proj.x = x + spr_dir*get_hitbox_value(AT_FSPECIAL, 1, HG_HITBOX_X);
                 found_proj.y = y + get_hitbox_value(AT_FSPECIAL, 1, HG_HITBOX_Y);
+
+                vfx_yoyo_snap.angle = point_direction(vfx_yoyo_snap.x, vfx_yoyo_snap.y, 
+                                                      found_proj.x, found_proj.y);
                 
                 found_proj.hsp = spr_dir * max(msg_fspecial_ghost_arrow_min_speed, 
                                  point_distance(0, 0, found_proj.hsp, found_proj.vsp));
                 found_proj.vsp = -found_proj.grav * 
-                                 (1.0 * msg_fspecial_ghost_arrow_target_distance/found_proj.hsp);
+                                 (1.0 * msg_fspecial_ghost_arrow_target_distance/abs(found_proj.hsp));
                 
                 sound_play(asset_get("sfx_watergun_fire"));
 
