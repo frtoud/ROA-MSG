@@ -1,38 +1,29 @@
+#macro IMPOSSIBLY_LONG_TIME 999999999999999999999999999999999999999999999
 //====================================================================
-#define msg_find_persistent_article()
+#define msg_get_persistent_article()
 {
-    var ret = noone;
-    with (asset_get("obj_article3")) if ("missingno" == num)
-    {
-        ret = master; break;
-    }
-
-    if !instance_exists(ret)
-    {
-        ret = instance_create(0, 0, "obj_article3");
-        ret.num = "missingno";
-        ret.persistent = true;
-        ret.uses_shader = false;
-
-        //only exists as an extra hook for master article
-        var clone = instance_create(0, 0, "obj_article3");
-        clone.num = "missingno";
-        clone.persistent = true;
-        clone.uses_shader = false;
-
-        ret.master = ret;
-        clone.master = ret;
-        ret.clone = clone;
-        clone.clone = clone;
-    }
-
-    if !instance_exists(ret)  
-       print("MSG: Could not find or create persistent articles");
-
-    return ret;
+    msg_requested_persistent_article = noone;
+    user_event(7); //sets msg_requested_persistent_article 
+    var article = msg_requested_persistent_article;
+    msg_requested_persistent_article = noone;
+    return article;
 }
-
-//NOTES:
-//what if multiple masters? what if multiple clones? (unlikely)
-//what if clone but no master? master but no clone? (more likely)
-//naive implementation enough for now
+//====================================================================
+#define msg_init_core(hitfx_core)
+{
+    with (hitfx_core)
+    {
+        achievement_fame = false;
+        achievement_combo = false;
+        achievement_matrix = false;
+    }
+}
+//====================================================================
+#define msg_refresh_core(hitfx_core)
+{
+    //making data last "forever"
+    msb_data.pause = IMPOSSIBLY_LONG_TIME;
+    msb_data.hit_length = IMPOSSIBLY_LONG_TIME;
+    msb_data.pause_timer = 0;
+    msb_data.step_timer = 0;
+}

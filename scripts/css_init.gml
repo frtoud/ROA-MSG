@@ -1,5 +1,7 @@
 //css_init.gml
 
+msg_persistence = noone;
+
 msg_error_active = false;
 var nl = chr(0x0A);
 msg_error_message = nl;

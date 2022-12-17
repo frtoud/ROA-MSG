@@ -1,6 +1,8 @@
 //css_update.gml
 if ("msg_error_active" not in self) exit;
 
+if !instance_exists(msg_persistence)
+    msg_persistence = msg_get_persistent_article();
 
 if (msg_error_active)
 {
@@ -12,3 +14,15 @@ if (msg_error_active)
         msg_error_active = false;
     }
 }
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define msg_get_persistent_article // Version 0
+    msg_requested_persistent_article = noone;
+    user_event(7); //sets msg_requested_persistent_article
+    var article = msg_requested_persistent_article;
+    msg_requested_persistent_article = noone;
+    return article;
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

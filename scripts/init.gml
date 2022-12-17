@@ -306,7 +306,7 @@ msg_init_locality();
 msg_low_fps_mode = false; //pointless?
 
 
-msg_persistence = msg_find_persistent_article();
+msg_persistence = msg_get_persistent_article();
 
 //=========================================================
 
@@ -492,36 +492,12 @@ msg_persistence = msg_find_persistent_article();
         //set to -1 to only reset visible on hit
     }
 
-#define msg_find_persistent_article // Version 0
-    var ret = noone;
-    with (asset_get("obj_article3")) if ("missingno" == num)
-    {
-        ret = master; break;
-    }
-
-    if !instance_exists(ret)
-    {
-        ret = instance_create(0, 0, "obj_article3");
-        ret.num = "missingno";
-        ret.persistent = true;
-        ret.uses_shader = false;
-
-        //only exists as an extra hook for master article
-        var clone = instance_create(0, 0, "obj_article3");
-        clone.num = "missingno";
-        clone.persistent = true;
-        clone.uses_shader = false;
-
-        ret.master = ret;
-        clone.master = ret;
-        ret.clone = clone;
-        clone.clone = clone;
-    }
-
-    if !instance_exists(ret)
-       print("MSG: Could not find or create persistent articles");
-
-    return ret;
+#define msg_get_persistent_article // Version 0
+    msg_requested_persistent_article = noone;
+    user_event(7); //sets msg_requested_persistent_article
+    var article = msg_requested_persistent_article;
+    msg_requested_persistent_article = noone;
+    return article;
 
 #define msg_init_locality // Version 0
     // Local CSS player zero has hud color 0,0,0
