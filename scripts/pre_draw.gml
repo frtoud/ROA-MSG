@@ -36,6 +36,8 @@ if (!msg_low_fps_mode)
     // Reroll Missingno effects
     msg_apply_effects();
 
+    msg_gpu_push_state();
+
     //glitch trail
     var trail = msg_unsafe_trail[msg_unsafe_trail_pointer];
     trail.w = msg_unsafe_trail_active ? 8 + GET_RNG(20, 0x0F) : 0;

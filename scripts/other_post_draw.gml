@@ -16,6 +16,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 {
     //restore draw params
     msg_copy_params(msg_anim_backup, self, msg_anim_backup);
+    msg_gpu_clear();
 }
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
@@ -28,6 +29,12 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     {
         variable_instance_set(target, keys[k],
                                 variable_instance_get(source, keys[k]));
+    }
+
+#define msg_gpu_clear // Version 0
+    while (msg_unsafe_gpu_stack_level > 0)
+    {
+        gpu_pop_state(); msg_unsafe_gpu_stack_level--;
     }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion

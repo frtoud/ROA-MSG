@@ -21,6 +21,8 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //Get your random effects recalculated
     msg_apply_effects();
 
+    msg_gpu_push_state();
+
     msg_manual_draw();
 }
 
@@ -223,6 +225,9 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         variable_instance_set(target, keys[k],
                                 variable_instance_get(source, keys[k]));
     }
+
+#define msg_gpu_push_state // Version 0
+    gpu_push_state(); msg_unsafe_gpu_stack_level++;
 
 #define msg_apply_effects // Version 0
     // aka. unsafe_animation.gml
