@@ -1,16 +1,8 @@
 //persistence initialization
 
-//we want to ensure these three things exist
-var msg_master = noone; //persistent article, to run code where we shouldn't >:]
+//we want to ensure these two things exist
+var msg_master = noone; //persistent article, to run code where we shouldn't.
 var msg_clone = noone; //master's partner in crime, to draw at two different depths at once
-var msg_core = noone; //persistent hitfx, to hold more long-term data
-
-//find existing hitfx data
-with asset_get("hit_fx_obj") if ("missingno_persistence_cookie_token_thing" in self)
-{
-    if (msg_core == noone) msg_core = self;
-    else instance_destroy(self);
-}
 
 //find existing articles
 with asset_get("obj_article3") if (num == "missingno")
@@ -27,6 +19,8 @@ if (msg_master == noone)
     msg_master.num = "missingno";
     msg_master.persistent = true;
     msg_master.uses_shader = false;
+    msg_master.player_id = noone;
+    msg_master.orig_player_id = noone;
 }
 if (msg_clone == noone)
 {
@@ -34,58 +28,30 @@ if (msg_clone == noone)
     msg_clone.num = "missingno";
     msg_clone.persistent = true;
     msg_clone.uses_shader = false;
-}
-if (msg_core == noone)
-{
-    with (msg_master) msg_core = spawn_hit_fx(0, 0, 0);
-    msg_core.missingno_persistence_cookie_token_thing = true;
-    msg_core.persistent = true;
-    msg_core.visible = false;
-    msg_core.player = 0;
-
-    // initialize persistent data
-    msg_init_core(msg_core);
-
-    // longevity
-    msg_refresh_core(msg_core);
+    msg_clone.player_id = noone;
+    msg_clone.orig_player_id = noone;
 }
 
-//link them
+//link and calibrate
 if instance_exists(msg_master)
 && instance_exists(msg_clone)
-&& instance_exists(msg_core)
 {
     msg_master.master = self;
     msg_master.clone = msg_clone;
-    msg_master.core = msg_core;
 
     msg_clone.master = msg_master;
     msg_clone.clone = self;
-    msg_clone.core = msg_core;
+
+    //technical stage-player number
+    //grants immunity to playtest-exit cleanup as its not detected as belonging to 'M
+    msg_master.player = 5;
+    msg_clone.player = 5;
+    //decides who's scripts to run 
+    //latest 'M requesting the article will redirect to its own scripts to ensure it's running
+    msg_master.orig_player = player; 
+    msg_clone.orig_player = player;
 }
 else print("SEGFAULT!! could not create persistence");
 
 //return by setting missingno_requested_persistent_article as output
 missingno_requested_persistent_article = msg_master;
-
-// #region vvv LIBRARY DEFINES AND MACROS vvv
-// DANGER File below this point will be overwritten! Generated defines and macros below.
-// Write NO-INJECT in a comment above this area to disable injection.
-#define msg_init_core(hitfx_core) // Version 0
-    with (hitfx_core)
-    {
-        achievement_fame = false;
-        achievement_combo = false;
-        achievement_matrix = false;
-    }
-
-#define msg_refresh_core(hitfx_core) // Version 0
-    // making data last "forever"
-    msb_data.pause = IMPOSSIBLY_LONG_TIME;
-    msb_data.hit_length = IMPOSSIBLY_LONG_TIME;
-    msb_data.pause_timer = 0;
-    msb_data.step_timer = 0;
-
-#macro IMPOSSIBLY_LONG_TIME 999999999999999999999999999999999999999999999
-// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
-// #endregion
