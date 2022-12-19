@@ -23,7 +23,10 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 
     msg_gpu_push_state();
 
-    msg_manual_draw();
+    shader_start();
+    msg_draw_clones();
+    msg_manual_draw(true);
+    shader_end();
 }
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
@@ -32,6 +35,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 #define msg_manual_draw // Version 0
     // / msg_manual_draw(main_draw = true)
     // Handles REDRAW-type effects that need to draw differently than usual
+    // also reused for clone's draws and glitch-bg draws
     var main_draw = argument_count > 0 ? argument[0] : true; //FALSE when rendering the glitch BG
     var skips_draw = false; //determines if the actual draw event needs to be prevented
 
@@ -67,7 +71,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
             mid_cliptop += (g.y_offset - sprite_yoffset)
         }
 
-        if (main_draw) shader_start();
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
         draw_sprite_part_ext(sprite_index, image_index, 0, 0, spr_w, spr_cliptop,
                              pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
@@ -75,7 +78,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
                              mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, 1.0);
         draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(sprite_height - spr_clipbot, 0),
                              pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, 1.0);
-        if (main_draw) shader_end();
 
         skips_draw = main_draw;
     }
@@ -123,7 +125,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         //draw_line_color(x - (ofx - bbl)*scale, y - half_h, x + (bbr - ofx)*scale, y - half_h, c_white, c_white)
         //draw_line_color(x, y - half_h - half_h, x, y - half_h + half_h, c_white, c_white)
 
-        if (main_draw) shader_start();
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
 
         var s = msg_unsafe_effects.quadrant.source[0];
@@ -145,7 +146,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x, y +draw_y - half_h,
                              spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
-        if (main_draw) shader_end();
 
         skips_draw = main_draw;
     }
@@ -163,8 +163,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         var pos_x = x + draw_x  - scale* (sprite_xoffset - crop_step*sign(spr_dir)*0.5);
         var pos_y = y - scale*sprite_yoffset + draw_y;
 
-        if (main_draw) shader_start();
-
         if (clamped_index > 0)
         {   //slice of previous image
             draw_sprite_part_ext(sprite_index, clamped_index-1, spr_w - crop_total, 0, crop_total, sprite_height,
@@ -174,8 +172,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         draw_sprite_part_ext(sprite_index, clamped_index, 0, 0, spr_w - crop_total - crop_step, sprite_height,
                              pos_x + scale*spr_dir*crop_total, pos_y, spr_dir * scale, scale, c_white, 1.0);
 
-        if (main_draw) shader_end();
-
         skips_draw = main_draw;
     }
     //===========================================================
@@ -183,7 +179,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     // sprite R/G/B misaligned
     else if (msg_unsafe_effects.crt.timer > 0)
     {
-        if (main_draw) shader_start();
         var crt_offset = msg_unsafe_effects.crt.offset;
 
         gpu_set_colorwriteenable(false, true, true, true); //R
@@ -195,7 +190,6 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
                         scale*spr_dir, scale, spr_angle, c_white, 1);
 
         gpu_set_colorwriteenable(true, true, true, true);
-        if (main_draw) shader_end();
 
         skips_draw = main_draw;
     }
@@ -205,10 +199,8 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     {
         //note: the small_sprites clause is there because changing
         //      it in pre_draw does not affect regular draw code.
-        if (main_draw) shader_start();
         draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y,
                         scale*spr_dir, scale, spr_angle, c_white, 1);
-        if (main_draw) shader_end();
 
         skips_draw = main_draw;
     }
@@ -216,6 +208,30 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
 
     // to turn off normal rendering for this frame
     if (skips_draw) sprite_index = asset_get("empty_sprite");
+
+#define msg_draw_clones // Version 0
+    // Draws every clone you own
+    with (obj_article2) if ("is_missingno_copy" in self)
+                        && (client_id == other)
+    {
+        var cl_scale = (1 + other.small_sprites);
+        var cl_alpha = (state == 2 ? 0.5 : 1);
+        if (state == 0)
+        {
+            cl_scale *= floor(state_timer/5) * 0.25;
+            with (other) draw_sprite_ext(sprite_index, image_index, other.x, other.y, cl_scale*spr_dir, cl_scale, 0, c_white, cl_alpha)
+        }
+        else with (other)
+        {
+            //TODO: check brokenness, and force a vfx active
+            //TODO: apply alpha
+            draw_x += other.client_offset_x;
+            draw_y += other.client_offset_y;
+            msg_manual_draw(false);
+            draw_x -= other.client_offset_x;
+            draw_y -= other.client_offset_y;
+        }
+    }
 
 #define msg_copy_params(source, target, limiter) // Version 0
     // Usage: for all variables in LIMITER: copy value from SOURCE to TARGET
