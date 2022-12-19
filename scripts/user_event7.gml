@@ -36,11 +36,12 @@ if (msg_clone == noone)
 if instance_exists(msg_master)
 && instance_exists(msg_clone)
 {
-    msg_master.master = self;
-    msg_master.clone = msg_clone;
-
+    msg_master.master = msg_master;
     msg_clone.master = msg_master;
-    msg_clone.clone = self;
+
+    msg_master.clone = msg_clone;
+    msg_clone.clone = msg_clone;
+
 
     //technical stage-player number
     //grants immunity to playtest-exit cleanup as its not detected as belonging to 'M
