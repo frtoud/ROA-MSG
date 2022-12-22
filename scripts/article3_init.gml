@@ -19,5 +19,16 @@ achievement_fatal_error = false;
 achievement_saw_matrix = false;
 
 //=====================================================
-//tracks how many gpu_push_state were used to revert them if needed
-msg_unsafe_gpu_stack_level = 0;
+//article state
+prev_room = noone; //tracks previous room state to perform checks only when it changes
+
+state = 0; //what is the current "room type" we are in (see enum)
+//substate flags
+is_online = false;
+is_practice = false; //get_match_setting(SET_PRACTICE)
+is_menu_broken = false; //true when visiting milestones menu
+is_real_match = false; //only true if was previously in CSS
+
+
+//draw helper
+msg_unsafe_gpu_stack_level = 0; //tracks how many gpu_push_state were used to revert them if needed

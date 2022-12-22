@@ -4,8 +4,68 @@
 // clone only exists at a different depth to let master do two draw passes
 if (master != self) exit;
 
+if (room != prev_room)
+{
+    change_state();
+    prev_room = room;
+}
 
 
+
+//=============================================================================
+//State machine
+#define change_state()
+{
+    var P = instance_number(asset_get("oPlayer"));
+    var NP = instance_number(asset_get("oTestPlayer"));
+    var S = instance_number(asset_get("obj_stage_main"));
+    var CSS = instance_number(asset_get("cs_playercursor_obj"));
+    var SSS = instance_number(asset_get("ss_cursor_obj"));
+    var R = instance_number(asset_get("draw_result_screen"));
+
+    var new_state = PERS_UNKNOWN;
+    if (room == asset_get("mainMenu_room"))        new_state = PERS_MENUS;
+    else if (room == asset_get("milestones_room")) new_state = PERS_MILESTONES;
+    else if (CSS > 0)                              new_state = PERS_CSS;
+    else if (SSS > 0)                              new_state = PERS_SSS;
+    else if (R > 0)                                new_state = PERS_RESULTS;
+    // Yes, this is all just an elaborate P != NP joke
+    else if (S > 0) && (P > 0) && (P != NP)        new_state = PERS_MATCH;
+    //DEFAULTS TO: Unknown
+
+
+    //exit action
+    switch (state)
+    {
+        default: break;
+    }
+
+    state = new_state;
+
+    //enter action
+    switch (new_state)
+    {
+        case PERS_MILESTONES:
+            is_menu_broken = true;
+            break;
+        case PERS_MENUS:
+            is_real_match = false;
+            break;
+        case PERS_CSS:
+            is_real_match = true;
+            break;
+        case PERS_MATCH:
+            is_menu_broken = false;
+            is_online = get_player_hud_color(0) != 0;
+            is_practice = get_match_setting(SET_PRACTICE);
+            break;
+
+        default: break;
+    }
+
+}
+
+#define depth_control()
 if (string_pos("*", keyboard_string) > 0)
 {
     depth++;
@@ -14,16 +74,30 @@ if (string_pos("/", keyboard_string) > 0)
 {
     depth--;
 }
-
-//increment/decrement FPS
-var delta_fps = string_count("+", keyboard_string) 
-              - string_count("-", keyboard_string);
-if (delta_fps != 0) 
+var delta_depth = string_count("+", keyboard_string) 
+                - string_count("-", keyboard_string);
+if (delta_depth != 0) 
 {
-    
-    clone.depth += delta_fps;
+    clone.depth += delta_depth;
 }
-
 keyboard_string = "";
+print("m:" + string(depth ) + " c:" + string(clone.depth ));
 
-print(current_time);
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#macro PERS_UNKNOWN 0
+
+#macro PERS_MENUS 1
+
+#macro PERS_MILESTONES 2
+
+#macro PERS_CSS 3
+
+#macro PERS_SSS 4
+
+#macro PERS_MATCH 5
+
+#macro PERS_RESULTS 6
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion
