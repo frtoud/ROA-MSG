@@ -20,6 +20,7 @@ achievement_saw_matrix = false;
 
 //=====================================================
 //article state
+time_since_last_ran_script = noone; //time since last draw was run. if above a certain treshold, consider the character having been unloaded
 prev_room = noone; //tracks previous room state to perform checks only when it changes
 
 state = 0; //what is the current "room type" we are in (see enum)

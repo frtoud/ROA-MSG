@@ -8,6 +8,12 @@ if (master != self)
 }
 else draw_back();
 
+if (master.time_since_last_ran_script + 5000) < current_time
+{
+    master.is_menu_broken = false;
+    master.prev_room = noone;
+}
+master.time_since_last_ran_script = current_time;
 
 //=========================================================
 #define draw_back()
