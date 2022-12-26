@@ -1,6 +1,11 @@
 
 //===========================================================
-#define msg_background_draw(bg_spr, bg_index)
+#define msg_background_draw
+/// msg_manual_draw(bg_spr, bg_index, bg_x = draw_x, bg_y = draw_y)
+var bg_spr = argument[0];
+var bg_index = argument[1];
+var bg_x = argument_count > 2 ? argument[2] : draw_x;
+var bg_y = argument_count > 3 ? argument[3] : draw_y;
 // Draws the masked Missingno-patterned unmoving plaid background
 //considers:
 // - Current sprite
@@ -48,9 +53,11 @@ for (var n = 0; n < msg_unsafe_trail_max; ++n)
 //====================
 ///Reenable blend, alphatest & colors
 gpu_set_blendenable(true);
-gpu_set_colorwriteenable(cw[0], cw[1], cw[2], cw[3]);
 ///Blend using destination pixels alpha, set by the mask
 gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
+gpu_set_colorwriteenable(1, 1, 1, 1);
+draw_rectangle_color(0,0, room_width, room_height, c_black, c_black, c_black, c_black, false);
+gpu_set_colorwriteenable(cw[0], cw[1], cw[2], cw[3]);
 
 //====================
 ///draw the masked "background"
@@ -60,11 +67,11 @@ if (msg_unsafe_effects.crt.timer > 0)
 {
     var crt_offset = msg_unsafe_effects.crt.offset;
     gpu_set_colorwriteenable(false, cw[1], cw[2], cw[3]); //R
-    draw_sprite_tiled_ext(bg_spr, bg_index, draw_x - crt_offset, draw_y, 2, 2, c_white, 1);
+    draw_sprite_tiled_ext(bg_spr, bg_index, bg_x - crt_offset, bg_y, 2, 2, c_white, 1);
     gpu_set_colorwriteenable(cw[0], false, false, cw[3]); //GB
-    draw_sprite_tiled_ext(bg_spr, bg_index, draw_x + crt_offset, draw_y, 2, 2, c_white, 1);
+    draw_sprite_tiled_ext(bg_spr, bg_index, bg_x + crt_offset, bg_y, 2, 2, c_white, 1);
 }
-else draw_sprite_tiled_ext(bg_spr, bg_index, draw_x, draw_y, 2, 2, c_white, 1);
+else draw_sprite_tiled_ext(bg_spr, bg_index, bg_x, bg_y, 2, 2, c_white, 1);
 
 //====================
 //playtest zone fix (or unfix...?)

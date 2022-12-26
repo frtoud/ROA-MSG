@@ -103,6 +103,7 @@ if ("msg_unsafe_handler_id" not in self)
 if (is_missingno) //MissingNo's own special init steps
 {
     msg_is_missingno = true;
+    msg_effective_alt = get_player_color(player); //may be innacurate. see load.gml
     msg_unsafe_handler_id = self;
 
     msg_garbage_collection[15] = msg_make_garbage(asset_get("zet_taunt"), 2);
@@ -160,3 +161,24 @@ var fx = {
 //append to list directly
 array_push(msg_unsafe_effects.effects_list, fx);
 return fx;
+
+//========================================
+#define get_fake_alt()
+// 1-555-THX-NART
+var fake_alt = get_player_color(player);
+for (var i = 0; i < 4; i++ ) 
+{
+    if get_color_profile_slot_r(fake_alt, 2) == round(colorO[2*4] * 255)
+    && get_color_profile_slot_g(fake_alt, 2) == round(colorO[2*4 +1] * 255)
+    && get_color_profile_slot_b(fake_alt, 2) == round(colorO[2*4 +2] * 255)
+    {
+        //alt identified
+        break;
+    }
+    // ditto alts get "pushed" +1 across the color array
+    // wraps back to 0 at alt 6
+    fake_alt += 1;
+    if (fake_alt >= 6) fake_alt = 0;
+}
+return fake_alt;
+

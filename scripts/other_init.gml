@@ -94,6 +94,7 @@ msg_init_locality();
     if (is_missingno) //MissingNo's own special init steps
     {
         msg_is_missingno = true;
+        msg_effective_alt = get_player_color(player); //may be innacurate. see load.gml
         msg_unsafe_handler_id = self;
 
         msg_garbage_collection[15] = msg_make_garbage(asset_get("zet_taunt"), 2);

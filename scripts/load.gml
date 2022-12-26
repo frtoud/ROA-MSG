@@ -70,3 +70,29 @@ sprite_change_offset("orca_fsmash_puddle_hurt", 20, 20);
 set_victory_theme(sound_get("victory"));
 
 sprite_change_offset("glitch_bg", 17, 37);
+
+msg_effective_alt = get_fake_alt();
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define get_fake_alt // Version 0
+    // 1-555-THX-NART
+    var fake_alt = get_player_color(player);
+    for (var i = 0; i < 4; i++ )
+    {
+        if get_color_profile_slot_r(fake_alt, 2) == round(colorO[2*4] * 255)
+        && get_color_profile_slot_g(fake_alt, 2) == round(colorO[2*4 +1] * 255)
+        && get_color_profile_slot_b(fake_alt, 2) == round(colorO[2*4 +2] * 255)
+        {
+            //alt identified
+            break;
+        }
+        // ditto alts get "pushed" +1 across the color array
+        // wraps back to 0 at alt 6
+        fake_alt += 1;
+        if (fake_alt >= 6) fake_alt = 0;
+    }
+    return fake_alt;
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

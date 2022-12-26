@@ -1,5 +1,26 @@
 //init_shader.gml
 
+var color = get_player_color(player);
+
+
+if ("msg_effective_alt" in self) && (msg_effective_alt != color)
+{
+    color = msg_effective_alt;
+    apply_color_slot(0, color, 0);
+    apply_color_slot(1, color, 1);
+    apply_color_slot(2, color, 2);
+    apply_color_slot(3, color, 3);
+}
+if (color == 15)
+{
+    colorO[8*4 + 0] = 0;
+    colorO[8*4 + 1] = 0.55;
+    colorO[8*4 + 2] = 0;
+    set_character_color_shading(0, 0.0);
+    set_character_color_shading(1, 0.0);
+    set_character_color_shading(2, 0.0);
+    set_character_color_shading(3, 0.0);
+}
 
 //============================================
 //remove all shading
@@ -24,11 +45,10 @@ if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlay
     }
     else
     {
-        var c = get_player_color(player);
-        apply_color_slot(4, c, 0);
-        apply_color_slot(5, c, 1);
-        apply_color_slot(6, c, 2);
-        apply_color_slot(7, c, 3);
+        apply_color_slot(4, color, 0);
+        apply_color_slot(5, color, 1);
+        apply_color_slot(6, color, 2);
+        apply_color_slot(7, color, 3);
     }
 }
 

@@ -12,6 +12,20 @@ if (state == PS_PRATFALL)
     image_index += pratfall_anim_speed;
 }
 
+var matrix_mode = (msg_effective_alt == 15);
+if matrix_mode
+{
+    outline_color = [0, 140, 0, 1];
+    colorO[8*4 + 0] = 0;
+    colorO[8*4 + 1] = 0.55;
+    colorO[8*4 + 2] = 0;
+    colorO[8*4 + 3] = 1;
+    static_colorO[8*4 + 0] = 0;
+    static_colorO[8*4 + 1] = 0.55;
+    static_colorO[8*4 + 2] = 0;
+    static_colorO[8*4 + 3] = 1;
+}
+
 //==================================================================
 //Leech seed healy bits
 for (var i = 0; i < msg_leechseed_particle_number; i++)
@@ -47,7 +61,14 @@ if (!msg_low_fps_mode)
     msg_unsafe_trail_pointer = (msg_unsafe_trail_pointer + 1) % msg_unsafe_trail_max;
 
     // Plaid effect
-    msg_background_draw(glitch_bg_spr, get_player_color(player))
+    if (matrix_mode)
+    {
+        var cw = gpu_get_colorwriteenable();
+        gpu_set_colorwriteenable(0, 1, 0, 1);
+        msg_background_draw(asset_get("fx_ko_space"), 3, draw_x, draw_y + current_time/12);
+        gpu_set_colorwriteenable(cw[0], cw[1], cw[2], cw[3]);
+    }
+    else msg_background_draw(glitch_bg_spr, msg_effective_alt)
 
     shader_start();
     msg_draw_clones();
@@ -73,9 +94,14 @@ if (vfx_yoyo_snap.timer > 0)
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
-#define msg_background_draw(bg_spr, bg_index) // Version 0
+#define msg_background_draw // Version 0
+    // / msg_manual_draw(bg_spr, bg_index, bg_x = draw_x, bg_y = draw_y)
+    var bg_spr = argument[0];
+    var bg_index = argument[1];
+    var bg_x = argument_count > 2 ? argument[2] : draw_x;
+    var bg_y = argument_count > 3 ? argument[3] : draw_y;
     // Draws the masked Missingno-patterned unmoving plaid background
-    // considers:
+    //considers:
     // - Current sprite
     // - REDRAW effects (special mention to CRT)
     // - Copies of self
@@ -121,9 +147,11 @@ if (vfx_yoyo_snap.timer > 0)
     //====================
     ///Reenable blend, alphatest & colors
     gpu_set_blendenable(true);
-    gpu_set_colorwriteenable(cw[0], cw[1], cw[2], cw[3]);
     ///Blend using destination pixels alpha, set by the mask
     gpu_set_blendmode_ext(bm_dest_alpha, bm_inv_dest_alpha);
+    gpu_set_colorwriteenable(1, 1, 1, 1);
+    draw_rectangle_color(0,0, room_width, room_height, c_black, c_black, c_black, c_black, false);
+    gpu_set_colorwriteenable(cw[0], cw[1], cw[2], cw[3]);
 
     //====================
     ///draw the masked "background"
@@ -133,11 +161,11 @@ if (vfx_yoyo_snap.timer > 0)
     {
         var crt_offset = msg_unsafe_effects.crt.offset;
         gpu_set_colorwriteenable(false, cw[1], cw[2], cw[3]); //R
-        draw_sprite_tiled_ext(bg_spr, bg_index, draw_x - crt_offset, draw_y, 2, 2, c_white, 1);
+        draw_sprite_tiled_ext(bg_spr, bg_index, bg_x - crt_offset, bg_y, 2, 2, c_white, 1);
         gpu_set_colorwriteenable(cw[0], false, false, cw[3]); //GB
-        draw_sprite_tiled_ext(bg_spr, bg_index, draw_x + crt_offset, draw_y, 2, 2, c_white, 1);
+        draw_sprite_tiled_ext(bg_spr, bg_index, bg_x + crt_offset, bg_y, 2, 2, c_white, 1);
     }
-    else draw_sprite_tiled_ext(bg_spr, bg_index, draw_x, draw_y, 2, 2, c_white, 1);
+    else draw_sprite_tiled_ext(bg_spr, bg_index, bg_x, bg_y, 2, 2, c_white, 1);
 
     //====================
     //playtest zone fix (or unfix...?)

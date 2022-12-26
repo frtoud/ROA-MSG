@@ -81,7 +81,7 @@ set_color_profile_slot(7, 2, 167, 186,  74);
 set_color_profile_slot(7, 3, 211, 226, 154);
 
 //negative colors
-for (var k = 0; k < 8; k++)
+for (var k = 0; k < 7; k++)
 {
    steal_color_profile_slot(8+k, 0, k, 3);
    steal_color_profile_slot(8+k, 1, k, 2);
