@@ -17,12 +17,12 @@ msg_init_locality();
     // initializes structures for all glitch VFX
     // NOTE: anything in here derives from inherently client-side data
     //       instant desync if used anywhere near gameplay stuff
-    // easier identification later
-    if (is_missingno)
-    {
-        msg_is_missingno = true;
 
-    }
+     //easier identification later
+    if (is_missingno) msg_is_missingno = true;
+     //basecast is immune to certain kinds of manipulations
+    msg_is_basecast = ("url" in self) && real(url) < 20 && real(url) > 1;
+
     //A ditto match can involve multiple MissingNo other_init.gml running here. on top of their own inits.
     //initialize everything "generic" once only
     //ONE EXCEPTION: garbage sprite could be holding invalid data after a reload. always reset this.
@@ -30,7 +30,6 @@ msg_init_locality();
     //==========================================================
     if ("msg_unsafe_handler_id" not in self)
     {
-
         //initialize everything here
         msg_is_missingno = false;
         msg_unsafe_random = current_time + player;
@@ -88,6 +87,17 @@ msg_init_locality();
         //===========================================================
         //effect type: REDRAW
         msg_unsafe_effects.bad_strip = msg_make_effect();
+
+        //===========================================================
+        //effect type: PERMANENT - SPECIAL
+        msg_unsafe_effects.altswap = {};
+        //Parameters
+        msg_unsafe_effects.altswap.trigger = false; //set to true to reshuffle alt
+        msg_unsafe_effects.altswap.active = false; //becomes true when requires overwrite of colors
+        //Three variants of effects: for Missingno, for Basecast, and for Workshop
+        //Outputs
+        msg_unsafe_effects.altswap.coloring = array_create(9*4, 0); //Cached values for colorO array. accurate when active.
+        msg_unsafe_effects.altswap.workshop_altnum_cache = 0; //for workshop only
 
     } //end for generics
     //==========================================================

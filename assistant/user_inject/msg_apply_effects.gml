@@ -85,6 +85,7 @@ msg_reroll_random();
 //  - Quadrant                 .             tttff ffffGGSS 22GGSS11
 //  - CRT                      .                OO OOOO  tt ffff    
 //  - bad strip                .                 t tt         ffff  
+//  - alt reroll               .                      aaaa          
 //  - wrong image_index
 //'M- garbage collector        . P4P3P2P1                    EEEEFF 
 //  - trail
@@ -198,6 +199,46 @@ var fx = msg_unsafe_effects.bad_strip
     }
 }
 //===========================================================
+//effect: ALT SWAP, type: PERMANENT - SPECIAL
+var fx = msg_unsafe_effects.altswap 
+{
+    if (fx.trigger)
+    {
+        fx.trigger = false;
+        //reroll alt
+        if (msg_is_missingno) msg_effective_alt = GET_RNG(9, 0x0F);
+        else if (msg_is_basecast)
+        {
+            parse_basecast_colors(GET_RNG(9, 0x0F));
+            fx.active = true;
+        }
+        else
+        {
+            if (fx.workshop_altnum_cache == 0) fx.workshop_altnum_cache = determine_num_alts();
+            var alt_roll = GET_RNG(9, 0x3F) % fx.workshop_altnum_cache;
+
+            for (var i = 0; i < 8; i++)
+            {
+                msg_unsafe_effects.altswap.coloring[i*4 + 0] = get_color_profile_slot_r(alt_roll, i)/256;
+                msg_unsafe_effects.altswap.coloring[i*4 + 1] = get_color_profile_slot_g(alt_roll, i)/256;
+                msg_unsafe_effects.altswap.coloring[i*4 + 2] = get_color_profile_slot_b(alt_roll, i)/256;
+                msg_unsafe_effects.altswap.coloring[i*4 + 3] = 1;
+            }
+            fx.active = true;
+        }
+    }
+    if (fx.active) && !msg_is_missingno
+    {
+        //apply
+
+        //COPY COLORO GRID HERE
+        for (var i = 0; i < 8*4; i++)
+        {
+            colorO[i] = fx.coloring[i];
+            static_colorO[i] = fx.coloring[i];
+        }
+    }
+}
 
 
 #define GET_RNG(offset, mask)
@@ -216,3 +257,48 @@ var offset = argument[0], mask = argument[1];
 var centered = argument_count > 2 ? argument[2] : false;
 return (mask <= 0) ? 0 
        : ((msg_unsafe_random >> offset) & mask) * (1.0/mask) - (centered * 0.5);
+
+
+#define parse_basecast_colors(target_alt)
+//===========================================================
+//fill the msg_unsafe_effects.altswap.coloring cache with the Nth alt found
+var data = string(color_grid);
+data = string_replace_all(data, "},", "#");
+data = string_replace_all(data, " ", "");
+data = string_replace_all(data, "{", "");
+
+var splitdata = string_split(data, "#");
+
+target_data_index = 0;
+var i = target_alt;
+while (i > 0)
+{
+    target_data_index = (target_data_index + 1) % array_length(splitdata);
+    if (string_length(splitdata[target_data_index]) > 1) i--;
+}
+
+//foud target row
+var rowdata = string_split(splitdata[target_data_index], ",");
+var num_slots = array_length(rowdata) / 3; //RGB
+
+for (i = 0; i < num_slots; i++)
+{
+    msg_unsafe_effects.altswap.coloring[i*4 + 0] = real(rowdata[i*3 + 0]);
+    msg_unsafe_effects.altswap.coloring[i*4 + 1] = real(rowdata[i*3 + 1]);
+    msg_unsafe_effects.altswap.coloring[i*4 + 2] = real(rowdata[i*3 + 2]);
+    msg_unsafe_effects.altswap.coloring[i*4 + 3] = 1;
+}
+
+
+#define determine_num_alts()
+//===========================================================
+//check the number of alts defined
+var num_max = string_count("},",string(color_grid)); //{
+//assumes RGB of slot one is defined to something nonzero to proceed
+for (var i = num_max; i > 0; i--)
+{
+    if ( get_color_profile_slot_r(i-1, 0) != 0 )
+    || ( get_color_profile_slot_g(i-1, 0) != 0 )
+    || ( get_color_profile_slot_b(i-1, 0) != 0 )
+        return i;
+}

@@ -263,6 +263,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //  - Quadrant                 .             tttff ffffGGSS 22GGSS11
     //  - CRT                      .                OO OOOO  tt ffff
     //  - bad strip                .                 t tt         ffff
+    //  - alt reroll               .                      aaaa
     //  - wrong image_index
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
@@ -375,6 +376,47 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
             //apply
         }
     }
+    //===========================================================
+    //effect: ALT SWAP, type: PERMANENT - SPECIAL
+    var fx = msg_unsafe_effects.altswap
+    {
+        if (fx.trigger)
+        {
+            fx.trigger = false;
+            //reroll alt
+            if (msg_is_missingno) msg_effective_alt = GET_RNG(9, 0x0F);
+            else if (msg_is_basecast)
+            {
+                parse_basecast_colors(GET_RNG(9, 0x0F));
+                fx.active = true;
+            }
+            else
+            {
+                if (fx.workshop_altnum_cache == 0) fx.workshop_altnum_cache = determine_num_alts();
+                var alt_roll = GET_RNG(9, 0x3F) % fx.workshop_altnum_cache;
+
+                for (var i = 0; i < 8; i++)
+                {
+                    msg_unsafe_effects.altswap.coloring[i*4 + 0] = get_color_profile_slot_r(alt_roll, i)/256;
+                    msg_unsafe_effects.altswap.coloring[i*4 + 1] = get_color_profile_slot_g(alt_roll, i)/256;
+                    msg_unsafe_effects.altswap.coloring[i*4 + 2] = get_color_profile_slot_b(alt_roll, i)/256;
+                    msg_unsafe_effects.altswap.coloring[i*4 + 3] = 1;
+                }
+                fx.active = true;
+            }
+        }
+        if (fx.active) && !msg_is_missingno
+        {
+            //apply
+
+            //COPY COLORO GRID HERE
+            for (var i = 0; i < 8*4; i++)
+            {
+                colorO[i] = fx.coloring[i];
+                static_colorO[i] = fx.coloring[i];
+            }
+        }
+    }
 
 #define msg_reroll_random // Version 0
     // reroll msg_unsafe_random
@@ -413,5 +455,68 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     var centered = argument_count > 2 ? argument[2] : false;
     return (mask <= 0) ? 0
            : ((msg_unsafe_random >> offset) & mask) * (1.0/mask) - (centered * 0.5);
+
+#define parse_basecast_colors(target_alt) // Version 0
+    // ===========================================================
+    // fill the msg_unsafe_effects.altswap.coloring cache with the Nth alt found
+    var data = string(color_grid);
+    data = string_replace_all(data, "},", "#");
+    data = string_replace_all(data, " ", "");
+    data = string_replace_all(data, "{", "");
+
+    var splitdata = string_split(data, "#");
+
+    target_data_index = 0;
+    var i = target_alt;
+    while (i > 0)
+    {
+        target_data_index = (target_data_index + 1) % array_length(splitdata);
+        if (string_length(splitdata[target_data_index]) > 1) i--;
+    }
+
+    //foud target row
+    var rowdata = string_split(splitdata[target_data_index], ",");
+    var num_slots = array_length(rowdata) / 3; //RGB
+
+    for (i = 0; i < num_slots; i++)
+    {
+        msg_unsafe_effects.altswap.coloring[i*4 + 0] = real(rowdata[i*3 + 0]);
+        msg_unsafe_effects.altswap.coloring[i*4 + 1] = real(rowdata[i*3 + 1]);
+        msg_unsafe_effects.altswap.coloring[i*4 + 2] = real(rowdata[i*3 + 2]);
+        msg_unsafe_effects.altswap.coloring[i*4 + 3] = 1;
+    }
+
+#define string_split(str, delimiter) // Version 0
+    // because Dan said no
+    {
+        var num_dels = string_count(delimiter, str);
+        var split_array = array_create(num_dels + 1);
+
+        for (var i = 0; i < num_dels; i++)
+        {
+            var p = string_pos(delimiter, str)
+            if (p > 0)
+            {
+                split_array[i] = string_copy(str, 1, p - 1);
+                str = string_delete(str, 1, p);
+            }
+            else split_array[i] = str;
+        }
+
+        return split_array;
+    }
+
+#define determine_num_alts // Version 0
+    // ===========================================================
+    // check the number of alts defined
+    var num_max = string_count("},",string(color_grid)); //{
+    //assumes RGB of slot one is defined to something nonzero to proceed
+    for (var i = num_max; i > 0; i--)
+    {
+        if ( get_color_profile_slot_r(i-1, 0) != 0 )
+        || ( get_color_profile_slot_g(i-1, 0) != 0 )
+        || ( get_color_profile_slot_b(i-1, 0) != 0 )
+            return i;
+    }
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
