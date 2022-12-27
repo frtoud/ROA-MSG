@@ -15,13 +15,25 @@ if (state == PS_PRATFALL)
 var matrix_mode = (msg_effective_alt == 15);
 if matrix_mode
 {
-    outline_color = [0, 140, 0, 1];
+    outline_color = [0, 140, 0];
     colorO[8*4 + 0] = 0;
     colorO[8*4 + 1] = 0.55;
     colorO[8*4 + 2] = 0;
     colorO[8*4 + 3] = 1;
     static_colorO[8*4 + 0] = 0;
     static_colorO[8*4 + 1] = 0.55;
+    static_colorO[8*4 + 2] = 0;
+    static_colorO[8*4 + 3] = 1;
+}
+else 
+{
+    outline_color = [0, 0, 0];
+    colorO[8*4 + 0] = 0;
+    colorO[8*4 + 1] = 0;
+    colorO[8*4 + 2] = 0;
+    colorO[8*4 + 3] = 1;
+    static_colorO[8*4 + 0] = 0;
+    static_colorO[8*4 + 1] = 0;
     static_colorO[8*4 + 2] = 0;
     static_colorO[8*4 + 3] = 1;
 }
