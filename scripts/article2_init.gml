@@ -20,6 +20,8 @@ death_time = 30; //time it takes for copy to fade out
 was_parried = false; //if a clone's hitbox was parried; this detects & triggers a swap
 prev_was_parried = false; //to make sure was_parried triggers only once
 
+is_clone_broken = false; //if true, draws with broken quadrant effect
+
 is_missingno_copy = true; //identifiable variable for elsewhere
 //unique variable on a hitbox to check if it has been copied already
 //needs to exist because could have multiple clones of a single player ergo multiple independent copies of hitboxes to manage

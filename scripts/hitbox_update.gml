@@ -88,6 +88,7 @@ if (attack == AT_NSPECIAL)
             var GRIDSNAP = 16;
             copy.client_offset_x = GRIDSNAP * floor((copy.x - copy.client_id.x) / GRIDSNAP);
             copy.client_offset_y = GRIDSNAP * floor((copy.y - copy.client_id.y) / GRIDSNAP);
+            copy.is_clone_broken = (other.hbox_num == 2) && (other.image_index > 0);
         }
         else //no copy foe
         {

@@ -198,6 +198,8 @@ if (my_hitboxID.attack == AT_NSPECIAL && my_hitboxID.hbox_num == 1)
     hb.missingno_copied_player_id = hit_player_obj;
     //consume existing clones
     destroy_copies(hit_player_obj);
+
+    hit_player_obj.msg_unsafe_effects.quadrant.impulse = 3;
 }
 
 //==========================================================

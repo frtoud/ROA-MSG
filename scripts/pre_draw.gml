@@ -232,11 +232,11 @@ if (vfx_yoyo_snap.timer > 0)
 
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
         draw_sprite_part_ext(sprite_index, image_index, 0, 0, spr_w, spr_cliptop,
-                             pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
+                             pos_x, pos_y, spr_dir * scale, scale, c_white, image_alpha);
         draw_sprite_part_ext(mid_sprite, image_index, 0, mid_cliptop, mid_width, mid_clipheight,
-                             mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, 1.0);
+                             mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, image_alpha);
         draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(sprite_height - spr_clipbot, 0),
-                             pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, 1.0);
+                             pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, image_alpha);
 
         skips_draw = main_draw;
     }
@@ -289,22 +289,22 @@ if (vfx_yoyo_snap.timer > 0)
         var s = msg_unsafe_effects.quadrant.source[0];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x - q[s].w*q[s].scale*spr_dir, y +draw_y - half_h - q[s].h*q[s].scale,
-                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
+                             spr_dir * q[s].scale, q[s].scale, c_white, image_alpha);
 
         s = msg_unsafe_effects.quadrant.source[1];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x, y +draw_y - half_h - q[s].h*q[s].scale,
-                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
+                             spr_dir * q[s].scale, q[s].scale, c_white, image_alpha);
 
         s = msg_unsafe_effects.quadrant.source[2];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x - q[s].w*q[s].scale*spr_dir, y +draw_y - half_h,
-                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
+                             spr_dir * q[s].scale, q[s].scale, c_white, image_alpha);
 
         s = msg_unsafe_effects.quadrant.source[3];
         draw_sprite_part_ext(q[s].spr, q[s].ind, q[s].x, q[s].y, q[s].w, q[s].h,
                              x +draw_x, y +draw_y - half_h,
-                             spr_dir * q[s].scale, q[s].scale, c_white, 1.0);
+                             spr_dir * q[s].scale, q[s].scale, c_white, image_alpha);
 
         skips_draw = main_draw;
     }
@@ -325,11 +325,11 @@ if (vfx_yoyo_snap.timer > 0)
         if (clamped_index > 0)
         {   //slice of previous image
             draw_sprite_part_ext(sprite_index, clamped_index-1, spr_w - crop_total, 0, crop_total, sprite_height,
-                                 pos_x, pos_y, spr_dir * scale, scale, c_white, 1.0);
+                                 pos_x, pos_y, spr_dir * scale, scale, c_white, image_alpha);
         }
         //current image, sliced
         draw_sprite_part_ext(sprite_index, clamped_index, 0, 0, spr_w - crop_total - crop_step, sprite_height,
-                             pos_x + scale*spr_dir*crop_total, pos_y, spr_dir * scale, scale, c_white, 1.0);
+                             pos_x + scale*spr_dir*crop_total, pos_y, spr_dir * scale, scale, c_white, image_alpha);
 
         skips_draw = main_draw;
     }
@@ -342,11 +342,11 @@ if (vfx_yoyo_snap.timer > 0)
 
         gpu_set_colorwriteenable(false, true, true, true); //R
         draw_sprite_ext(sprite_index, image_index, x+draw_x-crt_offset, y+draw_y,
-                        scale*spr_dir, scale, spr_angle, c_white, 1);
+                        scale*spr_dir, scale, spr_angle, c_white, image_alpha);
 
         gpu_set_colorwriteenable(true, false, false, true); //GB
         draw_sprite_ext(sprite_index, image_index, x+draw_x+crt_offset, y+draw_y,
-                        scale*spr_dir, scale, spr_angle, c_white, 1);
+                        scale*spr_dir, scale, spr_angle, c_white, image_alpha);
 
         gpu_set_colorwriteenable(true, true, true, true);
 
@@ -359,7 +359,7 @@ if (vfx_yoyo_snap.timer > 0)
         //note: the small_sprites clause is there because changing
         //      it in pre_draw does not affect regular draw code.
         draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y,
-                        scale*spr_dir, scale, spr_angle, c_white, 1);
+                        scale*spr_dir, scale, spr_angle, c_white, image_alpha);
 
         skips_draw = main_draw;
     }
@@ -383,10 +383,16 @@ if (vfx_yoyo_snap.timer > 0)
         else with (other)
         {
             //TODO: check brokenness, and force a vfx active
-            //TODO: apply alpha
+            var temp = msg_unsafe_effects.quadrant.timer;
+            if (other.is_clone_broken) msg_unsafe_effects.quadrant.timer = 1;
             draw_x += other.client_offset_x;
             draw_y += other.client_offset_y;
+            image_alpha = cl_alpha;
+
             msg_manual_draw(false);
+
+            image_alpha = 1;
+            msg_unsafe_effects.quadrant.timer = temp;
             draw_x -= other.client_offset_x;
             draw_y -= other.client_offset_y;
         }
