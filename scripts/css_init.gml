@@ -22,7 +22,7 @@ if (current_time % 3 == 0) && (room == asset_get("network_char_select"))
               "- Error -"+nl+"Replay data is corrupted.", //240
               "- Error -"+nl+"Item URL is incorrect.", //4182
               "- Error -"+nl+"No item is loaded.", //4183
-              "- Error -"+nl+"There was an error making a connection.", //4222
+              "- Error -"+nl+"Steam Matchmaking is unavailable.", //220
               "- Error -"+nl+"Failed to log in to online service.",  //4221
               "- Error -"+nl+"No items to play online." //4187
            ];
@@ -33,7 +33,7 @@ if (current_time % 3 == 0) && (room == asset_get("network_char_select"))
               "* エラー *"+nl+"リプレイデータが はそんしています。",
               "* エラー *"+nl+"アイテムの URLが ふせいです。",
               "* エラー *"+nl+"アイテムが よみこまれて いません。"
-              "* エラー *"+nl+"せつぞくエラーが はっせいしました。",
+              "* エラー *"+nl+"STEAMマッチメイキングが りようできません。",
               "* エラー *"+nl+"オンラインサービスに せつぞくできません。",
               "* エラー *"+nl+"オンラインで プレイできる アイテムが ありません。"
            ];
@@ -44,7 +44,7 @@ if (current_time % 3 == 0) && (room == asset_get("network_char_select"))
               "- Ошибка -"+nl+"Запись повреждена.",
               "- Ошибка -"+nl+"URL предмета неверен.",
               "- Ошибка -"+nl+"Предмет не загружен.",
-              "- Ошибка -"+nl+"Подключение было сброшено.",
+              "- Ошибка -"+nl+"Мультиплеерные функции Steam недоступны.",
               "- Ошибка -"+nl+"Не удалось подключиться к серверу.",
               "- Ошибка -"+nl+"У вас нет синхронизированных предметов."
            ];
