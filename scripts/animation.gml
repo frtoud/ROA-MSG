@@ -260,6 +260,21 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_USTRONG:
+        {
+            if (window == 3 && window_timer == 0 && !hitpause)
+            {
+                spawn_hit_fx( x, y-72, 259);
+            }
+            else if (window == 5 && window_timer <= 2)
+            {
+                msg_unsafe_effects.quadrant.impulse = 8;
+                msg_unsafe_effects.shudder.impulse = 8;
+                msg_unsafe_effects.shudder.horz_max = 5;
+                msg_unsafe_effects.shudder.vert_max = 5;
+            }
+        } break;
+//==================================================================
         case AT_DAIR:
         {
             //bait_bomb_hit_spr 2x2?

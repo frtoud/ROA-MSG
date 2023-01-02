@@ -33,7 +33,7 @@ set_hitbox_value(AT_UAIR, 1, HG_HITBOX_X, 28);
 set_hitbox_value(AT_UAIR, 1, HG_HITBOX_Y, -70);
 set_hitbox_value(AT_UAIR, 1, HG_WIDTH, 90); //see attack_update
 set_hitbox_value(AT_UAIR, 1, HG_HEIGHT, 120); //see attack_update
-set_hitbox_value(AT_UAIR, 1, HG_PRIORITY, 1);
+set_hitbox_value(AT_UAIR, 1, HG_PRIORITY, 3);
 set_hitbox_value(AT_UAIR, 1, HG_DAMAGE, 8); //see attack_update
 set_hitbox_value(AT_UAIR, 1, HG_ANGLE, 90);
 set_hitbox_value(AT_UAIR, 1, HG_BASE_KNOCKBACK, 6);

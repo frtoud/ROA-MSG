@@ -190,32 +190,18 @@ switch (attack)
 //=============================================================
     case AT_USTRONG:
     {
-        if (window == 1)
-        {
-            if (right_down - left_down) != 0
-               spr_dir = (right_down - left_down);
-        }
-        else if (window == 3 && window_timer == 1 && !hitpause)
+        if (window == 2) && (window_timer == 1 && !hitpause)
         {
             move_cooldown[attack] = 60;
-            var hsp_base = hsp/3 + (2 + (strong_charge/60.0)) * (right_down - left_down);
-            var vsp_base = vsp/3 + 1 * (right_down or left_down) - 2 * (strong_charge/60.0);
+            print(strong_charge);
+            if (strong_charge == 31)
+            || (strong_charge == 32)
+            || (strong_charge == 50)
+            || (strong_charge == 52)
+            || (strong_charge == 56)
+                window = 5;
 
-            var num_coins = 8 + (strong_charge/10);
-
-            for (var i = 0; i < num_coins; i++)
-            {
-                var hb = create_hitbox(AT_USTRONG, 3, x, y-20);
-                hb.hsp += hsp_base;
-                hb.vsp += vsp_base;
-                if (i != 0)
-                {
-                    var spread = (i < 6 ? 1 : 1.5);
-                    hb.x += (random_func_2(2*i, 10, false) - 5);
-                    hb.hsp += (random_func_2(2*i, spread*2, false) - spread);
-                    hb.vsp += (random_func_2(2*i + 1, spread*2, false) - spread);
-                }
-            }
+            msg_ustrong_coin_charge += (1 + strong_charge);
         }
     } break;
 //=============================================================

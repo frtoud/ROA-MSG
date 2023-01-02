@@ -59,7 +59,7 @@ set_hitbox_value(AT_DTILT, 1, HG_HITBOX_X, 10);
 set_hitbox_value(AT_DTILT, 1, HG_HITBOX_Y, -12);
 set_hitbox_value(AT_DTILT, 1, HG_WIDTH, 120);
 set_hitbox_value(AT_DTILT, 1, HG_HEIGHT, 25);
-set_hitbox_value(AT_DTILT, 1, HG_PRIORITY, 1);
+set_hitbox_value(AT_DTILT, 1, HG_PRIORITY, 3);
 set_hitbox_value(AT_DTILT, 1, HG_DAMAGE, 2);
 set_hitbox_value(AT_DTILT, 1, HG_ANGLE, 25);
 set_hitbox_value(AT_DTILT, 1, HG_ANGLE_FLIPPER, 4); //Inwards
@@ -89,7 +89,7 @@ set_hitbox_value(AT_DTILT, 3, HG_HITBOX_X, 10);
 set_hitbox_value(AT_DTILT, 3, HG_HITBOX_Y, -12);
 set_hitbox_value(AT_DTILT, 3, HG_WIDTH, 120);
 set_hitbox_value(AT_DTILT, 3, HG_HEIGHT, 30);
-set_hitbox_value(AT_DTILT, 3, HG_PRIORITY, 1);
+set_hitbox_value(AT_DTILT, 3, HG_PRIORITY, 3);
 set_hitbox_value(AT_DTILT, 3, HG_DAMAGE, 4);
 set_hitbox_value(AT_DTILT, 3, HG_ANGLE, 70);
 set_hitbox_value(AT_DTILT, 3, HG_ANGLE_FLIPPER, 10); //Movement direction

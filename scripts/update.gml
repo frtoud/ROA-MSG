@@ -265,6 +265,56 @@ if (msg_exploded_respawn)
 }
 
 //==============================================================
+// Coin charge
+// USUALLY is immediately satisfied by UStrong's own hitbox.
+if (msg_ustrong_coin_charge > 0)
+{
+    var best_hitbox = noone;
+    with (pHitBox) if (type == 1 && orig_player_id == other)
+                   && !(attack == AT_DSTRONG && hbox_num <= 2)
+    {
+        if (best_hitbox == noone)
+        || (best_hitbox.hit_priority < hit_priority)
+        {
+            best_hitbox = self;
+        }
+    }
+
+    if (best_hitbox != noone)
+    {
+        var true_angle = (360 + best_hitbox.kb_angle) % 360;
+        if (best_hitbox.orig_player_id.spr_dir < 0) xor (best_hitbox.hit_flipper)
+            true_angle = (360 - (true_angle - 90) + 90) % 360;
+
+        //simulated DI
+        if (!joy_pad_idle) 
+            true_angle += 15*dsin(angle_difference( joy_dir, true_angle));
+
+        var num_coins = clamp(8 + msg_ustrong_coin_charge/10, 8, 64);
+        var coinspeed = clamp(8 + 1 * (msg_ustrong_coin_charge/60.0), 8, 12);
+        var hsp_base = lengthdir_x(coinspeed * 0.7, true_angle)
+        var vsp_base = lengthdir_y(coinspeed, true_angle) - 2;
+
+        msg_ustrong_coin_charge = 0;
+
+        for (var i = 0; i < num_coins; i++)
+        {
+            var hb = create_hitbox(AT_USTRONG, 3, best_hitbox.x, best_hitbox.y);
+            hb.hsp = hsp_base;
+            hb.vsp = vsp_base;
+            if (i != 0)
+            {
+                var spread = (i < 6 ? 1 : 1.5);
+                hb.x += (random_func_2(2*i, 10, false) - 5);
+                hb.hsp += (random_func_2(2*i, spread*2, false) - spread);
+                hb.vsp += (random_func_2(2*i + 1, spread*2, false) - spread);
+            }
+        }
+    }
+}
+
+
+//==============================================================
 //Yoyo detection
 if (msg_dstrong_yoyo.active)
 {

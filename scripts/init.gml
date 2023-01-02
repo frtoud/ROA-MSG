@@ -196,6 +196,7 @@ msg_uair_ace_buffer = [AT_UAIR, AT_UAIR, AT_UAIR, AT_UAIR]; //act as NOPs
 msg_uair_ace_pointer = 0;
 msg_uair_ace_coins = 0;
 
+msg_ustrong_coin_charge = 0;
 msg_fstrong_interrupted_timer = 0;
 
 msg_ntilt_origin = { x:0, y:0 };
@@ -209,9 +210,6 @@ msg_grab_queue = [msg_grab_broken_outcome];
 msg_grab_selected_index = noone;  //selected index within msg_grab_rotation
 msg_grab_selection_timer = 0;
 msg_grab_last_outcome = -1; //"-1" is a signal to use the RNG one
-
-msg_broken_selfhurt = 0;
-msg_broken_coins = 0;
 
 //estimated maximum of particles at once (4/second, 2 at once, per victim)
 //if you somehow exceed that number, it will start overwriting previous ones and... well, let's say its an intentional bug.
