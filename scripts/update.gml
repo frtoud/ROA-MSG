@@ -63,6 +63,7 @@ switch (state)
         break;
     case PS_ATTACK_AIR:
     case PS_ATTACK_GROUND:
+  //case PS_DEAD:
         break;
     default:
         hurtboxID.sprite_index = hurtbox_spr;
@@ -283,7 +284,7 @@ if (msg_ustrong_coin_charge > 0)
     if (best_hitbox != noone)
     {
         var true_angle = (360 + best_hitbox.kb_angle) % 360;
-        if (best_hitbox.orig_player_id.spr_dir < 0) xor (best_hitbox.hit_flipper)
+        if (best_hitbox.orig_player_id.spr_dir < 0) xor (best_hitbox.hit_flipper == 5)
             true_angle = (360 - (true_angle - 90) + 90) % 360;
 
         //simulated DI
