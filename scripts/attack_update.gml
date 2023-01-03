@@ -409,9 +409,12 @@ switch (attack)
 
             if (found_proj != noone)
             {
-                //steal it: cannot hit me anymore
+                //steal it: refresh, plus cannot hit me anymore
                 found_proj.can_hit_self = true;
-                found_proj.can_hit[found_proj.player_id.player] = true;
+                for (var p = 0; p < array_length(found_proj.can_hit); p++)
+                {
+                    found_proj.can_hit[p] = true;
+                }
                 found_proj.can_hit[player] = false;
 
                 vfx_yoyo_snap.timer = 8;
