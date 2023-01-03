@@ -277,16 +277,17 @@ switch (state)
 //==================================================================
         case AT_DAIR:
         {
-            //bait_bomb_hit_spr 2x2?
-            //boss_timed_explosion_notify_spr 2x2
-            //fx_ko_spark 1x1
-
-            //falling_cactus_spr - 1x1
-            //rock_down_spr 2x2
-            if (window == 2 && window_timer == 0)
+            if (window == 1 && window_timer == 9)
             {
-                //msg_unsafe_effects.shudder.impulse = 8;
-                //msg_unsafe_effects.shudder.horz_max = 5;
+                var fx = spawn_hit_fx(x, y-20, HFX_ELL_BOOM_HIT)
+                fx.depth = depth - 1;
+            }
+            else if (window == 2 || window == 3 || window == 4)
+            {
+                sprite_index = get_hitbox_value(AT_DAIR, 3, HG_PROJECTILE_SPRITE);
+                small_sprites = 0;
+                draw_y = -22;
+                do_glitch_trail = (window == 2 || window == 3);
             }
         } break;
 //==================================================================

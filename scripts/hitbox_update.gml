@@ -260,57 +260,13 @@ if (attack == AT_JAB)
 }
 
 //==========================================================
-if (attack == AT_DTHROW)
+if (attack == AT_DAIR)
 {
     if (!free)
     {
-        image_xscale = 0;
-    }
-
-    //detect a hit
-    var best_hit = detect_hit();
-    
-    if (best_hit != noone)
-    {
-        with (player_id)
-        {
-            set_attack(AT_DTHROW);
-            //bug with hurtbox
-            window = 4;
-            window_timer = 0;
-            sound_play(asset_get("sfx_parry_success"));
-            hitpause = true;
-            hitstop = 16;
-            hitstop_full = 20;
-            old_vsp = vsp;
-            old_hsp = hsp;
-            destroy_hitboxes();
-
-            x = other.x;
-            y = other.y;
-
-            if (best_hit.player_id != self) with (best_hit.player_id)
-            {
-                hitpause = true;
-                hitstop = 20;
-                hitstop_full = 20;
-                old_vsp = vsp;
-                old_hsp = hsp;
-                destroy_hitboxes();
-            }
-        }
         destroyed = true;
+        sound_play(asset_get("sfx_kragg_rock_shatter"));
     }
-    else if (hitbox_timer >= length)
-    {
-        var newsub = noone;
-        with (player_id) newsub = create_hitbox(AT_JAB, 1, other.x, other.y);
-        newsub.spr_dir = sign(draw_xscale);
-        newsub.draw_xscale = draw_xscale;
-        destroyed = true;
-    }
-    
-
 }
 
 //==========================================================

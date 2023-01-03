@@ -5,9 +5,6 @@ if (attack == AT_DSPECIAL && move_cooldown[AT_NTHROW] < 1) attack = AT_NTHROW; /
 else if (attack == AT_JAB) attack = AT_FTILT; //NTILT
 else if (attack == AT_DATTACK && down_down) attack = AT_DTILT;
 
-if (attack == AT_DAIR) && dair_toggle attack = AT_DTHROW;
-if (attack == AT_TAUNT) dair_toggle = !dair_toggle;
-
 //==========================================================
 // BSPECIAL input
 if (attack == AT_FSPECIAL && (spr_dir * at_prev_spr_dir < 0))
@@ -80,6 +77,11 @@ if (list != 0) switch (attack)
                   && 0 > get_player_damage(msg_is_online ? msg_get_local_player() : player);
         if (active) msg_alt_sprite = list[0];
         set_window_value(AT_FAIR, 1, AG_WINDOW_SFX,asset_get( active ? "sfx_clairen_arc_lose" : "sfx_swipe_weak2"));
+    break;
+    case AT_DAIR:
+        var active = GET_RNG(10, 0x07) < 3;
+        if (active) set_hitbox_value(AT_DAIR, 3, HG_PROJECTILE_SPRITE, list[1]);
+              else  set_hitbox_value(AT_DAIR, 3, HG_PROJECTILE_SPRITE, list[0])
     break;
     case AT_NSPECIAL:
         var rng = GET_RNG(20, 0x03);

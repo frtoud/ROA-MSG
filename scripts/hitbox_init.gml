@@ -1,13 +1,5 @@
 //hitbox_init
 
-if (attack == AT_DTHROW)
-{
-    should_try_get_hit = false; //temp dair2 interaction
-    with (pHitBox) if (self != other) && (player_id == other.player_id) && (attack == AT_DTHROW)
-    {
-        hitbox_timer = 475;
-    }
-}
 //==========================================================
 else if (attack == AT_USTRONG)
 {

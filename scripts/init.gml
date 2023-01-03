@@ -188,8 +188,8 @@ vfx_yoyo_snap =
 }
 
 msg_dair_earthquake_counter = 0;
+msg_dair_startup_has_jumped = false; //allows jumping out in startup
 msg_dair_earthquake_max = 10;
-dair_toggle = false;
 
 msg_uair_ace_activated = false; //if true, next melee hit will be saved
 msg_uair_ace_buffer = [AT_UAIR, AT_UAIR, AT_UAIR, AT_UAIR]; //act as NOPs

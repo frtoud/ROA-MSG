@@ -223,25 +223,35 @@ switch (attack)
         can_fast_fall = false;
         if (window == 1)
         {
-            msg_dair_earthquake_counter = 0;
+            if (window_timer <= 1)
+            {
+                msg_dair_earthquake_counter = 0;
+                msg_dair_startup_has_jumped = false;
+                clear_button_buffer( PC_JUMP_PRESSED );
+            }
+            if (jump_pressed) msg_dair_startup_has_jumped = true;
             hsp *= 0.9;
         }
         else if (window == 2)
-        {
+        { 
+            //manual looping due to strong_charge window incompatibility
             window_timer = min(window_timer, 5);
 
-            if (!free) //manual looping due to strong_charge window incompatibility
+            if (!free)
             {
                 window = 3; 
                 window_timer = 0;
+                destroy_hitboxes();
             }
             else if (!was_parried && !hitpause)
             {
-                if (shield_pressed || shield_down) 
+                if (jump_pressed || msg_dair_startup_has_jumped) 
                 {
-                    set_state(PS_PRATFALL);
-                    vsp = -6;
-                    create_hitbox(AT_JAB, 2, x, y);
+                    window = 5;
+                    window_timer = 0;
+                    vsp = -9;
+                    clear_button_buffer( PC_JUMP_PRESSED );
+                    create_hitbox(AT_DAIR, 3, x, y - 20);
                 }
                 else if (has_hit) can_jump = true;
             }
@@ -253,8 +263,9 @@ switch (attack)
             shake_camera(8, 5);
             
             //landed: try finding an edge
+            //TODO: also allow by proxy-landing on ledge through clones
             var depth_check = 5;
-            var length_check = 12;
+            var length_check = 20;
             //landed on leftmost side?
             var left_test = (noone == collision_line(x-length_check, y, x-length_check, y+depth_check, 
                                       asset_get("par_block"), true, true))
@@ -279,10 +290,6 @@ switch (attack)
                 msg_unsafe_effects.shudder.horz_max = 24;
             }
         }
-    } break;
-    case AT_DTHROW: //alt Dair
-    {
-        move_cooldown[AT_DAIR] = 120;
     } break;
 //=============================================================
     case AT_BAIR:
