@@ -277,16 +277,17 @@ switch (state)
 //==================================================================
         case AT_DAIR:
         {
-            if (window == 1 && window_timer == 9)
+            if (window == 1 && window_timer == 4)
             {
-                var fx = spawn_hit_fx(x, y-20, HFX_ELL_BOOM_HIT)
-                fx.depth = depth - 1;
+                spawn_hit_fx(x, y-20, HFX_ELL_BOOM_HIT)
             }
-            else if (window == 2 || window == 3 || window == 4)
+            else if (window == 2 || window == 3 || window == 4 || window == 5)
             {
-                sprite_index = get_hitbox_value(AT_DAIR, 3, HG_PROJECTILE_SPRITE);
                 small_sprites = 0;
                 draw_y = -22;
+                //cannot change sprite_index here, due to it also affecting hurtbox
+                //see pre_draw
+                //sprite_index = get_hitbox_value(AT_DAIR, 3, HG_PROJECTILE_SPRITE);
                 do_glitch_trail = (window == 2 || window == 3);
             }
         } break;

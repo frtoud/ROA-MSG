@@ -221,25 +221,37 @@ switch (attack)
     {
         can_move = window == 1;
         can_fast_fall = false;
-        if (window == 1)
+        if (window == 1) && (window_timer <= 1)
         {
-            if (window_timer <= 1)
-            {
                 msg_dair_earthquake_counter = 0;
                 msg_dair_startup_has_jumped = false;
                 clear_button_buffer( PC_JUMP_PRESSED );
-            }
+        }
+
+        if (window == 1 || window == 2)
+        {
             if (jump_pressed) msg_dair_startup_has_jumped = true;
             hsp *= 0.9;
+            if (window == 2)
+            {
+                if (!free)
+                {
+                    window = 4; window_timer = 0;
+                }
+                else if (msg_dair_startup_has_jumped)
+                {
+                    window = 3; window_timer = 0;
+                }
+            } 
         }
-        else if (window == 2)
+        else if (window == 3)
         { 
             //manual looping due to strong_charge window incompatibility
             window_timer = min(window_timer, 5);
 
             if (!free)
             {
-                window = 3; 
+                window = 4; 
                 window_timer = 0;
                 destroy_hitboxes();
             }
@@ -247,7 +259,7 @@ switch (attack)
             {
                 if (jump_pressed || msg_dair_startup_has_jumped) 
                 {
-                    window = 5;
+                    window = 6;
                     window_timer = 0;
                     vsp = -9;
                     clear_button_buffer( PC_JUMP_PRESSED );
@@ -256,7 +268,7 @@ switch (attack)
                 else if (has_hit) can_jump = true;
             }
         }
-        else if (window == 3 && window_timer == 1 && !hitpause)
+        else if (window == 4 && window_timer == 1 && !hitpause)
         {
             sound_play(asset_get("sfx_kragg_rock_shatter"));
             //spawn_dust_fx(x, y)
@@ -281,7 +293,7 @@ switch (attack)
             if (msg_dair_earthquake_counter < msg_dair_earthquake_max)
             && (left_test xor right_test)
             {
-                window = 2;
+                window = 3;
                 window_timer = 3;
                 msg_dair_earthquake_counter++;
                 y -= 8;

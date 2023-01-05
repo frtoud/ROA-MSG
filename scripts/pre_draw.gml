@@ -50,6 +50,16 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
     }
 }
 
+// DAIR requires sprite changes to leave hurtboxes intact
+if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
+&& (attack == AT_DAIR) && (window == 2 || window == 3 || window == 4 || window == 5)
+{
+    sprite_index = get_hitbox_value(AT_DAIR, 3, HG_PROJECTILE_SPRITE);
+    
+    if (window < 4) image_index = get_gameplay_time() / 4;
+    else image_index = 0;
+}
+
 if (!msg_low_fps_mode)
 {
     //==================================================================
