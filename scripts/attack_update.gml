@@ -262,6 +262,7 @@ switch (attack)
                     window = 6;
                     window_timer = 0;
                     vsp = -9;
+                    destroy_hitboxes();
                     clear_button_buffer( PC_JUMP_PRESSED );
                     create_hitbox(AT_DAIR, 3, x, y - 20);
                 }
