@@ -59,7 +59,17 @@ sprite_change_offset("vfx_ball_open", 48, 48);
 sprite_change_offset("vfx_yoyo_drop", 36, 20);
 sprite_change_offset("vfx_yoyo_snap", 4, 11); //length: 128
 
-sprite_change_offset("proj_statue", 20, 44); 
+sprite_change_offset("proj_statue", 25, 44); 
+//IMPORTANT: must match asset_get("rock_down_spr") perfectly, or expect desyncs
+var rock_spr = asset_get("rock_down_spr");
+var statue_spr = sprite_get("proj_statue");
+sprite_change_collision_mask("proj_statue", false, 2, 
+                             (sprite_get_bbox_left(rock_spr)- sprite_get_xoffset(rock_spr) + sprite_get_xoffset(statue_spr)),
+                             (sprite_get_bbox_top(rock_spr)  - sprite_get_yoffset(rock_spr) + sprite_get_yoffset(statue_spr)),
+                             (sprite_get_bbox_right(rock_spr) - sprite_get_xoffset(rock_spr) + sprite_get_xoffset(statue_spr)),
+                             (sprite_get_bbox_bottom(rock_spr) - sprite_get_yoffset(rock_spr) + sprite_get_yoffset(statue_spr)),
+                             1);
+
 sprite_change_offset("proj_payday", 16, 16);
 sprite_change_offset("proj_payday_broken", 16, 16);
 sprite_change_collision_mask("proj_payday", false, 2, 12, 12, 20, 20, 2);
