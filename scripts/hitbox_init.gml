@@ -1,7 +1,7 @@
 //hitbox_init
 
 //==========================================================
-else if (attack == AT_USTRONG)
+if (attack == AT_USTRONG)
 {
     coin_fading = false;
 
