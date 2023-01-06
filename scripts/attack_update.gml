@@ -276,32 +276,55 @@ switch (attack)
             //spawn_dust_fx(x, y)
             shake_camera(8, 5);
             
-            //landed: try finding an edge
-            //TODO: also allow by proxy-landing on ledge through clones
-            var depth_check = 5;
-            var length_check = 20;
-            //landed on leftmost side?
-            var left_test = (noone == collision_line(x-length_check, y, x-length_check, y+depth_check, 
-                                      asset_get("par_block"), true, true))
-                         && (noone == collision_line(x-length_check, y, x-length_check, y+depth_check, 
-                                      asset_get("par_jumpthrough"), true, true));
-                                          
-            //landed on rightmost side?
-            var right_test = (noone == collision_line(x+length_check, y, x+length_check, y+depth_check, 
-                                       asset_get("par_block"), true, true))
-                          && (noone == collision_line(x+length_check, y, x+length_check, y+depth_check, 
-                                       asset_get("par_jumpthrough"), true, true));
-                                       
             if (msg_dair_earthquake_counter < msg_dair_earthquake_max)
-            && (left_test xor right_test)
             {
-                window = 3;
-                window_timer = 3;
-                msg_dair_earthquake_counter++;
-                y -= 8;
+                //try finding an edge
+                var depth_check = 5;
+                var length_check = 20;
 
-                msg_unsafe_effects.shudder.timer = 12;
-                msg_unsafe_effects.shudder.horz_max = 24;
+                //landed on leftmost side?
+                var left_test = (noone == collision_line(x-length_check, y, x-length_check, y+depth_check, 
+                                        asset_get("par_block"), true, true))
+                            && (noone == collision_line(x-length_check, y, x-length_check, y+depth_check, 
+                                        asset_get("par_jumpthrough"), true, true));
+                                            
+                //landed on rightmost side?
+                var right_test = (noone == collision_line(x+length_check, y, x+length_check, y+depth_check, 
+                                        asset_get("par_block"), true, true))
+                            && (noone == collision_line(x+length_check, y, x+length_check, y+depth_check, 
+                                        asset_get("par_jumpthrough"), true, true));
+                
+                var on_a_ledge = (left_test xor right_test);
+
+                //Proxy-land on ledge also counts
+                if (!on_a_ledge) with (obj_article2) if ("is_missingno_copy" in self) && (client_id == other)
+                {
+                    var clone_x = other.x + client_offset_x;
+                    var clone_y = other.y + client_offset_y;
+
+                    right_test = (noone == collision_line(clone_x+length_check, clone_y, clone_x+length_check, clone_y+depth_check, 
+                                                          asset_get("par_block"), true, true))
+                              && (noone == collision_line(clone_x+length_check, clone_y, clone_x+length_check, clone_y+depth_check, 
+                                                          asset_get("par_jumpthrough"), true, true));
+                    left_test = (noone == collision_line(clone_x-length_check, clone_y, clone_x-length_check, clone_y+depth_check, 
+                                                         asset_get("par_block"), true, true))
+                             && (noone == collision_line(clone_x-length_check, clone_y, clone_x-length_check, clone_y+depth_check, 
+                                                         asset_get("par_jumpthrough"), true, true));
+                    
+                    on_a_ledge |= (left_test xor right_test);
+                }
+
+                if (on_a_ledge)
+                {
+                    window = 3;
+                    window_timer = 3;
+                    msg_dair_earthquake_counter++;
+                    y -= 8;
+
+                    msg_unsafe_effects.shudder.timer = 12;
+                    msg_unsafe_effects.shudder.horz_max = 24;
+                }
+
             }
         }
     } break;
