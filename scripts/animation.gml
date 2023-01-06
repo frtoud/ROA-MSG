@@ -277,7 +277,7 @@ switch (state)
 //==================================================================
         case AT_DAIR:
         {
-            else if (window == 2 || window == 3 || window == 4 || window == 5)
+            if (window == 2 || window == 3 || window == 4 || window == 5)
             {
                 small_sprites = 0;
                 draw_y = -22;
