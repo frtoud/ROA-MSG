@@ -14,9 +14,20 @@ unbashable = true;
 
 //=====================================================
 //Persistent Data
-achievement_hall_of_fame = false;
-achievement_fatal_error = false;
-achievement_saw_matrix = false;
+achievement_request_unlock_id = noone; //set to 0-1-2 to trigger unlock animation
+achievement_status = [false, false, false]; //storage. sets the corresponding flags below
+
+achievement_hall_of_fame = false; //id 2
+achievement_fatal_error = false; //id 0
+achievement_saw_matrix = false; //id 1
+
+achievement = {
+    start_time:-1, //start of rising animation
+    rise_time: -1, //end of rising animation
+    fall_time: -1, //start of falling animation
+    end_time:  -1, //end of falling animation
+    id: 0 //what achievement to display
+}
 
 //=====================================================
 //article state

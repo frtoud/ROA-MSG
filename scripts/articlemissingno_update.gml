@@ -11,6 +11,43 @@ if (room != prev_room)
 }
 
 
+master.depth = 50; //0000000000; //!? gives OK effects
+clone.depth =  -18; //something happens with dust fx at depth 7
+
+//suppress_stage_music(0, 1);
+
+//print("NP="+string(instance_number(asset_get("oTestPlayer"))));
+
+//cursed knowledge
+//master.depth = 20000000000; //!?
+//master.depth = 19000000000; //!? starts affecting HUDs more
+//master.depth = 19000000; //!? gives OK effects
+//clone.depth = 8; //something happens with dust fx at depth 7
+
+//=============================================================================
+//achievement unlocking
+if (achievement_request_unlock_id >= 0)
+&& (achievement_request_unlock_id < array_length(achievement_status))
+{
+    //animation parameters
+    if !(achievement_status[achievement_request_unlock_id])
+    {
+        achievement_status[achievement_request_unlock_id] = true;
+        achievement.id = achievement_request_unlock_id;
+        achievement.start_time = current_time +   750;
+        achievement.rise_time  = current_time +  1000;
+        achievement.fall_time  = current_time +  6000;
+        achievement.end_time   = current_time +  6250;
+    }
+    achievement_request_unlock_id = noone;
+}
+//achievement statii
+achievement_fatal_error = achievement_status[0];
+achievement_saw_matrix = achievement_status[1];
+achievement_hall_of_fame = achievement_status[2];
+
+
+//=============================================================================
 
 //=============================================================================
 //State machine
@@ -30,9 +67,12 @@ if (room != prev_room)
     else if (SSS > 0)                              new_state = PERS_SSS;
     else if (R > 0)                                new_state = PERS_RESULTS;
     // Yes, this is all just an elaborate P != NP joke
-    else if (S > 0) && (P > 0) && (P != NP)        new_state = PERS_MATCH;
+    else if (P > 0) && (P != NP)                   new_state = PERS_MATCH;
     //DEFAULTS TO: Unknown
 
+    print(P)
+    print(NP)
+    print(S)
 
     //exit action
     switch (state)
@@ -47,6 +87,7 @@ if (room != prev_room)
     {
         case PERS_MILESTONES:
             is_menu_broken = true;
+            achievement_request_unlock_id = 2;
             break;
         case PERS_MENUS:
             is_real_match = false;
