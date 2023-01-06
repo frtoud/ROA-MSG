@@ -70,6 +70,15 @@ switch (state)
         break;
 }
 
+//==============================================================
+// DAIR once-per-airtime
+if (msg_dair_cooldown_override)
+{
+    if (!free || state_cat == SC_HITSTUN)
+        msg_dair_cooldown_override = false;
+    else
+        move_cooldown[AT_DAIR] = max(move_cooldown[AT_DAIR], 5);
+}
 
 //==============================================================
 // BSPECIAL "Last move used" detection

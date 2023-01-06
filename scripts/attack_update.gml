@@ -226,6 +226,7 @@ switch (attack)
                 msg_dair_earthquake_counter = 0;
                 msg_dair_startup_has_jumped = false;
                 clear_button_buffer( PC_JUMP_PRESSED );
+                msg_dair_cooldown_override = true; //once per airtime only
         }
 
         if (window == 1 || window == 2)
