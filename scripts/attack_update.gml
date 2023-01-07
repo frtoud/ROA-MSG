@@ -193,7 +193,6 @@ switch (attack)
         if (window == 2) && (window_timer == 1 && !hitpause)
         {
             move_cooldown[attack] = 60;
-            print(strong_charge);
             if (strong_charge == 31)
             || (strong_charge == 32)
             || (strong_charge == 50)

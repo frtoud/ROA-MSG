@@ -70,10 +70,6 @@ achievement_hall_of_fame = achievement_status[2];
     else if (P > 0) && (P != NP)                   new_state = PERS_MATCH;
     //DEFAULTS TO: Unknown
 
-    print(P)
-    print(NP)
-    print(S)
-
     //exit action
     switch (state)
     {

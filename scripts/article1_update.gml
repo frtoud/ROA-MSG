@@ -1,6 +1,5 @@
 //article1_update.gml
 
-//print("other_update");
 //This is essentially just an extra hook for other_update.gml
 with (oPlayer) msg_other_update();
 
