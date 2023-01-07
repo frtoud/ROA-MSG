@@ -307,6 +307,18 @@ for (var k = 0; k < array_length(keys); k++)
                             variable_instance_get(source, keys[k]));
 }
 
+//===========================================================
+#define msg_set_glitchbg_alpha(new_alpha)
+{
+    colorO[7*4 + 3] = new_alpha;
+    colorO[6*4 + 3] = new_alpha;
+    colorO[5*4 + 3] = new_alpha;
+    colorO[4*4 + 3] = new_alpha;
+    static_colorO[7*4 + 3] = new_alpha;
+    static_colorO[6*4 + 3] = new_alpha;
+    static_colorO[5*4 + 3] = new_alpha;
+    static_colorO[4*4 + 3] = new_alpha;
+}
 
 
 //===================================================

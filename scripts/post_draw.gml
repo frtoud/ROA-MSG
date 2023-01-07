@@ -4,6 +4,7 @@ if (!msg_low_fps_mode)
 {
     //Restore drawing parameters
     msg_copy_params(msg_anim_backup, self, msg_anim_backup);
+    msg_set_glitchbg_alpha(1);
 
 }
 //Prevents screen from being pitch-black and not printing any error message. also prevents a crash.
@@ -49,6 +50,16 @@ else if (state == PS_PARRY && (state_timer > 0 && state_timer < 10) && !has_parr
         variable_instance_set(target, keys[k],
                                 variable_instance_get(source, keys[k]));
     }
+
+#define msg_set_glitchbg_alpha(new_alpha) // Version 0
+    colorO[7*4 + 3] = new_alpha;
+    colorO[6*4 + 3] = new_alpha;
+    colorO[5*4 + 3] = new_alpha;
+    colorO[4*4 + 3] = new_alpha;
+    static_colorO[7*4 + 3] = new_alpha;
+    static_colorO[6*4 + 3] = new_alpha;
+    static_colorO[5*4 + 3] = new_alpha;
+    static_colorO[4*4 + 3] = new_alpha;
 
 #define msg_gpu_clear // Version 0
     while (msg_unsafe_gpu_stack_level > 0)

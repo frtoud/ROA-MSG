@@ -68,6 +68,7 @@ if (!msg_low_fps_mode)
     // back up drawing-related parameters that can get fiddled with
     //todo: move to animation.gml?
     msg_copy_params(self, msg_anim_backup, msg_anim_backup);
+    msg_set_glitchbg_alpha(0);
     
     // Reroll Missingno effects
     msg_apply_effects();
@@ -425,6 +426,16 @@ if (vfx_yoyo_snap.timer > 0)
         variable_instance_set(target, keys[k],
                                 variable_instance_get(source, keys[k]));
     }
+
+#define msg_set_glitchbg_alpha(new_alpha) // Version 0
+    colorO[7*4 + 3] = new_alpha;
+    colorO[6*4 + 3] = new_alpha;
+    colorO[5*4 + 3] = new_alpha;
+    colorO[4*4 + 3] = new_alpha;
+    static_colorO[7*4 + 3] = new_alpha;
+    static_colorO[6*4 + 3] = new_alpha;
+    static_colorO[5*4 + 3] = new_alpha;
+    static_colorO[4*4 + 3] = new_alpha;
 
 #define msg_apply_effects // Version 0
     // aka. unsafe_animation.gml

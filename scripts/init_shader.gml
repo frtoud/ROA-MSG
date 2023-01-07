@@ -31,25 +31,11 @@ if (object_index == asset_get("oPlayer") || object_index == asset_get("oTestPlay
     set_character_color_shading(2, 0.0);
     set_character_color_shading(3, 0.0);
 
-    //set 0-alpha to pixelblock zones
-    if (!msg_low_fps_mode)
-    {
-        set_character_color_slot( 4, 0, 0, 0, 0);
-        set_character_color_slot( 5, 0, 0, 0, 0);
-        set_character_color_slot( 6, 0, 0, 0, 0);
-        set_character_color_slot( 7, 0, 0, 0, 0);
-        set_article_color_slot( 4, 0, 0, 0, 0);
-        set_article_color_slot( 5, 0, 0, 0, 0);
-        set_article_color_slot( 6, 0, 0, 0, 0);
-        set_article_color_slot( 7, 0, 0, 0, 0);
-    }
-    else
-    {
-        apply_color_slot(4, color, 0);
-        apply_color_slot(5, color, 1);
-        apply_color_slot(6, color, 2);
-        apply_color_slot(7, color, 3);
-    }
+    //set true colors to pixelblock zones
+    apply_color_slot(4, color, 0);
+    apply_color_slot(5, color, 1);
+    apply_color_slot(6, color, 2);
+    apply_color_slot(7, color, 3);
 }
 
 exit;
