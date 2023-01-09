@@ -46,6 +46,30 @@ achievement_fatal_error = achievement_status[0];
 achievement_saw_matrix = achievement_status[1];
 achievement_hall_of_fame = achievement_status[2];
 
+//contingency
+#macro IMPOSSIBLY_LONG_TIME 999999999999999999999999999999999999999999999
+if instance_exists(msg_contingency_hitfx)
+{
+    for (var i = 0; i < array_length(achievement_status); i++)
+        msg_contingency_hitfx.achievement_status[i] = achievement_status[i];
+    //making data last "forever"
+    msg_contingency_hitfx.pause = IMPOSSIBLY_LONG_TIME;
+    msg_contingency_hitfx.hit_length = IMPOSSIBLY_LONG_TIME;
+    msg_contingency_hitfx.pause_timer = 0;
+    msg_contingency_hitfx.step_timer = 0;
+}
+else with (oPlayer) //attempt creation
+{
+    other.msg_contingency_hitfx = spawn_hit_fx(0, 0, 0);
+    with (other.msg_contingency_hitfx)
+    {
+        missingno_persistence_contingency = true;
+        persistent = true;
+        visible = false;
+        player = 0;
+        achievement_status = [];
+    }
+}
 
 //=============================================================================
 

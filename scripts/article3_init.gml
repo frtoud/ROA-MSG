@@ -44,3 +44,14 @@ is_real_match = false; //only true if was previously in CSS
 
 //draw helper
 msg_unsafe_gpu_stack_level = 0; //tracks how many gpu_push_state were used to revert them if needed
+
+
+//=======================================================
+// F5 in practice mode kills these articles. needs a backup
+msg_contingency_hitfx = noone;
+with (asset_get("hit_fx_obj")) if ("missingno_persistence_contingency" in self)
+{
+    other.msg_contingency_hitfx = self;
+    for (var i = 0; i < array_length(achievement_status); i++)
+        other.achievement_status[i] = achievement_status[i];
+}
