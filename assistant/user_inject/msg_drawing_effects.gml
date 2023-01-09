@@ -250,10 +250,12 @@ else if (msg_unsafe_effects.crt.timer > 0)
 }
 //===========================================================
 // Normal draw (needed by glitch BG)
-else if (!main_draw) || (small_sprites != msg_anim_backup.small_sprites)
+else if (!main_draw) 
+     //changing small_sprites in pre_draw does not affect regular draw code.
+     || (small_sprites != msg_anim_backup.small_sprites)
+     //requires an extra pass to draw in negative colors
+     || ((msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind == 0))
 {
-    //note: the small_sprites clause is there because changing 
-    //      it in pre_draw does not affect regular draw code.
     draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y, 
                     scale*spr_dir, scale, spr_angle, c_white, image_alpha);
     
@@ -280,7 +282,6 @@ with (obj_article2) if ("is_missingno_copy" in self)
     }
     else with (other)
     {
-        //TODO: check brokenness, and force a vfx active
         var temp = msg_unsafe_effects.quadrant.timer;
         if (other.is_clone_broken) msg_unsafe_effects.quadrant.timer = 1;
         draw_x += other.client_offset_x;
@@ -318,6 +319,28 @@ for (var k = 0; k < array_length(keys); k++)
     static_colorO[6*4 + 3] = new_alpha;
     static_colorO[5*4 + 3] = new_alpha;
     static_colorO[4*4 + 3] = new_alpha;
+}
+
+//===========================================================
+#define msg_prep_negative_draw()
+if (msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind == 0)
+{
+    msg_negative_sprite_save = sprite_index;
+    msg_negative_image_save = image_index;
+}
+
+#define msg_negative_draw()
+if (msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind == 0)
+{
+    //Special draw step to make the blendmode draw a inverse-source-color sprite
+    gpu_set_fog(true, c_white, 1, 1);
+    gpu_set_blendmode_ext(bm_inv_dest_color, bm_inv_src_alpha);
+    sprite_index = msg_negative_sprite_save;
+    image_index = msg_negative_image_save;
+    msg_draw_clones();
+    msg_manual_draw(false);
+    sprite_index = asset_get("empty_sprite");
+    gpu_set_blendmode(bm_normal);
 }
 
 

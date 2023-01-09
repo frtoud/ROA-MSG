@@ -52,6 +52,11 @@ if ("msg_unsafe_handler_id" not in self)
         sprite_index:0, image_index:0,
         spr_angle:0, draw_x:0, draw_y:0
     }
+
+    //turning off draw in negative-vfx requires some extra consideration
+    msg_negative_sprite_save = sprite_index;
+    msg_negative_image_save = 0;
+
     //tracks how many gpu_push_state were used to revert them if needed
     msg_unsafe_gpu_stack_level = 0;
 
@@ -107,6 +112,12 @@ if ("msg_unsafe_handler_id" not in self)
     //Outputs
     msg_unsafe_effects.altswap.coloring = array_create(9*4, 0); //Cached values for colorO array. accurate when active.
     msg_unsafe_effects.altswap.workshop_altnum_cache = 0; //for workshop only
+
+    //===========================================================
+    //effect type: DRAW PARAMETER
+    msg_unsafe_effects.blending = msg_make_effect();
+    //Outputs
+    msg_unsafe_effects.blending.kind = 0; //the kind of blendmode that was activated
 
 } //end for generics
 //==========================================================

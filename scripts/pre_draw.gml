@@ -68,12 +68,13 @@ if (!msg_low_fps_mode)
     // back up drawing-related parameters that can get fiddled with
     //todo: move to animation.gml?
     msg_copy_params(self, msg_anim_backup, msg_anim_backup);
+
     msg_set_glitchbg_alpha(0);
     
+    msg_gpu_push_state();
+
     // Reroll Missingno effects
     msg_apply_effects();
-
-    msg_gpu_push_state();
 
     //glitch trail
     var trail = msg_unsafe_trail[msg_unsafe_trail_pointer];
@@ -93,11 +94,15 @@ if (!msg_low_fps_mode)
     }
     else msg_background_draw(glitch_bg_spr, msg_effective_alt)
 
+    msg_prep_negative_draw();
+
     shader_start();
     msg_draw_clones();
     //might need to override normal draw code
     msg_manual_draw(true);
     shader_end();
+    
+    msg_negative_draw();
 }
 
 if (vfx_yoyo_snap.timer > 0)
@@ -365,10 +370,12 @@ if (vfx_yoyo_snap.timer > 0)
     }
     //===========================================================
     // Normal draw (needed by glitch BG)
-    else if (!main_draw) || (small_sprites != msg_anim_backup.small_sprites)
+    else if (!main_draw)
+         //changing small_sprites in pre_draw does not affect regular draw code.
+         || (small_sprites != msg_anim_backup.small_sprites)
+         //requires an extra pass to draw in negative colors
+         || ((msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind == 0))
     {
-        //note: the small_sprites clause is there because changing
-        //      it in pre_draw does not affect regular draw code.
         draw_sprite_ext(sprite_index, image_index, x+draw_x, y+draw_y,
                         scale*spr_dir, scale, spr_angle, c_white, image_alpha);
 
@@ -393,7 +400,6 @@ if (vfx_yoyo_snap.timer > 0)
         }
         else with (other)
         {
-            //TODO: check brokenness, and force a vfx active
             var temp = msg_unsafe_effects.quadrant.timer;
             if (other.is_clone_broken) msg_unsafe_effects.quadrant.timer = 1;
             draw_x += other.client_offset_x;
@@ -437,6 +443,27 @@ if (vfx_yoyo_snap.timer > 0)
     static_colorO[5*4 + 3] = new_alpha;
     static_colorO[4*4 + 3] = new_alpha;
 
+#define msg_prep_negative_draw // Version 0
+    if (msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind == 0)
+    {
+        msg_negative_sprite_save = sprite_index;
+        msg_negative_image_save = image_index;
+    }
+
+#define msg_negative_draw // Version 0
+    if (msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind == 0)
+    {
+        //Special draw step to make the blendmode draw a inverse-source-color sprite
+        gpu_set_fog(true, c_white, 1, 1);
+        gpu_set_blendmode_ext(bm_inv_dest_color, bm_inv_src_alpha);
+        sprite_index = msg_negative_sprite_save;
+        image_index = msg_negative_image_save;
+        msg_draw_clones();
+        msg_manual_draw(false);
+        sprite_index = asset_get("empty_sprite");
+        gpu_set_blendmode(bm_normal);
+    }
+
 #define msg_apply_effects // Version 0
     // aka. unsafe_animation.gml
     // placed in pre_draw (runs on draw frames)
@@ -456,6 +483,7 @@ if (vfx_yoyo_snap.timer > 0)
     //  - CRT                      .                OO OOOO  tt ffff
     //  - bad strip                .                 t tt         ffff
     //  - alt reroll               .                      aaaa
+    //  - bad blend                .               bb        ff fffff
     //  - wrong image_index
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
@@ -606,6 +634,43 @@ if (vfx_yoyo_snap.timer > 0)
             {
                 colorO[i] = fx.coloring[i];
                 static_colorO[i] = fx.coloring[i];
+            }
+        }
+    }
+    //===========================================================
+    //effect: BLENDING, type: DRAW PARAMETER
+    var fx = msg_unsafe_effects.blending
+    {
+        if (fx.impulse > 0) || (fx.freq > GET_RNG(3, 0x7F))
+        {
+            fx.impulse -= (fx.impulse > 0);
+            //reroll parameters
+
+            fx.kind = GET_RNG(17, 0x03);
+
+            fx.timer = 5;
+            fx.frozen = true;
+        }
+        if (fx.timer > 0)
+        {
+            fx.timer -= !fx.frozen;
+            //apply
+
+            switch (fx.kind)
+            {
+                case 0: //Negative (done weirdly in pre_draw)
+                    break;
+                case 1: //Cutaway silhouette
+                    gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
+                    break;
+                case 2: //Red ghost
+                    gpu_set_blendmode(bm_add);
+                    gpu_set_colorwriteenable(1, 0, 0, 1);
+                    break;
+                case 3: //No alpha
+                    gpu_set_blendmode_ext(bm_one, bm_zero);
+                    break;
+                default: break;
             }
         }
     }

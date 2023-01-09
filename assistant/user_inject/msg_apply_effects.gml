@@ -86,6 +86,7 @@ msg_reroll_random();
 //  - CRT                      .                OO OOOO  tt ffff    
 //  - bad strip                .                 t tt         ffff  
 //  - alt reroll               .                      aaaa          
+//  - bad blend                .               bb        ff fffff   
 //  - wrong image_index
 //'M- garbage collector        . P4P3P2P1                    EEEEFF 
 //  - trail
@@ -239,7 +240,43 @@ var fx = msg_unsafe_effects.altswap
         }
     }
 }
+//===========================================================
+//effect: BLENDING, type: DRAW PARAMETER
+var fx = msg_unsafe_effects.blending 
+{
+    if (fx.impulse > 0) || (fx.freq > GET_RNG(3, 0x7F)) 
+    {
+        fx.impulse -= (fx.impulse > 0);
+        //reroll parameters
 
+        fx.kind = GET_RNG(17, 0x03);
+
+        fx.timer = 5;
+        fx.frozen = true;
+    }
+    if (fx.timer > 0)
+    {
+        fx.timer -= !fx.frozen;
+        //apply
+        
+        switch (fx.kind)
+        {
+            case 0: //Negative (done weirdly in pre_draw)
+                break;
+            case 1: //Cutaway silhouette
+                gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
+                break;
+            case 2: //Red ghost
+                gpu_set_blendmode(bm_add);
+                gpu_set_colorwriteenable(1, 0, 0, 1);
+                break;
+            case 3: //No alpha
+                gpu_set_blendmode_ext(bm_one, bm_zero);
+                break;
+            default: break;
+        }
+    }
+}
 
 #define GET_RNG(offset, mask)
 //===========================================================
