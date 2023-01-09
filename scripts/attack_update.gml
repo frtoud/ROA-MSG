@@ -1,5 +1,6 @@
 //B - Reversals
 if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || attack == AT_USPECIAL)
+&& (!msg_is_bspecial)
 {
     trigger_b_reverse();
 }
