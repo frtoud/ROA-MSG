@@ -514,10 +514,10 @@ msg_persistence = msg_get_persistent_article();
     }
 
 #define msg_get_persistent_article // Version 0
-    msg_requested_persistent_article = noone;
-    user_event(7); //sets msg_requested_persistent_article
-    var article = msg_requested_persistent_article;
-    msg_requested_persistent_article = noone;
+    missingno_requested_persistent_article = noone;
+    user_event(7); //sets missingno_requested_persistent_article
+    var article = missingno_requested_persistent_article;
+    missingno_requested_persistent_article = noone;
     return article;
 
 #define msg_init_locality // Version 0

@@ -19,10 +19,10 @@ if (msg_error_active)
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define msg_get_persistent_article // Version 0
-    msg_requested_persistent_article = noone;
-    user_event(7); //sets msg_requested_persistent_article
-    var article = msg_requested_persistent_article;
-    msg_requested_persistent_article = noone;
+    missingno_requested_persistent_article = noone;
+    user_event(7); //sets missingno_requested_persistent_article
+    var article = missingno_requested_persistent_article;
+    missingno_requested_persistent_article = noone;
     return article;
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
