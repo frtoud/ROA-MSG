@@ -1,6 +1,5 @@
 if (!has_parried)
 {
-    //enemy_hitboxID
     var sub = create_hitbox(AT_JAB, 2, x + 15*spr_dir, y);
     msg_launch_substitute(enemy_hitboxID, sub);
 
@@ -30,6 +29,9 @@ if (!has_parried)
         }
     }
 }
+
+//prevent vfx overlap
+msg_fakeout_parry_timer = 0;
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.

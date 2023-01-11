@@ -38,6 +38,11 @@ else
     static_colorO[8*4 + 3] = 1;
 }
 
+
+//===================================================================
+//Simulated parry VFX
+msg_draw_parry_fx();
+
 //==================================================================
 //Leech seed healy bits
 for (var i = 0; i < msg_leechseed_particle_number; i++)
@@ -103,6 +108,10 @@ if (!msg_low_fps_mode)
     shader_end();
     
     msg_negative_draw();
+}
+else
+{
+    msg_reroll_random();
 }
 
 if (vfx_yoyo_snap.timer > 0)
@@ -464,6 +473,43 @@ if (vfx_yoyo_snap.timer > 0)
         gpu_set_blendmode(bm_normal);
     }
 
+#define msg_draw_parry_fx // Version 0
+    if (msg_fakeout_parry_timer > 0)
+    {
+        if (msg_fakeout_parry_timer > 20)
+        {
+            draw_sprite_ext(vfx_parry_bg, (38 - msg_fakeout_parry_timer)/3,
+                            x, y-32, 2, 2, 0, c_white, 0.5);
+            draw_sprite_ext(vfx_parry_fg, 0, x, y, 1, 1, 0, c_white, 1);
+        }
+        else
+        {
+            draw_sprite_ext(vfx_parry_fg, (20 - msg_fakeout_parry_timer)/5,
+                            x, y, 1, 1, 0, c_white, 1);
+        }
+    }
+
+#define msg_reroll_random // Version 0
+    // reroll msg_unsafe_random
+
+    //DEBUG utility
+    var debug_pass = false;
+    if (string_count("*", keyboard_string)) { keyboard_string = ""; debug_pass = true; }
+    msg_unsafe_paused_timer |= (keyboard_lastchar == '*');
+
+    //xorshift algorithm
+    if (msg_unsafe_paused_timer <= 0 || debug_pass)
+    {
+        var UINT_MAX = 0xFFFFFFFF;
+        var rng = msg_unsafe_random;
+
+        rng = (rng ^(rng << 13)) % UINT_MAX;
+        rng = (rng ^(rng >> 17)) % UINT_MAX;
+        rng = (rng ^(rng << 5 )) % UINT_MAX;
+
+        msg_unsafe_random = rng;
+    }
+
 #define msg_apply_effects // Version 0
     // aka. unsafe_animation.gml
     // placed in pre_draw (runs on draw frames)
@@ -488,6 +534,7 @@ if (vfx_yoyo_snap.timer > 0)
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
     //'M- gaslit dodge             .                         FF  F
+    //'M- gaslit parry             .                      FFF
     //'M- glitch trail             .          wwwwhhhh   xxxxxx  yyyyy
     //'M- Alt Sprites              .     FFFF FFFF        NNN
     //'M- Hurt                     .                         hh hhG
@@ -673,27 +720,6 @@ if (vfx_yoyo_snap.timer > 0)
                 default: break;
             }
         }
-    }
-
-#define msg_reroll_random // Version 0
-    // reroll msg_unsafe_random
-
-    //DEBUG utility
-    var debug_pass = false;
-    if (string_count("*", keyboard_string)) { keyboard_string = ""; debug_pass = true; }
-    msg_unsafe_paused_timer |= (keyboard_lastchar == '*');
-
-    //xorshift algorithm
-    if (msg_unsafe_paused_timer <= 0 || debug_pass)
-    {
-        var UINT_MAX = 0xFFFFFFFF;
-        var rng = msg_unsafe_random;
-
-        rng = (rng ^(rng << 13)) % UINT_MAX;
-        rng = (rng ^(rng >> 17)) % UINT_MAX;
-        rng = (rng ^(rng << 5 )) % UINT_MAX;
-
-        msg_unsafe_random = rng;
     }
 
 #define GET_RNG(offset, mask) // Version 0

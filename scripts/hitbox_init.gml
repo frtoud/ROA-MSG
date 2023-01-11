@@ -1,7 +1,12 @@
 //hitbox_init
 
 //==========================================================
-if (attack == AT_USTRONG)
+if (attack == AT_JAB)
+{
+    if ("msg_unsafe" not in self) msg_unsafe = false;
+}
+//==========================================================
+else if (attack == AT_USTRONG)
 {
     coin_fading = false;
 

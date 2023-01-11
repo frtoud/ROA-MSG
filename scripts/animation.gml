@@ -115,6 +115,21 @@ switch (state)
     {
         if (state_timer == 0) has_parried = false;
 
+        else if (state_timer == 4) && (!msg_is_local || !msg_is_online) 
+             && (GET_RNG(9, 0x07) == 0)
+        {
+            msg_fakeout_parry_timer = 40;
+            sound_play(asset_get("sfx_parry_success"));
+            //launch a substitute
+            var sub = create_hitbox(AT_JAB, 2, x + 15*spr_dir, y);
+            sub.hitpause_timer = 7;
+            sub.length = 40;
+            sub.old_hsp = spr_dir * -12;
+            sub.old_vsp = -11;
+            sub.hitstop = true;
+            //MARK UNSAFE. THIS PROJECTILE IS NOT SYNCED.
+            sub.msg_unsafe = true;
+        }
         else if (state_timer == 10 && !has_parried)
         {
             create_hitbox(AT_JAB, 1, x + 15*spr_dir, y);
@@ -463,6 +478,9 @@ if (do_glitch_trail && msg_low_fps_mode)
 {
     //sparkles
 }
+
+//fakeout parry
+if (msg_fakeout_parry_timer > 0) msg_fakeout_parry_timer--;
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.

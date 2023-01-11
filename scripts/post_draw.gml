@@ -1,5 +1,13 @@
 //post_draw.gml
 
+if (state == PS_PARRY && (state_timer > 0 && state_timer < 10))
+&& !(has_parried || msg_fakeout_parry_timer > 0)
+{
+    shader_start();
+    draw_sprite_ext(msg_substitute, 0, x+15*spr_dir, y, 1*spr_dir, 1, 0, c_white, 1);
+    shader_end();
+}
+
 if (!msg_low_fps_mode)
 {
     //Restore drawing parameters
@@ -31,12 +39,6 @@ if (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)
     {
         draw_sprite_ext(asset_get("bash_dir_spr"), 0, x+25*spr_dir, y-25, 1, 1, msg_antibash_direction - 45, c_white, 1);
     }
-}
-else if (state == PS_PARRY && (state_timer > 0 && state_timer < 10) && !has_parried)
-{
-    shader_start();
-    draw_sprite_ext(msg_substitute, 0, x+15*spr_dir, y, 1*spr_dir, 1, 0, c_white, 1);
-    shader_end();
 }
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv

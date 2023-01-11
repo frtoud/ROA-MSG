@@ -295,6 +295,11 @@ msg_dstrong_sweetspot_hit = false;
 msg_alt_taunt_flag = 0; //see set_attack.gml
 msg_taunt_timestamp = 0; //see animation.gml
 
+//fake parry (unsafe)
+msg_fakeout_parry_timer = 0;
+vfx_parry_fg = asset_get("new_dodge_spr");
+vfx_parry_bg = asset_get("fx_parry_new");
+
 //initialize VFX
 msg_init_effects(true);
 
@@ -303,7 +308,6 @@ msg_init_locality();
 
 //removes special rendering shenanigans
 msg_low_fps_mode = false; //pointless?
-
 
 msg_persistence = msg_get_persistent_article();
 

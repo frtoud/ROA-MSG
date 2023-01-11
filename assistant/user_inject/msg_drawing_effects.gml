@@ -343,6 +343,23 @@ if (msg_unsafe_effects.blending.timer > 0) && (msg_unsafe_effects.blending.kind 
     gpu_set_blendmode(bm_normal);
 }
 
+//===========================================================
+#define msg_draw_parry_fx()
+if (msg_fakeout_parry_timer > 0)
+{
+    if (msg_fakeout_parry_timer > 20)
+    {
+        draw_sprite_ext(vfx_parry_bg, (38 - msg_fakeout_parry_timer)/3, 
+                        x, y-32, 2, 2, 0, c_white, 0.5);
+        draw_sprite_ext(vfx_parry_fg, 0, x, y, 1, 1, 0, c_white, 1);
+    }
+    else
+    {
+        draw_sprite_ext(vfx_parry_fg, (20 - msg_fakeout_parry_timer)/5, 
+                        x, y, 1, 1, 0, c_white, 1);
+    }
+}
+
 
 //===================================================
 //GPU stack helpers
