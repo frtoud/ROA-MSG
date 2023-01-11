@@ -116,6 +116,13 @@ if (my_hitboxID.attack == AT_UAIR)
 }
 
 //==========================================================
+// DAIR: prevent obscene amounts of hitpause when multilanding
+if (my_hitboxID.attack == AT_DAIR) && (msg_dair_earthquake_counter > 0)
+{
+    hit_player_obj.should_make_shockwave = false;
+}
+
+//==========================================================
 //Grab logic
 if (my_hitboxID.attack == AT_NTHROW)
 {

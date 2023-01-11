@@ -227,6 +227,7 @@ switch (attack)
                 msg_dair_startup_has_jumped = false;
                 clear_button_buffer( PC_JUMP_PRESSED );
                 msg_dair_cooldown_override = true; //once per airtime only
+                reset_hitbox_value(AT_DAIR, 2, HG_DAMAGE);
         }
 
         if (window == 1 || window == 2)
@@ -255,6 +256,7 @@ switch (attack)
                 window = 4; 
                 window_timer = 0;
                 destroy_hitboxes();
+                sound_play(asset_get("sfx_kragg_rock_shatter"));
             }
             else if (!was_parried && !hitpause)
             {
@@ -272,7 +274,6 @@ switch (attack)
         }
         else if (window == 4 && window_timer == 1 && !hitpause)
         {
-            sound_play(asset_get("sfx_kragg_rock_shatter"));
             //spawn_dust_fx(x, y)
             shake_camera(8, 5);
             
@@ -319,6 +320,7 @@ switch (attack)
                     window = 3;
                     window_timer = 3;
                     msg_dair_earthquake_counter++;
+                    set_hitbox_value(AT_DAIR, 2, HG_DAMAGE, 1);
                     y -= 8;
 
                     msg_unsafe_effects.shudder.timer = 12;
