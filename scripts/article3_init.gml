@@ -29,6 +29,8 @@ achievement = {
     id: 0 //what achievement to display
 }
 
+msg_coinhits = 0; //missingnos can increment this for each coin hit landed in battle
+
 //=====================================================
 //article state
 time_since_last_ran_script = noone; //time since last draw was run. if above a certain treshold, consider the character having been unloaded

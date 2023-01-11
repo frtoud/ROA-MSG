@@ -76,6 +76,12 @@ if (my_hitboxID.attack == AT_USTRONG && my_hitboxID.hbox_num != 1)
         can_be_hit[coin.player] = coin.no_other_hit + hitstop;
         sound_play(coin.sound_effect);
     }
+
+    //coins granted per hit
+    if (msg_is_local || !msg_is_online) 
+    {
+        msg_persistence.msg_coinhits++;
+    }
 }
 
 //==========================================================

@@ -119,6 +119,11 @@ else with (oPlayer) //attempt creation
             is_menu_broken = false;
             is_online = get_player_hud_color(0) != 0;
             is_practice = get_match_setting(SET_PRACTICE);
+            msg_coinhits = 0;
+            break;
+        case PERS_RESULTS:
+            with (asset_get("draw_result_screen"))
+                coins_earned += 50 * other.msg_coinhits;
             break;
 
         default: break;
