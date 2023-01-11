@@ -301,7 +301,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //'M- garbage collector        . P4P3P2P1                    EEEEFF
     //  - trail
     //'M- gaslit dodge             .                         FF  F
-    //'M- gaslit parry             .                      FFF
+    //'M- gaslit parry             .               YYY  XXXFFF
     //'M- glitch trail             .          wwwwhhhh   xxxxxx  yyyyy
     //'M- Alt Sprites              .     FFFF FFFF        NNN
     //'M- Hurt                     .                         hh hhG

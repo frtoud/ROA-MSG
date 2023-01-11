@@ -124,8 +124,8 @@ switch (state)
             var sub = create_hitbox(AT_JAB, 2, x + 15*spr_dir, y);
             sub.hitpause_timer = 7;
             sub.length = 40;
-            sub.old_hsp = spr_dir * -12;
-            sub.old_vsp = -11;
+            sub.old_hsp = spr_dir * -(10 + GET_RNG(12, 0x07));
+            sub.old_vsp = -(8 + GET_RNG(16, 0x07));
             sub.hitstop = true;
             //MARK UNSAFE. THIS PROJECTILE IS NOT SYNCED.
             sub.msg_unsafe = true;
