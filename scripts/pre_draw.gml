@@ -24,6 +24,9 @@ if matrix_mode
     static_colorO[8*4 + 1] = 0.55;
     static_colorO[8*4 + 2] = 0;
     static_colorO[8*4 + 3] = 1;
+
+    if (!msg_persistence.achievement_saw_matrix)
+        msg_persistence.achievement_request_unlock_id = 1; //matrix witnessed
 }
 else 
 {
