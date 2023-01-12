@@ -239,6 +239,7 @@ switch (attack)
                 if (!free)
                 {
                     window = 4; window_timer = 0;
+                    sound_play(asset_get("sfx_kragg_rock_shatter"));
                 }
                 else if (msg_dair_startup_has_jumped)
                 {
