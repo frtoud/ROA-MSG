@@ -59,9 +59,9 @@ prat_land_time      = 31;
 //Shielding
 roll_forward_max    = 7; //roll speed
 roll_backward_max   = 7;
-wave_friction       = -1; //grounded deceleration when wavelanding
-wave_land_time      = 8;
-wave_land_adj       = -1; //the multiplier to your initial hsp when wavelanding. Usually greater than 1
+wave_friction       = -1.7; //grounded deceleration when wavelanding
+wave_land_time      = 11;
+wave_land_adj       = 0.01; //the multiplier to your initial hsp when wavelanding. Usually greater than 1
 air_dodge_speed     = 6.5;
 techroll_speed      = 10;
 
