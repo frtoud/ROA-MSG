@@ -110,6 +110,7 @@ else with (oPlayer) //attempt creation
             menu_is_broken = true;
             music_request_breaking = true;
             achievement_request_unlock_id = 2;
+            if (!music_is_broken) sound_play(asset_get("mfx_tut_fail"), false, 0, 1, 0.6);
             break;
         case PERS_MENUS:
             is_real_match = false;
