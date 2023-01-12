@@ -35,7 +35,10 @@ set_color_profile_slot_range(5,   1,   1, 1);
 set_color_profile_slot_range(6,   1,   1, 1);
 set_color_profile_slot_range(7,   1,   1, 1);
 
-var num_colors = 16
+var num_colors = 15;
+with asset_get("obj_article3") 
+    if ((num == "missingno") && master.achievement_saw_matrix) 
+        num_colors = 16;
 set_num_palettes(num_colors);
 
 //0x726E8
