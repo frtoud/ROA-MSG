@@ -108,6 +108,7 @@ else with (oPlayer) //attempt creation
     {
         case PERS_MILESTONES:
             menu_is_broken = true;
+            music_request_breaking = true;
             achievement_request_unlock_id = 2;
             break;
         case PERS_MENUS:
@@ -117,12 +118,14 @@ else with (oPlayer) //attempt creation
             is_real_match = true;
             break;
         case PERS_MATCH:
+            music_request_breaking = false;
             menu_is_broken = false;
             is_online = get_player_hud_color(0) != 0;
             is_practice = get_match_setting(SET_PRACTICE);
             msg_coinhits = 0;
             break;
         case PERS_RESULTS:
+            music_request_breaking = false;
             with (asset_get("draw_result_screen"))
                 coins_earned += 50 * other.msg_coinhits;
             break;

@@ -31,6 +31,12 @@ achievement = {
 
 msg_coinhits = 0; //missingnos can increment this for each coin hit landed in battle
 
+//music brokenness status
+music_request_breaking = noone; //set to 0 for "fix", 1 for "break"
+music_is_broken = false; //0 is normal, 1 is broken
+music_loop_sound1 = noone; music_multiplier1 = 1;
+music_loop_sound2 = noone; music_multiplier2 = 1;
+
 //=====================================================
 //article state
 time_since_last_ran_script = noone; //time since last draw was run. if above a certain treshold, consider the character having been unloaded
@@ -43,9 +49,13 @@ is_practice = false; //get_match_setting(SET_PRACTICE)
 menu_is_broken = false; //true when visiting milestones menu
 is_real_match = false; //only true if was previously in CSS
 
-
 //draw helper
 msg_unsafe_gpu_stack_level = 0; //tracks how many gpu_push_state were used to revert them if needed
+
+//to allow rolling the usual RNG functions
+msg_unsafe_random = current_time;
+msg_unsafe_paused_timer = 0;
+
 
 
 //=======================================================

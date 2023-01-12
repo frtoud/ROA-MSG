@@ -6,14 +6,87 @@ if (master != self)
 {
     with (master) draw_front();
 }
-else draw_back();
+else
+{
+    draw_back();
+    music_update();
+}
 
 if (master.time_since_last_ran_script + 5000) < current_time
 {
     master.menu_is_broken = false;
+    master.music_request_breaking = false;
     master.prev_room = noone;
 }
 master.time_since_last_ran_script = current_time;
+
+
+//=========================================================
+//update, but on draw frames for convenience
+#define music_update()
+{
+    if (music_request_breaking != noone)
+    {
+        if (music_request_breaking)
+        {
+            music_is_broken = true;
+            sound_stop(music_loop_sound1); music_loop_sound1 = noone;
+            sound_stop(music_loop_sound2); music_loop_sound2 = noone;
+            msg_reroll_random();
+            // roll breakage
+            // 0x00000000 00000000 00000000 00000000
+            //                                PPP111 - Left layer (kind + pitch)
+            //                       PPP222 ??       - Right layer (active + kind + pitch)
+            var stereo = GET_RNG(7, 0x01);
+            var stereo_dir = GET_RNG(6, 0x01) ? -1 : 1;
+            var s_name = "mus_error";
+            var s_pitch = GET_INT(3, 0x07);
+            var s_vol = 1;
+            switch (GET_RNG(0, 0x03)) {
+                case 0: s_name = "mus_error";   s_vol = 5; s_pitch = 0.8 + 0.4 * s_pitch; break;
+                case 1: s_name = "mus_numbers"; s_vol = 2; s_pitch = 0.6 + 0.5 * s_pitch; break;
+                case 2: s_name = "mus_smile";   s_vol = 2; s_pitch = 0.4 + 0.5 * s_pitch; break;
+                case 3: s_name = "deep_boat";   s_vol = 2; s_pitch = 0.3 + s_pitch; break;
+            }
+            music_loop_sound1 = sound_play(special_sound_get(s_name), true, (stereo ? -stereo_dir : 0), 1, s_pitch);
+            music_multiplier1 = s_vol;
+
+            s_pitch = GET_INT(11, 0x07);
+            switch (GET_RNG(8, 0x07)) {
+                case 0: s_name = "mus_error";   s_vol = 2;   s_pitch = 0.4 + 0.3 * s_pitch; break;
+                case 1: s_name = "mus_numbers"; s_vol = 1;   s_pitch = 0.3 + 0.4 * s_pitch; break;
+                case 2: s_name = "mus_smile";   s_vol = 1;   s_pitch = 0.2 + 0.3 * s_pitch; break;
+                case 3: s_name = "deep_boat";   s_vol = 0.8; s_pitch = 0.6 + 0.3 * s_pitch; break;
+                case 4: s_name = "grab0";       s_vol = 2;   s_pitch = 0.1 + 0.1 * s_pitch; break;
+                case 5: s_name = "grabNaN";     s_vol = 0.8; s_pitch = 0.2 + 0.7 * s_pitch; break;
+                case 6: s_name = "fred";        s_vol = 2;   s_pitch = 0.2 + 0.1 * s_pitch; break;
+                case 7: s_name = "victory";     s_vol = 5;   s_pitch = 0.1 + 0.2 * s_pitch; break;
+            }
+            music_loop_sound2 = sound_play(special_sound_get(s_name), true, (stereo ? stereo_dir : 0), 1, s_pitch);
+            music_multiplier2 = s_vol;
+        }
+        else
+        {
+            music_is_broken = false;
+            sound_stop(music_loop_sound1); music_loop_sound1 = noone;
+            sound_stop(music_loop_sound2); music_loop_sound2 = noone;
+        }
+        music_request_breaking = noone;
+    }
+
+    if (music_is_broken)
+    {
+        //music suppression
+        suppress_stage_music(0, 1);
+
+        var music_volume_setting = get_local_setting(3);
+        sound_volume(music_loop_sound1, music_multiplier1 * music_volume_setting, 1);
+        sound_volume(music_loop_sound2, music_multiplier2 * music_volume_setting, 1);
+
+    }
+    //scripts may get unloaded and wont run, but sound assets still keep going... hmmm
+
+}
 
 //=========================================================
 #define draw_back()
@@ -51,6 +124,15 @@ master.time_since_last_ran_script = current_time;
     var temp = player;
     player = orig_player;
     var ret = sprite_get(name);
+    player = temp;
+    return ret;
+}
+#define special_sound_get(name)
+{
+    //resources folder is dependent on player
+    var temp = player;
+    player = orig_player;
+    var ret = sound_get(name);
     player = temp;
     return ret;
 }
@@ -96,5 +178,43 @@ master.time_since_last_ran_script = current_time;
     }
 
     draw_sprite(spr, achievement.id, popup_x, popup_y);
+
+#define msg_reroll_random // Version 0
+    // reroll msg_unsafe_random
+
+    //DEBUG utility
+    var debug_pass = false;
+    if (string_count("*", keyboard_string)) { keyboard_string = ""; debug_pass = true; }
+    msg_unsafe_paused_timer |= (keyboard_lastchar == '*');
+
+    //xorshift algorithm
+    if (msg_unsafe_paused_timer <= 0 || debug_pass)
+    {
+        var UINT_MAX = 0xFFFFFFFF;
+        var rng = msg_unsafe_random;
+
+        rng = (rng ^(rng << 13)) % UINT_MAX;
+        rng = (rng ^(rng >> 17)) % UINT_MAX;
+        rng = (rng ^(rng << 5 )) % UINT_MAX;
+
+        msg_unsafe_random = rng;
+    }
+
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
+
+#define GET_INT // Version 0
+    // ===========================================================
+    // returns an intensity for the effect, between 0 and 1.
+    // if centered is true, this will be between -0.5 and +0.5 instead.
+    // uses "msg_unsafe_random" implicitly.
+    var offset = argument[0], mask = argument[1];
+    var centered = argument_count > 2 ? argument[2] : false;
+    return (mask <= 0) ? 0
+           : ((msg_unsafe_random >> offset) & mask) * (1.0/mask) - (centered * 0.5);
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
