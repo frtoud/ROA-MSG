@@ -107,7 +107,7 @@ else with (oPlayer) //attempt creation
     switch (new_state)
     {
         case PERS_MILESTONES:
-            is_menu_broken = true;
+            menu_is_broken = true;
             achievement_request_unlock_id = 2;
             break;
         case PERS_MENUS:
@@ -117,7 +117,7 @@ else with (oPlayer) //attempt creation
             is_real_match = true;
             break;
         case PERS_MATCH:
-            is_menu_broken = false;
+            menu_is_broken = false;
             is_online = get_player_hud_color(0) != 0;
             is_practice = get_match_setting(SET_PRACTICE);
             msg_coinhits = 0;

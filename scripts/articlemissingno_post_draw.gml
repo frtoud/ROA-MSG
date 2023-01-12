@@ -10,7 +10,7 @@ else draw_back();
 
 if (master.time_since_last_ran_script + 5000) < current_time
 {
-    master.is_menu_broken = false;
+    master.menu_is_broken = false;
     master.prev_room = noone;
 }
 master.time_since_last_ran_script = current_time;
@@ -22,7 +22,7 @@ master.time_since_last_ran_script = current_time;
    //gpu_set_colorwriteenable(true, true, true, true);
    //gpu_set_blendenable(false);
    //gpu_set_alphatestenable(false);
-    if (is_menu_broken)
+    if (menu_is_broken)
     {
         msg_gpu_push_state();
         
