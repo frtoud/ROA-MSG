@@ -35,8 +35,8 @@ master.time_since_last_ran_script = current_time;
             msg_reroll_random();
             // roll breakage
             // 0x00000000 00000000 00000000 00000000
-            //                                PPP111 - Left layer (kind + pitch)
-            //                       PPP222 ??       - Right layer (active + kind + pitch)
+            //                                PPP111 - Main layer (kind + pitch)
+            //                       PPP222 ??       - Secondary layer (direction + kind + pitch)
             var stereo = GET_RNG(7, 0x01);
             var stereo_dir = GET_RNG(6, 0x01) ? -1 : 1;
             var s_name = "mus_error";
