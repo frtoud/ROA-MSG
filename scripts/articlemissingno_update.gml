@@ -57,10 +57,11 @@ if instance_exists(msg_contingency_hitfx)
     msg_contingency_hitfx.hit_length = IMPOSSIBLY_LONG_TIME;
     msg_contingency_hitfx.pause_timer = 0;
     msg_contingency_hitfx.step_timer = 0;
+    msg_contingency_hitfx.visible = false;
 }
 else with (oPlayer) //attempt creation
 {
-    other.msg_contingency_hitfx = spawn_hit_fx(0, 0, 0);
+    other.msg_contingency_hitfx = spawn_hit_fx(-999, -999, 0);
     with (other.msg_contingency_hitfx)
     {
         missingno_persistence_contingency = true;
