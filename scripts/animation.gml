@@ -380,6 +380,8 @@ switch (state)
                         sound_play(sound_get("vanish"));
                         var minimum_invis_time = (window == 1) ? get_window_value(AT_TAUNT, 1, AG_WINDOW_LENGTH) - window_timer : 5;
                         minimum_invis_time += get_window_value(AT_TAUNT, 2, AG_WINDOW_LENGTH);
+                        minimum_invis_time += (get_match_setting(SET_PRACTICE) ? 60 : 20);
+                        
                         msg_unsafe_invisible_timer = (msg_is_local || get_match_setting(SET_PRACTICE)) ? minimum_invis_time : -1;
                     }
                     else
