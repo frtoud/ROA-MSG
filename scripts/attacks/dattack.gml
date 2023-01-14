@@ -38,7 +38,7 @@ set_window_value(AT_DATTACK, 4, AG_WINDOW_ANIM_FRAME_START, 6);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_CUSTOM_GRAVITY, gravity_speed*1.2);
 
 //Landing
-set_window_value(AT_DATTACK, 5, AG_WINDOW_SFX, sound_get("cometpunch"));
+set_window_value(AT_DATTACK, 5, AG_WINDOW_SFX, sound_get("octazooka"));
 set_window_value(AT_DATTACK, 5, AG_WINDOW_LENGTH, 16);
 set_window_value(AT_DATTACK, 5, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_DATTACK, 5, AG_WINDOW_ANIM_FRAME_START, 7);
