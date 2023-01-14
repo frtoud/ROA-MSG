@@ -308,19 +308,21 @@ msg_grab_rotation = [grab_leechseed, //front,
                      grab_explode,   //up, 
                      grab_negative,  //back, 
                      grab_frostburn];//down 
-                     //rest is broken/glitched
- msg_grab_queue = [msg_grab_broken_outcome,
+
+//rest is broken/glitched
+msg_grab_queue = [msg_grab_broken_outcome,
                    grab_glitchtime,
                    grab_antibash,
                    grab_vanish];
 
 exit;
 //debug only
-   msg_grab_queue = [grab_vanish];
-   msg_grab_rotation = [grab_vanish,
-                        grab_vanish,
-                        grab_vanish,
-                        grab_vanish];
+var debug = msg_grab_broken_outcome;
+   msg_grab_queue = [debug];
+   msg_grab_rotation = [debug,
+                        debug,
+                        debug,
+                        debug];
 
 //============================================
 // Sets basic outcome window animation variables
