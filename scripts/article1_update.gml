@@ -98,14 +98,7 @@ with (oPlayer) msg_other_update();
             if (msg_unsafe_invisible_timer <= 0)
             {
                 visible = true;
-                with (other) var sfx = sound_get("clicker_static");
-                sound_play(sfx);
-
-                msg_unsafe_effects.shudder.impulse = 8;
-                msg_unsafe_effects.shudder.horz_max = 5;
-                msg_unsafe_effects.shudder.vert_max = 5;
-                msg_unsafe_effects.bad_vsync.impulse = 8;
-
+                debuff_expire_vfx();
             }
         }
         else if (msg_unsafe_invisible_timer < 0) && (state_cat == SC_HITSTUN)
@@ -157,6 +150,7 @@ with (oPlayer) msg_other_update();
                 if !instance_exists(msg_handler_id) msg_handler_id = other.player_id; //failsafe
                 var dmg = abs(floor(get_player_damage(player) / msg_handler_id.msg_grab_negative_multiplier));
                 set_player_damage(player, dmg);
+                debuff_expire_vfx();
             }
         }
 
@@ -165,6 +159,8 @@ with (oPlayer) msg_other_update();
         {
             debuff_still_active = true;
             msg_doubled_time_timer--;
+
+            if (msg_doubled_time_timer <= 0) debuff_expire_vfx();
 
             if (!msg_has_doubled_frame) && (!hitpause)
             {
@@ -225,5 +221,14 @@ with (oPlayer) msg_other_update();
     temp_part.source_y = src_y;
     temp_part.mid_x = src_x - 150 + random_func(4, 300, true);
     temp_part.mid_y = src_y - 150 + random_func(5, 300, true);
+
+#define debuff_expire_vfx // Version 0
+    with (other) var sfx = sound_get("clicker_static");
+    sound_play(sfx);
+
+    msg_unsafe_effects.shudder.impulse = 8;
+    msg_unsafe_effects.shudder.horz_max = 5;
+    msg_unsafe_effects.shudder.vert_max = 5;
+    msg_unsafe_effects.bad_vsync.impulse = 8;
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
