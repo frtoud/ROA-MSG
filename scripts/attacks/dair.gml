@@ -33,6 +33,7 @@ set_window_value(AT_DAIR, 4, AG_WINDOW_TYPE, 1);
 set_window_value(AT_DAIR, 4, AG_WINDOW_LENGTH, 3);
 set_window_value(AT_DAIR, 4, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_DAIR, 4, AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(AT_DAIR, 4, AG_WINDOW_SFX, asset_get("sfx_kragg_rock_shatter"));
 
 set_window_value(AT_DAIR, 5, AG_WINDOW_TYPE, 1);
 set_window_value(AT_DAIR, 5, AG_WINDOW_LENGTH, 18);
@@ -44,6 +45,10 @@ set_window_value(AT_DAIR, 6, AG_WINDOW_TYPE, 1);
 set_window_value(AT_DAIR, 6, AG_WINDOW_LENGTH, 10);
 set_window_value(AT_DAIR, 6, AG_WINDOW_ANIM_FRAMES, -2);
 set_window_value(AT_DAIR, 6, AG_WINDOW_ANIM_FRAME_START, 2);
+set_window_value(AT_DAIR, 6, AG_WINDOW_SFX, sound_get("pmd_flinch"));
+//applied manually (see attack_update)
+set_window_value(AT_DAIR, 6, AG_WINDOW_VSPEED, -9);
+set_window_value(AT_DAIR, 6, AG_WINDOW_HSPEED, 2);
 
 set_num_hitboxes(AT_DAIR, 3);
 
