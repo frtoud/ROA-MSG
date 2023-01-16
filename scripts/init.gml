@@ -306,6 +306,11 @@ msg_init_effects(true);
 //locality
 msg_init_locality();
 
+//Only accurate after frame 5, when check happens (see animation.gml)
+msg_player_to_hud_positions = [noone, noone, noone, noone, noone];
+msg_do_hud_position_check = true;
+
+
 //removes special rendering shenanigans
 msg_low_fps_mode = false; //pointless?
 

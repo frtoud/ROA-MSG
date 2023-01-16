@@ -10,6 +10,19 @@ for (var i = 0; i < 4; i++)
 
 draw_debug_text(temp_x-4, temp_y-12, grabnames);
 
+for (var p = 1; p <=4; p++)
+{
+    var temp_temp_x = msg_player_to_hud_positions[p];
+    var temp_dmg = get_player_damage(p);
+    if (temp_temp_x == noone) || !(temp_dmg < 0) continue;
+    
+    var rect_pos_x = temp_temp_x + 112 - 10 * string_length(string(abs(temp_dmg)));
+    var rect_pos_y = temp_y + 24;
+
+    draw_rectangle_color(rect_pos_x-8, rect_pos_y-4, rect_pos_x+8, rect_pos_y+4, c_black, c_black, c_black, c_black, false);
+    draw_rectangle_color(rect_pos_x-6, rect_pos_y-2, rect_pos_x+6, rect_pos_y+2, c_white, c_white, c_white, c_white, false);
+}
+
 msg_draw_achievements(msg_persistence);
 
 if !get_match_setting(SET_HITBOX_VIS) exit;
