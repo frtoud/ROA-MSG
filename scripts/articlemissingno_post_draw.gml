@@ -82,7 +82,19 @@ master.time_since_last_ran_script = current_time;
         var music_volume_setting = get_local_setting(3);
         sound_volume(music_loop_sound1, music_multiplier1 * music_volume_setting, 1);
         sound_volume(music_loop_sound2, music_multiplier2 * music_volume_setting, 1);
+    }
 
+    if (sound_request_breaking != noone)
+    {
+        sound_is_broken = false;
+        sound_stop(sound_to_break_with);
+
+        if (state == PERS_MATCH) && (sound_request_breaking > 0)
+        {
+            repeat(sound_request_breaking) sound_play(sound_to_break_with, true, 0, 1, 0);
+            sound_is_broken = true;
+        }
+        sound_request_breaking = noone;
     }
     //scripts may get unloaded and wont run, but sound assets still keep going... hmmm
 

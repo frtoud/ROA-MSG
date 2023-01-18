@@ -37,6 +37,11 @@ music_is_broken = false; //0 is normal, 1 is broken
 music_loop_sound1 = noone; music_multiplier1 = 1;
 music_loop_sound2 = noone; music_multiplier2 = 1;
 
+//sound brokenness status
+sound_request_breaking = noone; //set to 0 for "fix", anything above for "break this much"
+sound_is_broken = false; //0 is normal, 1 is broken
+sound_to_break_with = asset_get("sfx_abyss_rumble");
+
 //=====================================================
 //article state
 time_since_last_ran_script = noone; //time since last draw was run. if above a certain treshold, consider the character having been unloaded

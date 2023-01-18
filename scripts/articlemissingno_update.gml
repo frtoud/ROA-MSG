@@ -130,9 +130,9 @@ else with (oPlayer) //attempt creation
             with (asset_get("draw_result_screen"))
                 coins_earned += 50 * other.msg_coinhits;
             break;
-
         default: break;
     }
+    sound_request_breaking = false;
 
 }
 
