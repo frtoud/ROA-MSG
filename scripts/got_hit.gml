@@ -19,11 +19,13 @@ if (msg_last_known_damage < 0) && (get_player_damage(player) == 0)
 //==========================================================
 
 if (prev_state == PS_ATTACK_GROUND || prev_state == PS_ATTACK_AIR)
+&& (state_cat == SC_HITSTUN)
 {
     if (attack == AT_FSTRONG && strong_charge > 0 && strong_charge < 60)
     {
         //interrupted: start charging passively >:]
         msg_fstrong_interrupted_timer = strong_charge;
+        sound_play(sound_get("cometpunch"));
     }
     else if (attack == AT_UTILT)
     {
