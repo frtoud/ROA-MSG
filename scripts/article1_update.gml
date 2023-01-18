@@ -74,6 +74,9 @@ with (oPlayer) msg_other_update();
             msg_doubled_time_timer = 0;
             msg_has_doubled_frame = false;
 
+            msg_inverted_collider_timer = 0;
+            image_yscale = 1;
+
             msg_unsafe_invisible_timer = 0;
         }
 
@@ -205,6 +208,13 @@ with (oPlayer) msg_other_update();
                 window = get_window_value(attack, window, AG_WINDOW_GOTO);
                 if (window == 0) window = next_window;
             }
+        }
+
+        //======INVERTED COLLIDER=====
+        if (msg_inverted_collider_timer > 0)
+        {
+            msg_inverted_collider_timer--;
+            image_yscale = (msg_inverted_collider_timer <= 0) ? 1 : -1;
         }
     }
 

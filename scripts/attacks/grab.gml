@@ -298,6 +298,31 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 5);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 1);
 //========================================================================
+// Grab Outcome: COLLIDER
+current_window++;
+MSG_GRAB_COLLIDER_WINDOW = current_window;
+set_anim(current_window, 7);
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_HAS_SFX, 1)
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_SFX, sound_get("jacobs_ladder"))
+set_window_value(AT_NTHROW, current_window, AG_WINDOW_INVINCIBILITY, 1);
+
+hbox_num++;
+MSG_GRAB_COLLIDER_HITBOX = hbox_num;
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WINDOW, current_window);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_LIFETIME, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_X, 25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 73);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 8);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 2);
+//========================================================================
 
 set_num_hitboxes(AT_NTHROW, hbox_num);
 //Filling in this array with the info above
@@ -311,6 +336,7 @@ msg_grab_broken_outcome.window = MSG_GRAB_BROKEN_WINDOW; //see failsafe in init.
 var grab_glitchtime = { name:"00", window:MSG_GRAB_GLITCHTIME_WINDOW, sound:sound_get("grab0")};
 var grab_antibash =   { name:"F1", window:MSG_GRAB_ANTIBASH_WINDOW,   sound:sound_get("grab5")};
 var grab_vanish =     { name:"17", window:MSG_GRAB_VANISH_WINDOW,     sound:sound_get("grab3")};
+var grab_collider =   { name:"64", window:MSG_GRAB_COLLIDER_WINDOW,   sound:sound_get("grab1")};
 
 msg_grab_pointer = 0;
 //standard rotation of grabs
@@ -323,7 +349,8 @@ msg_grab_rotation = [grab_leechseed, //front,
 msg_grab_queue = [msg_grab_broken_outcome,
                    grab_glitchtime,
                    grab_antibash,
-                   grab_vanish];
+                   grab_vanish,
+                   grab_collider];
 
 exit;
 //debug only

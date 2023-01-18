@@ -202,6 +202,10 @@ if (my_hitboxID.attack == AT_NTHROW)
             hit_player_obj.msg_unsafe_invisible_timer = msg_grab_vanish_duration + hit_player_obj.player*30;
         }
     }
+    else if (my_hitboxID.hbox_num == MSG_GRAB_COLLIDER_HITBOX)
+    {
+        hit_player_obj.msg_inverted_collider_timer = msg_grab_collider_duration;
+    }
 }
 
 //==========================================================

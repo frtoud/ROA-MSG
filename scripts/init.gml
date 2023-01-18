@@ -147,9 +147,10 @@ msg_grab_leechseed_delay = 30; //frames it takes to reach player
 msg_grab_leechseed_duration = 60; //how long each poison stack lasts before being decremented
 msg_grab_explode_penalty = 30; //damage cost of using Explosion
 msg_grab_negative_multiplier = 2; // Amplifies the damage when going to negatives
-msg_grab_negative_duration = 60*8; //how long before negative damage gets restored to positive
+msg_grab_negative_duration = 60*12; //how long before negative damage gets restored to positive
 msg_grab_negative_bugfix_tolerance = 10; // ±damage tolerance to detect snap-to-zero glitch
 msg_grab_glitchtime_duration = 60*8; //how long to stay in glitchtime debuff mode
+msg_grab_collider_duration = 60*16; //how long to stay in inverted-collider mode
 msg_grab_antibash_force = 12; //how far to send Missingno after the bash
 msg_grab_vanish_duration = 60*8; //how long players are vanished for (with slight variance)
 
@@ -511,6 +512,8 @@ msg_persistence = msg_get_persistent_article();
         msg_doubled_time_timer = 0;
         msg_has_doubled_frame = false;
         msg_prev_status = { state:0, x:0, y:0, hsp:0, vsp:0 };
+        //inverted collider
+        msg_inverted_collider_timer = 0;
 
         msg_clone_microplatform = noone; //clone pseudoground
         msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction

@@ -18,6 +18,8 @@
     msg_doubled_time_timer = 0;
     msg_has_doubled_frame = false;
     msg_prev_status = { state:0, x:0, y:0, hsp:0, vsp:0 };
+    //inverted collider
+    msg_inverted_collider_timer = 0;
 
     msg_clone_microplatform = noone; //clone pseudoground
     msg_clone_tempswaptarget = noone; //where the true player must return after a special interaction
@@ -97,6 +99,9 @@
 
         msg_doubled_time_timer = 0;
         msg_has_doubled_frame = false;
+
+        msg_inverted_collider_timer = 0;
+        image_yscale = 1;
 
         msg_unsafe_invisible_timer = 0;
     }
@@ -229,6 +234,13 @@
             window = get_window_value(attack, window, AG_WINDOW_GOTO);
             if (window == 0) window = next_window;
         }
+    }
+
+    //======INVERTED COLLIDER=====
+    if (msg_inverted_collider_timer > 0)
+    {
+        msg_inverted_collider_timer--;
+        image_yscale = (msg_inverted_collider_timer <= 0) ? 1 : -1;
     }
 }
 

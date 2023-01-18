@@ -712,6 +712,13 @@ switch (attack)
                 }
             }
         }
+        else if (window == MSG_GRAB_COLLIDER_WINDOW)
+        {
+            if (window_timer == 0 && !hitpause)
+            {
+                msg_inverted_collider_timer = msg_grab_collider_duration;
+            }
+        }
 
     } break;
 //=============================================================
