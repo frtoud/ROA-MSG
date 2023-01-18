@@ -178,7 +178,6 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 20);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_blow_heavy2"));
 //========================================================================
 // Grab Outcome: Broken A.C.E.
-//Base stats only. governed by A.C.E. mechanic, see hit_player.gml
 current_window++;
 MSG_GRAB_BROKEN_WINDOW = current_window;
 set_anim(current_window, 3);
@@ -195,13 +194,24 @@ set_hitbox_value(AT_NTHROW, hbox_num, HG_HITBOX_Y, -25);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_WIDTH, 70);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HEIGHT, 60);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_PRIORITY, 6);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 0);
+
+//Base stats only. governed by A.C.E. mechanic, see msg_construct_moves.gml
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DAMAGE, 6);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE, 45);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_ANGLE_FLIPPER, 6);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_KNOCKBACK, 6);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_KNOCKBACK_SCALING, 0.6);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 1);
-set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 20);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITSTUN_MULTIPLIER, 0.6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_DRIFT_MULTIPLIER, 0.6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_SDI_MULTIPLIER, 0.6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_BASE_HITPAUSE, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HITPAUSE_SCALING, 0.6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_EXTRA_HITPAUSE, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_TECHABLE, 1);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_LOCKOUT, 6);
+set_hitbox_value(AT_NTHROW, hbox_num, HG_EFFECT, 6);
 set_hitbox_value(AT_NTHROW, hbox_num, HG_HIT_SFX, asset_get("sfx_swipe_heavy2"));
+set_hitbox_value(AT_NTHROW, hbox_num, HG_VISUAL_EFFECT, HFX_ORC_WATER_LIGHT);
 //========================================================================
 // Grab Outcome: GLITCH_TIME
 current_window++;

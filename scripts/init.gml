@@ -228,6 +228,7 @@ msg_exploded_respawn = false; //to check wether a respawned missingno gets invin
 
 msg_antibash_direction = 0; //where to send Missingno after the bash
 
+msg_broken_grab_seed = player;
 
 msg_fspecial_charge = 0;
 msg_fspecial_is_charging = false;
