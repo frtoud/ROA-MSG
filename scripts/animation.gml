@@ -432,6 +432,77 @@ switch (state)
         default: break;
     }
 //==================================================================
+    case PS_SPAWN:
+    {
+        switch (msg_alt_startup)
+        {
+            case 0:
+            case 1: //Unstable
+            {
+                if (state_timer < 45)
+                {
+                    if (state_timer == 10)
+                    {
+                        msg_unsafe_effects.quadrant.impulse = 2;
+                        msg_persistence.sound_request_breaking = 75;
+                    }
+                    msg_unsafe_effects.shudder.freq = state_timer;
+                    msg_unsafe_effects.shudder.horz_max = 40;
+                    msg_unsafe_effects.shudder.gameplay_timer = 2;
+                    msg_unsafe_effects.quadrant.gameplay_timer = 2;
+                    msg_unsafe_effects.quadrant.frozen = true;
+
+                    draw_x = spr_dir * 30;
+                }
+                else if (state_timer < 60)
+                {
+                    if (state_timer == 45)
+                    {
+                        msg_unsafe_effects.bad_vsync.impulse = 2;
+                        msg_persistence.sound_request_breaking = false;
+                        sound_play(sound_get("nidoran"));
+                    }
+                    msg_unsafe_effects.shudder.freq = state_timer/4;
+                    msg_unsafe_effects.shudder.horz_max = state_timer;
+                    msg_unsafe_effects.shudder.vert_max = state_timer;
+                    msg_unsafe_effects.shudder.gameplay_timer = 2;
+                    msg_unsafe_effects.shudder.frozen = 2;
+                    msg_unsafe_effects.bad_vsync.gameplay_timer = 2;
+                    msg_unsafe_effects.bad_vsync.frozen = true;
+
+                    draw_x = 20 * dtan(state_timer * state_timer);
+                    draw_y = spr_dir * 12 * tan(state_timer);
+
+                    sprite_index = sprite_get("hurt");
+                    image_index = GET_RNG(3, 0x07);
+                }
+            } break;
+            case 2: //Clone spam
+            {
+                //requires: pseudoclones solution
+            } break;
+            case 3: //Fakeout dash
+            {
+                if (state_timer >= 50) && (state_timer < 90)
+                {
+                    sprite_index = sprite_get((state_timer < 65) ? "dashstart" : "dash");
+                    image_index = (state_timer < 65) ? (state_timer - 50) / 4
+                                                     : (state_timer - 65) / 4;
+
+                    draw_x = spr_dir * (state_timer - 50) * 7;
+                    msg_unsafe_effects.bad_vsync.freq = (state_timer - 20)/5;
+                    msg_unsafe_effects.bad_vsync.horz_max = state_timer / 4;
+                }
+                else if (state_timer == 90) || (state_timer == 35)
+                {
+                    msg_unsafe_effects.bad_vsync.impulse = 8;
+                    msg_unsafe_effects.bad_vsync.horz_max = 12;
+                    sound_play(sound_get("clicker_static"), false, noone, 1, state_timer / 100);
+                }
+            } break;
+        }
+    } break;
+//==================================================================
     default: break;
 }
 
