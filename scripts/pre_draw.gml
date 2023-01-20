@@ -235,10 +235,11 @@ if (vfx_yoyo_snap.timer > 0)
     if (msg_unsafe_effects.bad_vsync.timer > 0)
     {
         var spr_w = abs(sprite_width); //why is this necessary !?
-        var spr_cliptop = sprite_height - msg_unsafe_effects.bad_vsync.cliptop;
-        var spr_clipbot = sprite_height - msg_unsafe_effects.bad_vsync.clipbot;
+        var spr_h = abs(sprite_height); //why is this necessary !?
+        var spr_cliptop = spr_h - msg_unsafe_effects.bad_vsync.cliptop;
+        var spr_clipbot = spr_h - msg_unsafe_effects.bad_vsync.clipbot;
         var pos_x = x - scale*sprite_xoffset + draw_x;
-        var pos_y = y - scale*sprite_yoffset + draw_y;
+        var pos_y = y - scale*abs(sprite_yoffset) + draw_y;
 
         var mid_cliptop = spr_cliptop;
         var mid_sprite = sprite_index;
@@ -255,15 +256,14 @@ if (vfx_yoyo_snap.timer > 0)
             mid_width = g.width;
             mid_posx -= (spr_dir*mid_scale*g.x_offset - scale*sprite_xoffset);
             mid_clipheight *= (scale/mid_scale);
-            mid_cliptop += (g.y_offset - sprite_yoffset)
+            mid_cliptop += (g.y_offset - abs(sprite_yoffset))
         }
-
         //draw_sprite_part_ext(sprite,subimg,left,top,width,height,x,y,xscale,yscale,colour,alpha)
         draw_sprite_part_ext(sprite_index, image_index, 0, 0, spr_w, spr_cliptop,
                              pos_x, pos_y, spr_dir * scale, scale, c_white, image_alpha);
         draw_sprite_part_ext(mid_sprite, image_index, 0, mid_cliptop, mid_width, mid_clipheight,
                              mid_posx, pos_y + spr_cliptop*scale, spr_dir * mid_scale, mid_scale, c_white, image_alpha);
-        draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(sprite_height - spr_clipbot, 0),
+        draw_sprite_part_ext(sprite_index, image_index, 0, spr_clipbot, spr_w, max(spr_h - spr_clipbot, 0),
                              pos_x, pos_y + spr_clipbot*scale, spr_dir * scale, scale, c_white, image_alpha);
 
         skips_draw = main_draw;
@@ -343,20 +343,21 @@ if (vfx_yoyo_snap.timer > 0)
     {
         var num_img = sprite_get_number(sprite_index);
         var spr_w = abs(sprite_width); //why is this necessary !?
+        var spr_h = abs(sprite_height);
 
         var clamped_index = floor(image_index % num_img);
         var crop_step = floor(spr_w / (num_img + 1));
         var crop_total = crop_step * clamped_index;
         var pos_x = x + draw_x  - scale* (sprite_xoffset - crop_step*sign(spr_dir)*0.5);
-        var pos_y = y - scale*sprite_yoffset + draw_y;
+        var pos_y = y - scale*abs(sprite_yoffset) + draw_y;
 
         if (clamped_index > 0)
         {   //slice of previous image
-            draw_sprite_part_ext(sprite_index, clamped_index-1, spr_w - crop_total, 0, crop_total, sprite_height,
+            draw_sprite_part_ext(sprite_index, clamped_index-1, spr_w - crop_total, 0, crop_total, spr_h,
                                  pos_x, pos_y, spr_dir * scale, scale, c_white, image_alpha);
         }
         //current image, sliced
-        draw_sprite_part_ext(sprite_index, clamped_index, 0, 0, spr_w - crop_total - crop_step, sprite_height,
+        draw_sprite_part_ext(sprite_index, clamped_index, 0, 0, spr_w - crop_total - crop_step, spr_h,
                              pos_x + scale*spr_dir*crop_total, pos_y, spr_dir * scale, scale, c_white, image_alpha);
 
         skips_draw = main_draw;
@@ -573,8 +574,8 @@ if (vfx_yoyo_snap.timer > 0)
             //reroll parameters
             fx.timer = 4 + GET_RNG(22, 0x03);
 
-            fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
-            fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
+            fx.clipbot = floor(GET_INT(8, 0xFF) * abs(sprite_height)/2)
+            fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * abs(sprite_height)/2;
             fx.horz = fx.horz_max * max(fx.impulse / 2 , 2) * GET_INT(0, 0x0F, true);
             fx.garbage = (2 > GET_RNG(22, 0x07));
         }

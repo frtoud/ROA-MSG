@@ -127,8 +127,8 @@ var fx = msg_unsafe_effects.bad_vsync
         //reroll parameters
         fx.timer = 4 + GET_RNG(22, 0x03);
 
-        fx.clipbot = floor(GET_INT(8, 0xFF) * sprite_height/2)
-        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * sprite_height/2;
+        fx.clipbot = floor(GET_INT(8, 0xFF) * abs(sprite_height)/2)
+        fx.cliptop = fx.clipbot + GET_INT(4, 0x0F) * abs(sprite_height)/2;
         fx.horz = fx.horz_max * max(fx.impulse / 2 , 2) * GET_INT(0, 0x0F, true);
         fx.garbage = (2 > GET_RNG(22, 0x07));
     }
