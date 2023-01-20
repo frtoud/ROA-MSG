@@ -405,7 +405,7 @@ switch (attack)
                 if (msg_fspecial_charge < 2)
                 {
                    msg_fspecial_charge++;
-                   sound_play(msg_fspecial_charge == 1  ?asset_get("sfx_abyss_portal_spawn") : asset_get("sfx_orca_absorb"));
+                   sound_play(msg_fspecial_charge == 1 ? asset_get("sfx_abyss_portal_spawn") : asset_get("sfx_orca_absorb"));
                 }
                 window_timer = 0;  //manual looping due to strong_charge window incompatibility
             }
@@ -481,9 +481,12 @@ switch (attack)
 
                 set_window_value(AT_FSPECIAL, 5, AG_WINDOW_GOTO, 6);
             }
-            else //return to water gun
+            else
             {
-                set_window_value(AT_FSPECIAL, 5, AG_WINDOW_GOTO, 4);
+                //nothing to shoot. spawn melee windbox (causes stored coins to manifest)
+                var hitbox = create_hitbox(AT_FSPECIAL, 2, x, y);
+                spawn_hit_fx(x+(spr_dir*20), y-30, hitbox.hit_effect);
+                set_window_value(AT_FSPECIAL, 5, AG_WINDOW_GOTO, 6);
             }
         }
     } break;
