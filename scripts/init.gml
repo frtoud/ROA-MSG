@@ -253,6 +253,7 @@ glitch_bg_spr = sprite_get("glitch_bg");
 no_sprite = asset_get("empty_sprite");
 error_sprite_x = asset_get("net_disc_spr");
 error_sprite_b = asset_get("solid_32x32");
+hfx_glitchtwinkle = hit_fx_create(sprite_get("microplatform"), 4);
 
 msg_initial_hud_spr = get_char_info(player, INFO_HUD);
 msg_initial_hudhurt_spr = get_char_info(player, INFO_HUDHURT);

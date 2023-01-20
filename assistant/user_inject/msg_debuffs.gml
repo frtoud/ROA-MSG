@@ -211,6 +211,11 @@
             set_player_damage(player, dmg);
             debuff_expire_vfx();
         }
+
+        if instance_exists(msg_handler_id) && (random_func(10, 3, true) == 0)
+        with (msg_handler_id)
+            spawn_debuff_twinkle(hfx_glitchtwinkle, other.x, other.y - 30, 40);
+
     }
 
     //========GLITCH TIME=========
@@ -264,6 +269,10 @@
             window = get_window_value(attack, window, AG_WINDOW_GOTO);
             if (window == 0) window = next_window;
         }
+
+        if instance_exists(msg_handler_id) && (random_func(10, 3, true) == 0)
+        with (msg_handler_id)
+            spawn_debuff_twinkle(hfx_glitchtwinkle, other.x, other.y - 30, 40);
     }
 
     //======INVERTED COLLIDER=====
@@ -302,4 +311,17 @@
     msg_unsafe_effects.shudder.horz_max = 5;
     msg_unsafe_effects.shudder.vert_max = 5;
     msg_unsafe_effects.bad_vsync.impulse = 8;
+}
+
+//===========================================================
+#define spawn_debuff_twinkle(vfx, pos_x, pos_y, width)
+{
+    //THXNOZ
+    var kx = pos_x - (width / 2) + random_func(1, 1, false) * width;
+    var ky = pos_y - (width / 2) + random_func(2, 1, false) * width;
+     
+    var k = spawn_hit_fx(floor(kx), floor(ky), vfx);
+    k.spr_dir = 4 + 4*random_func(5, 2, true);
+    k.image_yscale = (2 + random_func(6, 2, true));
+    k.draw_angle = random_func(3, 4, true) * 90;
 }
