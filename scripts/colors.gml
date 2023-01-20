@@ -35,11 +35,7 @@ set_color_profile_slot_range(5,   1,   1, 1);
 set_color_profile_slot_range(6,   1,   1, 1);
 set_color_profile_slot_range(7,   1,   1, 1);
 
-var num_colors = 15;
-with asset_get("obj_article3") 
-    if ((num == "missingno") && master.achievement_saw_matrix) 
-        num_colors = 16;
-set_num_palettes(num_colors);
+var num_colors = set_num_alts(); //see msg_init_effects.gml
 
 //0x726E8
 set_color_profile_slot(1, 0,  30,  30,  30);
@@ -108,3 +104,17 @@ for (var i = 1; i < num_colors; i++)
         get_color_profile_slot_g(source_color, source_shade),
         get_color_profile_slot_b(source_color, source_shade));
 }
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define set_num_alts // Version 0
+    var num_colors = 15;
+    with asset_get("obj_article3")
+        if ((num == "missingno") && master.achievement_saw_matrix)
+            num_colors = 16;
+    set_num_palettes(num_colors);
+
+    return num_colors;
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

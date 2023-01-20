@@ -2,6 +2,8 @@
 
 msg_persistence = noone;
 
+set_num_alts(); //see colors.gml
+
 msg_error_active = false;
 var nl = chr(0x0A);
 msg_error_message = nl;
@@ -68,3 +70,17 @@ if (current_time % 3 == 0) && (room == asset_get("network_char_select"))
     msg_error_message = rng_msgs[rng_msg];
     sound_play(asset_get("mfx_notice"));
 }
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define set_num_alts // Version 0
+    var num_colors = 15;
+    with asset_get("obj_article3")
+        if ((num == "missingno") && master.achievement_saw_matrix)
+            num_colors = 16;
+    set_num_palettes(num_colors);
+
+    return num_colors;
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

@@ -203,3 +203,15 @@ for (var i = 0; i < 4; i++ )
 }
 return fake_alt;
 
+
+//========================================
+#define set_num_alts()
+{
+    var num_colors = 15;
+    with asset_get("obj_article3") 
+        if ((num == "missingno") && master.achievement_saw_matrix) 
+            num_colors = 16;
+    set_num_palettes(num_colors);
+
+    return num_colors;
+}
