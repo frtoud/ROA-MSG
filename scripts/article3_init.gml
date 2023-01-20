@@ -42,6 +42,12 @@ sound_request_breaking = noone; //set to 0 for "fix", anything above for "break 
 sound_is_broken = false; //0 is normal, 1 is broken
 sound_to_break_with = asset_get("sfx_abyss_rumble");
 
+//sound brokenness status
+stage_request_breaking = noone; //set to 0 for "fix", 1 for "break"
+stage_is_broken = false; //0 is normal, 1 is broken
+stage_broken_kind = 0;
+dust_object_asset = asset_get("new_dust_fx_obj");
+
 //=====================================================
 //article state
 time_since_last_ran_script = noone; //time since last draw was run. if above a certain treshold, consider the character having been unloaded

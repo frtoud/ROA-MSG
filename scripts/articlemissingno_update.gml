@@ -11,18 +11,20 @@ if (room != prev_room)
 }
 
 
-master.depth = 50; //0000000000; //!? gives OK effects
-clone.depth =  -18; //something happens with dust fx at depth 7
+master.depth = 50;
+clone.depth = -18;
 
-//suppress_stage_music(0, 1);
+if (state == PERS_MATCH)
+{
+    if (stage_request_breaking != noone)
+    {
+        stage_is_broken = (stage_request_breaking > 0);
+        stage_request_breaking = noone;
+    }
 
-//print("NP="+string(instance_number(asset_get("oTestPlayer"))));
-
-//cursed knowledge
-//master.depth = 20000000000; //!?
-//master.depth = 19000000000; //!? starts affecting HUDs more
-//master.depth = 19000000; //!? gives OK effects
-//clone.depth = 8; //something happens with dust fx at depth 7
+    //dust fx surface draws at depth 7, needs to be suppressed else entire screen is black
+    if (stage_is_broken) commit_asset_murder(dust_object_asset);
+}
 
 //=============================================================================
 //achievement unlocking
@@ -133,6 +135,7 @@ else with (oPlayer) //attempt creation
         default: break;
     }
     sound_request_breaking = false;
+    stage_request_breaking = false;
 
 }
 
@@ -157,6 +160,14 @@ print("m:" + string(depth ) + " c:" + string(clone.depth ));
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
+#define commit_asset_murder(entity) // Version 0
+    with (oPlayer)
+    {
+        var k = spawn_hit_fx(0, 0, 0);
+        k.white = entity;
+        break;
+    }
+
 #macro PERS_UNKNOWN 0
 
 #macro PERS_MENUS 1

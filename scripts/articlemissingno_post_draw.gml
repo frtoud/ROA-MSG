@@ -103,11 +103,14 @@ master.time_since_last_ran_script = current_time;
 //=========================================================
 #define draw_back()
 {
-   //draw_sprite_tiled_ext(sprite_get("proj_pokeball"), 0, 0, 0, 1, 1, c_white, 1);
-   //gpu_set_colorwriteenable(true, true, true, true);
-   //gpu_set_blendenable(false);
-   //gpu_set_alphatestenable(false);
-    if (menu_is_broken)
+    if (stage_is_broken)
+    {
+        msg_gpu_push_state();
+
+        gpu_set_blendenable(false);
+        gpu_set_alphatestenable(false);
+    }
+    else if (menu_is_broken)
     {
         msg_gpu_push_state();
         
@@ -125,6 +128,8 @@ master.time_since_last_ran_script = current_time;
         draw_sprite_ext(special_sprite_get("glitch_bg"), 0, 4*((current_time * current_time) % 16) ^ 0x17 - 120, 140, 40, 2, -7, c_white, 1);
    
     msg_gpu_clear();
+    gpu_set_blendenable(true);
+    gpu_set_alphatestenable(true);
 
     if !(state == PERS_MATCH || state == PERS_CSS)
         msg_draw_achievement(special_sprite_get("achievement"));
