@@ -434,7 +434,7 @@ switch (state)
 //==================================================================
     case PS_SPAWN:
     {
-        switch (msg_alt_startup)
+        if (get_gameplay_time() < 300) switch (msg_alt_startup)
         {
             case 0:
             case 1: //Unstable
@@ -445,6 +445,7 @@ switch (state)
                     {
                         msg_unsafe_effects.quadrant.impulse = 2;
                         msg_persistence.sound_request_breaking = 75;
+                        msg_persistence.stage_request_breaking = true;
                     }
                     msg_unsafe_effects.shudder.freq = state_timer;
                     msg_unsafe_effects.shudder.horz_max = 40;
@@ -460,6 +461,7 @@ switch (state)
                     {
                         msg_unsafe_effects.bad_vsync.impulse = 2;
                         msg_persistence.sound_request_breaking = false;
+                        msg_persistence.stage_request_breaking = false;
                         sound_play(sound_get("nidoran"));
                     }
                     msg_unsafe_effects.shudder.freq = state_timer/4;
