@@ -200,6 +200,9 @@ if (my_hitboxID.attack == AT_NTHROW)
             msg_prev_status.vsp = vsp;
             msg_prev_status.state = state;
         }
+        hit_player_obj.msg_unsafe_effects.bad_strip.gameplay_timer = msg_grab_glitchtime_duration;
+        hit_player_obj.msg_unsafe_effects.bad_strip.frozen = true;
+        hit_player_obj.msg_unsafe_effects.bad_strip.impulse = 1;
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_VANISH_HITBOX)
     {
@@ -212,9 +215,9 @@ if (my_hitboxID.attack == AT_NTHROW)
     else if (my_hitboxID.hbox_num == MSG_GRAB_COLLIDER_HITBOX)
     {
         hit_player_obj.msg_inverted_collider_timer = msg_grab_collider_duration;
-        hit_player_obj.msg_unsafe_effects.bad_strip.gameplay_timer = msg_grab_collider_duration;
-        hit_player_obj.msg_unsafe_effects.bad_strip.frozen = true;
-        hit_player_obj.msg_unsafe_effects.bad_strip.impulse = 1;
+        hit_player_obj.msg_unsafe_effects.quadrant.gameplay_timer = msg_grab_collider_duration;
+        hit_player_obj.msg_unsafe_effects.quadrant.frozen = true;
+        hit_player_obj.msg_unsafe_effects.quadrant.freq = 2;
     }
 }
 

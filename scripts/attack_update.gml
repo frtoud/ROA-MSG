@@ -622,7 +622,7 @@ switch (attack)
                 msg_exploded_damage += get_player_damage( player ) + msg_grab_explode_penalty;
                 set_player_damage( player, 0 );
                 
-                if (GET_RNG(6, 0x07) > 1) msg_unsafe_effects.altswap.trigger = true;
+                if (GET_RNG(6, 0x03) == 0) msg_unsafe_effects.altswap.trigger = true;
             }
             else if (window_timer == 3)
             {
@@ -663,6 +663,9 @@ switch (attack)
                 msg_prev_status.hsp = hsp;
                 msg_prev_status.vsp = vsp;
                 msg_prev_status.state = state;
+                msg_unsafe_effects.bad_strip.gameplay_timer = msg_grab_glitchtime_duration;
+                msg_unsafe_effects.bad_strip.frozen = true;
+                msg_unsafe_effects.bad_strip.impulse = 1;
             }
         }
         else if (window == MSG_GRAB_ANTIBASH_WINDOW)
@@ -704,7 +707,7 @@ switch (attack)
                 vsp = lengthdir_y(msg_grab_antibash_force, msg_antibash_direction);
                 old_hsp = hsp;
                 old_vsp = vsp;
-                set_state(PS_PRATFALL)
+                set_state(PS_PRATFALL);
             }
         }
         else if (window == MSG_GRAB_VANISH_WINDOW)
@@ -724,9 +727,9 @@ switch (attack)
             if (window_timer == 0 && !hitpause)
             {
                 msg_inverted_collider_timer = msg_grab_collider_duration;
-                msg_unsafe_effects.bad_strip.gameplay_timer = msg_grab_collider_duration;
-                msg_unsafe_effects.bad_strip.frozen = true;
-                msg_unsafe_effects.bad_strip.impulse = 1;
+                msg_unsafe_effects.quadrant.gameplay_timer = msg_grab_collider_duration;
+                msg_unsafe_effects.quadrant.frozen = true;
+                msg_unsafe_effects.quadrant.freq = 1;
             }
         }
 
