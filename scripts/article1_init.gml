@@ -29,7 +29,6 @@ hittable_hitpause_mult = 1;
 // also includes variables:
 // enemy_hitboxID, hit_player_obj, hit_player, hit_dir
 // can_be_hit, attack_can_hit
-//Cannot use: hurtbox would be the same as collision box
 
 //=====================================================
 //Ori's compatibility

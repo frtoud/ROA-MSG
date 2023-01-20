@@ -25,7 +25,6 @@ is_clone_broken = false; //if true, draws with broken quadrant effect
 is_missingno_copy = true; //identifiable variable for elsewhere
 //unique variable on a hitbox to check if it has been copied already
 //needs to exist because could have multiple clones of a single player ergo multiple independent copies of hitboxes to manage
-//WARNING: UNCERTAIN ABOUT THIS WORKING ONLINE. CHECK FOR DESYNCS
 missingno_unique_identifier = "missingno_hitbox_was_copied_by" + string(self.id);
 
 //copies have to swap with player in a specific way to make it more consistent

@@ -22,7 +22,6 @@ sprite_change_offset("substitute_fall", 28, 50);
 sprite_change_offset("airdodge", 20, 39);
 sprite_change_offset("roll_backward", 20, 39);
 sprite_change_offset("roll_forward", 20, 39);
- sprite_change_offset("tech", 16, 31);
 
 sprite_change_offset("dattack", 48, 47, true);
 sprite_change_offset("ntilt", 20, 42, true);

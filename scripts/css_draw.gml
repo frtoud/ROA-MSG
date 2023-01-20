@@ -1,8 +1,5 @@
 //css_draw.gml
 
-
-//show_debug_message("Variables for " + object_get_name(object_index) + string(id));
-
 if (msg_error_active)
 {
     var tmp_a = draw_get_alpha();

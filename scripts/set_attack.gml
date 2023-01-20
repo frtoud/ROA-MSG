@@ -43,8 +43,6 @@ else
     msg_is_bspecial = false;
 }
 
-//if (attack == AT_TAUNT) msg_low_fps_mode = !msg_low_fps_mode;
-
 //"morph" effect attacks
 if (attack == AT_BSPECIAL)
 || (attack == AT_NSPECIAL)
