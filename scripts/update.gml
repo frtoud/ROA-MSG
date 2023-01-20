@@ -409,3 +409,20 @@ if (msg_uspecial_wraparound_require_pratfall)
     set_state(free ? PS_PRATFALL : PS_PRATLAND);
     msg_uspecial_wraparound_require_pratfall = false;
 }
+
+//========================================================
+// glitched death
+if (gfx_glitch_death_stack > 0)
+&& (state == PS_RESPAWN && state_timer == 1)
+{
+    if (gfx_glitch_death_stack < gfx_glitch_death_stack_max)
+    {
+        x = gfx_glitch_death_position.x;
+        y = gfx_glitch_death_position.y;
+    }
+    else if (gfx_glitch_death_ends_match)
+    {
+        set_player_stocks(player, 0);
+        end_match();
+    }
+}

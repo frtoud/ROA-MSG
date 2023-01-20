@@ -280,7 +280,11 @@ sfx_error = sound_get("error");
 msg_walk_start_x = x;
 
 //glitch death
-gfx_glitch_death = false;
+gfx_glitch_death_stack = 0;
+gfx_glitch_death_stack_max = 16;
+gfx_glitch_death_ends_match = false;
+gfx_glitch_death_position = { x:0, y:0 };
+
 
 //gaslight rolls
 msg_gaslight_dodge = { x:0, y:0, active:false };
