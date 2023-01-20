@@ -618,6 +618,8 @@ switch (attack)
 
                 msg_exploded_damage += get_player_damage( player ) + msg_grab_explode_penalty;
                 set_player_damage( player, 0 );
+                
+                if (GET_RNG(6, 0x07) > 1) msg_unsafe_effects.altswap.trigger = true;
             }
             else if (window_timer == 3)
             {
@@ -641,6 +643,8 @@ switch (attack)
                     set_player_damage(player, clamp(-dmg, -999, 999));
                 }
                 msg_negative_dmg_timer = msg_grab_negative_duration;
+                msg_unsafe_effects.blending.gameplay_timer = msg_grab_negative_duration;
+                msg_unsafe_effects.blending.impulse = 1;
                 //Need to track self as "debuffed" to undo negative% with correct values
                 msg_handler_id = self;
             }
@@ -717,6 +721,9 @@ switch (attack)
             if (window_timer == 0 && !hitpause)
             {
                 msg_inverted_collider_timer = msg_grab_collider_duration;
+                msg_unsafe_effects.bad_strip.gameplay_timer = msg_grab_collider_duration;
+                msg_unsafe_effects.bad_strip.frozen = true;
+                msg_unsafe_effects.bad_strip.impulse = 1;
             }
         }
 
@@ -902,5 +909,12 @@ if (strong_charge > 60) && window == get_attack_value(attack, AG_STRONG_CHARGE_W
     if (dfg != -1) newdust.fg_sprite = dfg; //set the foreground sprite
     if (dir != 0) newdust.spr_dir = dir; //set the spr_dir
     return newdust;
+
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion

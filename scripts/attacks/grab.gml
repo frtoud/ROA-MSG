@@ -347,10 +347,12 @@ msg_grab_rotation = [grab_leechseed, //front,
 
 //rest is broken/glitched
 msg_grab_queue = [msg_grab_broken_outcome,
-                   grab_glitchtime,
-                   grab_antibash,
-                   grab_vanish,
-                   grab_collider];
+                  msg_grab_broken_outcome,
+                  grab_glitchtime,
+                  grab_antibash,
+                  grab_vanish,
+                  grab_explode,
+                  grab_collider];
 
 exit;
 //debug only

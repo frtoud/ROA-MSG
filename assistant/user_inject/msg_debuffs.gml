@@ -124,6 +124,7 @@
         msg_grabbed_timer = 0;
 
         msg_negative_dmg_timer = 0;
+        msg_unsafe_effects.blending.gameplay_timer = 0;
 
         msg_doubled_time_timer = 0;
         msg_has_doubled_frame = false;
@@ -200,6 +201,7 @@
         {
             //End debuff early
             msg_negative_dmg_timer = 0;
+            msg_unsafe_effects.blending.gameplay_timer = 0;
         }
         else if (msg_negative_dmg_timer <= 0 && get_player_damage(player) < 0)
         {

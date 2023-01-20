@@ -163,7 +163,8 @@ if (my_hitboxID.attack == AT_NTHROW)
 
         hit_player_obj.msg_unsafe_effects.bad_vsync.gameplay_timer = 240;
         hit_player_obj.msg_unsafe_effects.bad_vsync.horz_max = 12;
-        hit_player_obj.msg_unsafe_effects.bad_vsync.freq = 5;
+        hit_player_obj.msg_unsafe_effects.bad_vsync.frozen = true;
+        hit_player_obj.msg_unsafe_effects.bad_vsync.freq = 6;
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_NEGATIVE_HITBOX)
     {
@@ -175,11 +176,17 @@ if (my_hitboxID.attack == AT_NTHROW)
             set_player_damage(hit_player_obj.player, clamp(-dmg, -999, 999));
         }
         hit_player_obj.msg_negative_dmg_timer = msg_grab_negative_duration;
+        hit_player_obj.msg_unsafe_effects.blending.gameplay_timer = msg_grab_negative_duration;
+        hit_player_obj.msg_unsafe_effects.blending.impulse = 1;
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_FREEZE_HITBOX)
     {
         //Reduces freeze time
         hit_player_obj.state_timer += 45;
+    }
+    else if (my_hitboxID.hbox_num == MSG_GRAB_BROKEN_HITBOX)
+    {
+        //TODO: extra breakage chance
     }
     else if (my_hitboxID.hbox_num == MSG_GRAB_GLITCHTIME_HITBOX)
     {
@@ -205,6 +212,9 @@ if (my_hitboxID.attack == AT_NTHROW)
     else if (my_hitboxID.hbox_num == MSG_GRAB_COLLIDER_HITBOX)
     {
         hit_player_obj.msg_inverted_collider_timer = msg_grab_collider_duration;
+        hit_player_obj.msg_unsafe_effects.bad_strip.gameplay_timer = msg_grab_collider_duration;
+        hit_player_obj.msg_unsafe_effects.bad_strip.frozen = true;
+        hit_player_obj.msg_unsafe_effects.bad_strip.impulse = 1;
     }
 }
 
