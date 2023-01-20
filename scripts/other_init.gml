@@ -213,6 +213,8 @@ msg_init_locality();
         //decremented over time.
         //when it reaches zero, resets visible to true.
         //set to -1 to only reset visible on hit
+
+        msg_prev_last_hit_by_player = 0;
     }
 
 #define msg_init_locality // Version 0

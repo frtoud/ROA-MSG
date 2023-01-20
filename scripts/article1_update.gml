@@ -58,6 +58,32 @@ with (oPlayer) msg_other_update();
             reset_attack_value(msg_clone_last_attack_that_needed_offedge, AG_OFF_LEDGE);
             msg_clone_last_attack_that_needed_offedge = noone;
         }
+
+        //==================================================================
+        if (msg_negative_dmg_timer > 0) && (state == PS_RESPAWN || state == PS_DEAD)
+                                        && !get_match_setting(SET_PRACTICE)
+        {
+            var unlock = false;
+            var pers = noone;
+            // this is with (oPlayer)
+            //except GML is drunk and screws up nested withs
+            for (var i = 0; i < instance_number(oPlayer); i++)
+            with (instance_find(oPlayer, i))
+            {
+                if (player == other.msg_prev_last_hit_by_player)
+                && ("msg_is_local" in self) && (msg_is_local || !msg_is_online)
+                {
+                    unlock = true;
+                }
+
+                if ("msg_persistence" in self)
+                    pers = msg_persistence;
+            }
+
+            if instance_exists(pers) pers.achievement_request_unlock_id = 0;
+        }
+
+        msg_prev_last_hit_by_player = last_player_hit_me;
     }
     //==================================================================
     //Part 2: debuffs

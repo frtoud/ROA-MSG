@@ -530,6 +530,8 @@ msg_persistence = msg_get_persistent_article();
         //decremented over time.
         //when it reaches zero, resets visible to true.
         //set to -1 to only reset visible on hit
+
+        msg_prev_last_hit_by_player = 0;
     }
 
 #define msg_get_persistent_article // Version 0
