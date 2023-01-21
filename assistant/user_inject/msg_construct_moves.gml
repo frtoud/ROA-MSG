@@ -26,7 +26,6 @@ set_hitbox_value(AT_BAIR, 1, HG_HITPAUSE_SCALING, target.gravity_speed);
 
     for (var i = 0; i < 4; i++)
     {
-        var accumulate = scan_indexes[i] > 16;
         var idx = HG_DAMAGE, stat = 1, cap = 5;
         switch (scan_indexes[i] % 16)
         {
@@ -34,7 +33,7 @@ set_hitbox_value(AT_BAIR, 1, HG_HITPAUSE_SCALING, target.gravity_speed);
             case  0: idx = HG_BASE_HITPAUSE;      stat = hbx.hitpause;        cap = 20;    break;
             case  1: idx = HG_HITPAUSE_SCALING;   stat = hbx.hitpause_growth; cap = 2;     break;
             case  2: idx = HG_VISUAL_EFFECT;      stat = hbx.hit_effect;      cap = noone; break;
-            case  3: idx = HG_SDI_MULTIPLIER;     stat = hbx.sdi_mult-1;      cap = 3;     break;
+            case  3: idx = HG_SDI_MULTIPLIER;     stat = hbx.sdi_mult;        cap = 3;     break;
             case  4: idx = HG_TECHABLE;           stat = hbx.can_tech;        cap = 3;     break;
             case  5: idx = HG_HIT_SFX;            stat = hbx.sound_effect;    cap = noone; break;
             case  6: idx = HG_ANGLE_FLIPPER;      stat = hbx.hit_flipper;     cap = 12;    break;
@@ -49,7 +48,7 @@ set_hitbox_value(AT_BAIR, 1, HG_HITPAUSE_SCALING, target.gravity_speed);
             case 15: idx = HG_EFFECT;             stat = hbx.effect;          cap = 20;    break;
         }
         
-        var base = accumulate ? get_hitbox_value(AT_NTHROW, MSG_GRAB_BROKEN_HITBOX, idx) : 0;
+        var base = get_hitbox_value(AT_NTHROW, MSG_GRAB_BROKEN_HITBOX, idx);
         set_hitbox_value(AT_NTHROW, MSG_GRAB_BROKEN_HITBOX, idx, (cap == noone) ? stat : ((base + stat) % cap));
     }
 }
