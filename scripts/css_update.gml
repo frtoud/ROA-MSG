@@ -3,6 +3,9 @@ if ("msg_error_active" not in self) exit;
 
 if !instance_exists(msg_persistence)
     msg_persistence = msg_get_persistent_article();
+else
+    set_synced_var(player, msg_persistence.achievement_hall_of_fame);
+
 
 if (msg_error_active)
 {

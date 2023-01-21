@@ -89,6 +89,10 @@ if (list != 0) switch (attack)
         msg_alt_taunt_flag = 0; //default
         reset_window_value(AT_TAUNT, 1, AG_WINDOW_SFX);
         var rng = GET_RNG(10, 0x0F);
+
+        if (msg_can_control_taunt) && (up_down - down_down != 0)
+            rng = (up_down ? 4 : 1);
+
         if (rng < 2) //gaster
         { msg_alt_taunt_flag = 1; msg_alt_sprite = list[0]; set_window_value(AT_TAUNT, 1, AG_WINDOW_SFX, sound_get("hands")); }
         else if (rng < 5) //majora

@@ -298,6 +298,7 @@ msg_multiparry = 0; //counts down for the infinite parry glitch
 
 msg_dstrong_sweetspot_hit = false;
 
+msg_can_control_taunt = (get_synced_var(player) & 0x01); //synced
 //alt taunts (unsafe)
 msg_alt_taunt_flag = 0; //see set_attack.gml
 msg_taunt_timestamp = 0; //see animation.gml
