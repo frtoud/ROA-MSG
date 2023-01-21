@@ -268,9 +268,18 @@ switch (attack)
                     window_timer = 0;
                     vsp = get_window_value(attack, 6, AG_WINDOW_VSPEED);
                     hsp += (right_down - left_down) * get_window_value(attack, 6, AG_WINDOW_HSPEED);
-                    destroy_hitboxes();
                     clear_button_buffer( PC_JUMP_PRESSED );
-                    create_hitbox(AT_DAIR, 3, x, y - 20);
+
+                    //transfer hittability to projectile
+                    var proj = create_hitbox(AT_DAIR, 3, x, y - 20);
+                    with (pHitBox) if (orig_player_id == other)
+                                   && (attack == AT_DAIR) && (hbox_num == 1)
+                                   && ("missingno_hitbox_is_copy_of" not in self)
+                                   {
+                                        proj.can_hit = can_hit;
+                                   }
+                    destroy_hitboxes();
+
                     sound_play(get_window_value(attack, 6, AG_WINDOW_SFX));
                 }
                 else if (has_hit) can_jump = true;
