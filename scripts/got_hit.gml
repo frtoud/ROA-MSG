@@ -50,6 +50,58 @@ if (GET_RNG(5, 0x01) == 1)
 }
 msg_unsafe_effects.shudder.impulse = floor(abs(hitstop_full));
 
+//corrupt 'M 
+var hurt_rng = min(abs(get_player_damage(player)) * 0.25, 64)
+             + min(1.5 * abs(enemy_hitboxID.damage), 64);
+
+if (hurt_rng > GET_RNG(21, 0x7FF))
+{
+    var should_fix = !msg_is_local;
+    //reroll breakage statuses
+    sound_play(sound_get("krr"));
+    msg_persistence.stage_request_breaking = GET_RNG(16, 0x01) * (!msg_is_local ? 0 : 1);
+    msg_persistence.music_request_breaking = GET_RNG(17, 0x01) * (!msg_is_local ? 0 : 1);
+    msg_persistence.sound_request_breaking = GET_RNG(18, 0x01) * (!msg_is_local ? 0 : 60);
+}
+
+if (hurt_rng > GET_RNG(24, 0xFF))
+{
+    //roll for player corruption
+    switch(GET_RNG(10, 0x07))
+    {
+        default:
+        case  0:
+            sound_play(sound_get("krr"));
+            msg_unsafe_effects.altswap.trigger = true;
+        break;
+        case  1:
+        case  2:
+            msg_unsafe_effects.blending.impulse = 1;
+            msg_unsafe_effects.blending.gameplay_timer = min(360, 30 * hitstun_full);
+        break;
+        case  3:
+        case  4:
+            msg_unsafe_effects.quadrant.impulse = 1;
+            msg_unsafe_effects.quadrant.gameplay_timer = min(360, 30 * hitstun_full);
+        break;
+        case  5:
+            sound_play(sound_get("clicker_static"));
+            suppress_stage_music(0, 1);
+            suppress_stage_music(0, 0.01);
+        break;
+        case  6:
+            sound_play(sound_get("jacobs_ladder"));
+            suppress_stage_music(0, 1);
+            suppress_stage_music(0, 0.01);
+        break;
+        case  7:
+            sound_play(sound_get("079-B"));
+            suppress_stage_music(0, 1);
+            suppress_stage_music(0, 0.01);
+        break;
+    }
+}
+
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.

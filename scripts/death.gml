@@ -8,6 +8,10 @@ msg_exploded_respawn = false;
 msg_bspecial_last_move.target = noone;
 msg_bspecial_last_move.move = AT_TAUNT;
 
+msg_persistence.stage_request_breaking = GET_RNG(16, 0x01) * noone;
+msg_persistence.music_request_breaking = GET_RNG(17, 0x01) * noone;
+msg_persistence.sound_request_breaking = GET_RNG(18, 0x01) * noone;
+
 //======================================================
 if (gfx_glitch_death_stack > 0)
 && (gfx_glitch_death_stack < gfx_glitch_death_stack_max)
@@ -36,3 +40,15 @@ else if (random_func(7, 8, true) == 0 || is_laststock())
     gfx_glitch_death_position.x = x;
     gfx_glitch_death_position.y = y;
 }
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

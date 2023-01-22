@@ -184,10 +184,6 @@ if (my_hitboxID.attack == AT_NTHROW)
         //Reduces freeze time
         hit_player_obj.state_timer += 45;
     }
-    else if (my_hitboxID.hbox_num == MSG_GRAB_BROKEN_HITBOX)
-    {
-        //TODO: extra breakage chance
-    }
     else if (my_hitboxID.hbox_num == MSG_GRAB_GLITCHTIME_HITBOX)
     {
         //apply Glitch Time
@@ -242,6 +238,65 @@ if (!hit_player_obj.msg_is_missingno)
     hit_player_obj.msg_unsafe_handler_id = self;
 }
 
+//corrupt target 
+var hurt_rng = min(abs(get_player_damage(hit_player_obj.player)) * 0.25, 64)
+             + min(1.5 * abs(my_hitboxID.damage), 64);
+
+//add bonus brokenness chances for grabs
+if (my_hitboxID.attack == AT_NTHROW && my_hitboxID.hbox_num > 1)
+{
+    hurt_rng += 32;
+    if (my_hitboxID.hbox_num == MSG_GRAB_GLITCHTIME_HITBOX) hurt_rng += 32;
+    else if (my_hitboxID.hbox_num == MSG_GRAB_BROKEN_HITBOX) hurt_rng = 65535;
+}
+
+if (hit_player_obj.msg_is_local || !msg_is_online)
+&& (hurt_rng > GET_RNG(21, 0x7FF))
+{
+    //reroll breakage statuses
+    sound_play(sound_get("krr"));
+    msg_persistence.stage_request_breaking = GET_RNG(16, 0x01);
+    msg_persistence.music_request_breaking = GET_RNG(17, 0x01);
+    msg_persistence.sound_request_breaking = GET_RNG(18, 0x01) * 60;
+}
+
+if (hurt_rng > GET_RNG(24, 0xFF))
+{
+    //roll for player corruption
+    switch(GET_RNG(10, 0x07))
+    {
+        default:
+        case  0:
+            sound_play(sound_get("krr"));
+            hit_player_obj.msg_unsafe_effects.altswap.trigger = true;
+        break;
+        case  1:
+        case  2:
+            hit_player_obj.msg_unsafe_effects.blending.impulse = 1;
+            hit_player_obj.msg_unsafe_effects.blending.gameplay_timer = min(360, 30 * hit_player_obj.hitstun_full);
+        break;
+        case  3:
+        case  4:
+            hit_player_obj.msg_unsafe_effects.quadrant.impulse = 1;
+            hit_player_obj.msg_unsafe_effects.quadrant.gameplay_timer = min(360, 30 * hit_player_obj.hitstun_full);
+        case  5:
+            sound_play(sound_get("clicker_static"));
+            suppress_stage_music(0, 1);
+            suppress_stage_music(0, 0.01);
+        break;
+        case  6:
+            sound_play(sound_get("jacobs_ladder"));
+            suppress_stage_music(0, 1);
+            suppress_stage_music(0, 0.01);
+        break;
+        case  7:
+            sound_play(sound_get("079-B"));
+            suppress_stage_music(0, 1);
+            suppress_stage_music(0, 0.01);
+        break;
+    }
+}
+
 //==========================================================
 // destroy all current missingno-copies of a player
 #define destroy_copies(target_client_id)
@@ -290,5 +345,12 @@ if (!hit_player_obj.msg_is_missingno)
         var base = get_hitbox_value(AT_NTHROW, MSG_GRAB_BROKEN_HITBOX, idx);
         set_hitbox_value(AT_NTHROW, MSG_GRAB_BROKEN_HITBOX, idx, (cap == noone) ? stat : ((base + stat) % cap));
     }
+
+#define GET_RNG(offset, mask) // Version 0
+    // ===========================================================
+    // returns a random number from the seed by using the mask.
+    // uses "msg_unsafe_random" implicitly.
+    return (mask <= 0) ? 0
+           :((msg_unsafe_random >> offset) & mask);
 // DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
 // #endregion
