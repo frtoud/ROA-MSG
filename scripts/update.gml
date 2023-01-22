@@ -419,6 +419,9 @@ if (gfx_glitch_death_stack > 0)
     {
         x = gfx_glitch_death_position.x;
         y = gfx_glitch_death_position.y;
+        hitstun_full = 7;
+        hitstun = 7;
+        state = PS_HITSTUN;
     }
     else if (gfx_glitch_death_ends_match)
     {

@@ -18,8 +18,6 @@ if (gfx_glitch_death_stack > 0)
 {
     set_player_stocks(player, get_player_stocks(player) + 1);
     gfx_glitch_death_stack++;
-    gfx_glitch_death_position.x = x;
-    gfx_glitch_death_position.y = y;
 }
 else if (random_func(7, 8, true) == 0 || is_laststock())
      && (get_match_setting(SET_STOCKS) > 0)
