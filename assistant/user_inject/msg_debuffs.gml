@@ -157,11 +157,13 @@
         {
             visible = true;
             debuff_expire_vfx();
+            if (!msg_is_local) msg_persistence.music_request_breaking = false;
         }
     }
     else if (msg_unsafe_invisible_timer < 0) && (state_cat == SC_HITSTUN)
     {
         visible = true;
+        if (!msg_is_local) msg_persistence.music_request_breaking = false;
     }
 
     //=========LEECH SEED=========

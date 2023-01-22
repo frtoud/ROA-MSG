@@ -726,6 +726,7 @@ switch (attack)
                 sound_play(sound_get("vanish"));
                 if (!msg_is_local)
                 {
+                    msg_persistence.music_request_breaking = GET_RNG(17, 0x01) ? 1 : noone;
                     msg_unsafe_invisible_timer = msg_grab_vanish_duration + player*30;
                     visible = false;
                 }

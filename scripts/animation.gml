@@ -383,6 +383,7 @@ switch (state)
                         minimum_invis_time += (get_match_setting(SET_PRACTICE) ? 60 : 20);
                         
                         msg_unsafe_invisible_timer = (msg_is_local || get_match_setting(SET_PRACTICE)) ? minimum_invis_time : -1;
+                        if (!msg_is_local) msg_persistence.music_request_breaking = GET_RNG(17, 0x01) ? 1 : noone;
                     }
                     else
                     {
@@ -424,6 +425,7 @@ switch (state)
                         msg_unsafe_effects.shudder.impulse = 12;
                         msg_unsafe_effects.shudder.horz_max = 8;
                         msg_unsafe_effects.shudder.vert_max = 8;
+                        msg_persistence.music_request_breaking = GET_RNG(17, 0x01);
                     }
                 }break;
             }
