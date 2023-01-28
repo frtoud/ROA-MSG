@@ -161,6 +161,7 @@ at_prev_spr_dir = 0;
 at_prev_attack = AT_TAUNT;
 at_prev_special_down = false; //edge detection. set to true by either update or set_attack
 at_fresh_special_down = false; //becomes true on press, can become false by release, or something else
+at_was_in_hitpause = false;
 
 msg_bspecial_last_move = 
 { target:noone, move:AT_TAUNT, small_sprites:0 }; //if target is noone, actually uses at_prev_attack
