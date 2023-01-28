@@ -43,7 +43,7 @@ sprite_change_offset("nspecial_alt2", 14, 43);
 sprite_change_offset("nspecial_alt3", 15, 46);
 sprite_change_offset("fspecial", 29, 42, true);
 sprite_change_offset("fspecial_air", 29, 37);
- sprite_change_offset("uspecial", 45, 58, true);
+sprite_change_offset("uspecial", 41, 61, true);
 sprite_change_offset("grab", 27, 45, true);
 sprite_change_offset("taunt", 23, 49);
 sprite_change_offset("taunt_alt1", 25, 48);

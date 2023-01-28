@@ -776,20 +776,20 @@ switch (attack)
 //=============================================================
     case AT_USPECIAL:
     {
-        can_move = (window == 2 || window == 5);
+        can_move = (window == 2 || window == 6);
         can_wall_jump = (window > 2);
-        if (window == 3) && window_timer == get_window_value(attack, window, AG_WINDOW_CANCEL_FRAME)
+        if (window == 3) 
         {
-            can_wall_jump = true;
-            var new_dir = (right_down - left_down);
-            if (new_dir != 0) 
+            if (window_timer < get_window_value(AT_USPECIAL, window, AG_WINDOW_CANCEL_FRAME))
             {
-                spr_dir = new_dir;
+                var new_dir = (right_down - left_down);
+                if (new_dir != 0) spr_dir = new_dir;
             }
 
-            if (!special_down || msg_is_bspecial)
+            else if (window_timer == get_window_value(AT_USPECIAL, window, AG_WINDOW_LENGTH) - 1)
+            && (!special_down || msg_is_bspecial)
             {
-                window = 5;
+                window = 6;
                 window_timer = 0;
                 if (msg_is_bspecial) 
                 {
@@ -803,28 +803,23 @@ switch (attack)
                 sound_play(msg_is_bspecial ? sound_get("079"): asset_get("sfx_mobile_gear_jump"))
             }
         }
-        else if (window == 4)
+        else if (window == 5)
         {
 
             if (!free)
+            {
+                window = 7;
+                window_timer = 0;
+                destroy_hitboxes();
+            }
+            else if (shield_down) && (window_timer == 8)
             {
                 window = 6;
                 window_timer = 0;
                 destroy_hitboxes();
             }
-            else if (shield_down) && window_timer > 12
-            {
-                //hsp *= 0.4;
-                //vsp *= 0.4;
-                window = 5;
-                window_timer = 0;
-            }
-            /*else if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) - 1)
-            {
-                window_timer = 1;
-            }*/
         }
-        else if (window == 5 && window_timer < 5)
+        else if (window == 6 && window_timer < 5)
         {
             hsp *= 0.9; 
             vsp *= 0.4; vsp -= 1;
