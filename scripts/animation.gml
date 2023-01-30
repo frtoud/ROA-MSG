@@ -364,6 +364,14 @@ switch (state)
             }
         } break;
 //==================================================================
+        case AT_USPECIAL:
+        {
+            do_glitch_trail = (window >= 2);
+            if (msg_is_bspecial)
+                msg_unsafe_effects.bad_strip.freq = 999;
+                msg_unsafe_effects.bad_strip.frozen = 1;
+        } break;
+//==================================================================
         case AT_TAUNT:
         {
             switch (msg_alt_taunt_flag)
