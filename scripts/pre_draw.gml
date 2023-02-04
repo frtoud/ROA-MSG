@@ -28,7 +28,19 @@ if matrix_mode
     if (!msg_persistence.achievement_saw_matrix)
         msg_persistence.achievement_request_unlock_id = 1; //matrix witnessed
 }
-else 
+else if (msg_effective_alt == 8)
+{
+    outline_color = [255, 255, 255];
+    colorO[8*4 + 0] = 1;
+    colorO[8*4 + 1] = 1;
+    colorO[8*4 + 2] = 1;
+    colorO[8*4 + 3] = 1;
+    static_colorO[8*4 + 0] = 1;
+    static_colorO[8*4 + 1] = 1;
+    static_colorO[8*4 + 2] = 1;
+    static_colorO[8*4 + 3] = 1;
+}
+else
 {
     outline_color = [0, 0, 0];
     colorO[8*4 + 0] = 0;
