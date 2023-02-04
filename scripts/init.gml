@@ -132,6 +132,23 @@ msg_crawl_anim_index = 0; //crawling animation
 msg_firstjump_height = 90; //distance to add
 
 //=========================================================
+//Sync flags
+msg_can_control_taunt = (get_synced_var(player) & 0x01) > 0;
+msg_yellow_mode       = (get_synced_var(player) & 0x02) > 0;
+
+if (msg_yellow_mode)
+{
+    knockback_adj = 0.85;
+    walk_speed = 3;
+    crawl_speed = 4.5;
+    initial_dash_speed = 5.65;
+    dash_speed = 5.75;
+    dashcrawl_speed = initial_dash_speed + 3;
+    msg_firstjump_height = 70; 
+    djump_speed = 8;
+}
+
+//=========================================================
 // Balance variables
 msg_ntilt_accel = 1.05;
 msg_ntilt_maxspeed = dash_speed * 2.2;
@@ -250,7 +267,7 @@ msg_common_init();
 AG_MSG_ALT_SPRITES = 39; //Array of alternate sprites to use. see set_attack.gml
 
 msg_alt_sprite = noone;
-glitch_bg_spr = sprite_get("glitch_bg");
+glitch_bg_spr = sprite_get(msg_yellow_mode ? "glitch_bg_y" : "glitch_bg");
 no_sprite = asset_get("empty_sprite");
 error_sprite_x = asset_get("net_disc_spr");
 error_sprite_b = asset_get("solid_32x32");
@@ -263,6 +280,8 @@ set_ui_element(UI_OFFSCREEN, error_sprite_x);
 hfx_error_x = hit_fx_create(error_sprite_x, 4);
 hfx_error_b = hit_fx_create(error_sprite_b, 4);
 
+idle_sprite = sprite_get("idle");
+idle_yellow_sprite = sprite_get("idle_y");
 jump_sprite = sprite_get("jump");
 djump_sprite = sprite_get("doublejump");
 pratland_spr = sprite_get("pratland");
@@ -299,7 +318,6 @@ msg_multiparry = 0; //counts down for the infinite parry glitch
 
 msg_dstrong_sweetspot_hit = false;
 
-msg_can_control_taunt = (get_synced_var(player) & 0x01); //synced
 //alt taunts (unsafe)
 msg_alt_taunt_flag = 0; //see set_attack.gml
 msg_taunt_timestamp = 0; //see animation.gml

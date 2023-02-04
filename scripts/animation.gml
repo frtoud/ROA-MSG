@@ -41,7 +41,7 @@ switch (state)
 //==================================================================
     case PS_WALK:
     {
-        sprite_index = sprite_get("idle");
+        sprite_index = idle_sprite;
         if (state_timer == 0)
         {
             msg_walk_start_x = x;
@@ -72,7 +72,7 @@ switch (state)
 //==================================================================
     case PS_WALK_TURN:
     {
-        sprite_index = sprite_get("idle");
+        sprite_index = idle_sprite;
         if (abs(hsp) > 0.2)
         {
             msg_unsafe_effects.bad_vsync.gameplay_timer = 4;
@@ -533,6 +533,12 @@ else
 
 //==================================================================
 // general
+
+//idle yellow
+if (msg_yellow_mode) && (sprite_index == idle_sprite)
+{
+    sprite_index = idle_yellow_sprite;
+}
 
 //unstable hitstun
 if (state_cat == SC_HITSTUN)

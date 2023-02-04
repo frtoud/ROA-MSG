@@ -1,5 +1,10 @@
 //css_draw.gml
 
+if (msg_yellow_mode)
+{
+    draw_sprite_ext(sprite_get("css_yellow"), 0, x+8, y+8, 2, 2, 0, c_white, 1)
+}
+
 if (msg_error_active)
 {
     var tmp_a = draw_get_alpha();

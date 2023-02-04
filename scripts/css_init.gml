@@ -4,6 +4,8 @@ msg_persistence = noone;
 
 set_num_alts(); //see colors.gml
 
+msg_yellow_mode = false;
+
 msg_error_active = false;
 var nl = chr(0x0A);
 msg_error_message = nl;
