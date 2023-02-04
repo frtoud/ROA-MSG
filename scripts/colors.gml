@@ -91,11 +91,11 @@ set_color_profile_slot(9, 1,  88, 184, 248);
 set_color_profile_slot(9, 2, 248,  64,  64);
 set_color_profile_slot(9, 3, 248, 248, 248);
 
-//negative colors
-steal_color_profile_slot(10, 0, 2, 3);
-steal_color_profile_slot(10, 1, 2, 2);
-steal_color_profile_slot(10, 2, 2, 1);
-steal_color_profile_slot(10, 3, 2, 0);
+//0xFemale
+set_color_profile_slot(10, 0,  16,   0,  50);
+set_color_profile_slot(10, 1,  16,   0,  50);
+set_color_profile_slot(10, 2, 216,   0,  50);
+set_color_profile_slot(10, 3,  16,   0,  50);
 
 //negative colors
 steal_color_profile_slot(11, 0, 3, 3);
