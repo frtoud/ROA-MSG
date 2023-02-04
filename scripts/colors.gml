@@ -38,13 +38,13 @@ set_color_profile_slot_range(7,   1,   1, 1);
 var num_colors = set_num_alts(); //see msg_init_effects.gml
 
 //0x726E8
-set_color_profile_slot(1, 0,  30,  30,  30);
-set_color_profile_slot(1, 1, 111, 151, 199);
-set_color_profile_slot(1, 2, 167, 199, 231);
-set_color_profile_slot(1, 3, 255, 255, 230);
+set_color_profile_slot(1, 0,  16,  24,  24);
+set_color_profile_slot(1, 1, 112, 152, 200);
+set_color_profile_slot(1, 2, 168, 200, 232);
+set_color_profile_slot(1, 3, 248, 232, 248);
 
 //0x726F0
-set_color_profile_slot(2, 0,  30,  30,  30);
+set_color_profile_slot(2, 0,  24,  16,  16);
 set_color_profile_slot(2, 1, 207,  79,  47);
 set_color_profile_slot(2, 2, 247, 159,  79);
 set_color_profile_slot(2, 3, 255, 255, 230);
@@ -56,21 +56,21 @@ set_color_profile_slot(3, 2, 159, 207, 127);
 set_color_profile_slot(3, 3, 255, 255, 230);
 
 //0x72728
-set_color_profile_slot(4, 0,  30,  30,  30);
-set_color_profile_slot(4, 1, 129, 129, 129);
-set_color_profile_slot(4, 2, 170, 170, 170);
-set_color_profile_slot(4, 3, 255, 255, 230);
+set_color_profile_slot(4, 0,  48,  48,  48);
+set_color_profile_slot(4, 1, 128, 128, 112);
+set_color_profile_slot(4, 2, 200, 200, 144);
+set_color_profile_slot(4, 3, 248, 248, 240);
 
 //0x72720
 set_color_profile_slot(5, 0,  30,  30,  30);
-set_color_profile_slot(5, 1, 207, 159,   0);
-set_color_profile_slot(5, 2, 247, 223, 111);
+set_color_profile_slot(5, 1, 208, 160,   0);
+set_color_profile_slot(5, 2, 248, 224, 112);
 set_color_profile_slot(5, 3, 255, 255, 230);
 
 //0x72718
 set_color_profile_slot(6, 0,  30,  30,  30);
-set_color_profile_slot(6, 1, 223, 119, 167);
-set_color_profile_slot(6, 2, 239, 175, 191);
+set_color_profile_slot(6, 1, 200,  32, 248);
+set_color_profile_slot(6, 2,  88, 184, 248);
 set_color_profile_slot(6, 3, 255, 255, 230);
 
 //0x72660
@@ -80,13 +80,43 @@ set_color_profile_slot(7, 2, 167, 186,  74);
 set_color_profile_slot(7, 3, 211, 226, 154);
 
 //negative colors
-for (var k = 0; k < 7; k++)
-{
-   steal_color_profile_slot(8+k, 0, k, 3);
-   steal_color_profile_slot(8+k, 1, k, 2);
-   steal_color_profile_slot(8+k, 2, k, 1);
-   steal_color_profile_slot(8+k, 3, k, 0);
-}
+steal_color_profile_slot(8, 0, 0, 3);
+steal_color_profile_slot(8, 1, 0, 2);
+steal_color_profile_slot(8, 2, 0, 1);
+steal_color_profile_slot(8, 3, 0, 0);
+
+//0xCinnabar
+set_color_profile_slot(9, 0,  24,  24,  24);
+set_color_profile_slot(9, 1,  88, 184, 248);
+set_color_profile_slot(9, 2, 248,  64,  64);
+set_color_profile_slot(9, 3, 248, 248, 248);
+
+//negative colors
+steal_color_profile_slot(10, 0, 2, 3);
+steal_color_profile_slot(10, 1, 2, 2);
+steal_color_profile_slot(10, 2, 2, 1);
+steal_color_profile_slot(10, 3, 2, 0);
+
+//negative colors
+steal_color_profile_slot(11, 0, 3, 3);
+steal_color_profile_slot(11, 1, 3, 2);
+steal_color_profile_slot(11, 2, 3, 1);
+steal_color_profile_slot(11, 3, 3, 0);
+
+//0xYGray
+set_color_profile_slot(12, 0,  24,  24,  24);
+set_color_profile_slot(12, 1,  88,  88,  40);
+set_color_profile_slot(12, 2, 160, 184,  80);
+set_color_profile_slot(12, 3, 248, 248, 248);
+
+//0xYellow
+set_color_profile_slot(13, 0,  24,  24,  24);
+set_color_profile_slot(13, 1, 248,   8,   8);
+set_color_profile_slot(13, 2, 248, 248,   0);
+set_color_profile_slot(13, 3, 255, 255, 255);
+
+//set_color_profile_slot(14, 0,  30,  30,  30);
+//set_color_profile_slot(14, 3, 255, 255, 230);
 
 //for low-fps mode undefined (doesnt affect slot zero)
 for (var i = 1; i < num_colors; i++)
