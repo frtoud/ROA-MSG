@@ -90,11 +90,18 @@ msg_effective_alt = get_fake_alt();
 #define get_fake_alt // Version 0
     // 1-555-THX-NART
     var fake_alt = get_player_color(player);
+
+    var curr_color = [round(colorO[2*4] * 255),
+                      round(colorO[2*4 +1] * 255),
+                      round(colorO[2*4 +2] * 255) ];
     for (var i = 0; i < 4; i++ )
     {
-        if get_color_profile_slot_r(fake_alt, 2) == round(colorO[2*4] * 255)
-        && get_color_profile_slot_g(fake_alt, 2) == round(colorO[2*4 +1] * 255)
-        && get_color_profile_slot_b(fake_alt, 2) == round(colorO[2*4 +2] * 255)
+        //OS DEPENDENT ALT CAUSES ISSUES HERE
+        var checked_alt = (fake_alt == 14) ? (get_synced_var(player) & 0xF00) >> 8 : fake_alt;
+        var checked_slot = (fake_alt == 14) ? 1 : 2;
+        if get_color_profile_slot_r(checked_alt, checked_slot) == curr_color[0]
+        && get_color_profile_slot_g(checked_alt, checked_slot) == curr_color[1]
+        && get_color_profile_slot_b(checked_alt, checked_slot) == curr_color[2]
         {
             //alt identified
             break;

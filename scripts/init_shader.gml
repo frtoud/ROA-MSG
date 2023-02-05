@@ -2,7 +2,6 @@
 
 var color = get_player_color(player);
 
-
 if ("msg_effective_alt" in self) && (msg_effective_alt != color)
 {
     color = msg_effective_alt;
@@ -11,7 +10,14 @@ if ("msg_effective_alt" in self) && (msg_effective_alt != color)
     apply_color_slot(2, color, 2);
     apply_color_slot(3, color, 3);
 }
-if (color == 15)
+
+if (color == 14)
+{
+    var sync = get_synced_var(player);
+    apply_color_slot(1, (sync & 0xF0) >> 4, 2);
+    apply_color_slot(2, (sync & 0xF00)>> 8, 1);
+}
+else if (color == 15)
 {
     colorO[8*4 + 0] = 0;
     colorO[8*4 + 1] = 0.55;

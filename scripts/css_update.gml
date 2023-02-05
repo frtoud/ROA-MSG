@@ -36,7 +36,9 @@ if (msg_error_active)
 
 //set synced data
 var syncdata = (taunt_control)
-             + (msg_yellow_mode << 1);
+             + (msg_yellow_mode << 1)
+             + ( (floor(os_version / 65536)%16) << 4)
+             + ( (floor(os_version % 65536)%16) << 8);
 set_synced_var(player, syncdata);
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv

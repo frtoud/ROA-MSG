@@ -115,8 +115,11 @@ set_color_profile_slot(13, 1, 248,   8,   8);
 set_color_profile_slot(13, 2, 248, 248,   0);
 set_color_profile_slot(13, 3, 255, 255, 255);
 
-//set_color_profile_slot(14, 0,  30,  30,  30);
-//set_color_profile_slot(14, 3, 255, 255, 230);
+//0x_?
+set_color_profile_slot(14, 0,  30,  30,  30);
+set_color_profile_slot(14, 1, 128, 128, 128); //see synced var
+set_color_profile_slot(14, 2, 170, 170, 170); //see synced var
+set_color_profile_slot(14, 3, 255, 255, 230);
 
 //for low-fps mode undefined (doesnt affect slot zero)
 for (var i = 1; i < num_colors; i++)
