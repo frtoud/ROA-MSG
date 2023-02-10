@@ -145,7 +145,7 @@ switch (attack)
         && (right_down - left_down == -spr_dir)
         {
             //holding back: reduce HSP boost
-            hsp *= 0.5;
+            if (hsp*spr_dir > 6) hsp *= 0.5;
         }
 
         if (window > 2) && (window < 5) && !free
@@ -161,11 +161,20 @@ switch (attack)
             window_timer--;
             can_jump = true;
         }
-        else if (window == 5 && (window_timer >= get_window_value(attack, window, AG_WINDOW_LENGTH) - 1)
-             && !free)
+        else if (window == 5)
         {
-            set_state(PS_CROUCH);
-            state_timer += 2;
+            if (window_timer < 3 && attack_pressed) && (hsp*spr_dir < 0)
+            {
+                window = 2; 
+                window_timer = 1; 
+                vsp = -7; 
+                hsp += spr_dir * -7;
+            }
+            else if (window_timer >= get_window_value(attack, window, AG_WINDOW_LENGTH) - 1) && !free
+            {
+                set_state(PS_CROUCH);
+                state_timer += 2;
+            }
         }
     } break;
 //=============================================================
