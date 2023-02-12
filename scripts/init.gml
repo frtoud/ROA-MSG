@@ -359,7 +359,7 @@ msg_persistence = msg_get_persistent_article();
      //easier identification later
     if (is_missingno) msg_is_missingno = true;
      //basecast is immune to certain kinds of manipulations
-    msg_is_basecast = ("url" in self) && real(url) < 20 && real(url) > 1;
+    msg_is_basecast = ("url" in self) && (url != "") && real(url) < 20 && real(url) > 1;
 
     //A ditto match can involve multiple MissingNo other_init.gml running here. on top of their own inits.
     //initialize everything "generic" once only
