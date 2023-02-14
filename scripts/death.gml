@@ -14,9 +14,9 @@ msg_persistence.sound_request_breaking = GET_RNG(18, 0x01) * noone;
 
 //======================================================
 if (gfx_glitch_death_stack > 0)
-&& (gfx_glitch_death_stack < gfx_glitch_death_stack_max)
 {
-    set_player_stocks(player, get_player_stocks(player) + 1);
+    if (gfx_glitch_death_stack < gfx_glitch_death_stack_max)
+        set_player_stocks(player, get_player_stocks(player) + 1);
     gfx_glitch_death_stack++;
 }
 else if (random_func(7, 8, true) == 0 || is_laststock())
@@ -27,13 +27,13 @@ else if (random_func(7, 8, true) == 0 || is_laststock())
     for (var p = 1; p <= 4; p++) if is_player_on(p)
     {
         active[get_player_team(p)] = true;
-        alive[get_player_team(p)] = get_player_stocks(p) > ((p == player) ? 1 : 0);
+        alive[get_player_team(p)] |= get_player_stocks(p) > ((p == player) ? 1 : 0);
     }
 
-    gfx_glitch_death_ends_match = (active[1] + active[2] + active[3] + active[4])
-                                > ( alive[1] +  alive[2] +  alive[3] +  alive[4]);
+    gfx_glitch_death_ends_match = ( (active[1]*alive[1]) + (active[2]*alive[2])
+                                + (active[3]*alive[3]) + (active[4]*alive[4]) ) < 2;
 
-    if (gfx_glitch_death_ends_match) set_player_stocks(player, get_player_stocks(player) + 1);
+    set_player_stocks(player, get_player_stocks(player) + 1);
     gfx_glitch_death_stack = 1;
     gfx_glitch_death_position.x = x;
     gfx_glitch_death_position.y = y;
