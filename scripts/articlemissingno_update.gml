@@ -161,7 +161,7 @@ print("m:" + string(depth ) + " c:" + string(clone.depth ));
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
 #define commit_asset_murder(entity) // Version 0
-    with (oPlayer)
+    if instance_exists(entity) with (oPlayer)
     {
         var k = spawn_hit_fx(0, 0, 0);
         k.white = entity;

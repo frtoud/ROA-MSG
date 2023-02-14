@@ -4,7 +4,7 @@
 //========================================================================================================
 #define commit_asset_murder(entity)
 {
-    with (oPlayer)
+    if instance_exists(entity) with (oPlayer)
     {
         var k = spawn_hit_fx(0, 0, 0);
         k.white = entity;
