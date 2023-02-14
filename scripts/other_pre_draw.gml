@@ -427,7 +427,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
             }
             else
             {
-                if (fx.workshop_altnum_cache == 0) fx.workshop_altnum_cache = determine_num_alts();
+                if (fx.workshop_altnum_cache == 0) fx.workshop_altnum_cache = max(1, determine_num_alts());
                 var alt_roll = GET_RNG(9, 0x3F) % fx.workshop_altnum_cache;
 
                 for (var i = 0; i < 8; i++)
@@ -546,7 +546,7 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
         if (string_length(splitdata[target_data_index]) > 1) i--;
     }
 
-    //foud target row
+    //found target row
     var rowdata = string_split(splitdata[target_data_index], ",");
     var num_slots = array_length(rowdata) / 3; //RGB
 
