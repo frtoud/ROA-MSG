@@ -42,7 +42,7 @@ if (prev_state == PS_ATTACK_GROUND || prev_state == PS_ATTACK_AIR)
 // VFXing
 hurt_img = GET_RNG(6, 0x0F);
 if (hurt_img > msg_num_hurt_spr) hurt_img = 153;
-if (GET_RNG(5, 0x01) == 1) 
+if (GET_RNG(5, 0x01) == 1) && (hit_player_obj.sprite_index != -1)
 {
     var g = noone;
     with (hit_player_obj) g = msg_get_garbage();
