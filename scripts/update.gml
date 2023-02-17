@@ -260,7 +260,7 @@ for (var i = 0; i < msg_leechseed_particle_number; i++)
 // Explosion fakeout
 if (msg_exploded_respawn)
 {
-    if (state == PS_RESPAWN)
+    if (state == PS_RESPAWN) && (state_timer > 1)
     {
         //faster Respawn
         state_timer++;
