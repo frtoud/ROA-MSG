@@ -113,9 +113,7 @@ switch (state)
 //==================================================================
     case PS_PARRY:
     {
-        if (state_timer == 0) has_parried = false;
-
-        else if (state_timer == 4) && (!msg_is_local || !msg_is_online) 
+        if (state_timer == 4) && (!msg_is_local || !msg_is_online) 
              && !get_match_setting(SET_PRACTICE)
              && (GET_RNG(9, 0x07) == 0)
         {
@@ -131,9 +129,10 @@ switch (state)
             //MARK UNSAFE. THIS PROJECTILE IS NOT SYNCED.
             sub.msg_unsafe = true;
         }
-        else if (state_timer == 10 && !has_parried)
+        else if (state_timer == 10)
         {
-            create_hitbox(AT_JAB, 1, x + 15*spr_dir, y);
+            if(!has_parried) create_hitbox(AT_JAB, 1, x + 15*spr_dir, y);
+            has_parried = false;
         }
     } break;
 //==================================================================
