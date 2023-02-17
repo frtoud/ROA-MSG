@@ -433,6 +433,16 @@ switch (state)
                         msg_unsafe_effects.shudder.horz_max = 8;
                         msg_unsafe_effects.shudder.vert_max = 8;
                         msg_persistence.music_request_breaking = GET_RNG(17, 0x01);
+
+                        var charbox_offset = 3;
+                        if (msg_persistence.state == PERS_CSS)
+                        with asset_get("cs_charbox_obj") with (other)
+                        {
+                            if (GET_RNG(charbox_offset, 0x07) == 0) 
+                                commit_asset_murder(other);
+                            charbox_offset += 2;
+                            msg_persistence.menu_is_broken = true;
+                        }
                     }
                 }break;
             }
@@ -582,6 +592,16 @@ if (msg_fakeout_parry_timer > 0) msg_fakeout_parry_timer--;
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
+#define commit_asset_murder(entity) // Version 0
+    if instance_exists(entity) with (oPlayer)
+    {
+        var k = spawn_hit_fx(0, 0, 0);
+        k.white = entity;
+        break;
+    }
+
+#macro PERS_CSS 3
+
 #define msg_collect_garbage // Version 0
     // Done in animation.gml, contrary to pre_draw
     if (get_gameplay_time() % 15 == 0) && (0 == GET_RNG(1, 0x03))
