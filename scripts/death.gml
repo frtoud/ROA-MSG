@@ -30,6 +30,9 @@ else if (random_func(7, 8, true) == 0 || is_laststock())
         alive[get_player_team(p)] |= get_player_stocks(p) > ((p == player) ? 1 : 0);
     }
 
+    //do not activate if only one team is active (abyss/bosses)
+    if (active[1] + active[2] + active[3] + active[4]) < 2 exit;
+
     gfx_glitch_death_ends_match = ( (active[1]*alive[1]) + (active[2]*alive[2])
                                 + (active[3]*alive[3]) + (active[4]*alive[4]) ) < 2;
 
