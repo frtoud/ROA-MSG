@@ -21,6 +21,7 @@ if (gfx_glitch_death_stack > 0)
 }
 else if (random_func(7, 8, true) == 0 || is_laststock())
      && (get_match_setting(SET_STOCKS) > 0)
+     && !msg_stability_mode
 {
     var active = [0, 0,0,0,0];
     var alive = [0, 0,0,0,0];

@@ -50,6 +50,11 @@ switch (state)
         {
             var max_dist = 80;
             var distance_walked = x - msg_walk_start_x;
+            if (msg_stability_mode) 
+            {
+                distance_walked = clamp(distance_walked, -max_dist, max_dist);
+                max_dist *= 0.25;
+            }
             if (abs(distance_walked) < 5)
             {
                 msg_unsafe_effects.bad_vsync.timer = 1;
@@ -588,7 +593,7 @@ if (msg_do_hud_position_check && get_gameplay_time() > 5)
 }
 
 //stability mode
-if (get_gameplay_time() > 90) && msg_stability_mode
+if (get_gameplay_time() > 90)
 {
     msg_persistence.stage_stability_mode |= msg_stability_mode;
 }

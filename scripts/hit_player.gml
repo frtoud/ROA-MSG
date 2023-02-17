@@ -242,6 +242,7 @@ if (!hit_player_obj.msg_is_missingno)
 var hurt_rng = min(abs(get_player_damage(hit_player_obj.player)) * 0.25, 64)
              + min(1.5 * abs(my_hitboxID.damage), 64);
 
+if (msg_stability_mode) hurt_rng = 0;
 //add bonus brokenness chances for grabs
 if (my_hitboxID.attack == AT_NTHROW && my_hitboxID.hbox_num > 1)
 {

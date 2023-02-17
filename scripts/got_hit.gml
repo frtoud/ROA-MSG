@@ -53,6 +53,7 @@ msg_unsafe_effects.shudder.impulse = floor(abs(hitstop_full));
 //corrupt 'M 
 var hurt_rng = min(abs(get_player_damage(player)) * 0.25, 64)
              + min(1.5 * abs(enemy_hitboxID.damage), 64);
+if (msg_stability_mode) hurt_rng = 0;
 
 if (hurt_rng > GET_RNG(21, 0x7FF))
 {
