@@ -354,6 +354,24 @@ msg_grab_queue = [msg_grab_broken_outcome,
                   grab_explode,
                   grab_collider];
 
+if (msg_yellow_mode)
+{
+    //alternate rotation of grabs
+    msg_grab_rotation = [grab_antibash,  //front,
+                         grab_explode,   //up, 
+                         grab_vanish,    //back, 
+                         grab_collider]; //down 
+
+    //rest is broken/glitched
+    msg_grab_queue = [msg_grab_broken_outcome,
+                      grab_glitchtime,
+                      grab_negative,
+                      grab_negative,
+                      grab_frostburn,
+                      grab_leechseed,
+                      grab_explode];
+}
+
 exit;
 //debug only
 var debug = msg_grab_broken_outcome;
