@@ -31,12 +31,12 @@ if (msg_results_background_timer < 0) && (results_timer < 320)
     var tmult = ease_quadIn( 20, 50, results_timer, 320) / 10.0;
     msg_results_background_timer =  tmult * (3 + (msg_results_random & 0x07));
 
-    set_victory_bg((msg_results_random >> 16) & 0x0F);
+    set_victory_bg(1 + ((msg_results_random >> 16) & 0x0F));
 }
 
 if (results_timer == 360)
 {
-    set_victory_bg(2 + (msg_results_random >> 16) & 0x0F);
+    set_victory_bg(1 + ((msg_results_random >> 16) & 0x0F));
 }
 if (results_timer == 510)
 {
