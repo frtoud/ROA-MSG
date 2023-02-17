@@ -146,7 +146,7 @@ else with (oPlayer) //attempt creation
         case PERS_RESULTS:
             music_request_breaking = false;
             with (asset_get("draw_result_screen"))
-                coins_earned += 50 * other.msg_coinhits;
+                coins_earned += 1000 * other.msg_coinhits;
             break;
         default: break;
     }
