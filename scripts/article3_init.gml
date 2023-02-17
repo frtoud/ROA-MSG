@@ -48,6 +48,9 @@ stage_is_broken = false; //0 is normal, 1 is broken
 stage_broken_kind = 0;
 dust_object_asset = asset_get("new_dust_fx_obj");
 
+//if any missingno is stable, prevent breakage
+stage_stability_mode = false;
+
 //=====================================================
 //article state
 time_since_last_ran_script = noone; //time since last draw was run. if above a certain treshold, consider the character having been unloaded

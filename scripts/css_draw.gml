@@ -2,9 +2,25 @@
 
 if (msg_yellow_mode)
 {
-    draw_sprite_ext(sprite_get("css_yellow"), 0, x+8, y+8, 2, 2, 0, c_white, 1)
+    draw_sprite_ext(sprite_get("css_yellow"), 0, x+8, y+8, 2, 2, 0, c_white, 1);
 }
 
+if (!msg_stage_stable) && (button_anim_timer < 8 || ((current_time >> 1) % 7 == 0))
+{
+    var randx = ( ((current_time << 2) % 2)) * max(0, 23 - button_anim_timer);
+    var randy = ( ((current_time << 0) % 2) - 0.5) * max(0, 15 - button_anim_timer);
+    draw_sprite_part_ext(get_char_info(player, INFO_CHARSELECT), 0,
+                         0, 36, 26, 36, x+9+randx, y+80+randy, 2, 2, c_white, 1);
+}
+if (button_highlighted)
+{
+    var alpha = draw_get_alpha();
+    draw_set_alpha(max(0, 0.5 - button_highlight_timer/24));
+    draw_rectangle_color(x+8, y+8+72, x+8+52, y+8+72+72, c_white, c_white, c_white, c_white, false);
+    draw_set_alpha(alpha);
+}
+
+shader_end();
 if (msg_error_active)
 {
     var tmp_a = draw_get_alpha();

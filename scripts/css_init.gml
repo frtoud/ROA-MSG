@@ -5,6 +5,12 @@ msg_persistence = noone;
 set_num_alts(); //see colors.gml
 
 msg_yellow_mode = false;
+msg_stage_stable = (get_synced_var(player) & 0x04) > 0;
+//sensitive zone
+button_anim_timer = 99;
+button_highlight_timer = 0;
+button_highlighted = false;
+
 
 msg_error_active = false;
 var nl = chr(0x0A);

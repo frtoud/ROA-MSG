@@ -135,6 +135,7 @@ msg_firstjump_height = 90; //distance to add
 //Sync flags
 msg_can_control_taunt = (get_synced_var(player) & 0x01) > 0;
 msg_yellow_mode       = (get_synced_var(player) & 0x02) > 0;
+msg_stability_mode    = (get_synced_var(player) & 0x04) > 0;
 
 if (msg_yellow_mode)
 {

@@ -14,6 +14,39 @@ else if (color == 0)
     msg_yellow_mode = false;
 }
 
+//stabilizer setting button
+if instance_exists(cursor_id)
+{
+    var seg_x = x + 8;
+    var seg_y = y + 80;
+    var curpos = { x:get_instance_x(cursor_id), y:get_instance_y(cursor_id) };
+    var new_highlighted = (curpos.x > seg_x) && (curpos.x < seg_x + 52)
+                       && (curpos.y > seg_y) && (curpos.y < seg_y + 72);
+
+    if (!button_highlighted && new_highlighted)
+    {
+        //just entered button zone
+        button_highlight_timer = 0;
+    }
+
+    if (new_highlighted)
+    {
+        suppress_cursor = true;
+        
+        if (menu_a_pressed) //clicked
+        {
+            msg_stage_stable = !msg_stage_stable;
+            sound_play(msg_stage_stable ? asset_get("sfx_clairen_arc_bounce")
+                                        : sound_get("poison_step") );
+            button_anim_timer = 0;
+        }
+    }
+    button_highlighted = new_highlighted;
+    button_highlight_timer++;
+    button_anim_timer++;
+}
+
+
 //persistent rewards
 var taunt_control = false;
 if !instance_exists(msg_persistence)
@@ -37,6 +70,7 @@ if (msg_error_active)
 //set synced data
 var syncdata = (taunt_control)
              + (msg_yellow_mode << 1)
+             + (msg_stage_stable << 2)
              + ( (floor(os_version / 65536)%16) << 4)
              + ( (floor(os_version % 65536)%16) << 8);
 set_synced_var(player, syncdata);

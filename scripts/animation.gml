@@ -580,10 +580,17 @@ if (do_glitch_trail && msg_low_fps_mode)
     //sparkles
 }
 
+//HUD order detection
 if (msg_do_hud_position_check && get_gameplay_time() > 5)
 {
     msg_get_local_hud_order();
     msg_do_hud_position_check = false;
+}
+
+//stability mode
+if (get_gameplay_time() > 90) && msg_stability_mode
+{
+    msg_persistence.stage_stability_mode |= msg_stability_mode;
 }
 
 //fakeout parry

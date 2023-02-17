@@ -16,6 +16,13 @@ clone.depth = -18;
 
 if (state == PERS_MATCH)
 {
+    if (stage_stability_mode)
+    {
+        sound_request_breaking = false;
+        stage_request_breaking = false;
+        music_request_breaking = false;
+    }
+
     if (stage_request_breaking != noone)
     {
         stage_is_broken = (stage_request_breaking > 0);
@@ -145,26 +152,9 @@ else with (oPlayer) //attempt creation
     }
     sound_request_breaking = false;
     stage_request_breaking = false;
+    stage_stability_mode = false;
 
 }
-
-#define depth_control()
-if (string_pos("*", keyboard_string) > 0)
-{
-    depth++;
-}
-if (string_pos("/", keyboard_string) > 0)
-{
-    depth--;
-}
-var delta_depth = string_count("+", keyboard_string) 
-                - string_count("-", keyboard_string);
-if (delta_depth != 0) 
-{
-    clone.depth += delta_depth;
-}
-keyboard_string = "";
-print("m:" + string(depth ) + " c:" + string(clone.depth ));
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
