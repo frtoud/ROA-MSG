@@ -23,7 +23,16 @@ if (state == PERS_MATCH)
     }
 
     //dust fx surface draws at depth 7, needs to be suppressed else entire screen is black
-    if (stage_is_broken) commit_asset_murder(dust_object_asset);
+    //(does not work well with online mode)
+    if (stage_is_broken) 
+    {
+        if (is_online || true) clone.depth = 7;
+        else commit_asset_murder(dust_object_asset);
+    }
+}
+else if (state == PERS_SSS)
+{
+    clone.depth = 7;
 }
 
 //=============================================================================
