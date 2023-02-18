@@ -4,7 +4,9 @@
 #macro AR_STATE_DYING   2
 
 //====================================================================
-if (!instance_exists(client_id) || client_id.state == PS_RESPAWN)
+if !instance_exists(client_id) 
+|| (client_id.object_index != asset_get("oPlayer"))
+|| (client_id.state == PS_RESPAWN)
 //makes no sense to continue like this
 { destroy_my_hitboxes(); instance_destroy(self); exit; }
 //====================================================================
