@@ -12,6 +12,10 @@ with asset_get("obj_article3") if (num == "missingno")
     else instance_destroy(self);
 }
 
+//prevents other mods from trying to check this article's owner and erroring
+//(it is still, at its core, an article3)
+var fakeplayer = { url:"MISSINGNO", player:5 }
+
 //something not found? create it
 if (msg_master == noone)
 {
@@ -19,8 +23,8 @@ if (msg_master == noone)
     msg_master.num = "missingno";
     msg_master.persistent = true;
     msg_master.uses_shader = false;
-    msg_master.player_id = noone;
-    msg_master.orig_player_id = noone;
+    msg_master.player_id = fakeplayer;
+    msg_master.orig_player_id = fakeplayer;
 }
 if (msg_clone == noone)
 {
@@ -28,8 +32,8 @@ if (msg_clone == noone)
     msg_clone.num = "missingno";
     msg_clone.persistent = true;
     msg_clone.uses_shader = false;
-    msg_clone.player_id = noone;
-    msg_clone.orig_player_id = noone;
+    msg_clone.player_id = fakeplayer;
+    msg_clone.orig_player_id = fakeplayer;
 }
 
 //link and calibrate
