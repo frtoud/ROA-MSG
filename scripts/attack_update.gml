@@ -565,7 +565,7 @@ switch (attack)
                 //release grabbed victims
                 with (oPlayer) if (msg_handler_id == other && msg_grabbed_timer > 0)
                 {
-                    msg_grab_immune_timer = other.msg_grab_immune_timer_max;
+                    //msg_grab_immune_timer = other.msg_grab_immune_timer_max;
                 }
                 
                 //rotate grab outcome selection
