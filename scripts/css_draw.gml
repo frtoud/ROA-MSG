@@ -48,6 +48,10 @@ if (msg_error_active)
     textDraw(text_posx, text_posy + 180, asset_get("medFont"), c_white, 28, 300, fa_center, 1, true, 1, "OK");
 }
 
+for (var i = 0; msg_persistence && i < array_length(msg_persistence.achievement_status); i++) 
+    if msg_persistence.achievement_status[i]
+        draw_sprite_ext(asset_get("small_medals_spr"), 4, x+24 + i*8, y+42, 2, 2, 0, c_white, 1);
+
 msg_draw_achievements(msg_persistence);
 
 
