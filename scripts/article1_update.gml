@@ -1,7 +1,8 @@
 //article1_update.gml
 
 //This is essentially just an extra hook for other_update.gml
-with (oPlayer) msg_other_update();
+with (oPlayer)
+if (object_index == oPlayer) msg_other_update();
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
