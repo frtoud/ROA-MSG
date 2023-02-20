@@ -118,7 +118,7 @@ switch (state)
 //==================================================================
     case PS_PARRY:
     {
-        if (state_timer == 4) && (!msg_is_local || !msg_is_online) 
+        if (state_timer == 4) && (!msg_is_online) 
              && !get_match_setting(SET_PRACTICE)
              && (GET_RNG(9, 0x07) == 0)
         {
@@ -132,6 +132,7 @@ switch (state)
             sub.old_vsp = -(8 + GET_RNG(16, 0x07));
             sub.hitstop = true;
             //MARK UNSAFE. THIS PROJECTILE IS NOT SYNCED.
+            //this DID cause desyncs online! Dan does not like local-only projectiles.
             sub.msg_unsafe = true;
         }
         else if (state_timer == 10)
