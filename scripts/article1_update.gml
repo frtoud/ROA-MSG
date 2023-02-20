@@ -47,7 +47,7 @@ if (object_index == oPlayer) msg_other_update();
             //if the hitbox isnt found; just contend to reverting previous known damage
             var possibly_damage_just_taken =
                 (instance_exists(enemy_hitboxID) && (enemy_hitboxID != 0)) ? enemy_hitboxID.damage : 0;
-            set_player_damage( player, msg_last_known_damage + possibly_damage_just_taken);
+            set_player_damage( player, floor(msg_last_known_damage + possibly_damage_just_taken));
         }
         msg_last_known_damage = curr_damage;
         //===================================================================
@@ -130,13 +130,15 @@ if (object_index == oPlayer) msg_other_update();
             {
                 visible = true;
                 debuff_expire_vfx();
-                if (!msg_is_local) msg_persistence.music_request_breaking = false;
+                if (!msg_is_local) && ("msg_persistence" in self)
+                    msg_persistence.music_request_breaking = false;
             }
         }
         else if (msg_unsafe_invisible_timer < 0) && (state_cat == SC_HITSTUN)
         {
             visible = true;
-            if (!msg_is_local) msg_persistence.music_request_breaking = false;
+            if (!msg_is_local) && ("msg_persistence" in self)
+                msg_persistence.music_request_breaking = false;
         }
 
         //=========LEECH SEED=========

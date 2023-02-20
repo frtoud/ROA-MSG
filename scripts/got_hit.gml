@@ -12,7 +12,7 @@ msg_acemilate(attack, hit_player_obj.attack, enemy_hitboxID);
 // attempt to apply the fix to negative damage premptively (see article1_update)
 if (msg_last_known_damage < 0) && (get_player_damage(player) == 0)
 {
-    var new_damage = msg_last_known_damage + enemy_hitboxID.damage;
+    var new_damage = floor(msg_last_known_damage + enemy_hitboxID.damage);
     set_player_damage(player, new_damage);
     msg_last_known_damage = new_damage;
 }
