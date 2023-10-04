@@ -207,6 +207,8 @@ vfx_yoyo_snap =
     length: 0,
 }
 
+msg_dtilt_times_through = 0;
+
 msg_dair_cooldown_override = false; //if true, cannot use DAIR
 msg_dair_startup_has_jumped = false; //allows jumping out in startup
 msg_dair_earthquake_counter = 0;
