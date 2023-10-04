@@ -519,6 +519,8 @@ if (vfx_yoyo_snap.timer > 0)
     //'M- Hurt Sprites             .                         hh hhG
     //  - Hurt Corruptions         . FFFFFFFF ff  fSMB sssccc
     //===================================================================
+    //'M- Compat:Pokemon Stadium   .                              RNG
+    //===================================================================
     // Also see animation.gml, set_attack.gml
 
 

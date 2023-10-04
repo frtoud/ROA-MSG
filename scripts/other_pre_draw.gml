@@ -307,6 +307,8 @@ if ("msg_unsafe_handler_id" in self && other_player_id == msg_unsafe_handler_id)
     //'M- Hurt Sprites             .                         hh hhG
     //  - Hurt Corruptions         . FFFFFFFF ff  fSMB sssccc
     //===================================================================
+    //'M- Compat:Pokemon Stadium   .                              RNG
+    //===================================================================
     // Also see animation.gml, set_attack.gml
 
 

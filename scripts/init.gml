@@ -346,6 +346,25 @@ msg_low_fps_mode = false; //pointless?
 
 msg_persistence = msg_get_persistent_article();
 
+//=================================================
+// Compatibility Zone
+msg_compat_data = { do_init:true, stage_id:get_stage_data(SD_ID) }; //see animation.gml
+
+//Pokemon Stadium
+msg_compat_data.stadium = { front_article:{ visible:true /*contingency*/ }, blinks:true, reroll_sprites:true,
+                            front_sprites:[ {spr:sprite_get("cmp_stadium_front"), blinks:true},
+                                            {spr:sprite_get("cmp_stadium_front_alt1"), blinks:true}, 
+                                            {spr:sprite_get("cmp_stadium_front_alt2"), blinks:true}, 
+                                            {spr:sprite_get("cmp_stadium_front_alt3"), blinks:false}, 
+                                            {spr:sprite_get("cmp_stadium_front_alt4"), blinks:false}  ], 
+                            back_sprites: [ sprite_get("cmp_stadium_back"),
+                                            sprite_get("cmp_stadium_back_alt1"), 
+                                            sprite_get("cmp_stadium_back_alt2"), 
+                                            sprite_get("cmp_stadium_back_alt3")  ]
+                          };
+pkmn_stadium_front_img = msg_compat_data.stadium.front_sprites[0].spr;
+pkmn_stadium_back_img = msg_compat_data.stadium.back_sprites[0];
+
 //=========================================================
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv

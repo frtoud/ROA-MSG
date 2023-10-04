@@ -49,6 +49,9 @@ else if (random_func(7, 8, true) == 0 || is_laststock())
     gfx_glitch_death_position.y = y;
 }
 
+//bonus
+msg_compat_data.stadium.reroll_sprites = true;
+
 // #region vvv LIBRARY DEFINES AND MACROS vvv
 // DANGER File below this point will be overwritten! Generated defines and macros below.
 // Write NO-INJECT in a comment above this area to disable injection.
