@@ -8,3 +8,5 @@ anims/export.py
 *.gif
 assistant/.lock
 anims/animtest.aseprite
+anims/stadium_compat.aseprite
+.gitignore
