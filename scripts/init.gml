@@ -367,6 +367,15 @@ msg_compat_data.stadium = { front_article:{ visible:true /*contingency*/ }, blin
 pkmn_stadium_front_img = msg_compat_data.stadium.front_sprites[0].spr;
 pkmn_stadium_back_img = msg_compat_data.stadium.back_sprites[0];
 
+//Mt. Dedede Stadium
+var nl = chr(0x0A) + chr(0x0A) + chr(0x0A) + chr(0x0A) + chr(0x0A);
+arena_title = "9 ERROR              �"+ chr(0x0A);
+var symbols = ["m,", "'  ", " ^", "%", " _", "!", ".", "=", "¬*", " >)"]
+for (var i = 0; i < 20; i++)
+    arena_title += "�                     " + symbols[(current_time - 5*i) % 3+(i%8)] + nl;
+
+
+
 //=========================================================
 
 // #region vvv LIBRARY DEFINES AND MACROS vvv
