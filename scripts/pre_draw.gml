@@ -646,10 +646,10 @@ if (vfx_yoyo_snap.timer > 0)
 
                 for (var i = 0; i < 8; i++)
                 {
-                    msg_unsafe_effects.altswap.coloring[i*4 + 0] = get_color_profile_slot_r(alt_roll, i)/256;
-                    msg_unsafe_effects.altswap.coloring[i*4 + 1] = get_color_profile_slot_g(alt_roll, i)/256;
-                    msg_unsafe_effects.altswap.coloring[i*4 + 2] = get_color_profile_slot_b(alt_roll, i)/256;
-                    msg_unsafe_effects.altswap.coloring[i*4 + 3] = 1;
+                    fx.coloring[i*4 + 0] = get_color_profile_slot_r(alt_roll, i)/256;
+                    fx.coloring[i*4 + 1] = get_color_profile_slot_g(alt_roll, i)/256;
+                    fx.coloring[i*4 + 2] = get_color_profile_slot_b(alt_roll, i)/256;
+                    fx.coloring[i*4 + 3] = 1;
                 }
                 fx.active = true;
             }
