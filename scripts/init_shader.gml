@@ -12,6 +12,11 @@ if ("msg_effective_alt" in self) && (msg_effective_alt != color)
     apply_color_slot(3, color, 3);
 }
 
+//these are not reset automatically
+static_colorO[8*4 + 0] = 0;
+static_colorO[8*4 + 1] = 0;
+static_colorO[8*4 + 2] = 0;
+
 if (color == 8)
 {
     colorO[8*4 + 0] = 1;
