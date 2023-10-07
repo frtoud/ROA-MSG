@@ -374,7 +374,8 @@ var symbols = ["m,", "'  ", " ^", "%", " _", "!", ".", "=", "¬*", " >)"]
 for (var i = 0; i < 20; i++)
     arena_title += "�                     " + symbols[(current_time - 5*i) % 3+(i%8)] + nl;
 
-
+//Hypercam
+uhc_victory_quote = "An unspecified error occurred while recording.";
 
 //=========================================================
 
