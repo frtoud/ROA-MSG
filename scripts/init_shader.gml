@@ -1,7 +1,7 @@
 //init_shader.gml
 
 var true_player = (room == asset_get("network_char_select")) ? 0 : player;
-var color = get_player_color(player);
+var color = get_player_color(true_player);
 
 if ("msg_effective_alt" in self) && (msg_effective_alt != color)
 {
@@ -28,7 +28,7 @@ if (color == 8)
 }
 else if (color == 14)
 {
-    var sync = get_synced_var(player);
+    var sync = get_synced_var(true_player);
     apply_color_slot(1, (sync & 0xF0) >> 4, 2);
     apply_color_slot(2, (sync & 0xF00)>> 8, 1);
 }
